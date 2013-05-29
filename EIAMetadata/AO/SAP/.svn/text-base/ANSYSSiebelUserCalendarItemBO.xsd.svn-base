@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- ANSYS Siebel Calendar Items BO 1.00 Vivek Srinivasan 2/20/2011 -->
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.ansys.com/AO/ANSYSSiebelUserCalendarItemBO/1.0" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:act="http://xmlns.ansys.com/AO/ANSYSSiebelUserCalendarItemBO/1.0">
+
+	<xsd:element name="ListOfCalendarItem">
+	 <xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="CalendarItem" maxOccurs="unbounded" minOccurs="0" type="act:CalendarItem"/>
+		</xsd:sequence>
+	 </xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="CalendarItem">
+		<xsd:sequence>
+			<xsd:element name="Id" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Type" maxOccurs="1" minOccurs="1" type="act:string30"/>
+			<xsd:element name="ActivityId" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="ActivityUID" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="StartTime" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="EndTime" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="DueDate" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="Description" maxOccurs="1" minOccurs="0" type="act:string100"/>
+			<xsd:element name="Details" maxOccurs="1" minOccurs="0" type="act:string65535"/>
+			<xsd:element name="Comment" maxOccurs="1" minOccurs="0" type="act:string1500"/>
+			<xsd:element name="Priority" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Created" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="CreatedBy" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Updated" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="UpdatedBy" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="CreatedByName" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="LastUpdated" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="OwnerFirstName" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="OwnerLastName" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="PrimaryContactFirstName" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="PrimaryContactId" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="PrimaryContactLastName" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="PrimaryOwnerId" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="Private" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="Required" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="Status" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element minOccurs="0" name="SyncStatus" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="SyncMessage" type="xsd:string"/>
+			<xsd:element name="ListOfCalendarItem_Employee" maxOccurs="1" minOccurs="0" type="act:ListOfCalendarItem_Employee"/>
+			<xsd:element name="ListOfCalendarItem_Contact" maxOccurs="1" minOccurs="0" type="act:ListOfCalendarItem_Contact"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ListOfCalendarItem_Employee">
+		<xsd:sequence>
+			<xsd:element name="CalendarItem_Employee" maxOccurs="unbounded" minOccurs="0" type="act:CalendarItem_Employee"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CalendarItem_Employee">
+		<xsd:sequence>
+			<xsd:element name="Id" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Created" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="CreatedBy" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Updated" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="UpdatedBy" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="ConflictId" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="ModId" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="AppointmentStatus" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="EmployeeEmailAddress" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="EmployeeLogin" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="EmployeeFirstName" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="EmployeeLastName" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="OwnedBy" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="OwnedById" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="RowStatus" maxOccurs="1" minOccurs="1" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ListOfCalendarItem_Contact">
+		<xsd:sequence>
+			<xsd:element name="CalendarItem_Contact" maxOccurs="unbounded" minOccurs="0" type="act:CalendarItem_Contact"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CalendarItem_Contact">
+		<xsd:sequence>
+			<xsd:element name="Id" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Created" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="CreatedBy" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="Updated" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="UpdatedBy" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="ConflictId" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="ModId" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="ContactEmailAddress" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="ANSContactNumber" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="ContactFirstName" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="ContactFullName" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="ContactHomePhone" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="ContactId" maxOccurs="1" minOccurs="0" type="act:string30"/>
+			<xsd:element name="ContactJobTitle" maxOccurs="1" minOccurs="0" type="act:string75"/>
+			<xsd:element name="ContactLastName" maxOccurs="1" minOccurs="1" type="act:string50"/>
+			<xsd:element name="ContactMM" maxOccurs="1" minOccurs="0" type="act:string15"/>
+			<xsd:element name="ContactMiddleName" maxOccurs="1" minOccurs="0" type="act:string50"/>
+			<xsd:element name="ContactPhone" maxOccurs="1" minOccurs="0" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="string50">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string255">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string15">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string75">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="75"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string65535">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="65535"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string30">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="30"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string100">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string1500">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1500"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="ANSYSSiebelUserCalendarItemBO">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element minOccurs="1" name="GmailAccountId" type="xsd:string"/>
+				<xsd:element minOccurs="1" name="GmailAccountPwd" type="xsd:string"/>
+				<xsd:element minOccurs="1" name="StartTime" type="xsd:string"/>
+				<xsd:element minOccurs="1" name="EndTime" type="xsd:string"/>
+				<xsd:element minOccurs="1" name="CalendarName" type="xsd:string"/>
+				<xsd:element minOccurs="1" name="TimeZone" type="xsd:string"/>
+				<xsd:element minOccurs="1" name="lang" type="xsd:string"/>
+				<xsd:element minOccurs="0" name="SyncStatus" type="xsd:string"/>
+				<xsd:element minOccurs="0" name="SyncMessage" type="xsd:string"/>
+				<xsd:element ref="act:ListOfCalendarItem"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

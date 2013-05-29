@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--$Header$-->
+<definitions
+     name="EIAAsyncErrorHandlingBPELProcess"
+     targetNamespace="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://xmlns.eia.com/EO/Common/1.0"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:client="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+    >
+    <types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="oramds:/apps/EIAMetadata/EO/common/Common.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="EIAAsyncErrorHandlingBPELProcessRequestMessage">
+        <part name="FaultMessage" element="ns1:Fault"/>
+    </message>
+    <portType name="EIAAsyncErrorHandlingBPELProcess">
+        <operation name="processFault">
+            <input message="client:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+        </operation>
+    </portType>
+    <plnk:partnerLinkType name="EIAAsyncErrorHandlingBPELProcess">
+        <plnk:role name="EIAAsyncErrorHandlingBPELProcessProvider">
+            <plnk:portType name="client:EIAAsyncErrorHandlingBPELProcess"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+</definitions>
+

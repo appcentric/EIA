@@ -1,0 +1,45 @@
+<definitions name="SyncSiebelProjectStatusABF"
+             targetNamespace="http://xmlns.ansys.com/ABFImpl/SyncSiebelProjectStatusABF/V1"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://xmlns.ansys.com/AO/AnsysSyncSiebelProjectStatusBO/1.0"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:anscommon="http://xmlns.ansys.com/EO/Common/1.0"
+             xmlns:ns2="http://schemas.oracle.com/bpel/extension"
+             xmlns:client="http://xmlns.ansys.com/ABFImpl/SyncSiebelProjectStatusABF/V1">
+    <import namespace="http://schemas.oracle.com/bpel/extension"
+            location="oramds:/soa/shared/bpel/RuntimeFault.wsdl"/>
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.ansys.com/AO/AnsysSyncSiebelProjectStatusBO/1.0"
+                    schemaLocation="oramds:/apps/EIAMetadata/AO/Siebel/AnsysSyncSiebelProjectStatusBOV1.xsd"/>
+            <import namespace="http://xmlns.ansys.com/EO/Common/1.0"
+                    schemaLocation="oramds:/apps/EIAMetadata/EO/common/AnsysCommon.xsd"/>
+        </schema>
+    </types>
+    <message name="SyncSiebelProjectStatusABFRequestMessage">
+        <part name="payload"
+              element="ns1:AnsysSyncSiebelProjectStatusBO_RequestMessageType"/>
+    </message>
+    <message name="SyncSiebelProjectStatusABFResponseMessage">
+        <part name="payload"
+              element="ns1:AnsysSyncSiebelProjectStatusBO_ResponseMessageType"/>
+    </message>
+    <message name="SyncSiebelProjectStatusABFFaultMessage">
+        <part name="SOAFault" element="anscommon:Fault"/>
+    </message>
+    <message name="ProcessHeaderMessageType">
+        <part name="ProcessHeaderMessage" element="anscommon:ProcessHeader"/>
+    </message>
+    <portType name="SyncSiebelProjectStatusABF">
+        <operation name="process">
+            <input message="client:SyncSiebelProjectStatusABFRequestMessage"/>
+            <output message="client:SyncSiebelProjectStatusABFResponseMessage"/>
+        </operation>
+    </portType>
+    <plnk:partnerLinkType name="SyncSiebelProjectStatusABF">
+        <plnk:role name="SyncSiebelProjectStatusABFProvider">
+            <plnk:portType name="client:SyncSiebelProjectStatusABF"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+</definitions>
+
