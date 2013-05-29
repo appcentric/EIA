@@ -1,4 +1,0 @@
-EIA
-===
-
-Enterprise Integration Architecture
