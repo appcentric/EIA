@@ -1,0 +1,19 @@
+<adapter-config name="FTP_ReadASNSupplier_Ross" adapter="ftp" wsdlLocation="../WSDLs/FTP_ReadASNSupplier_Ross.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/HAFtpMoveIt" UIincludeWildcard="asntro*.xml"/>
+  <endpoint-activation portType="Get_ptt" operation="Get">
+    <activation-spec className="oracle.tip.adapter.ftp.inbound.FTPActivationSpec">
+      <property name="DeleteFile" value="true"/>
+      <property name="MinimumAge" value="0"/>
+      <property name="PhysicalDirectory" value="Inventory/invxchg/EBS/inbound_from/ROSS/dev"/>
+      <property name="Recursive" value="false"/>
+      <property name="PollingFrequency" value="600"/>
+      <property name="FileType" value="ascii"/>
+      <property name="PhysicalArchiveDirectory" value="Inventory/ASN_Suppiler/Processed"/>
+      <property name="IncludeFiles" value="asntro.*\.xml"/>
+       <property name="UseRemoteArchive" value="true"/>
+      <property name="UseHeaders" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

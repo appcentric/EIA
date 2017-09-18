@@ -1,0 +1,42 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="NUC_Emp_SAP_EBiz_ABF"
+     targetNamespace="http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF"
+     xmlns:ns2="http://xmlns.eia.com/EO/Common/1.0"
+     xmlns:ns1="http://tempuri.org/"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="NUC_Emp_SAP_EBiz_ABF">
+        <plnk:role name="NUC_Emp_SAP_EBiz_ABFProvider">
+            <plnk:portType name="client:NUC_Emp_SAP_EBiz_ABF"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:client="http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF"
+                 schemaLocation="xsd/NUC_Emp_SAP_EBiz_ABF.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:include schemaLocation="xsd/NuePay_ReducedEmpDemo.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="oramds:/apps/EIAMetadata/EO/common/Common.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="NUC_Emp_SAP_EBiz_ABFRequestMessage">
+        <wsdl:part name="payload" element="client:GetReducedDemoXML"/>
+    </wsdl:message>
+    <wsdl:message name="NUC_Emp_SAP_EBiz_ABFResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="NUC_Emp_SAP_EBiz_ABF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:NUC_Emp_SAP_EBiz_ABFRequestMessage"/>
+            <wsdl:output message="client:NUC_Emp_SAP_EBiz_ABFResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

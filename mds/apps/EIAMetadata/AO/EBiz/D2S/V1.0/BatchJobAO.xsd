@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAO/1.0" xmlns:obj="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAO/1.0" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite PO</Definition>
+<Description>This schema defines the objects to create or extract Batch /Job</Description>
+<Author>Manish Gujar</Author>
+<ModifiedBy>Manish Gujar</ModifiedBy>
+<VersionDate>24-07-2015</VersionDate>
+<VersionDescription>Initial standard</VersionDescription>
+<ModificationHistory>24-07-2015 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+<xsd:element name="BatchJobDetails" type="obj:ListOfBatchJobDetails"/>
+<xsd:complexType name="ListOfBatchJobDetails">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ORGANIZATION_CODE" type="common:C4"/>
+<xsd:element minOccurs="0" name="ORGANIZATION_NAME" type="common:C40"/>
+<xsd:element minOccurs="0" name="BATCH_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PLANT_CODE" type="common:C4"/>
+<xsd:element minOccurs="0" name="BATCH_NO" type="common:C40"/>
+<xsd:element minOccurs="0" name="BATCH_TYPE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="RECIPE_NO" type="common:C40"/>
+<xsd:element minOccurs="0" name="BASIC_RECIPE" type="rec:BasicRecipeType"/>
+<xsd:element minOccurs="0" name="RECIPE_VERSION" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PROD_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PROD_SEQUENCE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="RECIPE_VALIDITY_RULE_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FORMULA_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ROUTING_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PLAN_START_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ACTUAL_START_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ACTUAL_COMPLETION_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="DUE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="PLAN_CMPLT_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ACTUAL_CMPLT_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="BATCH_STATUS" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PARENT_BATCH" type="common:C20"/>
+<xsd:element minOccurs="0" name="PRIORITY_VALUE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PRIORITY_CODE" type="common:C4"/>
+<xsd:element minOccurs="0" name="PRINT_COUNT" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FMCONTROL_CLASS" type="common:C8"/>
+<xsd:element minOccurs="0" name="WIP_WHSE_CODE" type="common:C4"/>
+<xsd:element minOccurs="0" name="BATCH_CLOSE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="POC_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="ACTUAL_COST_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="UPDATE_INVENTORY_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="FORMULA_NUMBER" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FORMULA_VERSION" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ROUTING_NUMBER" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ROUTING_VERSION" type="common:Integer"/>
+<xsd:element minOccurs="0" name="RECIPE" type="common:C20"/>
+<xsd:element minOccurs="0" name="FORMULA_DESCRIPTION" type="common:C20"/>
+<xsd:element minOccurs="0" name="ROUTING_DESCRIPTION" type="common:C20"/>
+<xsd:element minOccurs="0" name="LAST_UPDATE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="LAST_UPDATED_BY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="CREATION_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CREATED_BY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="LAST_UPDATE_LOGIN" type="common:Integer"/>
+<xsd:element minOccurs="0" name="DELETE_MARK" type="common:Integer"/>
+<xsd:element minOccurs="0" name="TEXT_CODE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PARENTLINE_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FPO_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE" type="obj:Attribute40"/>
+<xsd:element minOccurs="0" name="AUTOMATIC_STEP_CALCULATION" type="common:Integer"/>
+<xsd:element minOccurs="0" name="GL_POSTED_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FIRMED_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FINITE_SCHEDULED_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORDER_PRIORITY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MIGRATED_BATCH_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="ENFORCE_STEP_DEPENDENCY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="TERMINATED_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ENHANCED_PI_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="LABORATORY_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MOVE_ORDER_HEADER_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORGANIZATION_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="TERMINATE_REASON_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FIXED_PROCESS_LOSS_APPLIED" type="common:C1"/>
+<xsd:element minOccurs="0" name="JA_OSP_BATCH" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORDER_NUMBER" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORDER_LINE_NUM" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PLANNED_HRS" type="common:Integer"/>
+<xsd:element minOccurs="0" name="CUST_NAME" type="common:C360"/>
+<xsd:element minOccurs="0" name="CUST_NUM" type="common:C30"/>
+<xsd:element minOccurs="0" name="CONCAT_NOTES" type="common:C2000"/>
+<xsd:element minOccurs="0" name="GME_MATERIAL_DETAILS">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="GME_MATERIAL_DETAILS" type="obj:GME_MATERIAL_DETAIL" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="GME_BATCH_STEPS">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="GME_BATCH_STEPS" type="obj:GME_BATCH_STEP" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element minOccurs="0" name="GME_SO_DTLS_TABS">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="GME_SO_DTLS_TABS" type="obj:GME_SO_DTLS_TAB" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Attribute40">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ATTRIBUTECATEGORY" type="common:C30"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE1" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE2" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE3" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE4" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE5" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE6" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE7" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE8" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE9" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE10" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE11" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE12" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE13" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE14" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE15" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE16" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE17" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE18" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE19" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE20" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE21" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE22" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE23" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE24" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE25" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE26" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE27" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE28" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE29" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE30" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE31" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE32" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE33" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE34" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE35" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE36" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE37" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE38" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE39" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE40" type="common:C240"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Attribute30">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ATTRIBUTECATEGORY" type="common:C30"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE1" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE2" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE3" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE4" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE5" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE6" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE7" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE8" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE9" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE10" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE11" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE12" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE13" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE14" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE15" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE16" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE17" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE18" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE19" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE20" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE21" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE22" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE23" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE24" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE25" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE26" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE27" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE28" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE29" type="common:C240"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE30" type="common:C240"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GME_MATERIAL_DETAIL">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="MATERIAL_DETAIL_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="BATCH_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="FORMULALINE_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="LINE_NO" type="common:Integer"/>
+<xsd:element minOccurs="0" name="INVENTORY_ITEM_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ITEM_LOCATOR" type="common:C240"/>
+<xsd:element minOccurs="0" name="LINE_TYPE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PLAN_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ITEM_UM" type="common:C4"/>
+<xsd:element minOccurs="0" name="ITEM_UM2" type="common:C4"/>
+<xsd:element minOccurs="0" name="ACTUAL_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="RELEASE_TYPE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="SCRAP_FACTOR" type="common:Integer"/>
+<xsd:element minOccurs="0" name="SCALE_TYPE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PHANTOM_TYPE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="COST_ALLOC" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ALLOC_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="COST" type="common:Integer"/>
+<xsd:element minOccurs="0" name="TEXT_CODE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PHANTOM_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ROUNDING_DIRECTION" type="common:Integer"/>
+<xsd:element minOccurs="0" name="CREATION_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CREATED_BY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="LAST_UPDATE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="LAST_UPDATED_BY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE" type="obj:Attribute30"/>
+<xsd:element minOccurs="0" name="LAST_UPDATE_LOGIN" type="common:Integer"/>
+<xsd:element minOccurs="0" name="SCALE_ROUNDING_VARIANCE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="SCALE_MULTIPLE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="CONTRIBUTE_YIELD_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="CONTRIBUTE_STEP_QTY_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="WIP_PLAN_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORIGINAL_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="BY_PRODUCT_TYPE" type="common:C1"/>
+<xsd:element minOccurs="0" name="BACKORDERED_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="DISPENSE_IND" type="common:C1"/>
+<xsd:element minOccurs="0" name="DTL_UM" type="common:C3"/>
+<xsd:element minOccurs="0" name="LOCATOR_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MATERIAL_REQUIREMENT_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="MOVE_ORDER_LINE_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORGANIZATION_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ORIGINAL_PRIMARY_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PHANTOM_LINE_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="REVISION" type="common:C3"/>
+<xsd:element minOccurs="0" name="SUBINVENTORY" type="common:C10"/>
+<xsd:element minOccurs="0" name="ITEM_NO" type="common:C40"/>
+<xsd:element minOccurs="0" name="ITEM_DESC" type="common:C240"/>
+<xsd:element minOccurs="0" name="PROD_GROUP" type="common:C500"/>
+<xsd:element minOccurs="0" name="UDA_PROD_TYPE" type="common:C100"/>
+<xsd:element minOccurs="0" name="UDA_SIZE" type="common:C1000"/>
+<xsd:element minOccurs="0" name="UDA_LENGTH" type="common:C100"/>
+<xsd:element minOccurs="0" name="UDA_SHAPE" type="common:C100"/>
+<xsd:element minOccurs="0" name="UDA_GRADE" type="common:C100"/>
+<xsd:element minOccurs="0" name="Item_Type" type="common:C240"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GME_BATCH_STEP">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="BATCH_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="BATCHSTEP_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ROUTINGSTEP_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="BATCHSTEP_NO" type="common:Integer"/>
+<xsd:element minOccurs="0" name="OPRN_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PLAN_STEP_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ACTUAL_STEP_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="STEP_QTY_UOM" type="common:C4"/>
+<xsd:element minOccurs="0" name="BACKFLUSH_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PLAN_START_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ACTUAL_START_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="DUE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="PLAN_CMPLT_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ACTUAL_CMPLT_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="STEP_CLOSE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="STEP_STATUS" type="common:Integer"/>
+<xsd:element minOccurs="0" name="PRIORITY_CODE" type="common:C4"/>
+<xsd:element minOccurs="0" name="PRIORITY_VALUE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="DELETE_MARK" type="common:Integer"/>
+<xsd:element minOccurs="0" name="STEPRELEASE_TYPE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MAX_STEP_CAPACITY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MAX_STEP_CAPACITY_UOM" type="common:C4"/>
+<xsd:element minOccurs="0" name="PLAN_CHARGES" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ACTUAL_CHARGES" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MASS_REF_UOM" type="common:C4"/>
+<xsd:element minOccurs="0" name="PLAN_MASS_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="VOLUME_REF_UOM" type="common:C4"/>
+<xsd:element minOccurs="0" name="PLAN_VOLUME_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="TEXT_CODE" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ACTUAL_MASS_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ACTUAL_VOLUME_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="LAST_UPDATE_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CREATION_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CREATED_BY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="LAST_UPDATED_BY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="LAST_UPDATE_LOGIN" type="common:Integer"/>
+<xsd:element minOccurs="0" name="ATTRIBUTE" type="obj:Attribute30"/>
+<xsd:element minOccurs="0" name="QUALITY_STATUS" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MINIMUM_TRANSFER_QTY" type="common:Integer"/>
+<xsd:element minOccurs="0" name="TERMINATED_IND" type="common:Integer"/>
+<xsd:element minOccurs="0" name="MASS_REF_UM" type="common:C3"/>
+<xsd:element minOccurs="0" name="MAX_STEP_CAPACITY_UM" type="common:C3"/>
+<xsd:element minOccurs="0" name="STEP_QTY_UM" type="common:C3"/>
+<xsd:element minOccurs="0" name="VOLUME_REF_UM" type="common:C3"/>
+<xsd:element minOccurs="0" name="BATCH_ACTIVITIES">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="BATCH_ACTIVITIES" type="obj:BATCH_ACTIVITY" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BATCH_ACTIVITY">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ACTIVITY" type="common:C20"/>
+<xsd:element name="BATCH_RESOURCES" type="obj:BATCH_RESOURCE" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BATCH_RESOURCE">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="RESOURCES" type="common:C20"/>
+<xsd:element minOccurs="0" name="RESOURCE_DESC" type="common:C240"/>
+<xsd:element minOccurs="0" name="RES_PLAN_START_DATE" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="RES_PLAN_CMPLT_DATE" type="common:DtTm"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GME_SO_DTLS_TAB">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="SO_NUM" type="common:Integer"/>
+<xsd:element minOccurs="0" name="SO_LINE_NUM" type="common:Integer"/>
+<xsd:element minOccurs="0" name="SO_LINE_ID" type="common:Integer"/>
+<xsd:element minOccurs="0" name="NOTES" type="common:C240"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="BatchJobResponse" type="obj:BatchJobRes"/>
+<xsd:complexType name="BatchJobRes">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="Result" type="common:C100"/>
+<xsd:element minOccurs="0" name="ErrorMsg" type="common:C4000"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

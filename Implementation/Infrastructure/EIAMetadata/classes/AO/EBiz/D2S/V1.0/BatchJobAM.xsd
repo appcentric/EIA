@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema targetNamespace="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:obj="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAO/1.0" 
+xmlns:msg="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0" 
+xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" elementFormDefault="qualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite Process Manufacturing for Results</Definition>
+<Description>This schema defines the objects to create or extract Results in Oracle AP.</Description>
+<Author>Manish Gujar</Author>
+<VersionDate>23-03-2015</VersionDate>
+<VersionDescription>Review and standardization</VersionDescription>
+<ModificationHistory> 23-03-2015   Version 1.0   - Initial Development Version	</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+<xsd:import namespace="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAO/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/BatchJobAO.xsd"/>
+<xsd:element name="BatchJobAddRq" type="msg:BatchJobAddRq"/>
+<xsd:element name="BatchJobAddRs" type="msg:BatchJobAddRs"/>
+<xsd:complexType name="BatchJobAddRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element minOccurs="1" maxOccurs="unbounded" ref="obj:BatchJobDetails"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BatchJobAddRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element minOccurs="0" maxOccurs="unbounded" ref="obj:BatchJobResponse"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

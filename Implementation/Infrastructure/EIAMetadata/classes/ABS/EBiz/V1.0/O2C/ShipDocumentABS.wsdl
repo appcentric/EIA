@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/O2C/ShipDocumentABS/1.0"
+                  xmlns:core="http://xmlns.eia.com/EO/Common/1.0"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:sam="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAM/1.0"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:tns="http://xmlns.eia.com/ABS/EBiz/O2C/OrderABS/1.0"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema>
+      <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAM/1.0"
+                  schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/O2C/V1.0/ShipDocumentAM.xsd"/>
+      <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0"
+                  schemaLocation="oramds:/apps/EIAMetadata/EO/common/Common.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="QueryShipDocumentRequestMessageType">
+    <wsdl:part element="sam:QueryShipDocumentRequestMessage"
+               name="QueryShipDocumentRequestMessage"/>
+  </wsdl:message>
+  <wsdl:message name="QueryShipDocumentResponseMessageType">
+    <wsdl:part element="sam:QueryShipDocumentRequestMessage"
+               name="QueryShipDocumentResponseMessage"/>
+  </wsdl:message>
+  <wsdl:message name="EIAFaultMsgType">
+    <wsdl:part element="core:Fault" name="Fault"/>
+  </wsdl:message>
+  <wsdl:portType name="SyncPortType">
+    <wsdl:operation name="QueryShipDocumentSync">
+      <wsdl:input message="tns:QueryShipDocumentRequestMessageType"/>
+      <wsdl:output message="tns:QueryShipDocumentResponseMessageType"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="ShipDocumentABS">
+    <wsdl:port binding="tns:SyncPort" name="SyncPortTypePort">
+      <soap:address location="http://www.example.com"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:binding name="SyncPort" type="tns:SyncPortType">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="QueryShipDocumentSync">
+      <soap:operation soapAction="http://xmlns.oracle.com/ABS/L2C/1.0/OrderABS/QueryShipDocumentSync"
+                      style="document"/>
+      <wsdl:input>
+        <soap:body parts="QueryShipDocumentResponseMessage" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="QueryShipDocumentResponseMessage" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>

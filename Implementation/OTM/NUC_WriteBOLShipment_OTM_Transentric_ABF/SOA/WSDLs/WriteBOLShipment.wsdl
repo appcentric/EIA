@@ -1,0 +1,28 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="WriteBOLShipment"
+     targetNamespace="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_Transentric_ABF/WriteBOLShipment"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_Transentric_ABF/WriteBOLShipment"
+     xmlns:ns1="http://xmlns.oracle.com/apps/otm"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    >
+    <plnk:partnerLinkType name="WriteBOLShipment">
+        <plnk:role name="WriteBOLShipmentProvider" portType="client:WriteBOLShipment"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_Transentric_ABF/WriteBOLShipment"
+             xmlns:ns1="http://xmlns.oracle.com/apps/otm" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+            <import namespace="http://xmlns.oracle.com/apps/otm" schemaLocation="oramds:/apps/EIAMetadata/AO/OTM/common/V1.0/GLogXML.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="WriteBOLShipmentRequestMessage">
+        <wsdl:part name="payload" element="ns1:Transmission"/>
+    </wsdl:message>
+    <wsdl:portType name="WriteBOLShipment">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:WriteBOLShipmentRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

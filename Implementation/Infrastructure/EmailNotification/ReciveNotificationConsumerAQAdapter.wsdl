@@ -1,0 +1,30 @@
+<wsdl:definitions
+     name="ReciveNotificationConsumerAQAdapter"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/aq/EmailNotification/EmailNotification/ReciveNotificationConsumerAQAdapter"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/aq/EmailNotification/EmailNotification/ReciveNotificationConsumerAQAdapter"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:obj1="http://xmlns.oracle.com/xdb/XXNUC_LOGGING"
+    >
+  <plt:partnerLinkType name="Dequeue_plt" >
+    <plt:role name="Dequeue_role" >
+      <plt:portType name="tns:Dequeue_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://www.capgemini.com/Email" schemaLocation="xsd/HTMLEmail.xsd" />
+      </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/xdb/XXNUC_LOGGING" schemaLocation="Schemas/XXNUC_LOGGING_XXNUC_COMM_EML_NOTIF_TYP.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="XXNUC_COMM_EML_NOTIF_TYP_msg">
+        <wsdl:part name="XXNUC_COMM_EML_NOTIF_TYP" element="obj1:XXNUC_COMM_EML_NOTIF_TYP"/>
+    </wsdl:message>
+    <wsdl:portType name="Dequeue_ptt">
+        <wsdl:operation name="Dequeue">
+            <wsdl:input message="tns:XXNUC_COMM_EML_NOTIF_TYP_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,14 @@
+<adapter-config name="FTP_WriteTriggerFile" adapter="ftp" wsdlLocation="../WSDLs/FTP_WriteTriggerFile.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/JDA"/>
+  <endpoint-interaction portType="Put_ptt" operation="Put">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPInteractionSpec">
+      <property name="PhysicalDirectory" value="/FP_Triggers"/>
+      <property name="NumberMessages" value="1"/>
+      <property name="Append" value="false"/>
+      <property name="FileType" value="ascii"/>
+      <property name="FileNamingConvention" value="triggerFIleName"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

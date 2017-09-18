@@ -1,0 +1,13 @@
+<adapter-config name="DB_GetSegment2FromEBS" adapter="db" wsdlLocation="../WSDLs/DB_GetSegment2FromEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBS_DEV" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_GetSegment2FromEBS_ptt" operation="DB_GetSegment2FromEBS">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_WSH_GET_ITEM_SEGMENT_PKG"/>
+      <property name="ProcedureName" value="GET_SEGMENT"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

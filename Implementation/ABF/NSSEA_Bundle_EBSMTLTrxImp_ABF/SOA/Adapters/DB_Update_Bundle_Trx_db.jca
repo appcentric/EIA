@@ -1,0 +1,14 @@
+<adapter-config name="DB_Update_Bundle_Trx" adapter="db" wsdlLocation="../WSDLs/DB_Update_Bundle_Trx.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_NSSEA" location="eis/DB/nsseaqmos"/>
+  <endpoint-interaction portType="DB_Update_Bundle_Trx_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_Update_Bundle_Trx.ApiBundleTrans"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="DB_Update_Bundle_Trx-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

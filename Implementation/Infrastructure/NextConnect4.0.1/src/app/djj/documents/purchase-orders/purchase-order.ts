@@ -1,0 +1,114 @@
+export interface PurchaseOrder {
+      POID?;
+      PONum?; 
+      POIDRefID?;
+      ChangeVersionID?;
+      POHeaderStatusID?;
+      DJJOrgID?;
+      DJJOfficeID?;
+      ConsumerID?; 
+      ConsumerName?;
+      ConsumerRefID?;
+      ParentConsumerID?;
+      ParentConsumerName?;
+      ParentConsumerRefID?;
+      EffectiveDate?;
+      ExpirationDate?;
+      APTermsID?;
+      ConsumerTermsRefID?;
+      DataChangeTypeID?;
+      DataChangeChildTypeID?;
+      BizType?;
+      CreatedDate?;
+      LastUpdatedDate?;
+      POLine: POLine[];
+}
+export interface POLine {
+      POID?;
+      POLineID?;
+      POLineStatusID?;
+      ItemID?;
+      ItemShortName?;
+      ItemLongName?;
+      ItemOverrideName?;
+      ConsumerItemRefID?;
+      QtyOrderedLB?;
+      QtyOrderedUOMCode?;
+      QtyCanBeOvershipped?;
+      SharesQtyAcrossLocations?;
+      SharesQtyAcrossModes?;
+      BuyPeriodCode?;
+      CreatedDate?;
+      LastUpdatedDate?;
+      DataChangeTypeID?;
+      DataChangeChildTypeID?;
+      BizType?;
+      ShipToLocation: ShipToLocation[];
+}
+export interface ShipToLocation{
+      POID?;
+      POLineID?;
+      POLineShipToID?;
+      POLineShipToStatusID?;
+      ConsumerID?;
+      ConsumerRefID?;
+      ShipToID?;
+      ShipToConsumerRefID?;
+      PriceRate?;
+      PriceRateUOMCode?;
+      PriceRateLBS?;
+      PriceRateTypeID?;
+      IsPriceEstimated?;
+      CommissionRate?;
+      ComissionRateUOMCode?;
+      CurrencyCode?;
+      CurrencyConvRateToUSD?;
+      FOBCode?;
+      FrtCostRespID?;
+      FrtPaymentRespID?;
+      ModeCode?;
+      ShipToQtyLB?;
+      ShipToQtyUOMCode?;
+      ShipToSettleWeightCode?;
+      IsRecovered?;
+      RecoveryPercentage?;
+      IsContained?;
+      ContainmentPercentage?;
+      ItemPackageID?;
+      ItemPackageName?;
+      ItemSizeID?;
+      ItemSizeName?;
+      DataChangeTypeID?;
+      BizType?;
+      DataChangeChildTypeID?;
+      CreatedDate?;
+      LastUpdatedDate?;
+      POFufillment: POFufillment[];
+}
+export interface POFufillment {
+      POID?;
+      POLineID?;
+      POLineShipToID?;
+      SupplierID?;
+      SupplierName?;
+      SupplierConsumerRefID?;
+      ShipFromID?;
+      ShipFromConsumerRefID?;
+      ShipFromName?;
+      ShipFromCity?;
+      ShipFromState?;
+      SupplierParentID?;
+      SupplierParentName?;
+      SupplierParentConsumerRefID?;
+      SupplierPORefID?;
+      CargoNum?;
+      DataChangeTypeID?;
+      DataChangeChildTypeID?;
+      BizType?;
+      CreatedDate?;
+      LastUpdatedDate?;
+      FreightRate: FreightRate[];
+}
+export interface FreightRate {
+
+}

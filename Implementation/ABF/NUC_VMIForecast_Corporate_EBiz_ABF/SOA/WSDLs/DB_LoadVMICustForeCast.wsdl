@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_LoadVMICustForeCast"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_VMIForecast_Corporate_EBiz_ABF/DB_LoadVMICustForeCast"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_VMIForecast_Corporate_EBiz_ABF/DB_LoadVMICustForeCast"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_LoadVMICustForeCast"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_LoadVMICustForeCast_plt" >
+    <plt:role name="DB_LoadVMICustForeCast_role" >
+      <plt:portType name="tns:DB_LoadVMICustForeCast_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_LoadVMICustForeCast" schemaLocation="../Schemas/DB_LoadVMICustForeCast_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucDemVmifcstInboundStgCollection_msg">
+        <wsdl:part name="XxnucDemVmifcstInboundStgCollection" element="top:XxnucDemVmifcstInboundStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_LoadVMICustForeCast_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:XxnucDemVmifcstInboundStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/CustomerBalanceAO/1.0"
+	elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:custbalao="http://xmlns.eia.com/AO/EBiz/O2C/CustomerBalanceAO/1.0"
+	xmlns:custao="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAO/1.0">
+
+	<xsd:import schemaLocation="../../../../AO/EBiz/O2C/V1.0/CustomerAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAO/1.0"></xsd:import>
+
+	<xsd:element name="ListOfCustomersBalanceSummary"
+		type="custbalao:ListOfCustomersType"></xsd:element>
+
+	
+
+	<xsd:complexType name="ListOfCustomersType">
+		<xsd:sequence>
+			<xsd:element name="Customer"
+				type="custbalao:CustomerType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+			
+	<xsd:complexType name="ListOfCustomerSitesType">
+		<xsd:sequence>
+			<xsd:element name="CutomerSite" type="custbalao:CustomerSiteType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="AgingParamsType">
+		<xsd:sequence>
+			<xsd:element name="ShowAging" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+			<xsd:element name="CreditOption" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+			<xsd:element name="BucketName" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TransactionParamsType">
+		<xsd:sequence>
+			<xsd:element name="ShowTransactions" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>	
+
+	<xsd:complexType name="CustomerType">
+		<xsd:sequence>
+			<xsd:element name="CustomerInfo" type="custao:BasicCustomerType"></xsd:element>
+			<xsd:element name="CustomerBalanceSummary"
+				type="custbalao:BalanceTransactionSummaryType"></xsd:element>
+		<xsd:element name="ListOfCustomerSites"
+				type="custbalao:ListOfCustomerSitesType"></xsd:element>			
+			<xsd:element name="ListOfCustomerAging"
+				type="custbalao:ListOfCustomerAgingType" minOccurs="0" maxOccurs="1"></xsd:element>		
+			<xsd:element name="ListOfCustomerTransaction"
+				type="custbalao:ListOfCustomerTransactionType" minOccurs="0" maxOccurs="1"></xsd:element>										
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ListOfCustomerAgingType">
+		<xsd:sequence>
+			<xsd:element name="CustomerAging" type="custbalao:CustomerAgingType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ListOfCustomerTransactionType">
+		<xsd:sequence>
+			<xsd:element name="CustomerTransaction" type="custbalao:CustomerTransactionType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CustomerSiteType">
+		<xsd:sequence>
+			<xsd:element name="CustomerSite" type="custao:BasicSiteType"></xsd:element>
+			<xsd:element name="CustomerSiteBalanceSummary"
+				type="custbalao:BalanceTransactionSummaryType"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="BalanceTransactionSummaryType">
+		<xsd:sequence>
+			<xsd:element name="CustAccountId" type="xsd:integer"></xsd:element>
+			<xsd:element name="CustAcctSiteId" type="xsd:integer"></xsd:element>
+			<xsd:element name="SiteUseId" type="xsd:integer"></xsd:element>
+			<xsd:element name="OrgId" type="xsd:integer"></xsd:element>
+            <xsd:element name="Currency" type="xsd:string" nillable="true"/>
+			<xsd:element name="BestCurrentReceivables" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="TotalDsoDaysCredit" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenInvoicesValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenInvoicesCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenCreditMemosCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenCreditMemosValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenDebitMemosCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenDebitMemosValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenDepositsValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenDepositsCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenBillsReceivablesValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenBillsReceivablesCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenChargebackValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OpenChargebackCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="UnresolvedCashValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="UnresolvedCashCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="ReceiptsAtRiskValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="InvAmtInDispute" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="DisputedInvCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="PendingAdjValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="LastDunningDate" type="xsd:dateTime">
+			</xsd:element>
+			<xsd:element name="DunningCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="PastDueInvValue" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="PastDueInvInstCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="LastPaymentAmount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="LastPaymentDate" type="xsd:dateTime">
+			</xsd:element>
+			<xsd:element name="LastPaymentNumber" type="xsd:string"/>
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+   <xsd:complexType name="CustomerAgingType">
+		<xsd:sequence>
+			<xsd:element name="CustAcctId" type="xsd:integer"></xsd:element>
+			<xsd:element name="BucketLineId" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="OrgId" type="xsd:integer"></xsd:element>
+			<xsd:element name="Currency" type="xsd:string">
+			</xsd:element>
+            <xsd:element name="OutstandingBalance" type="xsd:decimal" nillable="true"/>
+			<xsd:element name="BucketLineName" type="xsd:string">
+			</xsd:element>
+			<xsd:element name="Amount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="BucketSeqNum" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="CollectibleAmount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="ConsolidatedInvoices" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="InvoiceCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="InvoiceAmount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="DMCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="DMAmount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="CBCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="CBAmount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="DisputedTranCount" type="xsd:decimal">
+			</xsd:element>
+			<xsd:element name="DisputedTranAmount" type="xsd:decimal">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+   <xsd:complexType name="CustomerTransactionType">
+		<xsd:sequence>
+		<xsd:element name="PaymentScheduleId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TrxNumber" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TrxDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TermsSequenceNumber" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InvoiceCurrencyCode" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ExchangeRate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AttributeCategory" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute1" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute2" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute3" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute4" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute5" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute6" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute7" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute8" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute9" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute10" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute11" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute12" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute13" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute14" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Attribute15" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CustomerId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CustomerSiteUseId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CustomerTrxId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CustTrxTypeId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CashReceiptId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Class" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Status" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="StateDsp" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="State" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ReceiptConfirmedFlag" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="SelectedForReceiptBatchId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CollectorLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="FollowUpCodeLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InCollection" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TermId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="RacCustomerName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="RacCustomerNumber" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="SuLocation" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="BsBatchSourceName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TypeName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ClassDsp" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DocSequenceValue" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CtPurchaseOrder" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CtPreviousCustomerTrxId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderContext" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute1" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute2" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute3" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute4" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute5" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute6" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute7" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute8" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute9" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute10" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute11" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute12" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute13" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute14" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="InterfaceHeaderAttribute15" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DueDays" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DueDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountDueOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountDueOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountDueRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountDueRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="StatusDsp" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ActualDateClosed" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlDateClosed" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountLineItemsOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountLineItemsOrig" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountLineItemsRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountLineItemsRemain" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TaxOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdTaxOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="TaxRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdTaxRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="FreightOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdFreightOriginal" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="FreightRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdFreightRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountAdjusted" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountAdjusted" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountAdjustedPending" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountAdjustedPending" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ReceivablesChargesCharged" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdRecChargesCharged" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ReceivablesChargesRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdRecChargesRemaining" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountApplied" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountApplied" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountCredited" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountCredited" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AmountInDispute" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdAmountInDispute" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DisputeDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DiscountTakenEarned" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdDiscountTakenEarned" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DiscountTakenUnearned" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdDiscountTakenUnearned" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AlSelectedForReceiptFlag" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AlSelectedForReceiptCode" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AlReceiptConfirmedMeaning" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CrSelectedReceiptNumber" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ArbSelectedBatchName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ArbSelectedBatchDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DaysPastDue" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DunningDateLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CallDateLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="PromiseAmountLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AcctdPromiseAmountLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="PromiseDateLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="FollowupLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="FollowUpDateLast" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="AlInCollectionMeaning" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="RatTermName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ChargebackInvoiceNum" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ChargebackBatchSource" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="BillingNumber" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="StagedDunningLevel" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="DunningLevelOverrideDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="RemittanceMethod" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttributeCategory" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute1" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute2" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute3" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute4" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute5" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute6" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute7" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute8" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute9" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute10" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute11" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute12" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute13" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute14" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute15" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute16" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute17" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute18" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute19" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="GlobalAttribute20" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="ConsInvId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="LastUpdatedBy" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="LastUpdateDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="LastUpdateLogin" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CreatedBy" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="CreationDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="Comments" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="LegalEntityId" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="BillingDate" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		<xsd:element name="OrgId" type="xsd:string" minOccurs="0" maxOccurs="1" />		
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

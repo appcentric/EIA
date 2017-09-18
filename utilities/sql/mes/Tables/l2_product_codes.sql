@@ -1,0 +1,23 @@
+ CREATE TABLE ebs_product_codes
+   (prod_code   			VARCHAR2(80) NOT NULL,
+	prod_shape 				VARCHAR2(150) NOT NULL, 
+	prod_size 				VARCHAR2(150), 
+	grade_code 				VARCHAR2(40) NOT NULL, 
+	unit_length    			NUMBER(9,4) NOT NULL, 
+	unit_weight    			NUMBER(9,4) NOT NULL, 
+    primary_uom_code   		VARCHAR2(20),
+    transaction_uom_code   	VARCHAR2(20),
+	prod_type 				VARCHAR2(15 ) NOT NULL, 
+	prod_desc_1 			VARCHAR2(240), 
+	prod_desc_2 			VARCHAR2(240), 
+	creation_date 			DATE, 
+	created_by 				VARCHAR2(15), 
+	last_update_date 		DATE,
+	last_updated_by  		VARCHAR2(15),
+	attribute1              VARCHAR2(150),
+	attribute2              VARCHAR2(150),
+	attribute3              VARCHAR2(150),
+	attribute4              VARCHAR2(150),
+	attribute5              VARCHAR2(150),
+	attribute6              VARCHAR2(150)
+);

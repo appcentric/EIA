@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="QMOS_DB_UPD_ERROR"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QMOS_DB_UPD_ERROR"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QMOS_DB_UPD_ERROR"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_DB_UPD_ERROR"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="QMOS_DB_UPD_ERROR_plt" >
+    <plt:role name="QMOS_DB_UPD_ERROR_role" >
+      <plt:portType name="tns:QMOS_DB_UPD_ERROR_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_DB_UPD_ERROR" schemaLocation="../Schemas/QMOS_DB_UPD_ERROR_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="ApiMetTransCollection_msg">
+        <wsdl:part name="ApiMetTransCollection" element="top:ApiMetTransCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="QMOS_DB_UPD_ERROR_ptt">
+        <wsdl:operation name="update">
+            <wsdl:input message="tns:ApiMetTransCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

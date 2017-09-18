@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b8c8d491-0631-4fab-862b-a3935e2cada9" activeEnvironment="Default" name="NUC_FreightandInvoice_CP_EBS_ABF" resourceRoot="" soapui-version="5.2.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="26869b18-ec89-424e-8470-dddbb7a75929" wsaVersion="NONE" name="FreightandInvoice_CP_EBS_ImplBinding" type="wsdl" bindingName="{http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0}FreightandInvoice_CP_EBS_ImplBinding" soapVersion="1_1" anonymous="optional" definition="http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?WSDL"><con:part><con:url>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?WSDL</con:url><con:content><![CDATA[<wsdl:definitions name="FreightandInvoice_CP_EBS_Impl" targetNamespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns1="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF" xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <abstractWSDL>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF!1.0/WSDLs/FreightandInvoice_CP_EBS_Impl.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="FreightandInvoice_CP_EBS_Impl">
+    <plnk:role name="FreightandInvoice_CP_EBS_ImplProvider" portType="client:FreightandInvoice_CP_EBS_Impl"/>
+  </plnk:partnerLinkType>
+  <wsp:Policy wsu:Id="wss_username_token_service_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+      <wsp:Policy>
+        <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+          <wsp:Policy>
+            <sp:WssUsernameToken10/>
+          </wsp:Policy>
+        </sp:UsernameToken>
+      </wsp:Policy>
+    </sp:SupportingTokens>
+  </wsp:Policy>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0" schemaLocation="http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?XSD=../Schemas/FreightandInvoice_CP_EBS_Impl.xsd"/>
+    </schema>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF" schemaLocation="http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?XSD=../Schemas/NameValuePair.xsd"/>
+    </xsd:schema>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG" schemaLocation="http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?XSD=../Schemas/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_sp.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="FreightandInvoice_CP_EBS_ImplRequestMessage">
+    <wsdl:part name="payload" element="client:process"/>
+  </wsdl:message>
+  <wsdl:portType name="FreightandInvoice_CP_EBS_Impl">
+    <wsdl:operation name="process">
+      <wsdl:input message="client:FreightandInvoice_CP_EBS_ImplRequestMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FreightandInvoice_CP_EBS_ImplBinding" type="client:FreightandInvoice_CP_EBS_Impl">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsp:PolicyReference URI="#wss_username_token_service_policy" wsdl:required="false" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"/>
+    <wsdl:operation name="process">
+      <soap:operation style="document" soapAction="process"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="freightandinvoice_cp_ebs_impl_client_ep">
+    <wsdl:port name="FreightandInvoice_CP_EBS_Impl_pt" binding="client:FreightandInvoice_CP_EBS_ImplBinding">
+      <soap:address location="http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?XSD=../Schemas/FreightandInvoice_CP_EBS_Impl.xsd</con:url><con:content><![CDATA[<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="process">
+    <complexType>
+      <sequence>
+        <element name="input" type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?XSD=../Schemas/NameValuePair.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF">
+  <xsd:element name="parameters">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="item" minOccurs="1" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="name" type="xsd:string"/>
+              <xsd:element name="value" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep?XSD=../Schemas/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_sp.xsd</con:url><con:content><![CDATA[<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG">
+  <element name="InputParameters">
+    <complexType>
+      <sequence>
+        <element name="P_TXN_ID" type="string" db:index="5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+        <element name="P_FREIGHT_APPS_INIT" type="db:XXNUC.XXNUC_APPS_INIT_OBJ_TYPE" db:index="6" db:type="Struct" minOccurs="0" nillable="true"/>
+        <element name="P_APINV_APPS_INIT" type="db:XXNUC.XXNUC_APPS_INIT_OBJ_TYPE" db:index="7" db:type="Struct" minOccurs="0" nillable="true"/>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="OutputParameters">
+    <complexType>
+      <sequence>
+        <element name="P_SUCCESS_COUNT" type="decimal" db:index="1" db:type="NUMBER" minOccurs="0" nillable="true"/>
+        <element name="P_FAILURE_COUNT" type="decimal" db:index="2" db:type="NUMBER" minOccurs="0" nillable="true"/>
+        <element name="P_REQUEST_ID" type="decimal" db:index="3" db:type="NUMBER" minOccurs="0" nillable="true"/>
+        <element name="P_STATUS" type="string" db:index="4" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+    </complexType>
+  </element>
+  <complexType name="XXNUC.XXNUC_APPS_INIT_OBJ_TYPE">
+    <sequence>
+      <element name="USER_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      <element name="USER_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      <element name="RESPONSIBILITY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      <element name="ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+    </sequence>
+  </complexType>
+  <simpleType name="string100">
+    <restriction base="string">
+      <maxLength value="100"/>
+    </restriction>
+  </simpleType>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep</con:endpoint></con:endpoints><con:operation id="b75c95ad-00d9-4fb2-81a7-ab506373abdd" isOneWay="false" action="process" name="process" bindingOperationName="process" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="359859d8-f4fa-4047-ae29-1129549b10c2" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://rzmkea653.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_FreightandInvoice_CP_EBS_ABF/freightandinvoice_cp_ebs_impl_client_ep</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0">\r
+   <soapenv:Header>
+   	 <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsse:UsernameToken>
+            <wsse:Username>ws_corporate_user</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">ws_corporate_user</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>\r
+      <ns:process>\r
+         <ns:input>START</ns:input>\r
+      </ns:process>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="process"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

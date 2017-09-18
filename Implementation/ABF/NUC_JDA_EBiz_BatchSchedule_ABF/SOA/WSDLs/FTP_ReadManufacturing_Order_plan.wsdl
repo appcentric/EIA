@@ -1,0 +1,34 @@
+<wsdl:definitions
+     name="FTP_ReadManufacturing_Order_plan"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_JDA_Ebiz_BatchSchedule_ABF/FTP_ReadManufacturing_Order_plan"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_JDA_Ebiz_BatchSchedule_ABF/FTP_ReadManufacturing_Order_plan"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://xmlns.oracle.com/NUC_JDA_Ebiz_BatchSchedule_ABF/mfg_order_plan/1.0"
+    >
+  <plt:partnerLinkType name="SynchRead_plt" >
+    <plt:role name="SynchRead_role" >
+      <plt:portType name="tns:SynchRead_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_JDA_Ebiz_BatchSchedule_ABF/FTP_ReadManufacturing_Order_plan"
+              xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/NUC_JDA_Ebiz_BatchSchedule_ABF/mfg_order_plan/1.0" schemaLocation="../Schemas/JDA_MfgOrderPlan.xsd" />
+      <element name="empty"><complexType/></element>
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Empty_msg">
+        <wsdl:part name="Empty" element="tns:empty"/>
+    </wsdl:message>
+    <wsdl:message name="SynchRead_msg">
+        <wsdl:part name="body" element="imp1:MfgOrderPlanList"/>
+    </wsdl:message>
+    <wsdl:portType name="SynchRead_ptt">
+        <wsdl:operation name="SynchRead">
+            <wsdl:input message="tns:Empty_msg"/>
+            <wsdl:output message="tns:SynchRead_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,40 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="ProcessPayrollAP"
+     targetNamespace="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="ProcessPayrollAP">
+        <plnk:role name="ProcessPayrollAPProvider" portType="client:ProcessPayrollAP"/>
+        <plnk:role name="ProcessPayrollAPRequester" portType="client:ProcessPayrollAPCallback"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP"
+                 schemaLocation="xsd/ProcessPayrollAP.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:include schemaLocation="oramds:/apps/EIAMetadata/AO/SAP/common/V1.0/nuepay_posting.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="ProcessPayrollAPResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ProcessPayrollAPRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="ProcessPayrollAPCallback">
+        <wsdl:operation name="processResponse">
+            <wsdl:input message="client:ProcessPayrollAPResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="ProcessPayrollAP">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:ProcessPayrollAPRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

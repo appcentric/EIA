@@ -1,0 +1,25 @@
+<?binding.jca DB_QueryCustomerByOrigRef_db.jca?>
+<wsdl:definitions name="DB_QueryCustomerByOrigRef" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerByOrigRef" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerByOrigRef" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryCustomerByOrigRef">
+    <plt:partnerLinkType name="DB_QueryCustomerByOrigRef_plt">
+        <plt:role name="DB_QueryCustomerByOrigRef_role">
+            <plt:portType name="tns:DB_QueryCustomerByOrigRef_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryCustomerByOrigRef" schemaLocation="xsd/DB_QueryCustomerByOrigRef_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucCustOrigSysRefsV_msg">
+        <wsdl:part name="XxnucCustOrigSysRefsV" element="top:XxnucCustOrigSysRefsV"/>
+    </wsdl:message>
+    <wsdl:message name="XxnucCustOrigSysRefsVCollection_msg">
+        <wsdl:part name="XxnucCustOrigSysRefsVCollection" element="top:XxnucCustOrigSysRefsVCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QueryCustomerByOrigRef_ptt">
+        <wsdl:operation name="queryByExample">
+            <wsdl:input message="tns:XxnucCustOrigSysRefsV_msg"/>
+            <wsdl:output message="tns:XxnucCustOrigSysRefsVCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

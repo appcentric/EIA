@@ -1,0 +1,23 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Manual_PublishPayment_ABF"
+     targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_PublishPayment_EBiz_ABF/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:inp1="http://xmlns.eia.com/Implementation/ABF/NUC_PublishPayment_EBiz_ABF/1.0"
+     xmlns:tns="http://xmlns.eia.com/Implementation/ABF/NUC_PublishPayment_EBiz_ABF/1.0"
+    >
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_PublishPayment_EBiz_ABF/1.0"
+             elementFormDefault="qualified">
+            <element name="string" type="string"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="CheckID" element="inp1:string"/>
+    </wsdl:message>
+    <wsdl:portType name="ASyncPortType">
+        <wsdl:operation name="ManualPublishPayment">
+            <wsdl:input message="inp1:requestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

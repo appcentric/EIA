@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:orderschema="http://www.nucor.com/scmschemas/CorpXMLOrder.xsd" xmlns:cica="cica" targetNamespace="http://www.nucor.com/scmschemas/CorpXMLOrder.xsd">
+<xsd:import namespace="cica" schemaLocation="WebOrder_Cica.xsd"/>
+<xsd:annotation>
+<xsd:documentation xml:lang="en">Nucor Corporate XML Order Schema</xsd:documentation>
+</xsd:annotation>
+<xsd:element name="orders" type="orderschema:Assembly_Orders"/>
+<xsd:complexType name="Assembly_Orders">
+<xsd:sequence>
+<xsd:element name="order" type="orderschema:Assembly_Order"/>
+</xsd:sequence>
+<xsd:attribute name="version" type="cica:Numeric_Version" use="required"/>
+<xsd:attribute name="createdate" type="cica:DateTime_Date" use="required"/>
+<xsd:attribute name="opmode" type="cica:Code_TransSetRootOpMode" use="required"/>
+</xsd:complexType>
+<xsd:complexType name="Assembly_Order">
+<xsd:sequence>
+<xsd:element name="shiptoinformation" type="orderschema:Block_EntityInfo" minOccurs="0" maxOccurs="1"/>
+<!-- Removed as a part of Defect#1900 <xsd:element name="soldto" type="orderschema:Block_EntityInfo" minOccurs="0" maxOccurs="1"/> -->
+<!-- Removed as a part of Defect#1900 <xsd:element name="billto" type="orderschema:Block_EntityInfo" minOccurs="0" maxOccurs="1"/> -->
+<xsd:element name="lineitems" type="orderschema:Block_LineItems" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+<xsd:attribute name="scporderid" type="cica:Identifier_Number" use="required"/>
+<xsd:attribute name="scpproducttype" type="cica:SCP_ProductType" use="required"/>
+<xsd:attribute name="ordermillid" type="cica:Identifier_RefNumMill" use="required"/>
+<xsd:attribute name="nucorglobalcustomerid" type="cica:Identifier_NGCID" use="required"/>
+<xsd:attribute name="customerid" type="cica:Identifier_CustomerID" use="required"/>
+<xsd:attribute name="orderdatetime" type="cica:Date_PODate" use="required"/>
+<xsd:attribute name="ordertype" type="cica:Code_EDIOrderType" use="required"/>
+<xsd:attribute name="customerponumber" type="cica:Identifier_PONumberContent" use="required"/>
+<xsd:attribute name="currency" type="cica:Content_CurrencyCode" use="optional"/>
+</xsd:complexType>
+<xsd:complexType name="Block_EntityInfo">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">XMLOrder Schema</xsd:documentation>
+</xsd:annotation>
+<xsd:sequence>
+<xsd:element name="shippinginstructions" type="cica:Content_Text_Comment" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+<xsd:attribute name="custlocid" type="cica:Content_Text_Description" use="optional"/>
+<!-- Removed as a part of Defect#1900 <xsd:attribute name="customerid" type="cica:Identifier_CustomerID" use="optional"/>
+<xsd:attribute name="siteuseid" type="cica:Identifier_RefNumMill" use="optional"/> -->
+<xsd:attribute name="company" type="cica:Text_PartyName" use="required"/>
+<xsd:attribute name="address" type="cica:Text_Address" use="required"/>
+<xsd:attribute name="address2" type="cica:Text_Address" use="optional"/>
+<xsd:attribute name="city" type="cica:Text_City" use="required"/>
+<xsd:attribute name="state" type="cica:Text_State" use="required"/>
+<xsd:attribute name="zip" type="cica:Text_PostalCode" use="required"/>
+<xsd:attribute name="country" type="cica:Text_Country" use="optional"/>
+<xsd:attribute name="contactname" type="xsd:string" use="optional"/>
+<xsd:attribute name="contactphone" type="xsd:string" use="optional"/>
+</xsd:complexType>
+<xsd:complexType name="Block_LineItems">
+<xsd:sequence>
+<xsd:element name="lineitem" type="orderschema:Block_LineItem" minOccurs="1" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Block_LineItem">
+<xsd:sequence>
+<xsd:element name="tonsanddates" type="orderschema:Block_TonsAndDates" maxOccurs="5"/>
+</xsd:sequence>
+<xsd:attribute name="productid" type="xsd:integer" use="required"/>
+<xsd:attribute name="productdescription" type="cica:Text_ProductDesc" use="required"/>
+<xsd:attribute name="size" type="cica:Text_ProductSize" use="required"/>
+<xsd:attribute name="grade" type="cica:Text_ProductGrade" use="required"/>
+<xsd:attribute name="lengthinches" type="cica:Measure_LengthInches" use="optional"/>
+<xsd:attribute name="customerpartnumber" type="cica:Identifier_CustomerPartNum" use="optional"/>
+<xsd:attribute name="customerlinenumber" type="cica:Identifier_CustomerLineNum" use="optional"/>
+<xsd:attribute name="transportmode" type="cica:Code_MethodCode" use="optional"/>
+</xsd:complexType>
+<xsd:complexType name="Block_TonsAndDates">
+<xsd:sequence>
+<xsd:element name="tonsanddate" type="orderschema:Block_TonsAndDate" maxOccurs="5"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Block_TonsAndDate">
+<xsd:attribute name="tonsordered" type="cica:Amount_Ordered" use="required"/>
+<xsd:attribute name="dateneeded" type="xsd:date" use="required"/>
+<xsd:attribute name="uom" type="cica:Code_UOM" use="optional"/>
+</xsd:complexType>
+</xsd:schema>

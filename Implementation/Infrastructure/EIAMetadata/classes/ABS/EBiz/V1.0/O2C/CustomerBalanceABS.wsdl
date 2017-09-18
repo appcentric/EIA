@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions
+	targetNamespace="http://xmlns.eia.com/ABS/EBiz/O2C/CustomerBalanceABS/1.0"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.eia.com/ABS/EBiz/O2C/CustomerBalanceABS/1.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:custbalam="http://xmlns.eia.com/AO/EBiz/O2C/CustomerBalanceAM/1.0"
+	xmlns:core="http://xmlns.eia.com/EO/Common/1.0">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/CustomerBalanceAM/1.0"
+				schemaLocation="../../../../AO/EBiz/O2C/V1.0/CustomerBalanceAM.xsd" />
+		<xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0"
+				schemaLocation="../../../../EO/common/Common.xsd" />
+		</xsd:schema>
+    </wsdl:types>
+
+	<wsdl:message name="queryListOfCustomersBalanceRequestMessageType">
+		<wsdl:part name="queryListOfCustomersBalanceRequestMessage"
+			element="custbalam:queryListOfCustomersBalanceRequestMessage" />
+	</wsdl:message>
+
+	<wsdl:message name="queryListOfCustomersBalanceResponseMessageType">
+		<wsdl:part name="queryListOfCustomersBalanceResponseMessage"
+			element="custbalam:queryListOfCustomersBalanceResponseMessage" />
+	</wsdl:message>
+
+
+	<wsdl:message name="EIAFaultMsgType">
+		<wsdl:part name="Fault" element="core:Fault" />
+	</wsdl:message>
+
+
+	<wsdl:portType name="SyncPortType">
+
+		<wsdl:operation name="QueryListOfCustomersBalance_Sync">
+			<wsdl:input message="tns:queryListOfCustomersBalanceRequestMessageType" />
+			<wsdl:output message="tns:queryListOfCustomersBalanceResponseMessageType" />
+			<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+
+	<wsdl:binding name="SyncBinding" type="tns:SyncPortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="QueryListOfCustomersBalance_Sync">
+			<soap:operation
+				soapAction="http://xmlns.eia.com/ABS/EBiz/O2C/CustomerBalanceABS/1.0/QueryListOfCustomersBalance_Sync" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="EIAFault">
+				<soap:fault use="literal" name="EIAFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CustomerBalanceABS">
+		<wsdl:port name="SyncPort" binding="tns:SyncBinding">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

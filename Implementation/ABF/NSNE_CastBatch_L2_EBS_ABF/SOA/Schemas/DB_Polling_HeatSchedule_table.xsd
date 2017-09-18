@@ -1,0 +1,32 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Polling_HeatSchedule" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Polling_HeatSchedule" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="Cast_Heat_Trans_EventsCollection" type="Cast_Heat_Trans_EventsCollection"/>
+   <xs:complexType name="Cast_Heat_Trans_EventsCollection">
+      <xs:sequence>
+         <xs:element name="Cast_Heat_Trans_Events" type="Cast_Heat_Trans_Events" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Cast_Heat_Trans_Events">
+      <xs:sequence>
+         <xs:element name="CastHeatTransEventID" type="xs:int" nillable="true"/>
+         <xs:element name="CastHeatID" type="xs:int" minOccurs="0"/>
+         <xs:element name="TransEventName" type="string100" minOccurs="0"/>
+         <xs:element name="TransEventTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="ProcessedStatus" type="string100" minOccurs="0" nillable="true"/>
+         <xs:element name="EBSBatchIDRef" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="ProcessedTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="ProcessedMessage" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="Cast_Event_Msg" type="string2000" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string100">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

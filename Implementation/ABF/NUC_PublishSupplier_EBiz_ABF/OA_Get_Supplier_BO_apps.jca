@@ -1,0 +1,16 @@
+<adapter-config name="OA_Get_Supplier_BO" adapter="Oracle Applications Adapter" wsdlLocation="OA_Get_Supplier_BO.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="NewEBS" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_Get_Supplier_BO_ptt" operation="OA_Get_Supplier_BO">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:POS_SUPPLIER_BO_PKG:POS_GET_SUPPLIER_BO"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="POS_SUPPLIER_BO_PKG"/>
+      <property name="ProcedureName" value="POS_GET_SUPPLIER_BO"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

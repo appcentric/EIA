@@ -1,0 +1,110 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/SO/1.0" targetNamespace="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/SO/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars" nxsd:encoding="US-ASCII" nxsd:hasHeader="true" nxsd:headerLines="1" nxsd:headerLinesTerminatedBy="${eol}">
+  <xsd:element name="SalesOrderList">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="SalesOrderHeader">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="allow_inventory_consumption" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="|" nxsd:quotedBy='"' maxOccurs="1" fixed="#allow_inventory_consumption"/>
+              <xsd:element name="make_to_stock_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="make_to_stock_p"/>
+              <xsd:element name="acm_flag" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="acm_flag"/>
+              <xsd:element name="category" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="category"/>
+              <xsd:element name="crsd" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy='"'
+                           maxOccurs="1" fixed="crsd"/>
+              <xsd:element name="crsd_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="crsd_format"/>
+              <xsd:element name="customer" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="customer"/>
+              <xsd:element name="demand_location" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="demand_location"/>
+              <xsd:element name="demand_type_priority" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="demand_type_priority"/>
+              <xsd:element name="do_not_schedule" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="do_not_schedule"/>
+              <xsd:element name="part_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="part_quantity"/>
+              <xsd:element name="part_quantity_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="part_quantity_uom"/>
+              <xsd:element name="part_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="part_number"/>
+              <xsd:element name="demand_order_id" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="demand_order_id"/>
+              <xsd:element name="priority" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="priority"/>
+              <xsd:element name="promise_date" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="promise_date"/>
+              <xsd:element name="promise_date_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="promise_date_format"/>
+              <xsd:element name="replan_order_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="replan_order_p"/>
+              <xsd:element name="sales_rep" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="sales_rep"/>
+              <xsd:element name="sales_due_date" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="sales_due_date"/>
+              <xsd:element name="sales_due_date_format" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="${eol}" nxsd:quotedBy='"' maxOccurs="1" fixed="sales_due_date_format"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="SalesOrder" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="allow_inventory_consumption" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="|" nxsd:quotedBy='"'/>
+              <xsd:element name="make_to_stock_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="acm_flag" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="category" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="crsd" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="crsd_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="customer" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="demand_location" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="demand_type_priority" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="do_not_schedule" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="part_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="part_quantity_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="part_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="demand_order_id" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="priority" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="promise_date" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="promise_date_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="replan_order_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+                 <xsd:element name="sales_rep" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>          
+              <xsd:element name="sales_due_date" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="sales_due_date_format" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="${eol}" nxsd:quotedBy='"'/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=/Users/dikshasawheny/Documents/SHared/DemandOrder.txt</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=true</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

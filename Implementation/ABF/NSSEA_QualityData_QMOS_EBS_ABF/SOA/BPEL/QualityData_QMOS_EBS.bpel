@@ -1,0 +1,396 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Apr 04 03:29:24 CDT 2017
+  Author:  puja.bhatter
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="QualityData_QMOS_EBS"
+               targetNamespace="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/CommonLogging" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/DB_QMOS_DATA"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/DB_QMOS_READ_UDPATE"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/DB_EBS_Process_QSamples"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_DATA"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_EBS_Process_QSamples"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QMOS_CASTLOT_DETAILS"
+         xmlns:ns8="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_CASTLOT_DETAILS"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/Invoke_DB_EBS_Process"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/DB_UPDATE_QMOS_RSLT"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/sp/Invoke_DB_EBS_Process"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QMOS_DB_UPD_ERROR"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_UPDATE_QMOS_RSLT">
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE"
+          location="../Schemas/DB_QMOS_READ_UDPATE_table.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS" location="../WSDLs/QualityData_QMOS_EBS.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="qualitydata_qmos_ebs_client" partnerLinkType="client:QualityData_QMOS_EBS" myRole="QualityData_QMOS_EBSProvider"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns1:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_QMOS_DATA" partnerLinkType="ns2:DB_QMOS_DATA_plt" partnerRole="DB_QMOS_DATA_role"/>
+    <partnerLink name="DB_QMOS_READ_UDPATE" partnerLinkType="ns3:DB_QMOS_READ_UDPATE_plt"
+                 partnerRole="DB_QMOS_READ_UDPATE_role"/>
+    <partnerLink name="QMOS_CASTLOT_DETAILS" partnerLinkType="ns7:QMOS_CASTLOT_DETAILS_plt"
+                 partnerRole="QMOS_CASTLOT_DETAILS_role"/>
+    <partnerLink name="Invoke_DB_EBS_Process" partnerLinkType="ns10:Invoke_DB_EBS_Process_plt"
+                 partnerRole="Invoke_DB_EBS_Process_role"/>
+    <partnerLink name="DB_UPDATE_QMOS_RSLT" partnerLinkType="ns11:DB_UPDATE_QMOS_RSLT_plt"
+                 partnerRole="DB_UPDATE_QMOS_RSLT_role"/>
+   <!-- <partnerLink name="QMOS_DB_UPD_ERROR" partnerLinkType="ns14:QMOS_DB_UPD_ERROR_plt"
+                 partnerRole="QMOS_DB_UPD_ERROR_role"/> -->
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:QualityData_QMOS_EBSRequestMessage"/>
+    <variable name="Invoke_CommonLogging_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+    <variable name="Invoke1_DB_QMOS_DATASelect_InputVariable" messageType="ns2:DB_QMOS_DATASelect_inputParameters"/>
+    <variable name="Invoke1_DB_QMOS_DATASelect_OutputVariable" messageType="ns2:ApiMetTransCollection_msg"/>
+    <variable name="Invoke1_update_InputVariable" messageType="ns3:ApiMetTransCollection_msg"/>
+    <variable name="Invoke_DB_QMOS_UPDATE_update_InputVariable" messageType="ns3:ApiMetTransCollection_msg"/>
+    <variable name="Invoke_DB_QMOS_DATA_DB_QMOS_DATASelect_InputVariable"
+              messageType="ns2:DB_QMOS_DATASelect_inputParameters"/>
+    <variable name="Invoke_DB_QMOS_CastLot_DTL_Select_InputVariable"
+              messageType="ns7:QMOS_CASTLOT_DETAILSSelect_inputParameters"/>
+    <variable name="Invoke_DB_QMOS_CastLot_DTLSelect_OutputVariable" messageType="ns7:VLotVisibilityCollection_msg"/>
+    <variable name="startIndex" type="xsd:int"/>
+    <variable name="EndIndex" type="xsd:int"/>
+    <variable name="Invoke_DB_EBS_Process_InputVariable1" messageType="ns10:args_in_msg"/>
+    <variable name="Invoke_DB_EBS_Process_OutputVariable1" messageType="ns10:args_out_msg"/>
+    <variable name="DB_UPDATE_QMOS_RSLT_update_InputVariable" messageType="ns11:ApiMetTransCollection_msg"/>
+    <variable name="l_distinct_sample" element="ns5:ApiMetTransCollection"/>
+    <variable name="Invoke1_update_InputVariable_1" messageType="ns14:ApiMetTransCollection_msg"/>
+    <variable name="DB_UPD_QMOS_ERR_update_InputVariable" messageType="ns11:ApiMetTransCollection_msg"/>
+    <variable name="g_param" element="ns8:parameters"/>
+    <variable name="Invoke_DB_QMOS_ERRUPDATE_InputVariable" messageType="ns3:ApiMetTransCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="SequenceCatchAllMain">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                portType="ns1:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Transformation_QMOS_Err">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/xform_Update_ErrorRecord.xsl", $Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection)</from>
+            <to variable="Invoke_DB_QMOS_ERRUPDATE_InputVariable" part="ApiMetTransCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_QMOS_ERRUPDATE" partnerLink="DB_QMOS_READ_UDPATE"
+                portType="ns3:DB_QMOS_READ_UDPATE_ptt" operation="update"
+                inputVariable="Invoke_DB_QMOS_ERRUPDATE_InputVariable" bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in QualityData_QMOS_EBS.wsdl) -->
+    <receive name="receiveInput" partnerLink="qualitydata_qmos_ebs_client" portType="client:QualityData_QMOS_EBS" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+      </copy>
+      <copy>
+        <from>'I112'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'NSUTQualityDataDetails'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+      </copy>
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId))</from>
+        <to>$setTitleVar</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+            portType="ns1:CommonLogging" operation="process"
+            inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="AssignRowNum">
+      <copy>
+        <from>ora:getPreference("rowNumValue")</from>
+        <to>$Invoke1_DB_QMOS_DATASelect_InputVariable.DB_QMOS_DATASelect_inputParameters/ns5:rownumValue</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_QMOS_DATA" partnerLink="DB_QMOS_DATA"
+            portType="ns2:DB_QMOS_DATA_ptt" operation="DB_QMOS_DATASelect"
+            inputVariable="Invoke1_DB_QMOS_DATASelect_InputVariable"
+            outputVariable="Invoke1_DB_QMOS_DATASelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Transform_Update_Status">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/xform_Update_status.xsl", $Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection)</from>
+        <to variable="Invoke_DB_QMOS_UPDATE_update_InputVariable" part="ApiMetTransCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_QMOS_UPDATE" partnerLink="DB_QMOS_READ_UDPATE"
+            portType="ns3:DB_QMOS_READ_UDPATE_ptt" operation="update"
+            inputVariable="Invoke_DB_QMOS_UPDATE_update_InputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Transformation">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/xform_distinct_Samples_1.xsl", $Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection)</from>
+        <to variable="l_distinct_sample"/>
+      </copy>
+    </assign>
+    <assign name="AssignLoopCounters">
+      <copy>
+        <from>number("1")</from>
+        <to>$startIndex</to>
+      </copy>
+    <!--
+      <copy>
+        <from>count($Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection/ns5:ApiMetTrans)</from>
+        <to>$EndIndex</to>
+      </copy>
+      -->
+      <copy>
+        <from>count($l_distinct_sample/ns5:ApiMetTrans)</from>
+        <to>$EndIndex</to>
+      </copy>
+    </assign>
+    <while name="WhileLoop">
+      <condition>$startIndex  &lt;= $EndIndex</condition>
+      <sequence>
+        <scope name="ScopeWhile">
+          <faultHandlers>
+            <catchAll>
+              <sequence name="SequenceCatchAll">
+                <assign name="Assign_Param">
+                  <copy>
+                    <from>$l_distinct_sample/ns5:ApiMetTrans/ns5:heat</from>
+                    <to>$g_param/ns8:item/ns8:value</to>
+                  </copy>
+                  <copy>
+                    <from>'Heat'</from>
+                    <to>$g_param/ns8:item/ns8:name</to>
+                  </copy>
+                </assign>
+                <assign name="Assign_CommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <copy>
+                    <from>4</from>
+                    <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+                  </copy>
+                  <copy>
+                    <from>''</from>
+                    <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+                  </copy>
+                  <copy>
+                    <from>concat(ora:getFlowId(),':',ora:getFaultAsString())</from>
+                    <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageDescription</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns1:CommonLogging"
+                        operation="process" inputVariable="Invoke_CommonLogging_process_InputVariable"
+                        bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+                <assign name="Transform_Sample_Details">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("../Transformations/xform_QmosErr_Update.xsl", $g_param, "Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection", $Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection)</from>
+                    <to variable="DB_UPD_QMOS_ERR_update_InputVariable" part="ApiMetTransCollection"/>
+                  </copy>
+                </assign>
+                <invoke name="DB_UPD_QMOS_ERR" partnerLink="DB_UPDATE_QMOS_RSLT" portType="ns11:DB_UPDATE_QMOS_RSLT_ptt"
+                        operation="update" inputVariable="DB_UPD_QMOS_ERR_update_InputVariable"
+                        bpelx:invokeAsDetail="no"/>
+              </sequence>
+            </catchAll>
+          </faultHandlers><sequence>
+            <assign name="AssignSampleNo">
+             <!-- <copy>
+                <from>$Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection/ns5:ApiMetTrans[$startIndex]/ns5:heat</from>
+                <to>$Invoke_DB_QMOS_CastLot_DTL_Select_InputVariable.QMOS_CASTLOT_DETAILSSelect_inputParameters/ns9:SampleNo</to>
+              </copy>-->
+              <copy>
+                <from>$l_distinct_sample/ns5:ApiMetTrans[$startIndex]/ns5:heat</from>
+                <to>$Invoke_DB_QMOS_CastLot_DTL_Select_InputVariable.QMOS_CASTLOT_DETAILSSelect_inputParameters/ns9:SampleNo</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_QMOS_CastLot" partnerLink="QMOS_CASTLOT_DETAILS"
+                    portType="ns7:QMOS_CASTLOT_DETAILS_ptt" operation="QMOS_CASTLOT_DETAILSSelect"
+                    inputVariable="Invoke_DB_QMOS_CastLot_DTL_Select_InputVariable"
+                    outputVariable="Invoke_DB_QMOS_CastLot_DTLSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+            <assign name="Transform_EBS_Invoke">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/xform_QMOS_To_EBSMap.xsl", $Invoke1_DB_QMOS_DATASelect_OutputVariable.ApiMetTransCollection, "Invoke_DB_QMOS_CastLot_DTLSelect_OutputVariable.VLotVisibilityCollection", $Invoke_DB_QMOS_CastLot_DTLSelect_OutputVariable.VLotVisibilityCollection, "Invoke_CommonLogging_process_InputVariable.CommonLogging", $Invoke_CommonLogging_process_InputVariable.CommonLogging)</from>
+                <to variable="Invoke_DB_EBS_Process_InputVariable1" part="InputParameters"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_EBS_Process" partnerLink="Invoke_DB_EBS_Process"
+                    portType="ns10:Invoke_DB_EBS_Process_ptt" operation="Invoke_DB_EBS_Process"
+                    inputVariable="Invoke_DB_EBS_Process_InputVariable1"
+                    outputVariable="Invoke_DB_EBS_Process_OutputVariable1" bpelx:invokeAsDetail="no"/>
+            <assign name="Transformation_UpdateQmosResult">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/xform_UpdateTestStatus.xsl", $Invoke_DB_EBS_Process_OutputVariable1.OutputParameters)</from>
+                <to variable="DB_UPDATE_QMOS_RSLT_update_InputVariable" part="ApiMetTransCollection"/>
+              </copy>
+            </assign>
+            <invoke name="DB_UPDATE_QMOS_RSLT" partnerLink="DB_UPDATE_QMOS_RSLT" portType="ns11:DB_UPDATE_QMOS_RSLT_ptt"
+                    operation="update" inputVariable="DB_UPDATE_QMOS_RSLT_update_InputVariable"
+                    bpelx:invokeAsDetail="no"/>
+          </sequence>
+        </scope>
+        <assign name="AssignIncrement_Counter">
+          <copy>
+            <from>$startIndex  + 1</from>
+            <to>$startIndex</to>
+          </copy>
+        </assign>
+      </sequence>
+    </while>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>'BMG-002'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+            portType="ns1:CommonLogging" operation="process" inputVariable="Invoke_CommonLogging_process_InputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+  </sequence>
+</process>

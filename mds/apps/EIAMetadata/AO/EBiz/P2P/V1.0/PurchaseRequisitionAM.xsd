@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAM/1.0"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAM/1.0"
+            elementFormDefault="qualified"
+            xmlns:prao="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAO/1.0"
+            xmlns:pram="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAM/1.0"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0">
+  <xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/PurchaseRequisitionAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAO/1.0"/>
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+ <xsd:element name="CreatePurchaseRequisitionRequestMessage">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+            <xsd:element name="ListOfPoRequisitions" type="prao:PoRequisitionsInterfaceAllCollection" minOccurs="0" nillable="true" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="CreatePurchaseRequisitionResponseMessage">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="CancelPurchaseRequisitionRequestMessage">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+            <xsd:element name="ListOfPoRequisitions" type="prao:PoRequisitionsInterfaceAllCollection" minOccurs="0" nillable="true" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="CancelPurchaseRequisitionResponseMessage">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+ </xsd:element>
+</xsd:schema>

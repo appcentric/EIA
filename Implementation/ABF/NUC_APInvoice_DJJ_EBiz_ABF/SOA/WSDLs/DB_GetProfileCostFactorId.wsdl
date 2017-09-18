@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="DB_GetProfileCostFactorId" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_APInvoice_DJJ_EBiz_ABF/DB_GetProfileCostFactorId" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_APInvoice_DJJ_EBiz_ABF/DB_GetProfileCostFactorId" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetProfileCostFactorId" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plt:partnerLinkType name="DB_GetProfileCostFactorId_plt">
+      <plt:role name="DB_GetProfileCostFactorId_role">
+         <plt:portType name="tns:DB_GetProfileCostFactorId_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetProfileCostFactorId" schemaLocation="../Schemas/DB_GetProfileCostFactorId_sp.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="args_in_msg">
+      <wsdl:part name="InputParameters" element="db:InputParameters"/>
+   </wsdl:message>
+   <wsdl:message name="args_out_msg">
+      <wsdl:part name="OutputParameters" element="db:OutputParameters"/>
+   </wsdl:message>
+   <wsdl:portType name="DB_GetProfileCostFactorId_ptt">
+      <wsdl:operation name="DB_GetProfileCostFactorId">
+         <wsdl:input message="tns:args_in_msg"/>
+         <wsdl:output message="tns:args_out_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

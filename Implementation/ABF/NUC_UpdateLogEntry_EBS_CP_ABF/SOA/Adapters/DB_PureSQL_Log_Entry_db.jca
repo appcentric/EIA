@@ -1,0 +1,11 @@
+<adapter-config name="DB_PureSQL_Log_Entry" adapter="db" wsdlLocation="../WSDLs/DB_PureSQL_Log_Entry.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1OMSI" location="eis/DB/omsi"/>
+  <endpoint-interaction portType="DB_PureSQL_Log_Entry_ptt" operation="DB_PureSQL_Log_Entry">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="update LOG_ENTRY set IS_READ = 2 where LOG_ENTRY_ID = #logEntryId"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="OA_EbizPOOrderStatusEvent">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="185" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="178" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="OA_EbizPOOrderStatusEvent" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_Publish_EBiz_PO_ABF/OA_EbizPOOrderStatusEvent#wsdl.interface(DEQUEUE_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/oa_adapter_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>DEQUEUE</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="WS_QueryPOABS">
+        <dgm:body borderWidth="2" arcRad="20" X="1268" Y="26" width="136" height="132">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="1258" Y="19" width="156" height="146">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="WS_QueryPOABS" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>CreateListPurchaseOrders_Sync</dgm:item>
+            <dgm:item>QueryPurchaseOrderByExample_Sync</dgm:item>
+            <dgm:item>UpdatePurchaseOrderLine_Sync</dgm:item>
+            <dgm:item>AddPurchaseOrderLine_Sync</dgm:item>
+            <dgm:item>CancelPurchaseOrderLine_Sync</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="JMS_Publish_EBizPO">
+        <dgm:body borderWidth="2" arcRad="20" X="1268" Y="192" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="1258" Y="185" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="JMS_Publish_EBizPO" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/jms/NucorPordSup/NUC_Publish_EBiz_PO_ABF/JMS_Publish_EBizPO#wsdl.interface(Produce_Message_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/jms_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>Produce_Message</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CommonLogging_PL">
+        <dgm:body borderWidth="2" arcRad="20" X="1268" Y="310" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="1258" Y="303" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLogging_PL" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="Publish_EBiz_PO_Impl">
+        <dgm:body borderWidth="2" arcRad="20" X="648" Y="170" width="130" height="111">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="638" Y="163" width="150" height="127">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="OA_EbizPOOrderStatusEvent" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_Publish_EBiz_PO_ABF/OA_EbizPOOrderStatusEvent#wsdl.interface(DEQUEUE_ptt)"/>
+        <dgm:outputPort name="WS_QueryPOABS" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:outputPort name="JMS_Publish_EBizPO" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/jms/NucorPordSup/NUC_Publish_EBiz_PO_ABF/JMS_Publish_EBizPO#wsdl.interface(Produce_Message_ptt)"/>
+        <dgm:outputPort name="CommonLogging_PL" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="OA_EbizPOOrderStatusEvent" target="Publish_EBiz_PO_Impl/OA_EbizPOOrderStatusEvent" width="2">
+        <dgm:gSegment X1="168" Y1="195" X2="638" Y2="195"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="Publish_EBiz_PO_Impl/WS_QueryPOABS" target="WS_QueryPOABS" width="2">
+        <dgm:gSegment X1="788" Y1="195" X2="812" Y2="195"/>
+        <dgm:gSegment X1="812" Y1="195" X2="812" Y2="36"/>
+        <dgm:gSegment X1="812" Y1="36" X2="1258" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="Publish_EBiz_PO_Impl/JMS_Publish_EBizPO" target="JMS_Publish_EBizPO" width="2">
+        <dgm:gSegment X1="788" Y1="220" X2="827" Y2="220"/>
+        <dgm:gSegment X1="827" Y1="220" X2="827" Y2="202"/>
+        <dgm:gSegment X1="827" Y1="202" X2="1258" Y2="202"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="Publish_EBiz_PO_Impl/CommonLogging_PL" target="CommonLogging_PL" width="2">
+        <dgm:gSegment X1="788" Y1="245" X2="812" Y2="245"/>
+        <dgm:gSegment X1="812" Y1="245" X2="812" Y2="320"/>
+        <dgm:gSegment X1="812" Y1="320" X2="1258" Y2="320"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

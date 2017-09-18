@@ -1,0 +1,29 @@
+<wsdl:definitions
+     name="FTP_Write_Nice_Label"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/DEV1Application/NUC_TransferLabel_NiceLabel_ABF/FTP_Write_Nice_Label"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/DEV1Application/NUC_TransferLabel_NiceLabel_ABF/FTP_Write_Nice_Label"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://www.nucor.com/scmschemas/label.xsd"
+    >
+  <plt:partnerLinkType name="Put_plt" >
+    <plt:role name="Put_role" >
+      <plt:portType name="tns:Put_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/DEV1Application/NUC_TransferLabel_NiceLabel_ABF/FTP_Write_Nice_Label"
+              xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://www.nucor.com/scmschemas/label.xsd" schemaLocation="../Schemas/LabelInput.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Put_msg">
+        <wsdl:part name="body" element="imp1:labels"/>
+    </wsdl:message>
+    <wsdl:portType name="Put_ptt">
+        <wsdl:operation name="Put">
+            <wsdl:input message="tns:Put_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

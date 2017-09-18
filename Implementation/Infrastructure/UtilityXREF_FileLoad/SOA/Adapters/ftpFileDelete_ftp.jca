@@ -1,0 +1,15 @@
+<adapter-config name="ftpFileDelete" adapter="ftp" wsdlLocation="../WSDLs/ftpFileDelete.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/HAFtpMoveIt"/>
+  <endpoint-interaction portType="DeleteFileService_ptt" operation="DeleteFileService">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPIoInteractionSpec">
+      <property name="SourcePhysicalDirectory" value="Utility"/>
+      <property name="SourceFileName" value="XREF_Data_Load.csv"/>
+      <property name="TargetPhysicalDirectory" value="Utility"/>
+      <property name="TargetFileName" value="XREF_Data_Load.csv"/>
+      <property name="FileType" value="ascii"/>
+      <property name="Type" value="DELETE"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

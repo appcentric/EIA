@@ -1,0 +1,104 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>Items Mappings<spinner [visible]="loading"></spinner></h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="fa-plus" label="Add" (click)="showDialogToAdd()" ></button>
+                        <button pButton type="button" icon="ui-icon-refresh" label="Refresh" (click)="refreshPage()" ></button>
+                        <button pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <p-dataTable #exportCSV [value]="itemMappings" selectionMode="single" [(selection)]="selectedItemMapping" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="25" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" resizableColumns="true" [responsive]="true">
+                <p-column field="ItemMasterID" header="DJJ Item #" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ItemReferenceID" header="Nucor's Oracle #" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ItemName" header="Item Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ItemLongName" header="Item Long Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SendData" header="Send Data" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <!-- internal value for DJJ that default to = 3 so set to hidden -->
+                <p-column hidden="true" field="ItemTypeID" header="Item Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AddressBookTypeID" header="Address Book Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AddressBookTypeName" header="Address Book Type Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AddressBookNum" header="Address Book Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="Name" header="Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            </p-dataTable>
+            <p-dialog header="Item Mapping Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [width]="600" [resizable]=false [modal]="true">
+                <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="itemMapping">
+                    <form [formGroup]="form" (ngSubmit)="save(form.value)">
+                        <fieldset>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="ItemMasterID">DJJ Item #</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="ItemMasterID" formControlName="ItemMasterID" [(ngModel)]="itemMapping.ItemMasterID" name="ItemMasterID" /></div>
+                            </div>
+                            <div *ngIf="!form.controls['ItemMasterID'].valid&&form.controls['ItemMasterID'].dirty" class="alert alert-danger">
+                                Please type a valid item master ID.
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="ItemReferenceID">Nucor's Oracle #</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="ItemReferenceID" formControlName="ItemReferenceID" [(ngModel)]="itemMapping.ItemReferenceID" name="ItemReferenceID" /></div>
+                            </div>
+                            <div *ngIf="!form.controls['ItemReferenceID'].valid&&form.controls['ItemReferenceID'].dirty" class="alert alert-danger">
+                                Please type a valid item reference ID.
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="ItemName">Item Name</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="ItemName" formControlName="ItemName" [(ngModel)]="itemMapping.ItemName" name="ItemName" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="ItemLongName">Item Long Name</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="ItemLongName" formControlName="ItemLongName" [(ngModel)]="itemMapping.ItemLongName" name="ItemLongName" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="ItemTypeID">Item Type ID</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="ItemTypeID" formControlName="ItemTypeID" [(ngModel)]="itemMapping.ItemTypeID" name="ItemTypeID" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="SendData">Send Data</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="SendData" formControlName="SendData" [(ngModel)]="itemMapping.SendData" name="SendData" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="AddressBookTypeID">Address Book Type ID</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="AddressBookTypeID" formControlName="AddressBookTypeID" [(ngModel)]="itemMapping.AddressBookTypeID" name="AddressBookTypeID" /></div>
+                            </div>
+                            <div *ngIf="!form.controls['AddressBookTypeID'].valid&&form.controls['AddressBookTypeID'].dirty" class="alert alert-danger">
+                                Please type a valid address book type ID.
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="AddressBookTypeName">Address Book Type Name</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="AddressBookTypeName" formControlName="AddressBookTypeName" [(ngModel)]="itemMapping.AddressBookTypeName" name="AddressBookTypeName" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="AddressBookNum">Address Book Number</label></div>
+                                <div class="ui-grid-col-8"><p-dropdown [options]="AddressBookNums" formControlName="AddressBookNum" [autoWidth]="false"></p-dropdown></div>
+                            </div>
+                            <div *ngIf="!form.controls['AddressBookNum'].valid&&form.controls['AddressBookNum'].dirty" class="alert alert-danger">
+                                Please select a valid address book number.
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="Name">Name</label></div>
+                                <div class="ui-grid-col-8"><input pInputText id="Name" formControlName="Name" [(ngModel)]="itemMapping.Name" name="Name" /></div>
+                            </div>
+                        </fieldset>
+                        <footer>
+                            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                                <button type="button" pButton icon="fa-close" (click)="cancel()" label="Cancel"></button>  
+                                <button style="background-color:red;border-color:red;" [disabled]="!form.valid" type="button" pButton icon="ui-icon-trash" (click)="delete()" label="Delete"></button>
+                                <button type="submit" pButton icon="fa-check" [disabled]="!form.valid" (click)="save(form.value)" label="Save"></button>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </p-dialog>
+            <p-confirmDialog header="Delete Mapping Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        </div>
+    </div>
+</div>

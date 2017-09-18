@@ -1,0 +1,214 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--$Header$-->
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Dec 28 01:59:54 EST 2011
+  Author:  Vivek Srinivasan
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EIAAsyncErrorHandlingBPELProcess"
+               targetNamespace="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:aia="http://www.oracle.com/XSL/Transform/java/oracle.apps.aia.core.xpath.AIAFunctions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:mhdr="http://www.oracle.com/XSL/Transform/java/oracle.tip.mediator.service.common.functions.MediatorExtnFunction"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:med="http://schemas.oracle.com/mediator/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:utl="http://www.oracle.com/XSL/Transform/java/com.eia.soa.util.Configuration"
+         xmlns:socket="http://www.oracle.com/XSL/Transform/java/oracle.tip.adapter.socket.ProtocolTranslator"
+         xmlns:ns2="http://xmlns.oracle.com/ias/pcbpel/NotificationService"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[oramds:/apps/EIAMetadata/Infrastracture/wsdls/EIAAsyncErrorHandlingBPELProcessV1.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="processFault" partnerLinkType="client:EIAAsyncErrorHandlingBPELProcess" myRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="NotificationService_1"
+                 partnerLinkType="ns2:NotificationServiceLink"
+                 partnerRole="NotificationServiceProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="EIAFaultMsg" messageType="client:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+        <variable name="gblFaultingProcessName" type="xsd:string"/>
+        <variable name="gblFaultingInstanceID" type="xsd:string"/>
+        <variable name="gblFaultingProcessURL" type="xsd:string"/>
+        <variable name="gblNotifyFaultProcess" type="xsd:string"/>
+        <variable name="gblNotifyFaultProcessEmail" type="xsd:string"/>
+    <variable name="gbl_outcome" type="xsd:string"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in EIAAsyncErrorHandlingBPELProcess.wsdl) -->
+    <receive name="receiveEIAFaultMsg" partnerLink="processFault" portType="client:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+             variable="EIAFaultMsg" createInstance="yes"/>
+    <assign name="Process_name">
+      <copy>
+        <from variable="EIAFaultMsg" part="FaultMessage"
+              query="/ns1:Fault/ns1:FaultingService/ns1:Process"/>
+        <to variable="gblFaultingProcessName"/>
+      </copy>
+    </assign>
+    <assign name="UpdateFaultingProcessName"
+            bpelx:skipCondition="not(contains(bpws:getVariableData('gblFaultingProcessName'),'!'))">
+      <copy>
+        <from expression="substring-before(substring-after(bpws:getVariableData('gblFaultingProcessName'),'/'),'!')"/>
+        <to variable="gblFaultingProcessName"/>
+      </copy>
+    </assign>
+    <assign name="Set_FaultingProcessInformation">
+      <!--copy>
+        <from variable="EIAFaultMsg" part="FaultMessage"
+              query="/ns1:Fault/ns1:FaultingService/ns1:Process"/>
+        <to variable="gblFaultingProcessName"/>
+      </copy-->
+      <copy>
+        <from variable="EIAFaultMsg" part="FaultMessage"
+              query="/ns1:Fault/ns1:FaultingService/ns1:InstanceID"/>
+        <to variable="gblFaultingInstanceID"/>
+      </copy>
+      <copy>
+        <from variable="EIAFaultMsg" part="FaultMessage"
+              query="/ns1:Fault/ns1:FaultingService/ns1:ID"/>
+        <to variable="gblFaultingProcessURL"/>
+      </copy>
+      <copy>
+        <from expression="eia:getEIAServiceProperty(bpws:getVariableData('gblFaultingProcessName'),'NOTIFY_ON_FAULT')"/>
+        <to variable="gblNotifyFaultProcess"/>
+      </copy>
+      <copy>
+        <from expression="eia:getEIAServiceProperty(bpws:getVariableData('gblFaultingProcessName'),'NOTIFIER_EMAIL')"/>
+        <to variable="gblNotifyFaultProcessEmail"/>
+      </copy>
+    </assign>
+    <assign name="LogErrorMessageToDB">
+      <copy>
+        <from expression="eia:logEIAErrorMessageToDB(bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault'))"/>
+        <to variable="gbl_outcome"/>
+      </copy>
+    </assign>
+    <switch name="Switch_1">
+      <case condition="bpws:getVariableData('gblNotifyFaultProcess')='true'">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">NotifyOnFault?</bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <scope name="Email_2">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:email"></bpelx:pattern>
+            <bpelx:general>
+              <bpelx:property name="userLabel">Email_Fault</bpelx:property>
+            </bpelx:general>
+          </bpelx:annotation>
+          <variables>
+            <variable name="varNotificationReq"
+                      messageType="ns2:EmailNotificationRequest"/>
+            <variable name="varNotificationResponse"
+                      messageType="ns2:ArrayOfResponse"/>
+            <variable name="NotificationServiceFaultVariable"
+                      messageType="ns2:NotificationServiceErrorMessage"/>
+          </variables>
+          <sequence name="Sequence_1">
+            <assign name="EmailParamsAssign">
+              <copy>
+                <from expression="string('Oracle EIA')"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:FromAccountName"/>
+              </copy>
+              <copy>
+                <from expression="string('')"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:Bcc"/>
+              </copy>
+              <copy>
+                <from expression="string('')"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:Cc"/>
+              </copy>
+              <copy>
+                <from expression="string('soaadmin@nucor.com')"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:ReplyToAddress"/>
+              </copy>
+              <copy>
+                <from expression="concat(&quot;Instance ID &quot;, bpws:getVariableData('gblFaultingInstanceID'), &quot; BPEL Process &quot;, bpws:getVariableData('gblFaultingProcessName'), &quot; encountered error while processing. &quot;)"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:Subject"/>
+              </copy>
+              <copy>
+                <from expression="bpws:getVariableData('gblNotifyFaultProcessEmail')"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:To"/>
+              </copy>
+              <copy>
+                <from expression="concat(string('The following error happened when executing the process&lt;BR>&lt;BR>  &lt;table border=&quot;1&quot; bordercolor=&quot;#000000&quot; style=&quot;background-color:#CCFFFF&quot; cellpadding=&quot;3&quot; cellspacing=&quot;3&quot; width=&quot;1200&quot;> &lt;tr> &lt;td >Fault Code&lt;/td> &lt;td>'), bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault/ns1:FaultMessage/ns1:Code'), string('&lt;/td> &lt;/tr> &lt;tr> &lt;td>Fault Message Text&lt;/td> &lt;td>'), bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault/ns1:FaultMessage/ns1:Text'), string('&lt;/td> &lt;/tr> &lt;tr> &lt;td>Fault Message Stack&lt;/td> &lt;td>'), bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault/ns1:FaultMessage/ns1:Stack'), string('&lt;/td> &lt;/tr> &lt;tr> &lt;td>Faulting Process URL&lt;/td> &lt;td>'), bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault/ns1:FaultingService/ns1:ID'), string('&lt;/td> &lt;/tr> &lt;tr> &lt;td>Corrective Action&lt;/td> &lt;td>'), bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault/ns1:CorrectiveAction'), string('&lt;/td> &lt;/tr> &lt;tr> &lt;td>Reporting Data Time&lt;/td> &lt;td>'), bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault/ns1:ReportingDateTime'), string('&lt;/td> &lt;/tr> &lt;/table> '))"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:Content/ns2:ContentBody"/>
+              </copy>
+              <copy>
+                <from expression="string('text/html; charset=UTF-8')"/>
+                <to variable="varNotificationReq" part="EmailPayload"
+                    query="/EmailPayload/ns2:Content/ns2:MimeType"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeNotificationService"
+                    portType="ns2:NotificationService"
+                    partnerLink="NotificationService_1"
+                    inputVariable="varNotificationReq"
+                    outputVariable="varNotificationResponse"
+                    operation="sendEmailNotification"/>
+          </sequence>
+        </scope>
+      </case>
+    </switch>
+  </sequence>
+</process>

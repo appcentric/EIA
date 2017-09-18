@@ -1,0 +1,128 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_EBS_Bundle_ADJ" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_EBS_Bundle_ADJ" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_INIT_PARAMS" type="db:XXNUC.XXNUC_APPS_INIT_OBJ_TYPE" db:index="1" db:type="Struct" minOccurs="0" nillable="true"/>
+            <element name="P_TRX_TAB" type="db:XXNUC.XXNUC_QMOS_BUNDLE_TRX_TAB" db:index="2" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_RESULT" type="db:XXNUC.XXNUC_RESULT_OBJ" db:index="3" db:type="Struct" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_RESULT_OBJ">
+      <sequence>
+         <element name="TRX_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_CODE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESULT_MESSAGE" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_QMOS_BUNDLE_TRX_TAB">
+      <sequence>
+         <element name="P_TRX_TAB_ITEM" type="db:XXNUC.XXNUC_QMOS_BUNDLE_TRX_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_APPS_INIT_OBJ_TYPE">
+      <sequence>
+         <element name="USER_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="USER_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESPONSIBILITY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_QMOS_BUNDLE_TRX_OBJ">
+      <sequence>
+         <element name="ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORGANIZATION_CODE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_TYPE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TAG_NO" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MILL_HEAT" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MELT_HEAT" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PART_CODE_FROM" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PART_CODE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHAPE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BUNDLE_SIZE" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GRADE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MELT_PRACTICE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LENGTH_INCHES" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SUBINVENTORY_CODE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STACK_FROM" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STACK" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DISPOSITION_FROM" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DISPOSITION" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PIECE_COUNT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WEIGHT_LBS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CREW" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIFT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PRODUCTION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="USER_ID" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="USER_FIRST_NAME" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="USER_LAST_NAME" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_1_FROM" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_2_FROM" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_3_FROM" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_4_FROM" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_5_FROM" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_1" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_2" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_3" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_4" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HOLD_CODE_5" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESSED" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="JOB_NUMBER" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="ERROR_MESSAGE" type="db:string2000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string5">
+      <restriction base="string">
+         <maxLength value="5"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string15">
+      <restriction base="string">
+         <maxLength value="15"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string25">
+      <restriction base="string">
+         <maxLength value="25"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2000">
+      <restriction base="string">
+         <maxLength value="2000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4000">
+      <restriction base="string">
+         <maxLength value="4000"/>
+      </restriction>
+   </simpleType>
+</schema>

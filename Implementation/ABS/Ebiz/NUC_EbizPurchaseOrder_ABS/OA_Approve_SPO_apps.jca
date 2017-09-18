@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_Approve_SPO" adapter="apps" wsdlLocation="OA_Approve_SPO.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs_nonxa" UIConnectionName="EBS" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_Approve_SPO_ptt" operation="OA_Approve_SPO">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:XXNUC_PO_INT_WRAPPER_UTILS_PKG:APPROVE_PO"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_PO_INT_WRAPPER_UTILS_PKG"/>
+      <property name="ProcedureName" value="APPROVE_PO"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

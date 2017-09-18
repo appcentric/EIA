@@ -1,0 +1,109 @@
+<!--  This contains the header with title of the page and loading symbol -->
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>ScaleConnect ASN<spinner [visible]="loading"></spinner></h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Refresh" (click)="refreshPage()" ></button>
+                        <button pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="ui-widget-header ui-helper-clearfix" style="padding:4px 10px;border-bottom: 0 none">
+                <i class="fa fa-search" style="float:left;margin:4px 4px 0 0"></i>
+                <input type="text" #globalFilter pInputText size="50" style="float:left" placeholder="Global Search">
+                <button type="button" pButton icon="fa-file-o" iconPos="left" label="Export as CSV" (click)="exportCSV.exportCSV()" style="float:right"></button>
+                <button type="button" pButton icon="fa-refresh" style="float:right" (click)="refreshPage()" label="Refresh"></button>
+            </div> -->
+            <!--HAD TO REMOVE resizableColumns="true" as it caused an error with styleClass for Details -->
+            <p-dataTable #exportCSV [value]="ASNs" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" sortField="LastUpdatedDate" sortOrder="-1">
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <p-column field="MillContractNum" header="PO Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="VehicleID" header="Vehicle ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ShippingNoticeRefID" header="Shipping Notice ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="PackingList" header="Packing List" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DateShipped" header="Date Shipped" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <!-- hidden columns --> 
+                <p-column field="MillContractActive" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MillShippingNoticeActive" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MethodOfTransport" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CustomerRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ShipmentRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="WayBillNum" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <template let-ASN>
+                    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">
+                                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Mill Contract Num: </div>
+                                        <div class="ui-grid-col-6">{{ASN.MillContractNum}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Mill Contract Active: </div>
+                                        <div class="ui-grid-col-6">{{ASN.MillContractActive}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Vehicle ID: </div>
+                                        <div class="ui-grid-col-6">{{ASN.VehicleID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Date Shipped: </div>
+                                        <div class="ui-grid-col-6">{{ASN.DateShipped | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Mill Shipping Notice Active: </div>
+                                        <div class="ui-grid-col-6">{{ASN.MillShippingNoticeActive}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Method Of Transport: </div>
+                                        <div class="ui-grid-col-6">{{ASN.MethodOfTransport}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Customer Ref ID: </div>
+                                        <div class="ui-grid-col-6">{{ASN.CustomerRefID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ">
+                                        <div class="ui-grid-col-5 detail-label">Shipping Notice Ref ID: </div>
+                                        <div class="ui-grid-col-6">{{ASN.ShippingNoticeRefID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Shipment Ref ID: </div>
+                                        <div class="ui-grid-col-6">{{ASN.ShipmentRefID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">WayBill Num: </div>
+                                        <div class="ui-grid-col-6">{{ASN.WayBillNum}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Packing List: </div>
+                                        <div class="ui-grid-col-6">{{ASN.PackingList}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Created Date: </div>
+                                        <div class="ui-grid-col-6">{{ASN.CreatedDate | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Last Updated Date: </div>
+                                        <div class="ui-grid-col-6">{{ASN.LastUpdatedDate | date:'medium'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

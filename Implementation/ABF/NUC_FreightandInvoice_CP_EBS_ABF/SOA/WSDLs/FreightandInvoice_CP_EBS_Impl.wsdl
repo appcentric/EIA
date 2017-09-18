@@ -1,0 +1,36 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FreightandInvoice_CP_EBS_Impl"
+     targetNamespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF"
+     xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+    >
+    <plnk:partnerLinkType name="FreightandInvoice_CP_EBS_Impl">
+        <plnk:role name="FreightandInvoice_CP_EBS_ImplProvider" portType="client:FreightandInvoice_CP_EBS_Impl"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0"
+                 schemaLocation="../Schemas/FreightandInvoice_CP_EBS_Impl.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF"
+                 schemaLocation="../Schemas/NameValuePair.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+                 schemaLocation="../Schemas/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_sp.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="FreightandInvoice_CP_EBS_ImplRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="FreightandInvoice_CP_EBS_Impl">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:FreightandInvoice_CP_EBS_ImplRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

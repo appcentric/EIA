@@ -1,0 +1,14 @@
+<adapter-config name="DB_SelectStatusFromOMSI" adapter="db" wsdlLocation="../WSDLs/DB_SelectStatusFromOMSI.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1OMSI" location="eis/DB/omsi"/>
+  <endpoint-interaction portType="DB_SelectStatusFromOMSI_ptt" operation="DB_SelectStatusFromOMSISelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_SelectStatusFromOMSI.Operation"/>
+      <property name="QueryName" value="DB_SelectStatusFromOMSISelect"/>
+      <property name="MappingsMetaDataURL" value="DB_SelectStatusFromOMSI-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

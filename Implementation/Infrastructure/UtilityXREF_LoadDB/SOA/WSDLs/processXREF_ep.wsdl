@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="UtilityXREF"
+     targetNamespace="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <wsdl:documentation>
+        <abstractWSDL>http://rzmkea253.rz.nucorsteel.local:8001/soa-infra/services/common/UtilityXREF!1.0/UtilityXREF.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="UtilityXREF">
+        <plnk:role name="UtilityXREFProvider">
+            <plnk:portType name="client:UtilityXREF"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy"
+         xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+         wsu:Id="wss_username_token_service_policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+            <wsp:Policy>
+                <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                    <wsp:Policy>
+                        <sp:WssUsernameToken10/>
+                    </wsp:Policy>
+                </sp:UsernameToken>
+            </wsp:Policy>
+        </sp:SupportingTokens>
+    </wsp:Policy>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:client="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0" schemaLocation="../Schemas/UtilityXREF.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="UtilityXREFRequestMessage">
+        <wsdl:part name="payload" element="client:processXREFData"/>
+    </wsdl:message>
+    <wsdl:message name="UtilityXREFQueryRequestMessage">
+        <wsdl:part name="payload" element="client:processXREFData"/>
+    </wsdl:message>
+    <wsdl:message name="UtilityXREFQueryResponseMessage">
+        <wsdl:part name="payload" element="client:processResult"/>
+    </wsdl:message>
+    <wsdl:portType name="UtilityXREF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:UtilityXREFRequestMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="query">
+            <wsdl:input message="client:UtilityXREFQueryRequestMessage"/>
+            <wsdl:output message="client:UtilityXREFQueryResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="UtilityXREFBinding" type="client:UtilityXREF">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#wss_username_token_service_policy"
+             wsdl:required="false"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="query">
+            <soap:operation style="document" soapAction="query"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="processXREF_ep">
+        <wsdl:port name="UtilityXREF_pt" binding="client:UtilityXREFBinding">
+            <soap:address location="http://rzmkea253.rz.nucorsteel.local:8001/soa-infra/services/common/UtilityXREF/processXREF_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

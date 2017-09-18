@@ -1,0 +1,1563 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 17 11:18:05 CST 2015
+  Author:  taylorengel
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="DJJGetPurchaseOrderV1Impl"
+               targetNamespace="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrderV1Impl"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrderV1Impl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+         xmlns:ns2="http://xmlns.eia.com/ABF/NUC_PurchaseOrder_DJJ_EBiz_ABF/v1_0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns3="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns4="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns5="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns7="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns12="http://xmlns.oracle.com/DV1Application/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJAcknowledge_ep"
+         xmlns:ns13="http://xmlns.eia.com/customeFault/V1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import location="../Schemas/PurchaseOrderAO.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+          location="../WSDLs/DJJGetPurchaseOrdersV1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="DJJGetPurchaseOrdersV1" partnerLinkType="ns1:DJJGetPurchaseOrdersV1"
+                 partnerRole="DJJGetPurchaseOrdersV1Provider"/>
+    <partnerLink name="DJJGetPurchaseOrder_ep" partnerLinkType="ns2:DJJGetPurchaseOrder_ep" myRole="execute_ptt"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="PurchaseOrderABS" partnerLinkType="ns4:PurchaseOrderABS" partnerRole="SyncPortType"/>
+    <partnerLink name="DJJAcknowledge_ep" partnerLinkType="ns12:DJJAcknowledge_ep"
+                 partnerRole="DJJAcknowledge_epProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="DJJGetPurchaseOrderV1_RespMsg" messageType="ns1:GetPurchaseOrder_outputMessage"/>
+    <variable name="DJJGetPurchaseOrderV1_ReqMsg" messageType="ns1:Rest_EmptyMessage"/>
+    <variable name="Invoke_PurchaseOrderABS_ReqMsg" messageType="ns4:CreatePurchaseOrderRequestMessageType"/>
+    <variable name="Invoke_PurchaseOrderABS_RespMsg" messageType="ns4:CreatePurchaseOrderResponseMessageType"/>
+    <variable name="CommonLogging_ReqMsg" messageType="ns3:CommonLoggingRequestMessage"/>
+    <variable name="DJJGetPurchaseOrderV1_ep_ReqMsg" messageType="ns2:requestMessage"/>
+    <variable name="QueryPurchaseOrderByExample_ReqMsg" messageType="ns4:QueryPurchaseOrderRequestMessageType"/>
+    <variable name="QueryPurchaseOrderByExample_RespMsg" messageType="ns4:QueryPurchaseOrderResponseMessageType"/>
+    <variable name="gblGenericParameters" element="ns5:parameters"/>
+    <!--variable name="AddPurchaseOrderLine_ReqMsg" messageType="ns4:AddPurchaseOrderLineRequestMessageType"/>
+    <variable name="AddPurchaseOrderLine_RespMsg" messageType="ns4:AddPurchaseOrderLineResponseMessageType"/-->
+    <variable name="Invoke_UpdatePurchaseOrderLine_Sync_InputVariable"
+              messageType="ns4:UpdatePurchaseOrderLineRequestMessageType"/>
+    <variable name="Invoke_UpdatePurchaseOrderLine_Sync_OutputVariable"
+              messageType="ns4:UpdatePurchaseOrderLineResponseMessageType"/>
+    <variable name="Invoke_CancelPurchaseOrderLine_Sync_InputVariable"
+              messageType="ns4:CancelPurchaseOrderLineRequestMessageType"/>
+    <variable name="Invoke_CancelPurchaseOrderLine_Sync_OutputVariable"
+              messageType="ns4:CancelPurchaseOrderLineResponseMessageType"/>
+    <variable name="Invoke_AddPurchaseOrderLine_InputVariable" messageType="ns4:CreatePurchaseOrderRequestMessageType"/>
+    <variable name="Invoke_AddPurchaseOrderLine_OutputVariable"
+              messageType="ns4:CreatePurchaseOrderResponseMessageType"/>
+  </variables>
+  <faultHandlers>
+    <catchAll><scope name="Scope_CommonLogging_Exception" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+        <variables>
+          <variable name="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                    messageType="ns12:AcknowledgePO_inputMessage"/>
+          <variable name="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable" messageType="ns12:Rest_EmptyMessage"/>
+        </variables>
+        <sequence name="Sequence1">
+          <if name="If_NoContent">
+            <documentation>
+              <![CDATA[Yes]]>
+            </documentation>
+            <condition>contains(ora:getFaultAsString(),'No Content')</condition>
+            <assign name="Assign_CommonLogging"
+                                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   <copy>
+         <from>'BMG-177'</from>
+         <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+      </copy><copy>
+         <from>"1"</from>
+         <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+      </copy><copy>
+                <from>'DJJ REST Service'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+              </copy></assign><else>
+              <documentation>
+                <![CDATA[No]]>
+              </documentation>
+              <assign name="Assign_CommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   <copy>
+         <from>''</from>
+         <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+      </copy><copy>
+         <from>"4"</from>
+         <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+      </copy><copy>
+         <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+         <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+      </copy></assign></else>
+          </if>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+            </copy>
+            <copy>
+              <from>"NextGen"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+            </copy>
+            <copy>
+              <from>"I093"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+            </copy>
+            <copy>
+              <from>"PurchaseOrder"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>"1"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>"15"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>"2"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>"2"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>"SOA"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>"SOA"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+            </copy>
+          </assign>
+         <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                 portType="ns3:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:toProperties>
+               <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+          <if name="IfDjjError">
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <condition>(($DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID) and ($DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID != '')) and (($DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID) and ($DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID != '') )</condition>
+            <sequence name="Sequence17">
+              <assign name="Assign_AckDJJCatchAll">
+                <!--copy>
+                  <from>$DJJGetPurchaseOrderV1_RespMsg.reply/DataChangeType</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                </copy-->
+                <copy>
+                  <from>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APIUserID</to>
+                </copy>
+                <copy>
+                  <from>$DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APICallBatchID</to>
+                </copy>
+                <copy>
+                  <from>$DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ApplicationID</to>
+                </copy>
+                <copy>
+                  <from>'2'</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                </copy>
+                <extensionAssignOperation>
+                  <bpelx:remove>
+                    <bpelx:target>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ChangeVersionID</bpelx:target>
+                  </bpelx:remove>
+                </extensionAssignOperation>
+                <extensionAssignOperation>
+                  <bpelx:remove>
+                    <bpelx:target>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeChildTypeID</bpelx:target>
+                  </bpelx:remove>
+                </extensionAssignOperation>
+                <extensionAssignOperation>
+                  <bpelx:remove>
+                    <bpelx:target>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</bpelx:target>
+                  </bpelx:remove>
+                </extensionAssignOperation>
+              </assign>
+              <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                      portType="ns12:DJJAcknowledge_ep_ptt" operation="AcknowledgePO"
+                      inputVariable="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                      outputVariable="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="CallingAckReq"]/ns5:value = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="Ocp-Apim-Subscription-Key"]/ns5:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.IP">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="IP"]/ns5:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.requestURI">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="rest.binding.AckURI"]/ns5:value</bpelx:toProperty>
+                  <!--bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty-->
+                  <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</bpelx:toProperty>
+                  <!--bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="OverrideReturnCount"]/ns5:value</bpelx:toProperty-->
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[Yes]]>
+              </documentation>
+              <empty name="DoNotCallAckDJJ"/>
+            </else>
+          </if>
+        </sequence>
+   </scope></catchAll>
+  </faultHandlers>
+  <sequence name="main"><receive name="ReceiveDJJGetPurchaseOrderV1_ep" partnerLink="DJJGetPurchaseOrder_ep" portType="ns2:execute_ptt"
+             operation="execute" variable="DJJGetPurchaseOrderV1_ep_ReqMsg" createInstance="yes"/>
+    <scope name="Scope_CommonLogging_Init">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId))</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I093"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"PurchaseOrder"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>"15"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-003"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                portType="ns3:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <if name="IfTestPayload">
+      <documentation>
+        <![CDATA[Present]]>
+      </documentation>
+      <condition>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name = 'TestPayload']/ns5:value != ""</condition>
+      <assign name="AssignTestPayload">
+        <copy>
+          <from>oraext:parseXML($DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="TestPayload"]/ns5:value)</from>
+          <to>$DJJGetPurchaseOrderV1_RespMsg.reply</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[NotPresent]]>
+        </documentation>
+        <invoke name="Invoke_DJJGetPurchaseOrderV1" partnerLink="DJJGetPurchaseOrdersV1"
+                portType="ns1:DJJGetPurchaseOrdersV1_ptt" operation="GetPurchaseOrder"
+                inputVariable="DJJGetPurchaseOrderV1_ReqMsg" outputVariable="DJJGetPurchaseOrderV1_RespMsg"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="Ocp-Apim-Subscription-Key"]/ns5:value</bpelx:toProperty>
+            <bpelx:toProperty name="rest.binding.http.IP">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="IP"]/ns5:value</bpelx:toProperty>
+            <bpelx:toProperty name="rest.binding.requestURI">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="rest.binding.requestURI"]/ns5:value</bpelx:toProperty>
+            <bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty>
+            <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</bpelx:toProperty>
+            <bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="OverrideReturnCount"]/ns5:value</bpelx:toProperty>
+            <bpelx:toProperty name="rest.binding.http.CallingAckReq">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="CallingAckReq"]/ns5:value</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </else>
+    </if>
+    <forEach parallel="no" counterName="DJJPOIdx" name="ForEach_DJJPO">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel)</finalCounterValue>
+      <scope name="Scope_EachPO">
+        <variables>
+          <variable name="tmpDJJGetPurchaseOrderRespMsg"
+                    messageType="ns1:GetPurchaseOrder_outputMessage"/>
+        </variables>
+        <sequence>
+          <assign name="setGenericParmeter">
+            <copy>
+              <from>'DJJPOIdx'</from>
+              <to>$gblGenericParameters/ns5:item/ns5:name</to>
+            </copy>
+            <copy>
+              <from>$DJJPOIdx</from>
+              <to>$gblGenericParameters/ns5:item/ns5:value</to>
+            </copy>
+          </assign>
+          <assign name="SetQueryPurchaseOrderABS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/Xform_QueryPurchaseOrderRequestMessage.xsl", $DJJGetPurchaseOrderV1_RespMsg.reply, "gblGenericParameters", $gblGenericParameters)</from>
+              <to variable="QueryPurchaseOrderByExample_ReqMsg" part="QueryPurchaseOrderRequestMessage"/>
+            </copy>
+          </assign>
+          <assign name="AssignHeader">
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$QueryPurchaseOrderByExample_ReqMsg.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$QueryPurchaseOrderByExample_ReqMsg.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+            </copy>
+            <!--copy>
+              <from>'300000409'</from>
+              <to>$QueryPurchaseOrderByExample_ReqMsg.QueryPurchaseOrderRequestMessage/ns6:PurchaseOrder/ns9:Segment1</to>
+            </copy-->
+          </assign>
+          <invoke name="Invoke_QueryPurchaseOrderABS" partnerLink="PurchaseOrderABS"
+                  portType="ns4:SyncPortType" operation="QueryPurchaseOrderByExample_Sync"
+                  inputVariable="QueryPurchaseOrderByExample_ReqMsg"
+                  outputVariable="QueryPurchaseOrderByExample_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <if name="If_PO_Exists">
+            <documentation>
+              <![CDATA[Yes]]>
+            </documentation>
+            <condition>$QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:Poheaderid !=''</condition>
+            <sequence name="Sequence4">
+              <scope name="Scope_AddUpdateCancel">
+                <variables>
+                  <variable name="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                            messageType="ns12:AcknowledgePO_inputMessage"/>
+                  <variable name="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable"
+                            messageType="ns12:Rest_EmptyMessage"/>
+                </variables>
+                <faultHandlers>
+                  <catchAll>
+                    <sequence name="Sequence16">
+                      <assign name="Assign_Ack_ABSCatchAll">
+                        <copy>
+                          <from>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APIUserID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APICallBatchID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/ChangeVersionID</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ChangeVersionID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeChildTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeChildTypeID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ApplicationID</to>
+                        </copy>
+                        <copy>
+                          <from>'2'</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                        </copy>
+                        <copy>
+                          <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                          <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                        </copy>
+                        <copy>
+                          <from>ora:getComponentInstanceId()</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+                        </copy>
+                        <copy>
+                          <from>'NextGen'</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+                        </copy>
+                        <copy>
+                          <from>'I093'</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+                        </copy>
+                        <copy>
+                          <from>'PurchaseOrder'</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+                        </copy>
+                        <copy>
+                          <from>ora:getCompositeName()</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+                        </copy>
+                        <copy>
+                          <from>15</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+                        </copy>
+                        <copy>
+                          <from>2</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+                        </copy>
+                        <copy>
+                          <from>4</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>''</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+                        </copy>
+                        <copy>
+                          <from>concat('FlowId:',ora:getFlowId(),':',$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/POID,'::',ora:getFaultAsString())</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+                        </copy>
+                        <copy>
+                          <from>'SOA'</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+                        </copy>
+                        <copy>
+                          <from>'SOA'</from>
+                          <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                              portType="ns12:DJJAcknowledge_ep_ptt" operation="AcknowledgePO"
+                              inputVariable="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                              outputVariable="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:skipCondition>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="CallingAckReq"]/ns5:value = "false"</bpelx:skipCondition>
+                        <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="Ocp-Apim-Subscription-Key"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="IP"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="rest.binding.AckURI"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty-->
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="OverrideReturnCount"]/ns5:value</bpelx:toProperty-->
+                      </bpelx:toProperties>
+                              </invoke>
+                      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                              portType="ns3:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </catchAll>
+                </faultHandlers>
+                <sequence>
+                  <assign name="AssignTempDJJPOVar">
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]</from>
+                      <to>$tmpDJJGetPurchaseOrderRespMsg.reply/POHeader/POConsumerHeaderModel</to>
+                    </copy>
+                  </assign>
+                  <assign name="Assign_Ack">
+                    <!--copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/DataChangeType</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                    </copy-->
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APIUserID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APICallBatchID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/ChangeVersionID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ChangeVersionID</to>
+                    </copy>
+                    <!--copy ignoreMissingFromData="yes">
+                      <from>concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' ')</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                    </copy-->
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ApplicationID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeTypeID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeChildTypeID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeChildTypeID</to>
+                    </copy>
+                  </assign>
+                  <forEach parallel="no" counterName="ForEachChangedPOLine" name="ForEachChangedPOLine">
+                    <startCounterValue>1</startCounterValue>
+                    <finalCounterValue>count($tmpDJJGetPurchaseOrderRespMsg.reply/POHeader/POConsumerHeaderModel/POLine/POConsumerLineModel)</finalCounterValue>
+                    <scope name="Scope_CancelLines">
+                      <variables>
+                        <variable name="POCounterParams" element="ns5:parameters"/>
+                      </variables>
+                      <sequence>
+                        <if name="IfLineIsCancelled">
+                          <documentation>
+                            <![CDATA[Status_2]]>
+                          </documentation>
+                          <condition>(($tmpDJJGetPurchaseOrderRespMsg.reply/POHeader/POConsumerHeaderModel/POLine/POConsumerLineModel[$ForEachChangedPOLine]/POLineStatusID = '2') and ($QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:ListOfPurchaseOrderLines/ns9:PurchaseOrderLine[ns9:Linenum = $ForEachChangedPOLine]/ns9:Cancelflag != 'Y'))</condition>
+                          <sequence name="Sequence5">
+                            <assign name="Assign_POCounterParams">
+                              <copy>
+                                <from>$ForEachChangedPOLine</from>
+                                <to>$POCounterParams/ns5:item/ns5:value</to>
+                              </copy>
+                              <copy>
+                                <from>'POLineCounter'</from>
+                                <to>$POCounterParams/ns5:item/ns5:name</to>
+                              </copy>
+                            </assign>
+                            <assign name="Xform_DJJGetPurchaseOrderRespMsg_To_CancelPOLineEBizPurchaseOrderABSReqMsg">
+                              <bpelx:annotation>
+                                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                              </bpelx:annotation>
+                              <copy>
+                                <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJGetPurchaseOrderRespMsg_To_CancelPOLineEBizPurchaseOrderABSReqMsg.xsl", $tmpDJJGetPurchaseOrderRespMsg.reply, "POCounterParams", $POCounterParams)</from>
+                                <to variable="Invoke_CancelPurchaseOrderLine_Sync_InputVariable"
+                                    part="CancelPurchaseOrderLineRequestMessage"/>
+                              </copy>
+                            </assign>
+                            <assign name="Assign_Header">
+                              <copy>
+                                <from>ora:getCompositeName()</from>
+                                <to>$Invoke_CancelPurchaseOrderLine_Sync_InputVariable.CancelPurchaseOrderLineRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+                              </copy>
+                              <copy>
+                                <from>ora:getComponentInstanceId()</from>
+                                <to>$Invoke_CancelPurchaseOrderLine_Sync_InputVariable.CancelPurchaseOrderLineRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                              </copy>
+                            </assign>
+                            <invoke name="Invoke_CancelPOLine" partnerLink="PurchaseOrderABS"
+                                    portType="ns4:SyncPortType" operation="CancelPurchaseOrderLine_Sync"
+                                    inputVariable="Invoke_CancelPurchaseOrderLine_Sync_InputVariable"
+                                    outputVariable="Invoke_CancelPurchaseOrderLine_Sync_OutputVariable"
+                                    bpelx:invokeAsDetail="no">
+                              <bpelx:toProperties>
+                                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+                              </bpelx:toProperties>
+                            </invoke>
+                            <if name="IfCancelSuccess">
+                              <documentation>
+                                <![CDATA[S]]>
+                              </documentation>
+                              <condition>$Invoke_CancelPurchaseOrderLine_Sync_OutputVariable.CancelPurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Stats = 'S'</condition>
+                              <sequence name="Sequence13">
+                                <assign name="Assign_StatusId">
+                                  <bpelx:skipCondition>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID = '2'</bpelx:skipCondition>
+                                  <copy>
+                                    <from>'1'</from>
+                                    <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                                  </copy>
+                                  <copy>
+                                    <from>concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' PO Line Canceled')</from>
+                                    <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                                  </copy>
+                                </assign>
+                              </sequence>
+                              <else>
+                                <documentation>
+                                  <![CDATA[E]]>
+                                </documentation>
+                                <sequence name="Sequence14">
+                                  <assign name="Assign_StatusId">
+                                    <!--copy ignoreMissingFromData="yes">
+                                      <from>oraext:get-content-as-string(concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' ',$Invoke_CancelPurchaseOrderLine_Sync_OutputVariable.CancelPurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError))</from>
+                                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                                    </copy-->
+                                    <copy>
+                                      <from>'2'</from>
+                                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                                    </copy>
+                                    <copy>
+                                      <from>concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' ',$Invoke_CancelPurchaseOrderLine_Sync_OutputVariable.CancelPurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError)</from>
+                                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                                    </copy>
+                                    <copy>
+                                      <from>ora:getComponentInstanceId()</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+                                    </copy>
+                                    <copy>
+                                      <from>'NextGen'</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+                                    </copy>
+                                    <copy>
+                                      <from>'I093'</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+                                    </copy>
+                                    <copy>
+                                      <from>'PurchaseOrder'</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+                                    </copy>
+                                    <copy>
+                                      <from>ora:getCompositeName()</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+                                    </copy>
+                                    <copy>
+                                      <from>1</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+                                    </copy>
+                                    <copy>
+                                      <from>15</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+                                    </copy>
+                                    <copy>
+                                      <from>2</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+                                    </copy>
+                                    <copy>
+                                      <from>4</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+                                    </copy>
+                                    <copy>
+                                      <from>''</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+                                    </copy>
+                                    <copy ignoreMissingFromData="yes">
+                                      <from>concat('FlowId:',ora:getFlowId(),':',$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/POID,'::',$Invoke_CancelPurchaseOrderLine_Sync_OutputVariable.CancelPurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1])</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+                                    </copy>
+                                    <copy>
+                                      <from>1</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+                                    </copy>
+                                    <copy>
+                                      <from>'SOA'</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+                                    </copy>
+                                    <copy>
+                                      <from>'SOA'</from>
+                                      <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+                                    </copy>
+                                  </assign>
+                                  <scope name="Scope_CancelCommonLogging">
+                                    <faultHandlers>
+                                      <catchAll>
+                                        <empty name="DoNothing"/>
+                                      </catchAll>
+                                    </faultHandlers>
+                                    <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no"
+                                            partnerLink="CommonLogging" portType="ns3:CommonLogging" operation="process"
+                                            inputVariable="CommonLogging_ReqMsg">
+                                      <bpelx:toProperties>
+                                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                      </bpelx:toProperties>
+                                    </invoke>
+                                  </scope>
+                                </sequence>
+                              </else>
+                            </if>
+                          </sequence>
+                          <else>
+                            <documentation>
+                              <![CDATA[StatusIsNot_2]]>
+                            </documentation>
+                            <sequence name="Sequence18">
+                              <empty name="DoNotCancelLine"/>
+                              <assign name="Assign_StatusID">
+                                <bpelx:skipCondition>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID = '2'</bpelx:skipCondition>
+                                <copy>
+                                  <from>'1'</from>
+                                  <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                                </copy>
+                              </assign>
+                            </sequence>
+                          </else>
+                        </if>
+                      </sequence>
+                    </scope>
+                  </forEach>
+                  <assign name="Xform_DJJGetPurchaseOrderRespMsg_To_UpdatePOLineEBizPurchaseOrderABSReqMsg">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJGetPurchaseOrderRespMsg_To_UpdatePOLineEBizPurchaseOrderABSReqMsg.xsl", $tmpDJJGetPurchaseOrderRespMsg.reply, "QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage", $QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage)</from>
+                      <to variable="Invoke_UpdatePurchaseOrderLine_Sync_InputVariable"
+                          part="UpdatePurchaseOrderLineRequestMessage"/>
+                    </copy>
+                  </assign>
+                  <assign name="Xform_DJJGetPurchaseOrderRespMsg_To_AddPOLineEBizPurchaseOrderABSReqMsg">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJGetPurchaseOrderRespMsg_To_AddPOLineEBizPurchaseOrderABSReqMsg.xsl", $tmpDJJGetPurchaseOrderRespMsg.reply, "QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage", $QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage)</from>
+                      <to variable="Invoke_AddPurchaseOrderLine_InputVariable"
+                          part="CreatePurchaseOrderRequestMessage"/>
+                    </copy>
+                  </assign>
+                  <assign name="Assign_Header">
+                    <copy>
+                      <from>ora:getCompositeName()</from>
+                      <to>$Invoke_UpdatePurchaseOrderLine_Sync_InputVariable.UpdatePurchaseOrderLineRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+                    </copy>
+                    <copy>
+                      <from>ora:getComponentInstanceId()</from>
+                      <to>$Invoke_UpdatePurchaseOrderLine_Sync_InputVariable.UpdatePurchaseOrderLineRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                    </copy>
+                    <copy>
+                      <from>ora:getCompositeName()</from>
+                      <to>$Invoke_AddPurchaseOrderLine_InputVariable.CreatePurchaseOrderRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+                    </copy>
+                    <copy>
+                      <from>ora:getComponentInstanceId()</from>
+                      <to>$Invoke_AddPurchaseOrderLine_InputVariable.CreatePurchaseOrderRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                    </copy>
+                  </assign>
+                  <if name="IfAnyLinesToUpdate">
+                    <documentation>
+                      <![CDATA[LinesPresent]]>
+                    </documentation>
+                    <condition>count($Invoke_UpdatePurchaseOrderLine_Sync_InputVariable.UpdatePurchaseOrderLineRequestMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:ListOfPurchaseOrderLines/ns9:PurchaseOrderLine) &gt; 0</condition>
+                    <sequence>
+                      <invoke name="Invoke_UpdatePurchaseOrderLine" partnerLink="PurchaseOrderABS"
+                              portType="ns4:SyncPortType" operation="UpdatePurchaseOrderLine_Sync"
+                              inputVariable="Invoke_UpdatePurchaseOrderLine_Sync_InputVariable"
+                              outputVariable="Invoke_UpdatePurchaseOrderLine_Sync_OutputVariable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                      <if name="IfUpdateSuccess">
+                        <documentation>
+                          <![CDATA[S]]>
+                        </documentation>
+                        <condition>$Invoke_UpdatePurchaseOrderLine_Sync_OutputVariable.UpdatePurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Stats = 'S'</condition>
+                        <sequence name="Sequence10">
+                          <assign name="Assign_StatusId">
+                            <copy>
+                              <from>'1'</from>
+                              <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                            </copy>
+                            <copy>
+                              <from> concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' PO Line Updated')</from>
+                              <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                            </copy>
+                          </assign>
+                        </sequence>
+                        <else>
+                          <documentation>
+                            <![CDATA[E]]>
+                          </documentation>
+                          <sequence name="Sequence11">
+                            <assign name="Assign_StatusId">
+                              <copy>
+                                <from>'2'</from>
+                                <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                              </copy>
+                              <copy ignoreMissingFromData="yes">
+                                <from>concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' ',$Invoke_UpdatePurchaseOrderLine_Sync_OutputVariable.UpdatePurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1])</from>
+                                <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                              </copy>
+                              <copy>
+                                <from>ora:getComponentInstanceId()</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+                              </copy>
+                              <copy>
+                                <from>'NextGen'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+                              </copy>
+                              <copy>
+                                <from>'I093'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+                              </copy>
+                              <copy>
+                                <from>'PurchaseOrder'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+                              </copy>
+                              <copy>
+                                <from>ora:getCompositeName()</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+                              </copy>
+                              <copy>
+                                <from>1</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+                              </copy>
+                              <copy>
+                                <from>15</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+                              </copy>
+                              <copy>
+                                <from>2</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+                              </copy>
+                              <copy>
+                                <from>4</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+                              </copy>
+                              <copy ignoreMissingFromData="yes">
+                                <from>concat('FlowId:',ora:getFlowId(),':',$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/POID,'::',$Invoke_UpdatePurchaseOrderLine_Sync_OutputVariable.UpdatePurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1])</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+                              </copy>
+                              <copy>
+                                <from>''</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+                              </copy>
+                              <copy>
+                                <from>1</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+                              </copy>
+                              <copy>
+                                <from>'SOA'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+                              </copy>
+                              <copy>
+                                <from>'SOA'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+                              </copy>
+                            </assign>
+                            <scope name="Scope_UpdateCommonLogging">
+                              <faultHandlers>
+                                <catchAll>
+                                  <empty name="DoNothing"/>
+                                </catchAll>
+                              </faultHandlers>
+                              <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                                      portType="ns3:CommonLogging" operation="process"
+                                      inputVariable="CommonLogging_ReqMsg">
+                                <bpelx:toProperties>
+                                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                </bpelx:toProperties>
+                              </invoke>
+                            </scope>
+                          </sequence>
+                        </else>
+                      </if>
+                    </sequence>
+                    <else>
+                      <documentation>
+                        <![CDATA[LinesNotPresent]]>
+                      </documentation>
+                      <empty name="DoNotUpdateLines"/>
+                    </else>
+                  </if>
+                  <if name="IfAnyLinesToAdd">
+                    <documentation>
+                      <![CDATA[LinesPresent]]>
+                    </documentation>
+                    <condition>count($Invoke_AddPurchaseOrderLine_InputVariable.CreatePurchaseOrderRequestMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:ListOfPurchaseOrderLines/ns9:PurchaseOrderLine) &gt; 0</condition>
+                    <sequence name="Sequence6">
+                      <invoke name="Invoke_AddPurchaseOrderLine" partnerLink="PurchaseOrderABS"
+                              portType="ns4:SyncPortType" operation="CreateListPurchaseOrders_Sync"
+                              inputVariable="Invoke_AddPurchaseOrderLine_InputVariable"
+                              outputVariable="Invoke_AddPurchaseOrderLine_OutputVariable" bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                      <if name="IfAddSuccess">
+                        <documentation>
+                          <![CDATA[S]]>
+                        </documentation>
+                        <condition>$Invoke_AddPurchaseOrderLine_OutputVariable.CreatePurchaseOrderResponseMessage/ns6:OperationResult/ns8:Stats = 'S'</condition>
+                        <assign name="Assign_StatusId">
+                          <bpelx:skipCondition>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID =  '2'</bpelx:skipCondition>
+                          <copy>
+                            <from>'1'</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                          </copy>
+                          <copy>
+                            <from>concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' PO Line Added')</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                          </copy>
+                        </assign>
+                        <else>
+                          <documentation>
+                            <![CDATA[E]]>
+                          </documentation>
+                          <sequence name="Sequence12">
+                            <assign name="Assign_StatusId">
+                              <copy>
+                                <from>'2'</from>
+                                <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                              </copy>
+                              <copy ignoreMissingFromData="yes">
+                                <from>concat($Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment,' ',$Invoke_AddPurchaseOrderLine_OutputVariable.CreatePurchaseOrderResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1])</from>
+                                <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                              </copy>
+                              <copy>
+                                <from>ora:getComponentInstanceId()</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+                              </copy>
+                              <copy>
+                                <from>'NextGen'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+                              </copy>
+                              <copy>
+                                <from>'I093'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+                              </copy>
+                              <copy>
+                                <from>'PurchaseOrder'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+                              </copy>
+                              <copy>
+                                <from>ora:getCompositeName()</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+                              </copy>
+                              <copy>
+                                <from>1</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+                              </copy>
+                              <copy>
+                                <from>15</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+                              </copy>
+                              <copy>
+                                <from>2</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+                              </copy>
+                              <copy>
+                                <from>4</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+                              </copy>
+                              <copy>
+                                <from>''</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+                              </copy>
+                              <copy ignoreMissingFromData="yes">
+                                <from>concat('FlowId:',ora:getFlowId(),':',$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/POID,'::',$Invoke_AddPurchaseOrderLine_OutputVariable.CreatePurchaseOrderResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1])</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+                              </copy>
+                              <copy>
+                                <from>1</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+                              </copy>
+                              <copy>
+                                <from>'SOA'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+                              </copy>
+                              <copy>
+                                <from>'SOA'</from>
+                                <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+                              </copy>
+                            </assign>
+                            <scope name="Scope_AddCommonLogging">
+                              <faultHandlers>
+                                <catchAll>
+                                  <empty name="DoNothing"/>
+                                </catchAll>
+                              </faultHandlers>
+                              <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                                      portType="ns3:CommonLogging" operation="process"
+                                      inputVariable="CommonLogging_ReqMsg">
+                                <bpelx:toProperties>
+                                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                </bpelx:toProperties>
+                              </invoke>
+                            </scope>
+                          </sequence>
+                        </else>
+                      </if>
+                    </sequence>
+                    <else>
+                      <documentation>
+                        <![CDATA[LinesNotPresent]]>
+                      </documentation>
+                      <empty name="DoNotAddLines"/>
+                    </else>
+                  </if>
+                  <assign name="Assign_Comment_FlowId">
+                    <copy>
+                      <from>concat('FlowId:',ora:getFlowId(),':',$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment)</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                          portType="ns12:DJJAcknowledge_ep_ptt" operation="AcknowledgePO"
+                          inputVariable="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                          outputVariable="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable" bpelx:invokeAsDetail="no">
+                    <bpelx:skipCondition>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="CallingAckReq"]/ns5:value = "false"</bpelx:skipCondition>
+                    <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="Ocp-Apim-Subscription-Key"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="IP"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="rest.binding.AckURI"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty-->
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="OverrideReturnCount"]/ns5:value</bpelx:toProperty-->
+                      </bpelx:toProperties>
+                          </invoke>
+                </sequence>
+              </scope>
+              <!--assign name="Xform_DJJGetPurchaseOrderRespMsg_To_AddPOLineEBizPurchaseOrderABSReqMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJGetPurchaseOrderRespMsg_To_AddPOLineEBizPurchaseOrderABSReqMsg.xsl", $tmpDJJGetPurchaseOrderRespMsg.reply, "QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage", $QueryPurchaseOrderByExample_RespMsg.QueryPurchaseOrderResponseMessage)</from>
+                  <to variable="AddPurchaseOrderLine_ReqMsg" part="AddPurchaseOrderLineRequestMessage"/>
+                </copy>
+              </assign-->
+              <!--if name="IfAnyLinesToAdd">
+                <documentation>
+                  <![CDATA[LinesPresent]]>
+                </documentation>
+                <condition>count($AddPurchaseOrderLine_ReqMsg.AddPurchaseOrderLineRequestMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:ListOfPurchaseOrderLines/ns9:PurchaseOrderLine) &gt; 0</condition>
+                <sequence>
+                  <invoke name="Invoke_AddPurchaseOrderLine" partnerLink="PurchaseOrderABS" portType="ns4:SyncPortType"
+                          operation="AddPurchaseOrderLine_Sync" inputVariable="AddPurchaseOrderLine_ReqMsg"
+                          outputVariable="AddPurchaseOrderLine_RespMsg" bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                  <if name="IfAddSuccess">
+                    <documentation>
+                      <![CDATA[S]]>
+                    </documentation>
+                    <condition>$AddPurchaseOrderLine_RespMsg.AddPurchaseOrderLineResponseMessage/ns6:OperationResult/ns8:Stats = 'S'</condition>
+                    <empty name="TODO"/>
+                    <else>
+                      <documentation>
+                        <![CDATA[E]]>
+                      </documentation>
+                      <empty name="TODO"/>
+                    </else>
+                  </if>
+                </sequence>
+                <else>
+                  <documentation>
+                    <![CDATA[LinesNotPresent]]>
+                  </documentation>
+                  <empty name="DoNotAddLines"/>
+                </else>
+              </if-->
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[No]]>
+              </documentation>
+              <sequence>
+                <!--assign name="Delete">
+                  <copy>
+                    <from>'10'</from>
+                    <to>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/ConsumerRefID</to>
+                  </copy>
+                </assign-->
+                <assign name="Xform_DJJGetPurchaseOrder_RespMsg_EBizPurchaseOrderABS_ReqMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("../Transformations/Xform_CreatePurchaseOrderRequestMessage.xsl", $DJJGetPurchaseOrderV1_RespMsg.reply, "DJJGetPurchaseOrderV1_ep_ReqMsg.parameter", $DJJGetPurchaseOrderV1_ep_ReqMsg.parameter, "gblGenericParameters", $gblGenericParameters)</from>
+                    <to variable="Invoke_PurchaseOrderABS_ReqMsg" part="CreatePurchaseOrderRequestMessage"/>
+                  </copy>
+                </assign>
+                <assign name="Assign_Header">
+                  <copy>
+                    <from>ora:getCompositeName()</from>
+                    <to>$Invoke_PurchaseOrderABS_ReqMsg.CreatePurchaseOrderRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+                  </copy>
+                  <copy>
+                    <from>ora:getComponentInstanceId()</from>
+                    <to>$Invoke_PurchaseOrderABS_ReqMsg.CreatePurchaseOrderRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                  </copy>
+                </assign>
+                <scope name="Scope_CreateAck">
+                  <variables>
+                    <variable name="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                              messageType="ns12:AcknowledgePO_inputMessage"/>
+                    <variable name="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable"
+                              messageType="ns12:Rest_EmptyMessage"/>
+                  </variables>
+                  <faultHandlers>
+                    <catchAll>
+                      <sequence name="Sequence15">
+                        <assign name="Assign_Ack_CreateABSCatchAll">
+                          <!--copy>
+                            <from>$DJJGetPurchaseOrderV1_RespMsg.reply/DataChangeType</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                          </copy-->
+                          <copy>
+                            <from>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APIUserID</to>
+                          </copy>
+                          <copy>
+                            <from>$DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APICallBatchID</to>
+                          </copy>
+                          <copy>
+                            <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/ChangeVersionID</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ChangeVersionID</to>
+                          </copy>
+                          <copy>
+                            <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeTypeID</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                          </copy>
+                          <copy>
+                            <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeChildTypeID</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeChildTypeID</to>
+                          </copy>
+                          <copy>
+                            <from>'2'</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                          </copy>
+                          <copy>
+                            <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                          </copy>
+                          <copy>
+                            <from>$DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ApplicationID</to>
+                          </copy>
+                          <copy>
+                            <from>ora:getComponentInstanceId()</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+                          </copy>
+                          <copy>
+                            <from>'NextGen'</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+                          </copy>
+                          <copy>
+                            <from>'I093'</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+                          </copy>
+                          <copy>
+                            <from>'PurchaseOrder'</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+                          </copy>
+                          <copy>
+                            <from>ora:getCompositeName()</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+                          </copy>
+                          <copy>
+                            <from>15</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+                          </copy>
+                          <copy>
+                            <from>2</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+                          </copy>
+                          <copy>
+                            <from>4</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+                          </copy>
+                          <copy>
+                            <from>''</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+                          </copy>
+                          <copy>
+                            <from>concat('FlowId:',ora:getFlowId(),':',$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/POID,'::',ora:getFaultAsString())</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+                          </copy>
+                          <copy>
+                            <from>'SOA'</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+                          </copy>
+                          <copy>
+                            <from>'SOA'</from>
+                            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                                portType="ns12:DJJAcknowledge_ep_ptt" operation="AcknowledgePO"
+                                inputVariable="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                                outputVariable="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable"
+                                bpelx:invokeAsDetail="no">
+                          <bpelx:skipCondition>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="CallingAckReq"]/ns5:value = "false"</bpelx:skipCondition>
+                          <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="Ocp-Apim-Subscription-Key"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="IP"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="rest.binding.AckURI"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty-->
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="OverrideReturnCount"]/ns5:value</bpelx:toProperty-->
+                      </bpelx:toProperties>
+                                </invoke>
+                        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                                portType="ns3:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"
+                                bpelx:invokeAsDetail="no">
+                          <bpelx:toProperties>
+                            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                          </bpelx:toProperties>
+                        </invoke>
+                      </sequence>
+                    </catchAll>
+                  </faultHandlers>
+                  <sequence name="Sequence8">
+                    <invoke name="Invoke_CreatePurchaseOrderABS" partnerLink="PurchaseOrderABS"
+                            portType="ns4:SyncPortType" operation="CreateListPurchaseOrders_Sync"
+                            inputVariable="Invoke_PurchaseOrderABS_ReqMsg"
+                            outputVariable="Invoke_PurchaseOrderABS_RespMsg" bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                    <assign name="Assign_Ack">
+                      <copy>
+                        <from>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APIUserID</to>
+                      </copy>
+                      <!--copy>
+                        <from>$DJJGetPurchaseOrderV1_RespMsg.reply/DataChangeType</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                      </copy-->
+                      <copy>
+                        <from>$DJJGetPurchaseOrderV1_RespMsg.reply/APICallBatchID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/APICallBatchID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/ChangeVersionID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ChangeVersionID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPurchaseOrderV1_RespMsg.reply/ApplicationID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/ApplicationID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeTypeID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/DataChangeChildTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/DataChangeChildTypeID</to>
+                      </copy>
+                    </assign>
+                    <if name="IfCreateSuccess">
+                      <documentation>
+                        <![CDATA[S]]>
+                      </documentation>
+                      <condition>$Invoke_PurchaseOrderABS_RespMsg.CreatePurchaseOrderResponseMessage/ns6:OperationResult/ns8:Stats = 'S'</condition>
+                      <sequence name="Sequence7">
+                        <assign name="Assign_StatusId">
+                          <copy>
+                            <from>'1'</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                          </copy>
+                          <copy>
+                            <from>'PO Created'</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                          </copy>
+                        </assign>
+                      </sequence>
+                      <else>
+                        <documentation>
+                          <![CDATA[E]]>
+                        </documentation>
+                        <sequence name="Sequence9">
+                          <assign name="Assign_StatusId">
+                            <copy>
+                              <from>'2'</from>
+                              <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/StatusID</to>
+                            </copy>
+                            <copy ignoreMissingFromData="yes">
+                              <from>concat('FlowId:',ora:getFlowId(),':',string($Invoke_PurchaseOrderABS_RespMsg.CreatePurchaseOrderResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1]))</from>
+                              <to>$Invoke_DJJAcknowledge_AcknowledgePO_InputVariable.request/Comment</to>
+                            </copy>
+                            <copy>
+                              <from>ora:getComponentInstanceId()</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+                            </copy>
+                            <copy>
+                              <from>'NextGen'</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+                            </copy>
+                            <copy>
+                              <from>'I093'</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+                            </copy>
+                            <copy>
+                              <from>'PurchaseOrder'</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+                            </copy>
+                            <copy>
+                              <from>ora:getCompositeName()</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+                            </copy>
+                            <copy>
+                              <from>1</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+                            </copy>
+                            <copy>
+                              <from>15</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+                            </copy>
+                            <copy>
+                              <from>2</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+                            </copy>
+                            <copy>
+                              <from>4</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+                            </copy>
+                            <copy>
+                              <from>''</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+                            </copy>
+                            <copy ignoreMissingFromData="yes">
+                              <from>concat('FlowId:',ora:getFlowId(),':',$DJJGetPurchaseOrderV1_RespMsg.reply/POHeader/POConsumerHeaderModel[$DJJPOIdx]/POID,'::',$Invoke_PurchaseOrderABS_RespMsg.CreatePurchaseOrderResponseMessage/ns6:OperationResult/ns8:Errors/ns8:OperationResultError[1])</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+                            </copy>
+                            <copy>
+                              <from>1</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+                            </copy>
+                            <copy>
+                              <from>'SOA'</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+                            </copy>
+                            <copy>
+                              <from>'SOA'</from>
+                              <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+                            </copy>
+                          </assign>
+                          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                                  portType="ns3:CommonLogging" operation="process"
+                                  inputVariable="CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+                            <bpelx:toProperties>
+                              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                            </bpelx:toProperties>
+                          </invoke>
+                        </sequence>
+                      </else>
+                    </if>
+                    <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                            portType="ns12:DJJAcknowledge_ep_ptt" operation="AcknowledgePO"
+                            inputVariable="Invoke_DJJAcknowledge_AcknowledgePO_InputVariable"
+                            outputVariable="Invoke_DJJAcknowledge_AcknowledgePO_OutputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:skipCondition>$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="CallingAckReq"]/ns5:value = "false"</bpelx:skipCondition>
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="Ocp-Apim-Subscription-Key"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="IP"]/ns5:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="rest.binding.AckURI"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty-->
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="APIUserId"]/ns5:value</bpelx:toProperty>
+                        <!--bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetPurchaseOrderV1_ep_ReqMsg.parameter/ns5:item[ns5:name="OverrideReturnCount"]/ns5:value</bpelx:toProperty-->
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+                <!--if name="If1">
+                  <documentation>
+                    <![CDATA[RemoveLater]]>
+                  </documentation>
+                  <condition>$DJJPOIdx = 1</condition>
+                  <else>
+                    <empty name="Empty1"/>
+                  </else>
+                </if-->
+              </sequence>
+            </else>
+          </if>
+          <if name="IfDehydrate">
+            <documentation>
+              <![CDATA[Yes]]>
+            </documentation>
+            <condition>($DJJPOIdx mod 10) = 0</condition>
+            <extensionActivity>
+              <bpelx:dehydrate name="Dehydrate"/>
+            </extensionActivity>
+            <else>
+              <documentation>
+                <![CDATA[No]]>
+              </documentation>
+              <empty name="DoNothing"/>
+            </else>
+          </if>
+        </sequence>
+      </scope>
+    </forEach>
+    <scope name="Scope_CommonLogging_Success" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <sequence name="Sequence1">
+         <assign name="Assign_CommonLogging">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I093"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"PurchaseOrder"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>"15"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-002"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+        </assign>
+         <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                 portType="ns3:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+               <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+      </sequence>
+   </scope>
+  </sequence>
+</process>

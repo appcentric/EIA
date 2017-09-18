@@ -1,0 +1,33 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_CASTLOT_DETAILS" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_CASTLOT_DETAILS" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="VLotVisibilityCollection" type="VLotVisibilityCollection"/>
+   <xs:complexType name="VLotVisibilityCollection">
+      <xs:sequence>
+         <xs:element name="VLotVisibility" type="VLotVisibility" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="VLotVisibility">
+      <xs:sequence>
+         <xs:element name="heat" type="string10" nillable="true"/>
+         <xs:element name="reheat" type="string12" nillable="true"/>
+         <xs:element name="castLot" type="string12" nillable="true"/>
+         <xs:element name="fgLot" type="string12" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="QMOS_CASTLOT_DETAILSSelect_SampleNoInputParameters" type="QMOS_CASTLOT_DETAILSSelect_SampleNo"/>
+   <xs:complexType name="QMOS_CASTLOT_DETAILSSelect_SampleNo">
+      <xs:sequence>
+         <xs:element name="SampleNo" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string12">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="12"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

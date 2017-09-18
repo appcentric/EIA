@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NSNE_HeatBatch_L2_EBS_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <!--Add search and replace rules for the service properties-->
+      <service name="DB_Polling_HeatSchedule">
+         <property name="jca.retry.count">
+            <replace>2147483647</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="jca">
+            <property name="useRejectedMessageRecovery">
+               <replace>true</replace>
+            </property>
+            <property name="MarkReadValue">
+               <replace>DV2.BatchRead</replace>
+            </property>
+            <property name="MarkUnreadValue">
+               <replace>DV2.Complete</replace>
+            </property>
+         </binding>
+      </service>
+      <service name="DB_Polling_HeatSchedule"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>a5d1aec2-c010-4c6b-bac3-222721075b70</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="NSNE_HeatBatch_L2_EBS_ABF">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+         <property name="partnerLink.DB_Update_HeatSchedule.idempotent">
+            <replace>false</replace>
+         </property>
+      </component>
+      <reference name="DB_Get_Heat_ID"/>
+      <reference name="DB_Heat_Batch_View"/>
+      <reference name="CommonLogging"/>
+      <reference name="DB_EBS_Heat_Batch"/>
+      <reference name="DB_Update_HeatSchedule"/>
+      <reference name="DB_Get_Heat_ID">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Heat_Batch_View">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="CommonLogging">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DB_EBS_Heat_Batch">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_HeatSchedule">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_EBS_Heat_Batch_db.jca|Adapters/DB_Get_Heat_ID_db.jca|Adapters/DB_Heat_Batch_View_db.jca|Adapters/DB_Polling_HeatSchedule_db.jca|Adapters/DB_Update_HeatSchedule_db.jca|Schemas/DB_EBS_Heat_Batch_sp.xsd|Schemas/DB_Get_Heat_ID_table.xsd|Schemas/DB_Heat_Batch_View_table.xsd|Schemas/DB_Polling_HeatSchedule_table.xsd|Schemas/DB_Update_HeatSchedule_table.xsd|WSDLs/DB_EBS_Heat_Batch.wsdl|WSDLs/DB_Get_Heat_ID.wsdl|WSDLs/DB_Heat_Batch_View.wsdl|WSDLs/DB_Polling_HeatSchedule.wsdl|WSDLs/DB_Update_HeatSchedule.wsdl">
+ <searchReplace>
+                    <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

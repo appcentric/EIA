@@ -1,0 +1,454 @@
+<!--
+  ///////////////////////////////////////////////////////////////////////////////////////////// 
+  // Oracle JDeveloper BPEL Designer 
+  // 
+  // Created: Wed Mar 01 14:50:51 PST 2006
+  // Author:  arguha
+  // Purpose: Synchronous BPEL Process
+  ///////////////////////////////////////////////////////////////////////////////////////////// 
+-->
+<process name="WshReceivePShipmentFromOtm"
+         targetNamespace="http://xmlns.oracle.com/apps/wsh/inbound/WshReceivePShipmentFromOtm"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/APPS/WSH_OTM_INBOUND_GRP/INITIATE_PLANNED_SHIPMENT/"
+         xmlns:ns1="http://xmlns.oracle.com/apps/otm" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/WshOtmInboundGrp/"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/PlannedShipmentInterface/"
+         xmlns:client="http://xmlns.oracle.com/apps/wsh/inbound/WshReceivePShipmentFromOtm"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:orcl="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns5="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/OTMDEC/ReceivePShipmentFromOtm/DB_WshOtmInboundGrp"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_WshOtmInboundGrp"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/OTMDEC/ReceivePShipmentFromOtm/DB_GetBusinessDomainName"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetBusinessDomainName"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/OTMDEC/ReceivePShipmentFromOtm/DB_WshOtmShipStatusInbound">
+  <!-- ================================================================= -->
+  <!-- PARTNERLINKS                                                      -->
+  <!-- List of services participating in this BPEL process               -->
+  <!-- ================================================================= -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[WshReceivePShipmentFromOtm.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+    The 'client' role represents the requester of this service. It is 
+    used for callback. The location and correlation information associated
+    with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="client" partnerLinkType="client:WshReceivePShipmentFromOtm"
+                 myRole="WshReceivePShipmentFromOtmProvider"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns5:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_WshOtmInboundGrp" partnerLinkType="ns6:DB_WshOtmInboundGrp_plt"
+                 partnerRole="DB_WshOtmInboundGrp_role"/>
+    <partnerLink name="DB_GetBusinessDomainName" partnerLinkType="ns8:DB_GetBusinessDomainName_plt"
+                 partnerRole="DB_GetBusinessDomainName_role"/>
+  </partnerLinks>
+  <!-- ================================================================= -->
+  <!-- VARIABLES                                                         -->
+  <!-- List of messages and XML documents used within this BPEL process  -->
+  <!-- ================================================================= -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:WshReceivePShipmentFromOtmRequestMessage"/>
+    <!--  
+    Reference to the message that will be returned to the requester
+    -->
+    <variable name="outputVariable" messageType="client:WshReceivePShipmentFromOtmResponseMessage"/>
+    <variable name="invokeInboundInterface_WshOtmInboundGrp_InputVariable" messageType="ns6:args_in_msg"/>
+    <variable name="invokeInboundInterface_WshOtmInboundGrp_OutputVariable" messageType="ns6:args_out_msg"/>
+    <!--<variable name="invokeEBSInboundInterface_DB_WshOtmInboundGrp_InputVariable" messageType="ns6:args_in_msg"/>
+    <variable name="invokeEBSInboundInterface_DB_WshOtmInboundGrp_OutputVariable" messageType="ns6:args_out_msg"/>-->
+    <variable name="Invoke_BusinessDomainName_DB_GetBusinessDomainName_InputVariable" messageType="ns8:args_in_msg"/>
+    <variable name="Invoke_BusinessDomainName_DB_GetBusinessDomainName_OutputVariable" messageType="ns8:args_out_msg"/>
+    <variable name="BusinessDomain" type="xsd:string"/>
+  </variables>
+  <!-- ================================================================= -->
+  <!-- ORCHESTRATION LOGIC                                               -->
+  <!-- Set of activities coordinating the flow of messages across the    -->
+  <!-- services integrated within this business process                  -->
+  <!-- ================================================================= -->
+  <sequence name="main">
+    <!-- Receive input from requestor. 
+    Note: This maps to operation defined in WshReceivePShipmentFromOtm.wsdl
+    -->
+    <!-- Generate reply to synchronous request -->
+    <scope name="interfaceProcess">
+      <faultHandlers>
+        <catchAll>
+          <sequence name="Sequence2">
+            <assign name="assignCatchAll">
+              <copy>
+                <from expression="ora:getFaultAsString()"/>
+                <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:StackTrace"/>
+              </copy>
+            </assign>
+            <scope name="Scope3">
+              <variables>
+                <variable name="Invoke_Error_Log_process_InputVariable" messageType="ns5:CommonLoggingRequestMessage"/>
+              </variables>
+              <sequence name="Sequence2">
+                <assign name="Assign_Error_Log">
+                  <copy>
+                    <from expression="ora:getComponentInstanceId()"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:TransactionId"/>
+                  </copy>
+                  <copy>
+                    <from expression="'NextGen'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:ProjectName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'I130'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:ComponentId"/>
+                  </copy>
+                  <copy>
+                    <from expression="ora:getCompositeName()"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:ProcessName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'OTMPlannedShipment'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:TransactionName"/>
+                  </copy>
+                  <copy>
+                    <from expression="'1'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:LoggingSystem"/>
+                  </copy>
+                  <copy>
+                    <from expression="'31'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:SourceSystem"/>
+                  </copy>
+                  <copy>
+                    <from expression="'2'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:TargetSystem"/>
+                  </copy>
+                  <copy>
+                    <from expression="'4'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:LogType"/>
+                  </copy>
+                  <copy>
+                    <from expression="'2'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:TransactionStatus"/>
+                  </copy>
+                  <copy>
+                    <from expression="'SOA'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:CreatedBy"/>
+                  </copy>
+                  <copy>
+                    <from expression="concat('FlowId: ',ora:getFlowId(),' Error ',ora:getFaultAsString())"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:MessageDescription"/>
+                  </copy>
+                  <copy>
+                    <from expression="'SOA'"/>
+                    <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging"
+                        query="/ns5:Input/ns5:UpdatedBy"/>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_Error_Log" inputVariable="Invoke_Error_Log_process_InputVariable"
+                        partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process">
+                  <bpelx:inputProperty name="endpointURI"
+                                       expression='eia:getEIAServiceProperty("CommonLogging","endpointURI")'/>
+                </invoke>
+              </sequence>
+            </scope>
+          </sequence>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence_1">
+        <receive name="receiveInput" partnerLink="client" portType="client:WshReceivePShipmentFromOtm"
+                 operation="process" variable="inputVariable" createInstance="yes"/>
+        <scope name="Scope1">
+          <variables>
+            <variable name="Invoke_Start_CommonLogging_process_InputVariable"
+                      messageType="ns5:CommonLoggingRequestMessage"/>
+          </variables>
+          <faultHandlers>
+            <catchAll>
+              <sequence name="Sequence4">
+                <empty name="ThrowEmptyError"/>
+              </sequence>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence_Start_CommonLogging">
+            <assign name="Assign_Start_CommonLogging">
+              <copy>
+                <from expression="ora:getComponentInstanceId()"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:TransactionId"/>
+              </copy>
+              <copy>
+                <from expression="'NextGen'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:ProjectName"/>
+              </copy>
+              <copy>
+                <from expression="'I130'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:ComponentId"/>
+              </copy>
+              <copy>
+                <from expression="ora:getCompositeName()"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:ProcessName"/>
+              </copy>
+              <copy>
+                <from expression="'OTMPlannedShipment'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:TransactionName"/>
+              </copy>
+              <copy>
+                <from expression="'1'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:LoggingSystem"/>
+              </copy>
+              <copy>
+                <from expression="'31'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:SourceSystem"/>
+              </copy>
+              <copy>
+                <from expression="'2'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:TargetSystem"/>
+              </copy>
+              <copy>
+                <from expression="'1'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:LogType"/>
+              </copy>
+              <copy>
+                <from expression="'BMG-003'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:MessageCode"/>
+              </copy>
+              <copy>
+                <from expression="'1'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:TransactionStatus"/>
+              </copy>
+              <copy>
+                <from expression="'SOA'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:CreatedBy"/>
+              </copy>
+              <copy>
+                <from expression="'SOA'"/>
+                <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging"
+                    query="/ns5:Input/ns5:UpdatedBy"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_Start_CommonLogging" inputVariable="Invoke_Start_CommonLogging_process_InputVariable"
+                    partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                    bpelx:skipCondition='eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"'>
+              <bpelx:inputProperty name="endpointURI"
+                                   expression='eia:getEIAServiceProperty("CommonLogging","endpointURI")'/>
+            </invoke>
+          </sequence>
+        </scope>
+        <assign name="transformHeaderAck">
+          <copy>
+            <from expression="ora:processXSLT('xsl/WshInbOpTransform.xsl',bpws:getVariableData('inputVariable','payload'))"/>
+            <to variable="outputVariable" part="payload"/>
+          </copy>
+          <bpelx:annotation>
+            <bpelx:pattern>transformation</bpelx:pattern>
+          </bpelx:annotation>
+        </assign>
+        <invoke name="Invoke_BusinessDomainName"
+                inputVariable="Invoke_BusinessDomainName_DB_GetBusinessDomainName_InputVariable"
+                outputVariable="Invoke_BusinessDomainName_DB_GetBusinessDomainName_OutputVariable"
+                partnerLink="DB_GetBusinessDomainName" portType="ns8:DB_GetBusinessDomainName_ptt"
+                operation="DB_GetBusinessDomainName"/>
+        <assign name="Assign_BusinessDomainName">
+          <copy>
+            <from variable="Invoke_BusinessDomainName_DB_GetBusinessDomainName_OutputVariable" part="OutputParameters"
+                  query="/ns9:OutputParameters/ns9:GET_NUC_BUSINESS_DIVN"/>
+            <to variable="BusinessDomain"/>
+          </copy>
+        </assign>
+        <assign name="XForm_WshInbound">
+          <bpelx:annotation>
+            <bpelx:pattern>transformation</bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from expression="ora:doXSLTransformForDoc('xsl/XForm_WshInbound.xsl', $inputVariable.payload,'BusinessDomain',$BusinessDomain)"/>
+            <to variable="invokeInboundInterface_WshOtmInboundGrp_InputVariable" part="InputParameters"/>
+          </copy>
+        </assign>
+        <invoke name="invokeEBSInboundInterface" inputVariable="invokeInboundInterface_WshOtmInboundGrp_InputVariable"
+                outputVariable="invokeInboundInterface_WshOtmInboundGrp_OutputVariable"
+                partnerLink="DB_WshOtmInboundGrp" portType="ns6:DB_WshOtmInboundGrp_ptt"
+                operation="DB_WshOtmInboundGrp"/>
+      </sequence>
+    </scope>
+    <switch name="switchResults">
+      <case condition="bpws:getVariableData('invokeInboundInterface_WshOtmInboundGrp_OutputVariable','OutputParameters','/ns7:OutputParameters/ns7:X_RETURN_STATUS') = 'S'">
+        <assign name="assignSuccess">
+          <copy>
+            <from expression="concat(&quot;WSH Transmission Concurrent Request Id :&quot;,bpws:getVariableData('invokeInboundInterface_WshOtmInboundGrp_OutputVariable','OutputParameters','/ns7:OutputParameters/ns7:X_OUTPUT_REQUEST_ID'))"/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckReason"/>
+          </copy>
+          <copy>
+            <from expression='"PROCESSED"'/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckStatus"/>
+          </copy>
+        </assign>
+      </case>
+      <case condition="bpws:getVariableData('invokeInboundInterface_WshOtmInboundGrp_OutputVariable','OutputParameters','/ns7:OutputParameters/ns7:X_RETURN_STATUS') = 'E'">
+        <assign name="assignError">
+          <copy>
+            <from expression='"ERROR"'/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckStatus"/>
+          </copy>
+          <copy>
+            <from variable="invokeInboundInterface_WshOtmInboundGrp_OutputVariable" part="OutputParameters"
+                  query="/ns7:OutputParameters/ns7:X_MSG_DATA"/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckReason"/>
+          </copy>
+        </assign>
+      </case>
+      <case condition="bpws:getVariableData('invokeInboundInterface_WshOtmInboundGrp_OutputVariable','OutputParameters','/ns7:OutputParameters/ns7:X_RETURN_STATUS') = 'U'">
+        <assign name="assignUnexpError">
+          <copy>
+            <from expression='"Unexpected Error in WSH_OTM_INBOUND_GRP.initiate_planned_shipment API. Interface to WSH Failed"'/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckReason"/>
+          </copy>
+          <copy>
+            <from expression='"ERROR"'/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckStatus"/>
+          </copy>
+          <copy>
+            <from variable="invokeInboundInterface_WshOtmInboundGrp_OutputVariable" part="OutputParameters"
+                  query="/ns7:OutputParameters/ns7:X_MSG_DATA"/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:StackTrace"/>
+          </copy>
+        </assign>
+      </case>
+      <otherwise>
+        <assign name="assignOtherError">
+          <copy>
+            <from expression='"BPEL Process Error - Interface to WSH Failed"'/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckReason"/>
+          </copy>
+          <copy>
+            <from expression='"ERROR"'/>
+            <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck/ns1:TransmissionAckStatus"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <scope name="Scope2">
+      <variables>
+        <variable name="Invoke_End_CommonLogging_process_InputVariable" messageType="ns5:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="ThrowEmptyError"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_End_CommonLogging">
+          <copy>
+            <from expression="ora:getComponentInstanceId()"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:TransactionId"/>
+          </copy>
+          <copy>
+            <from expression="'NextGen'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:ProjectName"/>
+          </copy>
+          <copy>
+            <from expression="'I130'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:ComponentId"/>
+          </copy>
+          <copy>
+            <from expression="ora:getCompositeName()"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:ProcessName"/>
+          </copy>
+          <copy>
+            <from expression="'OTMPlannedShipment'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:TransactionName"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:LoggingSystem"/>
+          </copy>
+          <copy>
+            <from expression="'31'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:SourceSystem"/>
+          </copy>
+          <copy>
+            <from expression="'2'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:TargetSystem"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:LogType"/>
+          </copy>
+          <copy>
+            <from expression="'BMG-002'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:MessageCode"/>
+          </copy>
+          <copy>
+            <from expression="'2'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:TransactionStatus"/>
+          </copy>
+          <copy>
+            <from expression="'SOA'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:CreatedBy"/>
+          </copy>
+          <copy>
+            <from expression="'SOA'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging"
+                query="/ns5:Input/ns5:UpdatedBy"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_End_CommonLogging" inputVariable="Invoke_End_CommonLogging_process_InputVariable"
+                partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                bpelx:skipCondition='eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"'>
+          <bpelx:inputProperty name="endpointURI"
+                               expression='eia:getEIAServiceProperty("CommonLogging","endpointURI")'/>
+        </invoke>
+      </sequence>
+    </scope>
+    <reply name="replyOutput" partnerLink="client" portType="client:WshReceivePShipmentFromOtm" operation="process"
+           variable="outputVariable"/>
+  </sequence>
+</process>

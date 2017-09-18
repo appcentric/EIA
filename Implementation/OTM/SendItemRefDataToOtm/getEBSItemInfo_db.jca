@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="getEBSItemInfo" adapter="db" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="OracleConnection" adapterRef="">
+    <!--<non-managed-connection managedConnectionFactoryClassName="oracle.tip.adapter.db.DBManagedConnectionFactory"/>-->
+  </connection-factory>
+
+  <endpoint-interaction portType="getEBSItemInfo_ptt" operation="getEBSItemInfo">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="WSH_OTM_SYNC_ITEM_PKG"/>
+      <property name="ProcedureName" value="GET_EBS_ITEM_INFO"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

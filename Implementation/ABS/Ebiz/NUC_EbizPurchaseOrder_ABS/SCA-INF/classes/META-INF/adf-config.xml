@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!-- $Header$ -->
+<adf-config xmlns="http://xmlns.oracle.com/adf/config"
+            xmlns:adf="http://xmlns.oracle.com/adf/config/properties"
+            xmlns:sec="http://xmlns.oracle.com/adf/security/config">
+  <adf:adf-properties-child xmlns="http://soaispita1xmlns.oracle.com/adf/config/properties">
+    <adf-property name="adfAppUID" value="WI_EIA-4728"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+    <adf-property name="adfAppUID" value="NucAppl.soa.first"/>
+  </adf:adf-properties-child>
+  <adf-mds-config xmlns="http://xmlns.oracle.com/adf/mds/config">
+    <mds-config xmlns="http://xmlns.oracle.com/mds/config">
+      <persistence-config>
+        <metadata-namespaces>
+          <namespace metadata-store-usage="mstore-usage_4"
+                     path="/apps/EIAMetadata"/>
+        </metadata-namespaces>
+        <metadata-store-usages>
+          <metadata-store-usage id="mstore-usage_4">
+            <metadata-store class-name="oracle.mds.persistence.stores.db.DBMetadataStore">
+              <property value="DEV3_MDS" name="jdbc-userid"/>
+              <property value="jdbc:oracle:thin:@spdecsoadbd01.sps.nucorsteel.local:1521:SOADEV"
+                        name="jdbc-url"/>
+              <property value="soa-infra" name="partition-name"/>
+            </metadata-store>
+          </metadata-store-usage>
+        </metadata-store-usages>
+      </persistence-config>
+    </mds-config>
+  </adf-mds-config>
+  <sec:adf-security-child xmlns="http://xmlns.oracle.com/adf/security/config">
+    <CredentialStoreContext credentialStoreClass="oracle.adf.share.security.providers.jps.CSFCredentialStore"
+                            credentialStoreLocation="./jps-config.xml"/>
+  </sec:adf-security-child>
+</adf-config>
+

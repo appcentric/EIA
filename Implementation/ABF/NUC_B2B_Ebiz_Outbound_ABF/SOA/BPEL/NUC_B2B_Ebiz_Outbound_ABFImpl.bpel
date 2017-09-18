@@ -1,0 +1,358 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Feb 02 16:00:53 CST 2017
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_B2B_Ebiz_Outbound_ABFImpl"
+               targetNamespace="http://xmlns.oracle.com/ABF/NUC_B2B_Ebiz_Outbound_ABFImpl/V1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/ABF/NUC_B2B_Ebiz_Outbound_ABFImpl/V1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://oracle.com/sca/soapservice/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/B2B_EbizOutboundThread"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns2="http://schemas.oracle.com/service/bpel/common"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/SFTP_SyncReadOpaque"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/SFTP_SyncReadFileFromSource"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/SFTP_PutFileIntoTarget"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/SFTP_SyncDelete"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/opaque/" xmlns:ns8="http://xmlns.eia.com/CommonLogging">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://oracle.com/sca/soapservice/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/B2B_EbizOutboundThread"
+          location="../WSDLs/B2B_EbizOutboundThreadWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="B2B_EbizOutboundThread" partnerLinkType="ns1:B2B_EbizOutboundThread" myRole="execute_ptt"/>
+    <partnerLink name="SFTP_ListFilesInSourceDirectory" partnerLinkType="ns3:FileListing_plt" partnerRole="FileListing_role"/>
+    <partnerLink name="SFTP_SyncReadFileFromSource" partnerLinkType="ns4:SynchRead_plt" partnerRole="SynchRead_role"/>
+    <partnerLink name="SFTP_PutFileIntoTarget" partnerLinkType="ns5:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="SFTP_SyncDelete" partnerLinkType="ns6:SynchDelete_plt" partnerRole="SynchDelete_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns8:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ThreadParams" messageType="ns1:requestMessage"/>
+    <variable name="FileListingReqMsg" messageType="ns3:Empty_msg"/>
+    <variable name="FileListingRespMsg" messageType="ns3:FileListing_msg"/>
+    <variable name="gbl_sftpFileListIdx" type="xsd:int"/>
+    <variable name="SFTP_SyncReadFileFromSource_ReqMsg" messageType="ns4:Empty_msg"/>
+    <variable name="SFTP_SyncReadFileFromSource_RespMsg" messageType="ns4:SynchRead_msg"/>
+    <variable name="SFTP_PutFileIntoTarget_ReqMsg" messageType="ns5:Put_msg"/>
+    <variable name="SynchDelete_ReqMsg" messageType="ns6:Empty_msg"/>
+    <variable name="SynchDelete_RespMsg" messageType="ns6:SynchDelete_msg"/>
+    <variable name="LogVar" messageType="ns8:CommonLoggingRequestMessage"/>
+  </variables>
+  <faultHandlers>
+    <catchAll><scope name="ErrorLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      <variables>
+          <variable name="LogVar" messageType="ns8:CommonLoggingRequestMessage"/>
+        </variables><sequence name="Sequence11">
+         <assign name="AssignLogVar">
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$LogVar.CommonLogging/ns8:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$LogVar.CommonLogging/ns8:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$ThreadParams.request/ns2:item[ns2:name='ComponentId']/ns2:value</from>
+              <to>$LogVar.CommonLogging/ns8:ComponentId</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$LogVar.CommonLogging/ns8:ProcessName</to>
+            </copy>
+            <copy>
+              <from>$ThreadParams.request/ns2:item[ns2:name='TransactionName']/ns2:value</from>
+              <to>$LogVar.CommonLogging/ns8:TransactionName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$LogVar.CommonLogging/ns8:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>$ThreadParams.request/ns2:item[ns2:name='SourceSystem']/ns2:value</from>
+              <to>$LogVar.CommonLogging/ns8:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$ThreadParams.request/ns2:item[ns2:name='TargetSystem']/ns2:value</from>
+              <to>$LogVar.CommonLogging/ns8:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$LogVar.CommonLogging/ns8:LogType</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$LogVar.CommonLogging/ns8:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>concat('FlowID:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+              <to>$LogVar.CommonLogging/ns8:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$LogVar.CommonLogging/ns8:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$LogVar.CommonLogging/ns8:UpdatedBy</to>
+            </copy>
+          </assign>
+         <invoke name="InvokeErrorLog" partnerLink="CommonLogging" portType="ns8:CommonLogging" operation="process"
+                 inputVariable="LogVar"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+               <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+      </sequence>
+   </scope></catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="StartOutboundThread" partnerLink="B2B_EbizOutboundThread" portType="ns1:execute_ptt"
+             operation="execute" variable="ThreadParams" createInstance="yes"/><scope name="StartLog"
+                                                                                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      <variables>
+        <variable name="LogVar" messageType="ns8:CommonLoggingRequestMessage"/>
+      </variables><faultHandlers>
+         <catchAll>
+            <empty name="DoNothing"/>
+         </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence11">
+         <assign name="AssignLogVar">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$LogVar.CommonLogging/ns8:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$LogVar.CommonLogging/ns8:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='ComponentId']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$LogVar.CommonLogging/ns8:ProcessName</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='TransactionName']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns8:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='SourceSystem']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='TargetSystem']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns8:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$LogVar.CommonLogging/ns8:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns8:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns8:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns8:UpdatedBy</to>
+          </copy>
+        </assign>
+         <invoke name="InvokeStarLog" partnerLink="CommonLogging" portType="ns8:CommonLogging" operation="process"
+                 inputVariable="LogVar"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+               <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+      </sequence>
+   </scope><if name="IfProtocol">
+      <documentation>
+        <![CDATA[SFTP]]>
+      </documentation>
+      <condition>$ThreadParams.request/ns2:item[ns2:name='eia.Protocol']/ns2:value='SFTP'</condition>
+      <sequence name="Sequence1">
+        <invoke name="Invoke_SFTPListFiles" partnerLink="SFTP_ListFilesInSourceDirectory"
+                portType="ns3:FileListing_ptt" operation="FileListing" inputVariable="FileListingReqMsg"
+                outputVariable="FileListingRespMsg" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.ftp.Directory">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.SourceDirectory']/ns2:value</bpelx:toProperty>
+            <bpelx:toProperty name="jca.ftp.FileName">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.SourceFileName']/ns2:value</bpelx:toProperty>
+            <bpelx:toProperty name="jca.jndi">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.SourceJNDI']/ns2:value</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="set_SFTPFileListIdx">
+          <copy>
+            <from>1</from>
+            <to>$gbl_sftpFileListIdx</to>
+          </copy>
+        </assign>
+        <while name="LoopThroughFileList">
+          <condition>$gbl_sftpFileListIdx &lt;= $FileListingRespMsg.filelist/@size</condition>
+          <sequence>
+            <invoke name="Invoke_SFTP_SyncReadFileFromSource" partnerLink="SFTP_SyncReadFileFromSource"
+                    portType="ns4:SynchRead_ptt" operation="SynchRead"
+                    inputVariable="SFTP_SyncReadFileFromSource_ReqMsg"
+                    outputVariable="SFTP_SyncReadFileFromSource_RespMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.ftp.Directory">$FileListingRespMsg.filelist/ns3:file[$gbl_sftpFileListIdx]/ns3:directory</bpelx:toProperty>
+                <bpelx:toProperty name="jca.ftp.FileName">$FileListingRespMsg.filelist/ns3:file[$gbl_sftpFileListIdx]/ns3:filename</bpelx:toProperty>
+                <bpelx:toProperty name="jca.jndi">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.SourceJNDI']/ns2:value</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="set_SFTP_TargetFile">
+              <copy>
+                <from>$SFTP_SyncReadFileFromSource_RespMsg.opaque</from>
+                <to>$SFTP_PutFileIntoTarget_ReqMsg.opaque</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_SFTP_PutFileIntoTarget" partnerLink="SFTP_PutFileIntoTarget" portType="ns5:Put_ptt"
+                    operation="Put" inputVariable="SFTP_PutFileIntoTarget_ReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.ftp.Directory">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.TargetDirectory']/ns2:value</bpelx:toProperty>
+                <bpelx:toProperty name="jca.ftp.FileName">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.TargetFileName']/ns2:value</bpelx:toProperty>
+                <bpelx:toProperty name="jca.jndi">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.TargetJNDI']/ns2:value</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <invoke name="Invoke_SFTPSyncDelete" partnerLink="SFTP_SyncDelete" portType="ns6:SynchDelete_ptt"
+                    operation="SynchDelete" inputVariable="SynchDelete_ReqMsg" outputVariable="SynchDelete_RespMsg"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.file.TargetDirectory">$FileListingRespMsg.filelist/ns3:file[$gbl_sftpFileListIdx]/ns3:directory</bpelx:toProperty>
+                <bpelx:toProperty name="jca.file.TargetFileName">$FileListingRespMsg.filelist/ns3:file[$gbl_sftpFileListIdx]/ns3:filename</bpelx:toProperty>
+                <bpelx:toProperty name="jca.jndi">$ThreadParams.request/ns2:item[ns2:name='eia.ftp.SourceJNDI']/ns2:value</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Increment_SFTPFileListIdx">
+              <copy>
+                <from>$gbl_sftpFileListIdx + 1</from>
+                <to>$gbl_sftpFileListIdx</to>
+              </copy>
+            </assign>
+          </sequence>
+        </while></sequence>
+      <else>
+        <empty name="InvalidProtocol"/>
+      </else>
+    </if>
+    <scope name="EndLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      <variables>
+        <variable name="LogVar" messageType="ns8:CommonLoggingRequestMessage"/>
+      </variables><faultHandlers>
+         <catchAll>
+            <empty name="DoNothing"/>
+         </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence11">
+         <assign name="AssignLogVar">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$LogVar.CommonLogging/ns8:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$LogVar.CommonLogging/ns8:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='ComponentId']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$LogVar.CommonLogging/ns8:ProcessName</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='TransactionName']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns8:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='SourceSystem']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>$ThreadParams.request/ns2:item[ns2:name='TargetSystem']/ns2:value</from>
+            <to>$LogVar.CommonLogging/ns8:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns8:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$LogVar.CommonLogging/ns8:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$LogVar.CommonLogging/ns8:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns8:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns8:UpdatedBy</to>
+          </copy>
+        </assign>
+         <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns8:CommonLogging" operation="process"
+                 inputVariable="LogVar"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+               <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+      </sequence>
+   </scope>
+  </sequence>
+</process>

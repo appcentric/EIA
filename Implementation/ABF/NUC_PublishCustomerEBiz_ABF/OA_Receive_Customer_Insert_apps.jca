@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_Receive_Customer_Insert" adapter="apps" wsdlLocation="OA_Receive_Customer_Insert.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="NewEBS" UIOracleAppType="WFBES" UIWfEventName="oracle.apps.ar.hz.OrgCustBO.create" adapterRef=""/>
+  <endpoint-activation portType="DEQUEUE_ptt" operation="DEQUEUE">
+    <activation-spec className="oracle.tip.adapter.apps.AppsWFBesQueueDequeueActivationSpec">
+      <property name="QueueName" value="WF_BPEL_Q"/>
+      <property name="DatabaseSchema" value="APPS"/>
+      <property name="Consumer" value="ORA_8kpk8hhh8d1jachg84p38dhk8d"/>
+      <property name="MessageSelectorRule" value="tab.user_data.event_name = 'oracle.apps.ar.hz.OrgCustBO.create' AND tab.user_data.getvalueforparameter('GROUP') IS NULL"/>
+      <property name="AppsEventSchema" value="NO_SCHEMA"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

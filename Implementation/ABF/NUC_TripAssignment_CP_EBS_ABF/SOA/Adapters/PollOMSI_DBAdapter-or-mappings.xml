@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>PollOMSI_DBAdapter-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>PollOMSI_DBAdapter.LogEntry</class>
+         <alias>LOG_ENTRY</alias>
+         <primary-key>
+            <field table="LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="PollOMSI_DBAdapterSelect" xsi:type="read-all-query">
+                  <criteria operator="or" xsi:type="logic-expression">
+                     <left operator="or" xsi:type="logic-expression">
+                        <left operator="or" xsi:type="logic-expression">
+                           <left operator="or" xsi:type="logic-expression">
+                              <left operator="or" xsi:type="logic-expression">
+                                 <left operator="or" xsi:type="logic-expression">
+                                    <left operator="or" xsi:type="logic-expression">
+                                       <left operator="equal" xsi:type="relation-expression">
+                                          <left name="operation" xsi:type="query-key-expression">
+                                             <base xsi:type="base-expression"/>
+                                          </left>
+                                          <right xsi:type="constant-expression">
+                                             <value>100</value>
+                                          </right>
+                                       </left>
+                                       <right operator="equal" xsi:type="relation-expression">
+                                          <left name="operation" xsi:type="query-key-expression">
+                                             <base xsi:type="base-expression"/>
+                                          </left>
+                                          <right xsi:type="constant-expression">
+                                             <value>200</value>
+                                          </right>
+                                       </right>
+                                    </left>
+                                    <right operator="equal" xsi:type="relation-expression">
+                                       <left name="operation" xsi:type="query-key-expression">
+                                          <base xsi:type="base-expression"/>
+                                       </left>
+                                       <right xsi:type="constant-expression">
+                                          <value>300</value>
+                                       </right>
+                                    </right>
+                                 </left>
+                                 <right operator="equal" xsi:type="relation-expression">
+                                    <left name="operation" xsi:type="query-key-expression">
+                                       <base xsi:type="base-expression"/>
+                                    </left>
+                                    <right xsi:type="constant-expression">
+                                       <value>500</value>
+                                    </right>
+                                 </right>
+                              </left>
+                              <right operator="equal" xsi:type="relation-expression">
+                                 <left name="operation" xsi:type="query-key-expression">
+                                    <base xsi:type="base-expression"/>
+                                 </left>
+                                 <right xsi:type="constant-expression">
+                                    <value>600</value>
+                                 </right>
+                              </right>
+                           </left>
+                           <right operator="equal" xsi:type="relation-expression">
+                              <left name="operation" xsi:type="query-key-expression">
+                                 <base xsi:type="base-expression"/>
+                              </left>
+                              <right xsi:type="constant-expression">
+                                 <value>700</value>
+                              </right>
+                           </right>
+                        </left>
+                        <right operator="equal" xsi:type="relation-expression">
+                           <left name="operation" xsi:type="query-key-expression">
+                              <base xsi:type="base-expression"/>
+                           </left>
+                           <right xsi:type="constant-expression">
+                              <value>800</value>
+                           </right>
+                        </right>
+                     </left>
+                     <right operator="equal" xsi:type="relation-expression">
+                        <left name="operation" xsi:type="query-key-expression">
+                           <base xsi:type="base-expression"/>
+                        </left>
+                        <right xsi:type="constant-expression">
+                           <value>1400</value>
+                        </right>
+                     </right>
+                  </criteria>
+                  <reference-class>PollOMSI_DBAdapter.LogEntry</reference-class>
+                  <refresh>true</refresh>
+                  <remote-refresh>true</remote-refresh>
+                  <lock-mode>lock-no-wait</lock-mode>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logEntryId</attribute-name>
+               <field table="LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operationId</attribute-name>
+               <field table="LOG_ENTRY" name="OPERATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operation</attribute-name>
+               <field table="LOG_ENTRY" name="OPERATION" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>resultCode</attribute-name>
+               <field table="LOG_ENTRY" name="RESULT_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>resultMessage</attribute-name>
+               <field table="LOG_ENTRY" name="RESULT_MESSAGE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>isRead</attribute-name>
+               <field table="LOG_ENTRY" name="IS_READ" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processTime</attribute-name>
+               <field table="LOG_ENTRY" name="PROCESS_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-one-mapping">
+               <attribute-name>appointmentLogEntry</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>PollOMSI_DBAdapter.AppointmentLogEntry</reference-class>
+               <private-owned>true</private-owned>
+               <foreign-key>
+                  <field-reference>
+                     <source-field table="LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+                     <target-field table="APPOINTMENT_LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+                  </field-reference>
+               </foreign-key>
+               <batch-reading>true</batch-reading>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-object-query">
+                  <reference-class>PollOMSI_DBAdapter.AppointmentLogEntry</reference-class>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-one-mapping">
+               <attribute-name>shipmentLogEntry</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>PollOMSI_DBAdapter.ShipmentLogEntry</reference-class>
+               <private-owned>true</private-owned>
+               <foreign-key>
+                  <field-reference>
+                     <source-field table="LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+                     <target-field table="SHIPMENT_LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+                  </field-reference>
+               </foreign-key>
+               <batch-reading>true</batch-reading>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-object-query">
+                  <reference-class>PollOMSI_DBAdapter.ShipmentLogEntry</reference-class>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="LOG_ENTRY"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>PollOMSI_DBAdapter.ShipmentLogEntry</class>
+         <alias>SHIPMENT_LOG_ENTRY</alias>
+         <primary-key>
+            <field table="SHIPMENT_LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logEntryId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="SHIPMENT_LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey1</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CLIENT_KEY_1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey2</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CLIENT_KEY_2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey3</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CLIENT_KEY_3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey4</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CLIENT_KEY_4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bidTotal</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="BID_TOTAL" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bidAmount</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="BID_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bidQuantity</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="BID_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bidType</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="BID_TYPE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierName</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierScacCode</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_SCAC_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorId</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="VENDOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierComments</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_COMMENTS" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierTruckNumber</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_TRUCK_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierDriverNumber</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_DRIVER_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierContractNumber</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_CONTRACT_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierEquipmentNumber</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_EQUIPMENT_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>isCompleted</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="IS_COMPLETED" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>isCancelled</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="IS_CANCELLED" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>dsmId</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="DSM_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>equipmentType</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="EQUIPMENT_TYPE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timeAwarded</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="TIME_AWARDED" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveringCarrierName</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="DELIVERING_CARRIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveringCarrierScac</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="DELIVERING_CARRIER_SCAC" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveringCarrierVendorId</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="DELIVERING_CARRIER_VENDOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>cancelationReasonCode</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CANCELATION_REASON_CODE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>brokeredToCarrier</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="BROKERED_TO_CARRIER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierClientKey1</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_CLIENT_KEY_1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierClientKey2</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_CLIENT_KEY_2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierClientKey3</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_CLIENT_KEY_3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierClientKey4</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="CARRIER_CLIENT_KEY_4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pickupDate</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="PICKUP_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveryDate</attribute-name>
+               <field table="SHIPMENT_LOG_ENTRY" name="DELIVERY_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="SHIPMENT_LOG_ENTRY"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>PollOMSI_DBAdapter.AppointmentLogEntry</class>
+         <alias>APPOINTMENT_LOG_ENTRY</alias>
+         <primary-key>
+            <field table="APPOINTMENT_LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logEntryId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="APPOINTMENT_LOG_ENTRY" name="LOG_ENTRY_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>appointmentId</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="APPOINTMENT_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey1</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CLIENT_KEY_1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey2</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CLIENT_KEY_2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey3</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CLIENT_KEY_3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clientKey4</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CLIENT_KEY_4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stopSequenceNumber</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="STOP_SEQUENCE_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>startTime</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="START_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>endTime</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="END_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stopDuration</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="STOP_DURATION" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>isInbound</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="IS_INBOUND" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>isExternal</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="IS_EXTERNAL" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>locationCode</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="LOCATION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>doorName</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="DOOR_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierName</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CARRIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierScac</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CARRIER_SCAC" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorId</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="VENDOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>customerOrderNumber</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CUSTOMER_ORDER_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shipperRefNumber</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="SHIPPER_REF_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poNumber</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="PO_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bolNumber</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="BOL_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>consigneeSupplier</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="CONSIGNEE_SUPPLIER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logInTime</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="LOG_IN_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logInNotes</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="LOG_IN_NOTES" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logOutTime</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="LOG_OUT_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>logOutNotes</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="LOG_OUT_NOTES" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>gateInTime</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="GATE_IN_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>gateInNotes</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="GATE_IN_NOTES" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>gateOutTime</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="GATE_OUT_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>gateOutNotes</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="GATE_OUT_NOTES" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>schedulingUser</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="SCHEDULING_USER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>schedulingCompany</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="SCHEDULING_COMPANY" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>trailerNumber</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="TRAILER_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveringCarrierName</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="DELIVERING_CARRIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveringCarrierScac</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="DELIVERING_CARRIER_SCAC" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveringCarrierVendorId</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="DELIVERING_CARRIER_VENDOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>brokeredToCarrier</attribute-name>
+               <field table="APPOINTMENT_LOG_ENTRY" name="BROKERED_TO_CARRIER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="APPOINTMENT_LOG_ENTRY"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

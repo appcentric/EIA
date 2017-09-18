@@ -1,0 +1,61 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd"
+            xmlns:tns="http://xmlns.oracle.com/NUC_WriteBOLShipment_OTM_RailInc_ABF/BOLShipment/1.0"
+            targetNamespace="http://xmlns.oracle.com/NUC_WriteBOLShipment_OTM_RailInc_ABF/BOLShipment/1.0"
+            elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars"
+            nxsd:encoding="US-ASCII">
+  <xsd:element name="BOL">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CLUCInputHeader" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="InquiryID" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3"
+                           nxsd:padStyle="none" nxsd:paddedBy=""/>
+              <xsd:element name="CustomInfoIndicator" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1"
+                           nxsd:padStyle="none" nxsd:paddedBy=""/>
+              <xsd:element name="TO" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="none"
+                           nxsd:paddedBy=""/>
+              <xsd:element name="Space1" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail"
+                           nxsd:paddedBy=" "/>
+              <xsd:element name="SCAC" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4" nxsd:padStyle="none"
+                           nxsd:paddedBy=""/>
+              <xsd:element name="Space2" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail"
+                           nxsd:paddedBy=" "/>
+              <xsd:element name="FleetID" type="xsd:string" nxsd:style="fixedLength" nxsd:length="9"
+                           nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="FleetaUpdateCode" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1"
+                           nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="DateHour" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8"
+                           nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="ControlID" type="xsd:string" nxsd:style="fixedLength" nxsd:length="5"
+                           nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="CLUCInputDetailLines" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="FleetStatusCode" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1"
+                           nxsd:padStyle="none" nxsd:paddedBy=""/>
+              <xsd:element name="EquipmentInitials" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4"
+                           nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="EquipmentNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="6"
+                           nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="CustomInfo" type="xsd:string" nxsd:style="fixedLength" nxsd:length="14"
+                           nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="CLUCInputTrailer" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="Trailer" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3"
+                           nxsd:padStyle="none" nxsd:paddedBy=""/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

@@ -1,0 +1,150 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_Billet_Trx" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_Billet_Trx" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ApiBilletTransCollection" type="ApiBilletTransCollection"/>
+   <xs:complexType name="ApiBilletTransCollection">
+      <xs:sequence>
+         <xs:element name="ApiBilletTrans" type="ApiBilletTrans" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiBilletTrans">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="transactionType" type="string15" minOccurs="0"/>
+         <xs:element name="heatFrom" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="heat" type="string15" minOccurs="0"/>
+         <xs:element name="partCodeFrom" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="partCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="shape" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="billetSize" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="grade" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="lengthInches" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="stackFrom" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="stackLayerFrom" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="stack" type="string30" minOccurs="0"/>
+         <xs:element name="stackLayer" type="xs:int" minOccurs="0"/>
+         <xs:element name="dispositionFrom" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="disposition" type="string15" minOccurs="0"/>
+         <xs:element name="billetCount" type="xs:int" minOccurs="0"/>
+         <xs:element name="weightLbs" type="xs:long" minOccurs="0"/>
+         <xs:element name="crew" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="shift" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="userId" type="string15" minOccurs="0"/>
+         <xs:element name="userFirstName" type="string25" minOccurs="0"/>
+         <xs:element name="userLastName" type="string25" minOccurs="0"/>
+         <xs:element name="holdCode1_From" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode2_From" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode3_From" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode4_From" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode5_From" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode1" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode2" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode3" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode4" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCode5" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="processed" type="string1" minOccurs="0"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="tapDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="castDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="partcodeToCopy" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="factory" type="string2" minOccurs="0" nillable="true"/>
+         <xs:element name="jobNumber" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="reheat" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="productionMinutes" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="customerReference" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="rework" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="cobbles" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="billetBatch" type="string12" minOccurs="0" nillable="true"/>
+         <xs:element name="workCenter" type="xs:int" minOccurs="0"/>
+         <xs:element name="apiBilletTransDtlsCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="ApiBilletTransDtls" type="ApiBilletTransDtls" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiBilletTransDtls">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="billetId" type="string13" minOccurs="0" nillable="true"/>
+         <xs:element name="processed" type="string1" minOccurs="0"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="parentBilletId" type="string13" minOccurs="0" nillable="true"/>
+         <xs:element name="partCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="shape" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="billetSize" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="grade" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="lengthInches" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="stack" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="billetBatch" type="string12" minOccurs="0" nillable="true"/>
+         <xs:element name="weightLbs" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="strand" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="cut" type="xs:int" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_Get_Billet_TrxSelect_rownumInputParameters" type="DB_Get_Billet_TrxSelect_rownum"/>
+   <xs:complexType name="DB_Get_Billet_TrxSelect_rownum">
+      <xs:sequence>
+         <xs:element name="rownum" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string12">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="12"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string13">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="13"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_API_RECIPE_ROUTING" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_API_RECIPE_ROUTING" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="EbsRecipeRoutingsCollection" type="EbsRecipeRoutingsCollection"/>
+   <xs:complexType name="EbsRecipeRoutingsCollection">
+      <xs:sequence>
+         <xs:element name="EbsRecipeRoutings" type="EbsRecipeRoutings" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="EbsRecipeRoutings">
+      <xs:sequence>
+         <xs:element name="recipeNo" type="string25" nillable="true"/>
+         <xs:element name="formulaNo" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="partCodeIn" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="partCodeOut" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="activeFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdatedBy" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string250" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string250" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string250" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string250" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string250" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string250">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="250"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

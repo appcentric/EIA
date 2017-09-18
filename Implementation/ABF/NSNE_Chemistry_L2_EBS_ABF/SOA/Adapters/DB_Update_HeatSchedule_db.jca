@@ -1,0 +1,14 @@
+<adapter-config name="DB_Update_HeatSchedule" adapter="db" wsdlLocation="../WSDLs/DB_Update_HeatSchedule.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="L2_Dev" location="eis/DB/nsneL2"/>
+  <endpoint-interaction portType="DB_Update_HeatSchedule_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_Update_HeatSchedule.Cast_Heat_Trans_Events"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="DB_Update_HeatSchedule-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

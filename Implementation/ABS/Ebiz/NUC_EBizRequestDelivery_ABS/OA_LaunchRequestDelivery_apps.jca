@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_LaunchRequestDelivery" adapter="apps" wsdlLocation="OA_LaunchRequestDelivery.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBSDEVP" UIOracleAppType="DBOBJECT" UIConcurrentPgmName="XXNUC_FND_DELIVERY_UTIL" adapterRef=""/>
+  <endpoint-interaction portType="OA_LaunchRequestDelivery_ptt" operation="OA_LaunchRequestDelivery">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="CONCURRENTPROGRAM:XXNUC_FND_DELIVERY_UTIL:Process"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_FND_REQUEST_WRAPPER_PK"/>
+      <property name="ProcedureName" value="SUBMIT_REQUEST"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

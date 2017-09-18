@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/A2R/JournalAM/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jeam="http://xmlns.eia.com/AO/EBiz/A2R/JournalAM/1.0" xmlns:jeo="http://xmlns.eia.com/AO/EBiz/A2R/JournalAO/1.0" xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" 
+xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0">
+<xsd:import schemaLocation="../../../../AO/EBiz/A2R/V1.0/JournalAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/A2R/JournalAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+<xsd:import schemaLocation="../../../../EO/common/V1.0/Header.xsd" namespace="http://xmlns.eia.com/EO/common/Header/1.0"/>
+<xsd:element name="CreateJournalRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="Journal" type="jeo:JournalType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateJournalResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateListOfJournalsRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="Journal" type="jeo:ListOfJournalsType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateListOfJournalsResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="LaunchGLImportRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="InterfaceParams" type="jeo:InterfaceParamsType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="LaunchGLImportResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>

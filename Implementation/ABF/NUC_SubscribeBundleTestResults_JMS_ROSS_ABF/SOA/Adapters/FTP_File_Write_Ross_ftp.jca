@@ -1,0 +1,15 @@
+<adapter-config name="FTP_File_Write_Ross" adapter="ftp" wsdlLocation="../WSDLs/FTP_File_Write_Ross.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/HAFtpMoveIt"/>
+  <endpoint-interaction portType="Put_ptt" operation="Put">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPInteractionSpec">
+      <!--property name="PhysicalDirectory" value="Inventory/I011"/-->
+	  <property name="PhysicalDirectory" value="Inventory/invxchg/EBS/outbound_to/ROSS"/>	  
+      <property name="FileType" value="ascii"/>
+      <property name="Append" value="false"/>
+      <property name="FileNamingConvention" value="tmp.xml"/>
+      <property name="NumberMessages" value="1"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

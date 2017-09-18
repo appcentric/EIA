@@ -1,0 +1,791 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Jul 18 13:47:16 IST 2013
+  Author:  PrasanthP
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_PublishCustomerEBiz_ABF" targetNamespace="http://xmlns.oracle.com/NUCOR/NUC_PublishCustomerEBiz_ABF/NUC_PublishCustomerEBiz_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:client="http://xmlns.oracle.com/NUCOR/NUC_PublishCustomerEBiz_ABF/NUC_PublishCustomerEBiz_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_Publish_UpdateCustomer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_Publish_CreateCustomer"
+         xmlns:ns3="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/jms/NUCOR/NUC_PublishCustomerEBiz_ABF/JMS_PublishCustomer" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns5="http://xmlns.eia.com/EO/Common/1.0" xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_Get_CreateCustomer"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_Get_UpdateCustomer" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns8="http://xmlns.oracle.com/xdb/APPS/OA_Publish_CreateCustomer" xmlns:ns9="http://xmlns.oracle.com/xdb/APPS"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_CreateCustomer_OrgBO_Event"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_UpdateCustomer_OrgBO_Event"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishCustomerEBiz_ABF/OA_Get_Org_Customer"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_Get_CreateCustomer"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishCustomerEBiz_ABF/OA_Receive_Customer_Update"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishCustomerEBiz_ABF/OA_Receive_Customer_Insert"
+         xmlns:ns16="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAO/1.0" xmlns:ns19="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+         xmlns:ns17="http://xmlns.eia.com/AO/EBiz/P2P/OrganizationAO/1.0" xmlns:ns18="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns20="http://xmlns.oracle.com/xdb/APPS/OA_Receive_Customer_Update" xmlns:ns21="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_Get_UpdateCustomer"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns22="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_PublishCustomerEBiz_ABF/JMS_PublishCustomer"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:ns24="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns23="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAM/1.0" xmlns:ns25="http://xmlns.eia.com/CommonLogging">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+          location="oramds:/apps/EIAMetadata/Infrastracture/wsdls/EIAAsyncErrorHandlingBPELProcessV1.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0" location="oramds:/apps/EIAMetadata/EO/common/Common.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcess" partnerLinkType="ns3:EIAAsyncErrorHandlingBPELProcess" partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="OA_Get_CreateCustomer" partnerLinkType="ns6:OA_Get_CreateCustomer_plt" partnerRole="OA_Get_CreateCustomer_role"/>
+    <partnerLink name="OA_Get_UpdateCustomer" partnerLinkType="ns7:OA_Get_UpdateCustomer_plt" partnerRole="OA_Get_UpdateCustomer_role"/>
+    <partnerLink name="OA_Receive_Customer_Update" partnerLinkType="ns14:DEQUEUE_plt" myRole="DEQUEUE_role"/>
+    <partnerLink name="OA_Receive_Customer_Insert" partnerLinkType="ns15:DEQUEUE_plt" myRole="DEQUEUE_role"/>
+    <partnerLink name="JMS_PublishCustomer" partnerLinkType="ns22:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns25:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="EIAFaultMsg" element="ns5:Fault"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns5:ProcessHeader"/>
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg" messageType="ns3:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="OA_Get_UpdatedCustomer_ReqMsg" messageType="ns7:args_in_msg"/>
+    <variable name="OA_Get_UpdatedCustomer_RespMsg" messageType="ns7:args_out_msg"/>
+    <!--
+    <variable name="OA_CreateCustomer_ReqMsg" messageType="ns2:WF_EVENT_T_msg"/>
+    <variable name="OA_UpdateCustomer_ReqMsg" messageType="ns1:WF_EVENT_T_msg"/>
+    <variable name="OA_UpdateCustomer_OrgBO_Event_ReqMsg" messageType="ns11:WF_EVENT_T_msg"/>
+     <variable name="OA_CreateCustomer_OrgBO_Event_ReqMsg" messageType="ns10:WF_EVENT_T_msg"/>
+    -->
+    <!--variable name="JMS_PublishOrgCustomer_ReqMsg" messageType="ns4:Produce_Message_msg"/-->
+    <variable name="OA_ReceiveCustomer_Update_ReqMsg" messageType="ns14:WF_EVENT_T_msg"/>
+    <variable name="OA_Receive_Customer_Insert_ReqMsg" messageType="ns15:WF_EVENT_T_msg"/>
+    <variable name="OA_Get_CreatedCustomer_ReqMsg" messageType="ns6:args_in_msg"/>
+    <variable name="OA_Get_CreatedCustomer_RespMsg" messageType="ns6:args_out_msg"/>
+    <variable name="CustomerNumber" type="xsd:string"/>
+    <variable name="CompositeTitle" type="xsd:string"/>
+    <variable name="Invoke_JMS_PublishCustomer_Produce_Message_InputVariable" messageType="ns22:Produce_Message_msg"/>
+    <variable name="transactionId" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence5">
+        <scope name="Scope5">
+          <variables>
+            <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                      messageType="ns25:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence>
+            <assign name="Assign_CatchAll">
+              <copy>
+                <from>$transactionId</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I118'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'CustomerInfo'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>29</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LogType</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns25:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!--
+  <faultHandlers>
+    <catchAll>
+      <sequence>
+        <assign name="InitializeEIAFaultMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/SetEIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+            <to variable="EIAFaultMsg"/>
+          </copy>
+        </assign>
+        <assign name="SetEIAFaultMsg">
+          <copy>
+            <from>ora:getFaultName()</from>
+            <to>$EIAFaultMsg/ns5:FaultMessage/ns5:Code</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg/ns5:FaultMessage/ns5:Text</to>
+          </copy>
+          <copy>
+            <from>"1.0"</from>
+            <to>$EIAFaultMsg/ns5:FaultMessage/ns5:Severity</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg/ns5:FaultMessage/ns5:Stack</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultMessage/ns5:Code</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultMessage/ns5:Code</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultMessage/ns5:Text</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultMessage/ns5:Text</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultMessage/ns5:Severity</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultMessage/ns5:Severity</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultMessage/ns5:Stack</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultMessage/ns5:Stack</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:ReportingDateTime</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:ReportingDateTime</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:CorrectiveAction</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:CorrectiveAction</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultingService/ns5:ID</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultingService/ns5:ID</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultingService/ns5:Process</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultingService/ns5:Process</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns5:FaultingService/ns5:InstanceID</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns5:FaultingService/ns5:InstanceID</to>
+          </copy>
+        </assign>
+        <assign name="Xform_EIAFaultMsg_ErrorHandlingReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/Xform_EIAFaultMsg_ErrorHandlingReqMsg.xsl", $EIAFaultMsg)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                part="FaultMessage"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                portType="ns3:EIAAsyncErrorHandlingBPELProcess"
+                operation="processFault"
+                inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <rethrow name="Rethrow"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>-->
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="OA_ReceiveCustomer_Update_ReqMsg" partnerLink="OA_Receive_Customer_Update" portType="ns14:DEQUEUE_ptt" operation="DEQUEUE">
+        <sequence name="Publish_CreateCustomer">
+          <scope name="Scope_StartLogging_Update">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns25:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence1">
+              <assign name="Assign_StartLogging_Update">
+                <copy>
+                  <from>ora:getComponentInstanceId()</from>
+                  <to>$transactionId</to>
+                </copy>
+                <copy>
+                  <from>$transactionId</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>oraext:setFlowInstanceTitle(string($transactionId))</from>
+                  <to>$transactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I118'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>'CustomerInfo'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>29</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                      portType="ns25:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Xform_OA_CustomerUpdate_Event_OA_GetUpdatedCustomer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_CustomerUpdate_Event_OA_GetUpdatedCustomer_ReqMsg.xsl", $OA_ReceiveCustomer_Update_ReqMsg.WF_EVENT_T)</from>
+              <to variable="OA_Get_UpdatedCustomer_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Get_Updated_Customer" partnerLink="OA_Get_UpdateCustomer" portType="ns7:OA_Get_UpdateCustomer_ptt" operation="OA_Get_UpdateCustomer"
+                  inputVariable="OA_Get_UpdatedCustomer_ReqMsg" outputVariable="OA_Get_UpdatedCustomer_RespMsg" bpelx:invokeAsDetail="no">
+                 
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">eia:getEIAServiceProperty("NUC_PublishCustomerEBiz_ABF","EBS_USER_NAME")</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">eia:getEIAServiceProperty("NUC_PublishCustomerEBiz_ABF","EBS_RESP_NAME")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="SetCompositeTiltle">
+            <copy>
+              <from>concat('Account Number : ',$OA_Get_UpdatedCustomer_RespMsg.OutputParameters/ns21:X_ORG_CUST_V2_OBJS/ns21:X_ORG_CUST_V2_OBJS_ITEM/ns21:ACCOUNT_OBJS/ns21:ACCOUNT_OBJS_ITEM/ns21:ACCOUNT_NUMBER)</from>
+              <to>$CustomerNumber</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle($CustomerNumber)</from>
+              <to>$CompositeTitle</to>
+            </copy>
+          </assign>
+          <assign name="Xform_OA_Get_UpdatedCustomer_RespMsg_JMS_PublishCustomer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_Get_UpdatedCustomer_RespMsg_JMS_PublishCustomer_ReqMsg.xsl", $OA_Get_UpdatedCustomer_RespMsg.OutputParameters)</from>
+              <to variable="Invoke_JMS_PublishCustomer_Produce_Message_InputVariable" part="body"/>
+            </copy>
+          </assign>
+          <assign name="Assign_Header">
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_JMS_PublishCustomer_Produce_Message_InputVariable.body/ns24:HeaderRq/ns24:ServiceName</to>
+            </copy>
+            <copy>
+              <from>$transactionId</from>
+              <to>$Invoke_JMS_PublishCustomer_Produce_Message_InputVariable.body/ns24:HeaderRq/ns24:TransactionIDREF</to>
+            </copy>
+          </assign>
+          <!--assign name="Xform_OA_Get_UpdatedCustomer_RespMsg_JMS_PublishCustomer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_Get_UpdatedCustomer_RespMsg_JMS_PublishCustomer_ReqMsg.xsl", $OA_Get_UpdatedCustomer_RespMsg.OutputParameters)</from>
+              <to variable="JMS_PublishOrgCustomer_ReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_JMS_PublishCustomer" partnerLink="JMS_PublishCustomer" portType="ns4:Produce_Message_ptt" operation="Produce_Message"
+                  inputVariable="JMS_PublishOrgCustomer_ReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+               <bpelx:toProperty name="jca.jms.JMSProperty.JMSType">'CustomerInfo'</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke-->
+          <invoke name="Invoke_JMS_PublishCustomer" partnerLink="JMS_PublishCustomer"
+                  portType="ns22:Produce_Message_ptt" operation="Produce_Message"
+                  inputVariable="Invoke_JMS_PublishCustomer_Produce_Message_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.jms.JMSType">'CustomerInfo'</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <scope name="Scope3">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns25:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence4">
+              <assign name="Assign_EndLogging_Update">
+                <copy>
+                  <from>$transactionId</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I118'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>'CustomerInfo'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>29</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                      portType="ns25:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </onMessage>
+      <onMessage variable="OA_Receive_Customer_Insert_ReqMsg" partnerLink="OA_Receive_Customer_Insert" portType="ns15:DEQUEUE_ptt" operation="DEQUEUE">
+        <sequence name="Publish_UpdateCustomer">
+          <scope name="Scope_StarLogging_Create">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns25:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence2">
+              <assign name="Assign_StartLogging_Create">
+                <copy>
+                  <from>ora:getComponentInstanceId()</from>
+                  <to>$transactionId</to>
+                </copy>
+                <copy>
+                  <from>$transactionId</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>oraext:setFlowInstanceTitle(string($transactionId))</from>
+                  <to>$transactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I118'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>'CustomerInfo'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>29</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                      portType="ns25:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Xform_OA_CustomerInsert_Event_OA_GetInsertedCustomer_ReqMsg" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_CustomerInsert_Event_OA_Get_CreatedCustomer_ReqMsg.xsl", $OA_Receive_Customer_Insert_ReqMsg.WF_EVENT_T)</from>
+              <to variable="OA_Get_CreatedCustomer_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_Get_InsertedCustomer" inputVariable="OA_Get_CreatedCustomer_ReqMsg" outputVariable="OA_Get_CreatedCustomer_RespMsg"
+                  partnerLink="OA_Get_CreateCustomer" portType="ns6:OA_Get_CreateCustomer_ptt" operation="OA_Get_CreateCustomer" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">eia:getEIAServiceProperty("NUC_PublishCustomerEBiz_ABF","EBS_USER_NAME")</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">eia:getEIAServiceProperty("NUC_PublishCustomerEBiz_ABF","EBS_RESP_NAME")</bpelx:toProperty>
+            </bpelx:toProperties>
+                  </invoke><assign name="SetCompositeTiltle"
+                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>concat('Account Number : ',$OA_Get_CreatedCustomer_RespMsg.OutputParameters/ns13:X_ORG_CUST_V2_OBJS/ns13:X_ORG_CUST_V2_OBJS_ITEM/ns13:ACCOUNT_OBJS/ns13:ACCOUNT_OBJS_ITEM/ns13:ACCOUNT_NUMBER)</from>
+              <to>$CustomerNumber</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle($CustomerNumber)</from>
+              <to>$CompositeTitle</to>
+            </copy>
+          </assign>
+          <assign name="Xform_OA_Get_CreatedCustomer_RespMsg_JMS_PublishCreateCustomer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_Get_CreatedCustomer_RespMsg_JMS_PublishCustomer_ReqMsg.xsl", $OA_Get_CreatedCustomer_RespMsg.OutputParameters)</from>
+              <to variable="Invoke_JMS_PublishCustomer_Produce_Message_InputVariable" part="body"/>
+            </copy>
+          </assign>
+          <assign name="Assign_Header">
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_JMS_PublishCustomer_Produce_Message_InputVariable.body/ns24:HeaderRq/ns24:ServiceName</to>
+            </copy>
+            <copy>
+              <from>$transactionId</from>
+              <to>$Invoke_JMS_PublishCustomer_Produce_Message_InputVariable.body/ns24:HeaderRq/ns24:TransactionIDREF</to>
+            </copy>
+          </assign>
+          <!--assign name="Xform_OA_Get_CreatedCustomer_RespMsg_JMS_PublishCreateCustomer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_Get_CreatedCustomer_RespMsg_JMS_PublishCustomer_ReqMsg.xsl", $OA_Get_CreatedCustomer_RespMsg.OutputParameters)</from>
+              <to variable="JMS_PublishOrgCustomer_ReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_JMS_PublishCustomer" partnerLink="JMS_PublishCustomer" portType="ns4:Produce_Message_ptt" operation="Produce_Message"
+                  inputVariable="JMS_PublishOrgCustomer_ReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+               <bpelx:toProperty name="jca.jms.JMSProperty.JMSType">'CustomerInfo'</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke-->
+          <invoke name="Invoke_JMS_PublishCustomer" partnerLink="JMS_PublishCustomer"
+                  portType="ns22:Produce_Message_ptt" operation="Produce_Message"
+                  inputVariable="Invoke_JMS_PublishCustomer_Produce_Message_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.jms.JMSType">'CustomerInfo'</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <scope name="Scope4">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns25:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence3">
+              <assign name="Assign_EndLogging_Create">
+                <copy>
+                  <from>$transactionId</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I118'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>'CustomerInfo'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>29</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns25:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                      portType="ns25:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </onMessage>
+      <!--
+      <onMessage variable="OA_CreateCustomer_OrgBO_Event_ReqMsg"
+                 partnerLink="OA_CreateCustomer_OrgBO_Event"
+                 portType="ns10:DEQUEUE_ptt" operation="DEQUEUE">
+        <sequence name="Sequence1">
+          <assign name="Xform_OA_CreateCustomer_OrgBO_Event_ReqMsg_Invoke_OA_Get_Org_Customer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_CreateCustomer_OrgBO_Event_ReqMsg_Invoke_OA_Get_Org_Customer_ReqMsg.xsl", $OA_CreateCustomer_OrgBO_Event_ReqMsg.WF_EVENT_T)</from>
+              <to variable="Invoke_OA_Get_Org_Customer_ReqMsg"
+                  part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_Get_Org_Customer"
+                  partnerLink="OA_Get_Org_Customer"
+                  portType="ns12:OA_Get_Org_Customer_ptt"
+                  operation="OA_Get_Org_Customer"
+                  inputVariable="Invoke_OA_Get_Org_Customer_ReqMsg"
+                  outputVariable="Invoke_OA_Get_Org_Customer_RespMsg"
+                  bpelx:invokeAsDetail="no"/>
+          <assign name="Xform_OA_CreateCustomer_OrgBO_Event_RespMsg_JMS_PublishOrgCustomer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_CreateCustomer_OrgBO_Event_RespMsg_JMS_PublishOrgCustomer_ReqMsg.xsl", $Invoke_OA_Get_Org_Customer_RespMsg.OutputParameters)</from>
+              <to variable="Invoke_JMS_PublishOrgCustomer_ReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_JMS_PublishOrgCustomer"
+                  partnerLink="JMS_PublishCustomer"
+                  portType="ns4:Produce_Message_ptt"
+                  operation="Produce_Message"
+                  inputVariable="Invoke_JMS_PublishOrgCustomer_ReqMsg"
+                  bpelx:invokeAsDetail="no"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="OA_UpdateCustomer_OrgBO_Event_ReqMsg"
+                 partnerLink="OA_UpdateCustomer_OrgBO_Event"
+                 portType="ns11:DEQUEUE_ptt" operation="DEQUEUE">
+        <sequence name="Sequence2">
+          <assign name="Xform_OA_UpdateCustomer_OrgBO_Event_ReqMsg_Invoke_OA_Get_Org_Customer_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_UpdateCustomer_OrgBO_Event_ReqMsg_Invoke_OA_Get_Org_Customer_ReqMsg.xsl", $OA_UpdateCustomer_OrgBO_Event_ReqMsg.WF_EVENT_T)</from>
+              <to variable="Invoke_OA_Get_Org_Customer_ReqMsg"
+                  part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_Get_Org_Customer"
+                  partnerLink="OA_Get_Org_Customer"
+                  portType="ns12:OA_Get_Org_Customer_ptt"
+                  operation="OA_Get_Org_Customer"
+                  inputVariable="Invoke_OA_Get_Org_Customer_ReqMsg"
+                  outputVariable="Invoke_OA_Get_Org_Customer_RespMsg"
+                  bpelx:invokeAsDetail="no"/>
+          <assign name="Xform_OA_UpdateCustomer_OrgBO_Event_RespMsg_JMS_PublishOrgCustomer_ReqM">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_UpdateCustomer_OrgBO_Event_RespMsg_JMS_PublishOrgCustomer_ReqM.xsl", $Invoke_OA_Get_Org_Customer_RespMsg.OutputParameters)</from>
+              <to variable="Invoke_JMS_PublishOrgCustomer_ReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_JMS_PublishOrgCustomer"
+                  partnerLink="JMS_PublishCustomer"
+                  portType="ns4:Produce_Message_ptt"
+                  operation="Produce_Message"
+                  inputVariable="Invoke_JMS_PublishOrgCustomer_ReqMsg"
+                  bpelx:invokeAsDetail="no"/>
+        </sequence>
+      </onMessage>-->
+    </pick>
+  </sequence>
+</process>

@@ -1,0 +1,22 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="DJJGetPurchaseOrder_ep"
+     targetNamespace="http://xmlns.eia.com/ABF/NUC_PurchaseOrder_DJJ_EBiz_ABF/v1_0"
+     xmlns:tns="http://xmlns.eia.com/ABF/NUC_PurchaseOrder_DJJ_EBiz_ABF/v1_0"
+     xmlns:inp1="http://schemas.oracle.com/service/bpel/common"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="parameter" element="inp1:parameters"/>
+    </wsdl:message>
+    <wsdl:portType name="execute_ptt">
+        <wsdl:operation name="execute">
+            <wsdl:input message="tns:requestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

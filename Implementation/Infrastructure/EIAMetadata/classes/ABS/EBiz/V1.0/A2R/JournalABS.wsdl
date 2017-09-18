@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:jeam="http://xmlns.eia.com/AO/EBiz/A2R/JournalAM/1.0"
+	xmlns:core="http://xmlns.eia.com/EO/Common/1.0">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://xmlns.eia.com/AO/EBiz/A2R/JournalAM/1.0"
+				schemaLocation="../../../../AO/EBiz/A2R/V1.0/JournalAM.xsd" />
+			<xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0"
+				schemaLocation="../../../../EO/common/Common.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="CreateJournalRequestMessageType">
+		<wsdl:part name="CreateJournalRequestMessage" element="jeam:CreateJournalRequestMessage" />
+	</wsdl:message>
+	<wsdl:message name="CreateJournalResponseMessageType">
+		<wsdl:part name="CreateJournalResponseMessage" element="jeam:CreateJournalResponseMessage" />
+	</wsdl:message>
+
+	<wsdl:message name="CreateListOfJournalsRequestMessageType">
+		<wsdl:part name="CreateListOfJournalsRequestMessage" element="jeam:CreateListOfJournalsRequestMessage" />
+	</wsdl:message>
+	<wsdl:message name="CreateListOfJournalsResponseMessageType">
+		<wsdl:part name="CreateListOfJournalsResponseMessage" element="jeam:CreateListOfJournalsResponseMessage" />
+	</wsdl:message>
+	
+
+	<wsdl:message name="LaunchGLImportRequestMessageType">
+		<wsdl:part name="LaunchGLImportRequestMessage" element="jeam:LaunchGLImportRequestMessage" />
+	</wsdl:message>
+	<wsdl:message name="LaunchGLImportResponseMessageType">
+		<wsdl:part name="LaunchGLImportResponseMessage" element="jeam:LaunchGLImportResponseMessage" />
+	</wsdl:message>
+
+	<wsdl:message name="EIAFaultMsgType">
+		<wsdl:part name="Fault" element="core:Fault" />
+	</wsdl:message>
+
+	<wsdl:portType name="SyncPortType">
+
+		<wsdl:operation name="CreateJournal_Sync">
+			<wsdl:input message="tns:CreateJournalRequestMessageType" />
+			<wsdl:output message="tns:CreateJournalResponseMessageType" />
+			<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="CreateListOfJournals_Sync">
+			<wsdl:input message="tns:CreateListOfJournalsRequestMessageType" />
+			<wsdl:output message="tns:CreateListOfJournalsResponseMessageType" />
+			<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault" />
+		</wsdl:operation>	
+
+		<wsdl:operation name="LaunchGLImport">
+			<wsdl:input message="tns:LaunchGLImportRequestMessageType" />
+			<wsdl:output message="tns:LaunchGLImportResponseMessageType" />
+			<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault" />
+		</wsdl:operation>
+
+	</wsdl:portType>
+	<wsdl:binding name="SyncBinding" type="tns:SyncPortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="CreateJournal_Sync">
+			<soap:operation
+				soapAction="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0/CreateJournal_Sync" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="EIAFault">
+				<soap:fault use="literal" name="EIAFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="CreateListOfJournals_Sync">
+			<soap:operation
+				soapAction="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0/CreateListOfJournals_Sync" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="EIAFault">
+				<soap:fault use="literal" name="EIAFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="LaunchGLImport">
+			<soap:operation
+				soapAction="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0/LaunchGLImport" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="EIAFault">
+				<soap:fault use="literal" name="EIAFault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="JournalABS">
+		<wsdl:port name="SyncPort" binding="tns:SyncBinding">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

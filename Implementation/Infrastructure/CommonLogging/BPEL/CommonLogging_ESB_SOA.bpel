@@ -1,0 +1,78 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Jul 02 07:54:46 CDT 2015
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CommonLogging_ESB_SOA"
+               targetNamespace="http://xmlns.oracle.com/CommonLogging/CommonLogging/CommonLogging_ESB_SOA"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/CommonLogging/CommonLogging/CommonLogging_ESB_SOA"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingRequesterAqAdapter"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/xdb/APPS_NE" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns12="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns11="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns4="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ns8="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:ns14="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:ns7="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns10="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ns5="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ns9="http://xmlns.oracle.com/scheduler"
+         xmlns:ns15="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ns13="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns6="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingRequesterAqAdapter"
+          location="../CommonLoggingRequesterAqAdapter.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="CommonLoggingRequesterAqAdapter" partnerLinkType="ns1:Dequeue_plt" myRole="Dequeue_role"/>
+    <partnerLink name="CommonLoggingProviderAQAdapter" partnerLinkType="ns2:Enqueue_plt" partnerRole="Enqueue_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_Dequeue_InputVariable" messageType="ns1:XXNUC_COMM_LOGG_OBJ_TYP_msg"/>
+    <variable name="Invoke_Enqueue_InputVariable" messageType="ns2:XXNUC_COMM_LOGG_OBJ_TYP_msg"/>
+    <variable name="temp" type="xsd:date"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <rethrow name="Rethrow1"/>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="ReceiveCommonLoggingInput" createInstance="yes" partnerLink="CommonLoggingRequesterAqAdapter"
+             portType="ns1:Dequeue_ptt" operation="Dequeue" variable="Receive_Dequeue_InputVariable"/>
+    <assign name="TransformationESBLogToSOALog">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Transformation_3.xsl", $Receive_Dequeue_InputVariable.XXNUC_COMM_LOGG_OBJ_TYP)</from>
+        <to variable="Invoke_Enqueue_InputVariable" part="XXNUC_COMM_LOGG_OBJ_TYP"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeCommonLoggingSOAAQ" partnerLink="CommonLoggingProviderAQAdapter"
+            portType="ns2:Enqueue_ptt" operation="Enqueue" inputVariable="Invoke_Enqueue_InputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>(eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false") and not($Receive_Dequeue_InputVariable.XXNUC_COMM_LOGG_OBJ_TYP/LOG_TYPE = 4) </bpelx:skipCondition>
+    </invoke>
+  </sequence>
+</process>

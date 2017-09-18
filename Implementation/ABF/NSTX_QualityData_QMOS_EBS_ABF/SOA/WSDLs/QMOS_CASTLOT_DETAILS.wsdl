@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="QMOS_CASTLOT_DETAILS"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QMOS_CASTLOT_DETAILS"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QMOS_CASTLOT_DETAILS"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_CASTLOT_DETAILS"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="QMOS_CASTLOT_DETAILS_plt" >
+    <plt:role name="QMOS_CASTLOT_DETAILS_role" >
+      <plt:portType name="tns:QMOS_CASTLOT_DETAILS_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/QMOS_CASTLOT_DETAILS" schemaLocation="../Schemas/QMOS_CASTLOT_DETAILS_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="QMOS_CASTLOT_DETAILSSelect_inputParameters">
+        <wsdl:part name="QMOS_CASTLOT_DETAILSSelect_inputParameters" element="top:QMOS_CASTLOT_DETAILSSelect_SampleNoInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="VLotVisibilityCollection_msg">
+        <wsdl:part name="VLotVisibilityCollection" element="top:VLotVisibilityCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="QMOS_CASTLOT_DETAILS_ptt">
+        <wsdl:operation name="QMOS_CASTLOT_DETAILSSelect">
+            <wsdl:input message="tns:QMOS_CASTLOT_DETAILSSelect_inputParameters"/>
+            <wsdl:output message="tns:VLotVisibilityCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

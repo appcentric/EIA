@@ -1,0 +1,170 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue May 22 01:37:14 EDT 2012
+  Author:  Vivek Srinivasan
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EIAConfigBPELProcess"
+               targetNamespace="http://xmlns.eia.com/Infrastructure/EIAConfigBPELProcess/V1.0"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.eia.com/Infrastructure/EIAConfigBPELProcess/V1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns1="http://xmlns.eia.com/Infrastructure/scehmas/EIAConfigAO/V1.0"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/EIAConfigBPELProcess.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <partnerLink name="EIAConfigBPELProcess_EP"
+                 partnerLinkType="client:EIAConfigBPELProcess"
+                 myRole="EIAConfigBPELProcess"/>
+  </partnerLinks>
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="SystemProperty_ReqMsg"
+              messageType="client:SystemPropertyRequestType"/>
+    <variable name="ReloadConfig_ReqMsg"
+              messageType="client:ConfigReloadRequestType"/>
+    <variable name="SystemProperty_RespMsg"
+              messageType="client:ConfigResponseType"/>
+    <variable name="SystemModuleProperty_ReqMsg"
+              messageType="client:ModulePropertyRequestType"/>
+    <variable name="SystemModuleProperty_RespMsg"
+              messageType="client:ConfigResponseType"/>
+    <variable name="ServiceProperty_ReqMsg"
+              messageType="client:ServicePropertyRequestType"/>
+    <variable name="ServiceProperty_RespMsg"
+              messageType="client:ConfigResponseType"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in EIAConfigBPELProcess.wsdl) -->
+
+    <!-- Generate reply to synchronous request -->
+    <pick name="Pick_Operation" createInstance="yes">
+      <onMessage variable="SystemProperty_ReqMsg"
+                 partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="getSystemProperty">
+        <bpelx:annotation>
+          <bpelx:documentation>SystemProperty</bpelx:documentation>
+        </bpelx:annotation>
+        <sequence>
+          <assign name="getSystemProperty">
+            <copy>
+              <from expression="eia:getEIASystemProperty(string(bpws:getVariableData('SystemProperty_ReqMsg','payload','/ns1:SystemPropertyRequest/ns1:Property')))"/>
+              <to variable="SystemProperty_RespMsg" part="payload"
+                  query="/ns1:ConfigResponse/ns1:Value"/>
+            </copy>
+          </assign>
+          <reply name="reply_SystemPropertyRespMsg" partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="getSystemProperty"
+                 variable="SystemProperty_RespMsg"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="ReloadConfig_ReqMsg"
+                 partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="reloadEIAConfig">
+        <sequence name="Sequence1">
+          <bpelx:exec name="reloadEIAConfig" version="1.5" language="java">
+            <![CDATA[/*Write your java code below e.g.  
+	System.out.println("Hello, World"); 
+*/ 
+try 
+{ 
+ com.eia.soa.util.Configuration.initialize(); 
+} 
+catch (Exception ex) 
+{ 
+ System.out.println("Exception "+ex.toString()); 
+}]]>
+          </bpelx:exec>
+        </sequence>
+      </onMessage>
+      <onMessage variable="SystemModuleProperty_ReqMsg"
+                 partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="getSystemModuleProperty">
+        <sequence name="Sequence2">
+          <assign name="getSystemModuleProperty">
+            <copy>
+              <from expression="eia:getEIAModuleProperty(string(bpws:getVariableData('SystemModuleProperty_ReqMsg','payload','/ns1:ModulePropertyRequest/ns1:ModulePropertyName')),string(bpws:getVariableData('SystemModuleProperty_ReqMsg','payload','/ns1:ModulePropertyRequest/ns1:Property')))"/>
+              <to variable="SystemModuleProperty_RespMsg" part="payload"
+                  query="/ns1:ConfigResponse/ns1:Value"/>
+            </copy>
+          </assign>
+          <reply name="reply_SystemModuleProperty"
+                 variable="SystemModuleProperty_RespMsg"
+                 partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="getSystemModuleProperty"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="ServiceProperty_ReqMsg"
+                 partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="getServiceProperty">
+        <sequence name="Sequence3">
+          <assign name="getServiceProperty">
+            <copy>
+              <from expression="eia:getEIAServiceProperty(string(bpws:getVariableData('ServiceProperty_ReqMsg','payload','/ns1:ServicePropertyRequest/ns1:ServiceName')),string(bpws:getVariableData('ServiceProperty_ReqMsg','payload','/ns1:ServicePropertyRequest/ns1:Property')))"/>
+              <to variable="ServiceProperty_RespMsg" part="payload"
+                  query="/ns1:ConfigResponse/ns1:Value"/>
+            </copy>
+          </assign>
+          <reply name="reply_ServiceProperty" variable="ServiceProperty_RespMsg"
+                 partnerLink="EIAConfigBPELProcess_EP"
+                 portType="client:EIAConfigBPELProcess"
+                 operation="getServiceProperty"/>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

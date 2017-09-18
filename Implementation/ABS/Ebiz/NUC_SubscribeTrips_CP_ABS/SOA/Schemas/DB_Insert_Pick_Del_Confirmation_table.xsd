@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Pick_Del_Confirmation" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Pick_Del_Confirmation" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="OperationCollection" type="OperationCollection"/>
+   <xs:complexType name="OperationCollection">
+      <xs:sequence>
+         <xs:element name="Operation" type="Operation" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Operation">
+      <xs:sequence>
+         <xs:element name="operationId" type="xs:decimal"/>
+         <xs:element name="operation" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="isReady" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="isRead" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="resultCode" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="resultMessage" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="creationTimestamp" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="pickupConfirmationCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="PickupConfirmation" type="PickupConfirmation" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="deliveryConfirmationCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="DeliveryConfirmation" type="DeliveryConfirmation" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PickupConfirmation">
+      <xs:sequence>
+         <xs:element name="clientKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="stopSequenceNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="signingDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="notes" type="string300" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DeliveryConfirmation">
+      <xs:sequence>
+         <xs:element name="clientKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="stopSequenceNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="signer" type="string75" minOccurs="0"/>
+         <xs:element name="signingDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="notes" type="string300" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string300">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="300"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string75">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="75"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,108 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetShippingDocument_db" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetShippingDocument_db" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="WshDocumentInstancesCollection" type="WshDocumentInstancesCollection"/>
+   <xs:complexType name="WshDocumentInstancesCollection">
+      <xs:sequence>
+         <xs:element name="WshDocumentInstances" type="WshDocumentInstances" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="WshDocumentInstances">
+      <xs:sequence>
+         <xs:element name="documentInstanceId" type="xs:decimal"/>
+         <xs:element name="documentType" type="string30" minOccurs="0"/>
+         <xs:element name="sequenceNumber" type="string50" minOccurs="0"/>
+         <xs:element name="status" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="wshDeliveryLegs" type="WshDeliveryLegs" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="WshDeliveryLegs">
+      <xs:sequence>
+         <xs:element name="deliveryLegId" type="xs:decimal"/>
+         <xs:element name="wshNewDeliveries" type="WshNewDeliveries" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="WshNewDeliveries">
+      <xs:sequence>
+         <xs:element name="deliveryId" type="xs:decimal"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="statusCode" type="string2" minOccurs="0"/>
+         <xs:element name="confirmDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentDirection" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="wshDeliveryTripsVCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="WshDeliveryTripsV" type="WshDeliveryTripsV" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="hrOperatingUnits" type="HrOperatingUnits" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="WshDeliveryTripsV">
+      <xs:sequence>
+         <xs:element name="tripId" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="plannedFlag" type="string1" minOccurs="0"/>
+         <xs:element name="statusName" type="string80" minOccurs="0"/>
+         <xs:element name="vehicleNumber" type="string35" minOccurs="0" nillable="true"/>
+         <xs:element name="shipMethodCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="HrOperatingUnits">
+      <xs:sequence>
+         <xs:element name="organizationId" type="xs:long"/>
+         <xs:element name="shortCode" type="string150" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_GetShippingDocument_dbSelect_OrganizationId_OrganizationCode_DocumentType_DocumentNumber_Status_rowNumInputParameters" type="DB_GetShippingDocument_dbSelect_OrganizationId_OrganizationCode_DocumentType_DocumentNumber_Status_rowNum"/>
+   <xs:complexType name="DB_GetShippingDocument_dbSelect_OrganizationId_OrganizationCode_DocumentType_DocumentNumber_Status_rowNum">
+      <xs:sequence>
+         <xs:element name="OrganizationId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="OrganizationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="DocumentType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="DocumentNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="Status" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="rowNum" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string80">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="80"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string35">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="35"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string150">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="150"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_CancelPurchaseOrderEBS" adapter="apps" wsdlLocation="OA_CancelPurchaseOrderEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs_nonxa" UIConnectionName="EBSCRP1" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_CancelPurchaseOrderEBS_ptt" operation="OA_CancelPurchaseOrderEBS">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:XXNUC_PO_INT_WRAPPER_UTILS_PKG:CONTROL_DOCUMENT"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_PO_INT_WRAPPER_UTILS_PKG"/>
+      <property name="ProcedureName" value="CONTROL_DOCUMENT"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

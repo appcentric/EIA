@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions
+     name="WshSendOtmDocument"
+     targetNamespace="http://xmlns.oracle.com/WshSendOtmDocument"
+     xmlns:ns1="http://xmlns.oracle.com/apps/otm"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/WshSendOtmDocument"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <!--wsdl:documentation>
+        <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/otm/WshSendOtmDocument!1.0/WshSendOtmDocument.wsdl</abstractWSDL>
+    </wsdl:documentation-->
+    <plnk:partnerLinkType name="WshSendOtmDocument">
+        <plnk:role name="WshSendOtmDocumentProvider">
+            <plnk:portType name="client:WshSendOtmDocument"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://xmlns.oracle.com/apps/otm"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/WshSendOtmDocument"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.oracle.com/apps/otm" schemaLocation="../../../../AO/OTM/common/V1.0/GLogXML.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="WshSendOtmDocumentRequestMessage">
+        <wsdl:part name="payload" element="ns1:Transmission"/>
+    </wsdl:message>
+    <wsdl:message name="WshSendOtmDocumentResponseMessage">
+        <wsdl:part name="payload" element="ns1:TransmissionAck"/>
+    </wsdl:message>
+    <wsdl:portType name="WshSendOtmDocument">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:WshSendOtmDocumentRequestMessage"/>
+            <wsdl:output message="client:WshSendOtmDocumentResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="WshSendOtmDocumentBinding" type="client:WshSendOtmDocument">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="wshsendotmdocument_client_ep">
+        <wsdl:port name="WshSendOtmDocument_pt" binding="client:WshSendOtmDocumentBinding">
+            <soap:address location="http://example.org"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

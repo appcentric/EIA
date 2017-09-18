@@ -1,0 +1,29 @@
+<wsdl:definitions
+     name="FTP_WriteSalesOrderRecord"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteSalesOrderRecord"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteSalesOrderRecord"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/SO/1.0"
+    >
+  <plt:partnerLinkType name="Put_plt" >
+    <plt:role name="Put_role" >
+      <plt:portType name="tns:Put_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteSalesOrderRecord"
+              xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/SO/1.0" schemaLocation="../Schemas/SalesOrder.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Put_msg">
+        <wsdl:part name="body" element="imp1:SalesOrderList"/>
+    </wsdl:message>
+    <wsdl:portType name="Put_ptt">
+        <wsdl:operation name="Put">
+            <wsdl:input message="tns:Put_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

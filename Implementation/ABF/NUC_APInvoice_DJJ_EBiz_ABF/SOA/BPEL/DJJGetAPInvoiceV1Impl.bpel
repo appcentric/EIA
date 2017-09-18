@@ -1,0 +1,1062 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 10 10:54:38 CST 2015
+  Author:  taylorengel
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="DJJGetAPInvoiceV1Impl"
+         targetNamespace="http://xmlns.eia.com/ABF/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetAPInvoiceV1Impl"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/ABF/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetAPInvoiceV1Impl"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+         xmlns:ns2="http://xmlns.eia.com/ABF/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetAPInvoiceV1_ep"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:ns3="http://schemas.oracle.com/service/bpel/common"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:ns5="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns7="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:ns13="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0"
+         xmlns:ns14="http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0"
+         xmlns:ns17="http://xmlns.eia.com/AO/EBiz/common/DeliveryAO/1.0"
+         xmlns:ns16="http://xmlns.eia.com/AO/EBiz/common/DeliveryAM/1.0"
+         xmlns:ns15="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_APInvoice_DJJ_EBiz_ABF/DB_GetProfileCostFactorId"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetProfileCostFactorId"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"
+         xmlns:ns20="http://xmlns.oracle.com/Test/NUC_APInvoice_DJJ_EBiz_ABF/DJJAcknowledge_ep"
+         xmlns:ns21="http://xmlns.oracle.com/pcbpel/adapter/db/NUC_DJJ/NUC_APInvoice_DJJ_EBiz_ABF/DB_GetPODetails"
+         xmlns:ns22="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetPODetails">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0"
+          location="oramds:/apps/EIAMetadata/AO/EBiz/P2P/V1.0/InvoiceABM.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+          location="../WSDLs/DJJGetInvoiceV1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="DJJGetInvoiceV1" partnerLinkType="ns1:DJJGetInvoiceV1" partnerRole="DJJGetInvoiceV1Provider"/>
+    <partnerLink name="DJJGetAPInvoiceV1_ep" partnerLinkType="ns2:DJJGetAPInvoiceV1_ep" myRole="execute_ptt"/>
+    <partnerLink name="InvoiceABS" partnerLinkType="ns4:InvoiceABS" partnerRole="SyncPortType"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns5:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <!--partnerLink name="Invoke_RequestDeliveryABS" partnerLinkType="ns14:Invoke_RequestDeliveryABS"
+                 partnerRole="SyncPortType"/-->
+    <partnerLink name="DJJAcknowledge_ep" partnerLinkType="ns20:DJJAcknowledge_ep"
+                 partnerRole="DJJAcknowledge_epProvider"/>
+    <partnerLink name="DB_GetPODetails" partnerLinkType="ns21:DB_GetPODetails_plt" partnerRole="DB_GetPODetails_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="DJJGetAPInvoiceV1_ep_ReqMsg" messageType="ns2:requestMessage"/>
+    <variable name="DJJGetAPInvoiceV1_ReqMsg" messageType="ns1:Rest_EmptyMessage"/>
+    <variable name="DJJGetAPInvoiceV1_RespMsg" messageType="ns1:GetAPInvoice_outputMessage"/>
+    <variable name="InvoiceID" type="xsd:string"/>
+    <variable name="CommonLogging_ReqMsg" messageType="ns5:CommonLoggingRequestMessage"/>
+    <variable name="Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable"
+              messageType="ns4:CreateInvoiceRequestMessageType"/>
+    <variable name="Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_OutputVariable"
+              messageType="ns4:CreateInvoiceResponseMessageType"/>
+    <variable name="gblGenericParameters" element="ns3:parameters"/>
+    <variable name="CreateListInvoices" element="ns6:CreateListOfInvoicesRequestMessage"/>
+    <variable name="Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable" messageType="ns20:AcknowledgeINV_inputMessage"/>
+    <variable name="Invoke_DJJAcknowledge_AcknowledgeINV_OutputVariable" messageType="ns20:Rest_EmptyMessage"/>
+    <variable name="LaunchAutoInvoiceAPI_InputVariable" messageType="ns4:LaunchAutoInvoiceAPIRequestMessageType"/>
+    <variable name="LaunchAutoInvoiceAPI_OutputVariable" messageType="ns4:LaunchAutoInvoiceAPIResponseMessageType"/>
+    <variable name="gVar_GroupId" type="xsd:string"/>
+    <variable name="Invoke_GetPODetails_DB_GetPODetails_InputVariable" messageType="ns21:args_in_msg"/>
+    <variable name="Invoke_GetPODetails_DB_GetPODetails_OutputVariable" messageType="ns21:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="Scope_CommonLogging_Exception" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+        <sequence name="Sequence1">
+          <if name="If_NoContent">
+            <documentation>
+              <![CDATA[Yes]]>
+            </documentation>
+            <condition>contains(ora:getFaultAsString(),'No Content')</condition>
+            <assign name="Assign_CommonLogging">
+              <copy>
+                <from>'BMG-177'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageCode</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LogType</to>
+              </copy>
+              <copy>
+                <from>'DJJ REST Service'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageDescription</to>
+              </copy>
+            </assign>
+            <else>
+              <documentation>
+                <![CDATA[No]]>
+              </documentation>
+              <assign name="Assign_CommonLogging">
+                <copy>
+                  <from>''</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',ora:getFaultAsString())</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageDescription</to>
+                </copy>
+              </assign>
+            </else>
+          </if>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>"I096"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ComponentId</to>
+            </copy>
+            <copy>
+              <from>"NextGen"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$gVar_GroupId</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionId</to>
+            </copy>
+            <copy>
+              <from>"APInvoices"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>"15"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>"2"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>"2"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>"SOA"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>"SOA"</from>
+              <to>$CommonLogging_ReqMsg.CommonLogging/ns5:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                  operation="process" inputVariable="CommonLogging_ReqMsg" bpelx:invokeAsDetail="no"
+                  xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <!--if name="IfDjjError">
+            <empty name="ACKDJJWithErrorDetails"/>
+            <else>
+              <empty name="DoNotCallAckDJJ"/>
+            </else>
+          </if-->
+          <if name="IfDJJError">
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <condition>(($DJJGetAPInvoiceV1_RespMsg.reply/APICallBatchID) and ($DJJGetAPInvoiceV1_RespMsg.reply/APICallBatchID != '')) and (($DJJGetAPInvoiceV1_RespMsg.reply/ApplicationID) and ($DJJGetAPInvoiceV1_RespMsg.reply/ApplicationID != '') )</condition>
+            <sequence name="Sequence4">
+              <assign name="Assign_AckDJJCatchAll">
+                <copy>
+                  <from>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APIUserID</to>
+                </copy>
+                <copy>
+                  <from>$DJJGetAPInvoiceV1_RespMsg.reply/APICallBatchID</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APICallBatchID</to>
+                </copy>
+                <copy>
+                  <from>$DJJGetAPInvoiceV1_RespMsg.reply/ApplicationID</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ApplicationID</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',ora:getFaultAsString())</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/Comment</to>
+                </copy>
+                <copy>
+                  <from>'2'</from>
+                  <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/StatusID</to>
+                </copy>
+                <extensionAssignOperation>
+                  <bpelx:remove>
+                    <bpelx:target>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ChangeVersionID</bpelx:target>
+                  </bpelx:remove>
+                </extensionAssignOperation>
+                <extensionAssignOperation>
+                  <bpelx:remove>
+                    <bpelx:target>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeChildTypeID</bpelx:target>
+                  </bpelx:remove>
+                </extensionAssignOperation>
+                <extensionAssignOperation>
+                  <bpelx:remove>
+                    <bpelx:target>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeTypeID</bpelx:target>
+                  </bpelx:remove>
+                </extensionAssignOperation>
+              </assign>
+              <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep" portType="ns20:DJJAcknowledge_ep_ptt"
+                      operation="AcknowledgeINV" inputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable"
+                      outputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_OutputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="CallingAckReq"]/ns3:value = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="Ocp-Apim-Subscription-Key"]/ns3:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.IP">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="IP"]/ns3:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.requestURI">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="rest.binding.AckURI"]/ns3:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[Yes]]>
+              </documentation>
+              <empty name="DoNotCallAckDJJ"/>
+            </else>
+          </if>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="ReceiveDJJGetAPInvoiceV1_ep" createInstance="yes" partnerLink="DJJGetAPInvoiceV1_ep"
+             portType="ns2:execute_ptt" operation="execute" variable="DJJGetAPInvoiceV1_ep_ReqMsg"/>
+    <assign name="FetchGroupId">
+      <copy>
+        <from>oraext:sequence-next-val('RCV_INTERFACE_GROUPS_S','jdbc/ebsapps')</from>
+        <to>$gVar_GroupId</to>
+      </copy>
+    </assign>
+    <scope name="Scope_CommonLogging_Init">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProjectName</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($gVar_GroupId))</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionId</to>
+          </copy>
+          <copy>
+            <from>$gVar_GroupId</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"I096"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"APInvoices"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProcessName</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>"15"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-003"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageCode</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                inputVariable="CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <if name="IfTestData">
+      <documentation>
+        <![CDATA[TestDataPresent]]>
+      </documentation>
+      <condition>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name = "TestPayload"]/ns3:value != ""</condition>
+      <assign name="Assign_TestPayload">
+        <copy>
+          <from>oraext:parseXML($DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name = "TestPayload"]/ns3:value)</from>
+          <to>$DJJGetAPInvoiceV1_RespMsg.reply</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[TestDataNotPresent]]>
+        </documentation>
+        <sequence>
+          <invoke name="InvokeDJJGetAPInvoiceV1" partnerLink="DJJGetInvoiceV1" portType="ns1:DJJGetInvoiceV1_ptt"
+                  operation="GetAPInvoice" inputVariable="DJJGetAPInvoiceV1_ReqMsg"
+                  outputVariable="DJJGetAPInvoiceV1_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="Ocp-Apim-Subscription-Key"]/ns3:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.IP">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="IP"]/ns3:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.requestURI">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="rest.binding.requestURI"]/ns3:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="OverrideReturnCount"]/ns3:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.CallingAckReq">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="CallingAckReq"]/ns3:value</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </else>
+    </if>
+    <forEach parallel="no" counterName="DJJAPIdx" name="ForEach_DJJAPInvoices">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice)</finalCounterValue>
+      <scope name="Scope2">
+        <variables>
+          <variable name="tmpGroupIdNV" element="ns3:parameters"/>
+          <variable name="varGroupIdToLaunch" type="xsd:string"/>
+        </variables>
+        <sequence>
+          <scope name="Scope6">
+            <faultHandlers>
+              <catchAll>
+                <sequence>
+                  <assign name="Assign_Ack_CreateABSCatchAll">
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APIUserID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ChangeVersionID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ChangeVersionID</to>
+                    </copy>
+                    <copy>
+                      <from>'2'</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/StatusID</to>
+                    </copy>
+                    <copy>
+                      <from>ora:getFaultAsString()</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/Comment</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_RespMsg.reply/ApplicationID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ApplicationID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_RespMsg.reply/APICallBatchID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APICallBatchID</to>
+                    </copy>
+                    <copy>
+                      <from>'NextGen'</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProjectName</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/DataChangeTypeID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeTypeID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/DataChangeChildTypeID</from>
+                      <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeChildTypeID</to>
+                    </copy>
+                    <copy>
+                      <from>$gVar_GroupId</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionId</to>
+                    </copy>
+                    <copy>
+                      <from>'I096'</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ComponentId</to>
+                    </copy>
+                    <copy>
+                      <from>'APInvoices'</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionName</to>
+                    </copy>
+                    <copy>
+                      <from>ora:getCompositeName()</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProcessName</to>
+                    </copy>
+                    <copy>
+                      <from>1</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LoggingSystem</to>
+                    </copy>
+                    <copy>
+                      <from>15</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:SourceSystem</to>
+                    </copy>
+                    <copy>
+                      <from>2</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TargetSystem</to>
+                    </copy>
+                    <copy>
+                      <from>4</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LogType</to>
+                    </copy>
+                    <copy>
+                      <from>''</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageCode</to>
+                    </copy>
+                    <copy>
+                      <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',ora:getFaultAsString())</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageDescription</to>
+                    </copy>
+                    <copy>
+                      <from>1</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionStatus</to>
+                    </copy>
+                    <copy>
+                      <from>'SOA'</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:CreatedBy</to>
+                    </copy>
+                    <copy>
+                      <from>'SOA'</from>
+                      <to>$CommonLogging_ReqMsg.CommonLogging/ns5:UpdatedBy</to>
+                    </copy>
+                  </assign>
+                  <scope name="Scope7">
+                    <faultHandlers>
+                      <catchAll>
+                        <empty name="DoNothing"/>
+                      </catchAll>
+                    </faultHandlers>
+                    <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                            portType="ns20:DJJAcknowledge_ep_ptt" operation="AcknowledgeINV"
+                            inputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable"
+                            outputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_OutputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:skipCondition>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="CallingAckReq"]/ns3:value = "false"</bpelx:skipCondition>
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="Ocp-Apim-Subscription-Key"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="IP"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="rest.binding.AckURI"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </scope>
+                  <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                          operation="process" inputVariable="CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                </sequence>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_GroupIDToLaunch">
+                <copy>
+                  <from>oraext:sequence-next-val('RCV_INTERFACE_GROUPS_S','jdbc/ebsapps')</from>
+                  <to>$varGroupIdToLaunch</to>
+                </copy>
+              </assign>
+              <assign name="setGenericParmeter">
+                <copy>
+                  <from>'DJJAPIdx'</from>
+                  <to>$gblGenericParameters/ns3:item/ns3:name</to>
+                </copy>
+                <copy>
+                  <from>$DJJAPIdx</from>
+                  <to>$gblGenericParameters/ns3:item/ns3:value</to>
+                </copy>
+              </assign>
+              <if name="IfVersionIsGreaterThan0">
+                <documentation>
+                  <![CDATA[ShipmentVerrsion>0]]>
+                </documentation>
+                <condition>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ShipmentVersionID &gt; 0</condition>
+                <assign name="Assign_tmpDJJPORcpt"
+                                                                                                                                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <copy>
+                    <from>concat($DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ShipmentID,'_',$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ShipmentVersionID)</from>
+                    <to>$Invoke_GetPODetails_DB_GetPODetails_InputVariable.InputParameters/ns22:P_SHIPMENT_NUM</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ShipmentLine</from>
+                    <to>$Invoke_GetPODetails_DB_GetPODetails_InputVariable.InputParameters/ns22:P_SHIPMENT_LINE_NUM</to>
+                  </copy>
+                </assign><else>
+                  <documentation>
+                    <![CDATA[ShipmentVersion=0]]>
+                  </documentation>
+                  <assign name="Assign_tmpDJJPORcpt">
+                    <copy>
+                      <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ShipmentID</from>
+                      <to>$Invoke_GetPODetails_DB_GetPODetails_InputVariable.InputParameters/ns22:P_SHIPMENT_NUM</to>
+                    </copy>
+                     <copy>
+                    <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ShipmentLine</from>
+                    <to>$Invoke_GetPODetails_DB_GetPODetails_InputVariable.InputParameters/ns22:P_SHIPMENT_LINE_NUM</to>
+                  </copy>
+                  </assign>
+                </else>
+              </if>
+              <assign name="Assign_tmpGroupIDToLaunch">
+                <copy>
+                  <from>$varGroupIdToLaunch</from>
+                  <to>$tmpGroupIdNV/ns3:item/ns3:value</to>
+                </copy>
+                <copy>
+                  <from>'GroupIdToLaunch'</from>
+                  <to>$tmpGroupIdNV/ns3:item/ns3:name</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_GetPODetails" partnerLink="DB_GetPODetails" portType="ns21:DB_GetPODetails_ptt"
+                      operation="DB_GetPODetails" inputVariable="Invoke_GetPODetails_DB_GetPODetails_InputVariable"
+                      outputVariable="Invoke_GetPODetails_DB_GetPODetails_OutputVariable" bpelx:invokeAsDetail="no"/>
+              <assign name="Xform_DJJGetAPInvoiceResp_To_EBizInvoicesABS">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJGetAPInvoiceResp_To_EBizInvoicesABS.xsl", $DJJGetAPInvoiceV1_RespMsg.reply, "DJJGetAPInvoiceV1_ep_ReqMsg.parameter", $DJJGetAPInvoiceV1_ep_ReqMsg.parameter, "gblGenericParameters", $gblGenericParameters, "Invoke_GetPODetails_DB_GetPODetails_OutputVariable.OutputParameters", $Invoke_GetPODetails_DB_GetPODetails_OutputVariable.OutputParameters, "tmpGroupIdNV", $tmpGroupIdNV)</from>
+                  <to variable="CreateListInvoices"/>
+                </copy>
+              </assign>
+              <assign name="AssignGroupId">
+                <copy>
+                  <from>$gVar_GroupId</from>
+                  <to>$CreateListInvoices/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                </copy>
+              </assign>
+              <forEach parallel="no" counterName="APInvoicesLinesIndx" name="ForEachListOfInvoices">
+                <startCounterValue>1</startCounterValue>
+                <finalCounterValue>count($CreateListInvoices/ns6:Invoice/ns9:Invoice)</finalCounterValue>
+                <scope name="Scope3">
+                  <sequence name="Sequence3">
+                    <assign name="Assign_ListInvoicesToCreateInvoices">
+                      <copy>
+                        <from>$CreateListInvoices/ns6:Invoice/ns9:Invoice[$APInvoicesLinesIndx]</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns6:Invoice</to>
+                      </copy>
+                      <copy>
+                        <from>'ENG'</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:Language</to>
+                      </copy>
+                      <copy>
+                        <from>'I096'</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:ComponentID</to>
+                      </copy>
+                      <copy>
+                        <from>ora:getCompositeName()</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+                      </copy>
+                      <copy>
+                        <from>'APInvoices'</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:TransactionName</to>
+                      </copy>
+                      <copy>
+                        <from>'15'</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:Source</to>
+                      </copy>
+                      <copy>
+                        <from>'2'</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:Target</to>
+                      </copy>
+                      <copy>
+                        <from>'APInvoicesLinesIndx'</from>
+                        <to>$gblGenericParameters/ns3:item/ns3:name</to>
+                      </copy>
+                      <copy>
+                        <from>$APInvoicesLinesIndx</from>
+                        <to>$gblGenericParameters/ns3:item/ns3:value</to>
+                      </copy>
+                      <copy>
+                        <from>$CreateListInvoices/ns7:HeaderRq</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq</to>
+                      </copy>
+                      <copy>
+                        <from>$CreateListInvoices/ns6:AppsContext</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns6:AppsContext</to>
+                      </copy>
+                      <copy>
+                        <from>$gVar_GroupId</from>
+                        <to>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_InvoiceABSInvoke_InvoiceABS" partnerLink="InvoiceABS"
+                            portType="ns4:SyncPortType" operation="CreateInvoice_Sync"
+                            inputVariable="Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_InputVariable"
+                            outputVariable="Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_OutputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizAPInvoice_ABS","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+              </forEach>
+              <if name="IfInvokeIsSuccess">
+                <documentation>
+                  <![CDATA[S]]>
+                </documentation>
+                <condition>$Invoke_InvoiceABSInvoke_InvoiceABS_CreateInvoice_Sync_OutputVariable.CreateInvoiceResponseMessage/ns6:OperationResult/ns15:Stats = 'S'</condition>
+                <scope name="Scope4">
+                  <sequence name="Sequence8">
+                    <assign name="XForm_To_LaunchAutoInvoiceAPI">
+                      <bpelx:annotation>
+                        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                      </bpelx:annotation>
+                      <copy>
+                        <from>ora:doXSLTransformForDoc("../Transformations/XForm_To_LaunchAutoInvoiceAPI.xsl", $DJJGetAPInvoiceV1_RespMsg.reply, "gblGenericParameters", $gblGenericParameters, "tmpGroupIdNV", $tmpGroupIdNV)</from>
+                        <to variable="LaunchAutoInvoiceAPI_InputVariable" part="LaunchAutoInvoiceAPIRequestMessage"/>
+                      </copy>
+                    </assign>
+                    <assign name="Assign_LaunchAutoInvoiceAPI">
+                      <copy>
+                        <from>ora:getCompositeName()</from>
+                        <to>$LaunchAutoInvoiceAPI_InputVariable.LaunchAutoInvoiceAPIRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+                      </copy>
+                      <copy>
+                        <from>$gVar_GroupId</from>
+                        <to>$LaunchAutoInvoiceAPI_InputVariable.LaunchAutoInvoiceAPIRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_LaunchAutoInvoiceAPI" partnerLink="InvoiceABS" portType="ns4:SyncPortType"
+                            operation="LaunchAutoInvoiceAPI" inputVariable="LaunchAutoInvoiceAPI_InputVariable"
+                            outputVariable="LaunchAutoInvoiceAPI_OutputVariable" bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizAPInvoice_ABS","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                    <if name="IfLaunchInvoiceSuccess">
+                      <documentation>
+                        <![CDATA[S]]>
+                      </documentation>
+                      <condition>count($LaunchAutoInvoiceAPI_OutputVariable.LaunchAutoInvoiceAPIResponseMessage/ns6:OperationResult/ns15:Errors/ns15:OperationResultError) = 0</condition>
+                      <sequence name="Sequence5">
+                        <assign name="Assign_StatusId">
+                          <copy>
+                            <from>'1'</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/StatusID</to>
+                          </copy>
+                          <copy>
+                            <from>'Invoices Created'</from>
+                            <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/Comment</to>
+                          </copy>
+                        </assign>
+                      </sequence>
+                      <else>
+                        <documentation>
+                          <![CDATA[E]]>
+                        </documentation>
+                        <sequence name="Sequence6">
+                          <forEach parallel="no" counterName="APInvoicesRejectionIndx" name="ForEachRejectedMessages">
+                            <startCounterValue>1</startCounterValue>
+                            <finalCounterValue>count($LaunchAutoInvoiceAPI_OutputVariable.LaunchAutoInvoiceAPIResponseMessage/ns6:OperationResult/ns15:Errors/ns15:OperationResultError)</finalCounterValue>
+                            <scope name="Scope5">
+                              <variables>
+                                <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                                          messageType="ns5:CommonLoggingRequestMessage"/>
+                              </variables>
+                              <faultHandlers>
+                                <catchAll>
+                                  <empty name="DoNothing"/>
+                                </catchAll>
+                              </faultHandlers>
+                              <sequence>
+                                <assign name="Assign_StatusId">
+                                  <copy>
+                                    <from>'2'</from>
+                                    <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/StatusID</to>
+                                  </copy>
+                                  <copy>
+                                    <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',$LaunchAutoInvoiceAPI_OutputVariable.LaunchAutoInvoiceAPIResponseMessage/ns6:OperationResult/ns15:Errors/ns15:OperationResultError[$APInvoicesRejectionIndx])</from>
+                                    <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/Comment</to>
+                                  </copy>
+                                  <copy>
+                                    <from>'SOA'</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:CreatedBy</to>
+                                  </copy>
+                                  <copy>
+                                    <from>'SOA'</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:UpdatedBy</to>
+                                  </copy>
+                                  <copy>
+                                    <from>$gVar_GroupId</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:TransactionId</to>
+                                  </copy>
+                                  <copy>
+                                    <from>'NextGen'</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:ProjectName</to>
+                                  </copy>
+                                  <copy>
+                                    <from>'I096'</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:ComponentId</to>
+                                  </copy>
+                                  <copy>
+                                    <from>'APInvoices'</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:TransactionName</to>
+                                  </copy>
+                                  <copy>
+                                    <from>ora:getCompositeName()</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:ProcessName</to>
+                                  </copy>
+                                  <copy>
+                                    <from>1</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:LoggingSystem</to>
+                                  </copy>
+                                  <copy>
+                                    <from>15</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:SourceSystem</to>
+                                  </copy>
+                                  <copy>
+                                    <from>2</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:TargetSystem</to>
+                                  </copy>
+                                  <copy>
+                                    <from>4</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:LogType</to>
+                                  </copy>
+                                  <copy>
+                                    <from>1</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+                                  </copy>
+                                  <copy>
+                                    <from>''</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+                                  </copy>
+                                  <copy>
+                                    <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',$LaunchAutoInvoiceAPI_OutputVariable.LaunchAutoInvoiceAPIResponseMessage/ns6:OperationResult/ns15:Errors/ns15:OperationResultError[$APInvoicesRejectionIndx])</from>
+                                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+                                  </copy>
+                                </assign>
+                                <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                                        portType="ns5:CommonLogging" operation="process"
+                                        inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                                        bpelx:invokeAsDetail="no">
+                                  <bpelx:toProperties>
+                                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                  </bpelx:toProperties>
+                                </invoke>
+                              </sequence>
+                            </scope>
+                          </forEach>
+                        </sequence>
+                      </else>
+                    </if>
+                    <assign name="Assign_Ack">
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/ApplicationID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ApplicationID</to>
+                      </copy>
+                      <copy>
+                        <from>concat('FlowId: ',ora:getFlowId())</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/Comment</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APIUserID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ChangeVersionID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ChangeVersionID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APICallBatchID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APICallBatchID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/DataChangeTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeTypeID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/DataChangeChildTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeChildTypeID</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                            portType="ns20:DJJAcknowledge_ep_ptt" operation="AcknowledgeINV"
+                            inputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable"
+                            outputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_OutputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:skipCondition>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="CallingAckReq"]/ns3:value = "false"</bpelx:skipCondition>
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="Ocp-Apim-Subscription-Key"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="IP"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="rest.binding.AckURI"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+                <else>
+                  <documentation>
+                    <![CDATA[E]]>
+                  </documentation>
+                  <sequence>
+                    <assign name="Assign_Ack_CreateABSCatchAll">
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APIUserID</to>
+                      </copy>
+                      <copy>
+                        <from>'2'</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/StatusID</to>
+                      </copy>
+                      <copy>
+                        <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',ora:getFaultAsString())</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/Comment</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/ApplicationID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ApplicationID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/ChangeVersionID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/ChangeVersionID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APICallBatchID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/APICallBatchID</to>
+                      </copy>
+                      <copy>
+                        <from>'NextGen'</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProjectName</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/DataChangeTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeTypeID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetAPInvoiceV1_RespMsg.reply/APInvoices/APInvoice[$DJJAPIdx]/DataChangeChildTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable.request/DataChangeChildTypeID</to>
+                      </copy>
+                      <copy>
+                        <from>$gVar_GroupId</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionId</to>
+                      </copy>
+                      <copy>
+                        <from>'I096'</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ComponentId</to>
+                      </copy>
+                      <copy>
+                        <from>'APInvoices'</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionName</to>
+                      </copy>
+                      <copy>
+                        <from>ora:getCompositeName()</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProcessName</to>
+                      </copy>
+                      <copy>
+                        <from>1</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LoggingSystem</to>
+                      </copy>
+                      <copy>
+                        <from>15</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:SourceSystem</to>
+                      </copy>
+                      <copy>
+                        <from>2</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TargetSystem</to>
+                      </copy>
+                      <copy>
+                        <from>4</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LogType</to>
+                      </copy>
+                      <copy>
+                        <from>''</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageCode</to>
+                      </copy>
+                      <copy>
+                        <from>concat('FlowId: ',ora:getFlowId(),' ','Error: ',ora:getFaultAsString())</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageDescription</to>
+                      </copy>
+                      <copy>
+                        <from>1</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionStatus</to>
+                      </copy>
+                      <copy>
+                        <from>'SOA'</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:CreatedBy</to>
+                      </copy>
+                      <copy>
+                        <from>'SOA'</from>
+                        <to>$CommonLogging_ReqMsg.CommonLogging/ns5:UpdatedBy</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_DJJAcknowledge" partnerLink="DJJAcknowledge_ep"
+                            portType="ns20:DJJAcknowledge_ep_ptt" operation="AcknowledgeINV"
+                            inputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_InputVariable"
+                            outputVariable="Invoke_DJJAcknowledge_AcknowledgeINV_OutputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:skipCondition>$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="CallingAckReq"]/ns3:value = "false"</bpelx:skipCondition>
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="Ocp-Apim-Subscription-Key"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="IP"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="rest.binding.AckURI"]/ns3:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$DJJGetAPInvoiceV1_ep_ReqMsg.parameter/ns3:item[ns3:name="APIUserId"]/ns3:value</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                            operation="process" inputVariable="CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </else>
+              </if>
+            </sequence>
+          </scope>
+          <if name="DehydrateSkipCondition">
+            <documentation>
+              <![CDATA[S]]>
+            </documentation>
+            <condition>($DJJAPIdx mod 25) = 0</condition>
+            <extensionActivity>
+              <bpelx:dehydrate name="Dehydrate_Every25Records"/>
+            </extensionActivity>
+            <else>
+              <documentation>
+                <![CDATA[E]]>
+              </documentation>
+              <empty name="DoNothing"/>
+            </else>
+          </if>
+        </sequence>
+      </scope>
+    </forEach>
+    <scope name="Scope_CommonLogging_Success" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$gVar_GroupId</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"I096"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"APInvoices"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:ProcessName</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>"15"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>"1"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-002"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageCode</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$CommonLogging_ReqMsg.CommonLogging/ns5:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                inputVariable="CommonLogging_ReqMsg" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

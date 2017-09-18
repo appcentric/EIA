@@ -1,0 +1,12 @@
+<adapter-config name="SFTP_SyncReadOpaque" adapter="ftp" wsdlLocation="../WSDLs/SFTP_SyncReadOpaque.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/FtpAdapter" UIincludeWildcard="*.txt"/>
+  <endpoint-interaction portType="FileListing_ptt" operation="FileListing">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPListInteractionSpec">
+      <property name="PhysicalDirectory" value="/data/SOA/ftpzone"/>
+      <property name="Recursive" value="false"/>
+      <property name="IncludeFiles" value=".*\.txt"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

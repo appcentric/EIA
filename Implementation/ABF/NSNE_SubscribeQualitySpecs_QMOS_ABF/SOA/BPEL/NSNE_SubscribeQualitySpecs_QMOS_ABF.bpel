@@ -1,0 +1,195 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Nov 12 06:41:43 CST 2015
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NSNE_SubscribeQualitySpecs_QMOS_ABF"
+         targetNamespace="http://xmlns.eia.com/NSNE_SubscribeQualitySpecs_QMOS_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/NSNE_SubscribeQualitySpecs_QMOS_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/Manish/NSNE_SubscribeQualitySpecs_QMOS_ABF/JMS_DEQ_NextGen_DistributedTopic"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeQualitySpecs_QMOS_ABF/DB_NSNE_QualitySpec_Stg"
+         xmlns:ns3="http://xmlns.eia.com/CommonLogging" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAM/1.0"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/Manish/NSNE_SubscribeQualitySpecs_QMOS_ABF/JMS_DEQ_NextGen_DistributedTopic"
+          location="../WSDLs/JMS_DEQ_NextGen_DistributedTopic.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMS_DEQ_NextGen_DistributedTopic" partnerLinkType="ns1:Consume_Message_plt"
+                 myRole="Consume_Message_role"/>
+    <partnerLink name="DB_NSNE_QualitySpec_Stg" partnerLinkType="ns2:DB_NSNE_QualitySpec_Stg_plt"
+                 partnerRole="DB_NSNE_QualitySpec_Stg_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="g_JMS_DEQ_Consume_Message_InputVariable" messageType="ns1:Consume_Message_msg"/>
+    <variable name="g_DB_NSNE_QualitySpec_Stg_merge_InputVariable"
+              messageType="ns2:L2XxnucQualitySpecsStgCollection_msg"/>
+    <variable name="g_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence2">
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>''</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="g_CommonLogging_PL_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_JMS_DEQ" createInstance="yes" partnerLink="JMS_DEQ_NextGen_DistributedTopic"
+             portType="ns1:Consume_Message_ptt" operation="Consume_Message"
+             variable="g_JMS_DEQ_Consume_Message_InputVariable"/>
+    <scope name="Scope1">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>$g_JMS_DEQ_Consume_Message_InputVariable.body/ns5:HeaderRq/ns5:TransactionRequestID</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I113'</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QualitySpecs'</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>21</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="g_CommonLogging_PL_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Transformation_JMS_To_NSNE_DB">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Transformation_JMS_To_NSNE.xsl", $g_JMS_DEQ_Consume_Message_InputVariable.body)</from>
+        <to variable="g_DB_NSNE_QualitySpec_Stg_merge_InputVariable" part="L2XxnucQualitySpecsStgCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_NSNE_QualitySpec_Stg" bpelx:invokeAsDetail="no" partnerLink="DB_NSNE_QualitySpec_Stg"
+            portType="ns2:DB_NSNE_QualitySpec_Stg_ptt" operation="merge"
+            inputVariable="g_DB_NSNE_QualitySpec_Stg_merge_InputVariable"/>
+    <scope name="Scope2">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="g_CommonLogging_PL_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

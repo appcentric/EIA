@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<composite name="CommonLogging" revision="1.0" label="2013-12-18_11-28-46_635" mode="active" state="on" xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:ui="http://xmlns.oracle.com/soa/designer/">
+   <import namespace="http://xmlns.eia.com/CommonLogging" location="CommonLogging.wsdl" importType="wsdl"/>
+   <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter" location="CommonLoggingProviderAQAdapter.wsdl" importType="wsdl"/>
+   <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingRequesterAqAdapter"
+           location="CommonLoggingRequesterAqAdapter.wsdl" importType="wsdl"/>
+   <service name="CommonLogging_ep" ui:wsdlLocation="CommonLogging.wsdl">
+      <interface.wsdl interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+      <binding.ws port="http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)"/>
+   </service>
+   <service name="CommonLoggingRequesterAqAdapter" ui:wsdlLocation="CommonLoggingRequesterAqAdapter.wsdl">
+      <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingRequesterAqAdapter#wsdl.interface(Dequeue_ptt)"/>
+      <binding.jca config="Adapters/CommonLoggingRequesterAqAdapter_aq.jca">
+         <property name="useRejectedMessageRecovery" type="xs:string" many="false" override="may">true</property>
+		 <property name="jca.retry.count" type="xs:int" many="false" override="may">2</property>
+		<property name="jca.retry.interval" type="xs:int" many="false" override="may">60</property>
+		<property name="jca.retry.maxInterval" type="xs:string" many="false" override="may">120</property>
+      </binding.jca>
+   </service>
+   <component name="CommonLogging">
+      <implementation.bpel src="CommonLogging.bpel"/>
+      <componentType xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ui="http://xmlns.oracle.com/soa/designer/">
+         <service name="CommonLogging" ui:wsdlLocation="CommonLogging.wsdl">
+            <interface.wsdl interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+         </service>
+         <reference name="CommonLoggingProviderAQAdapter" ui:wsdlLocation="CommonLoggingProviderAQAdapter.wsdl">
+            <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter#wsdl.interface(Enqueue_ptt)"/>
+         </reference>
+      </componentType>
+      <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
+      <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string" many="false">sync</property>
+   </component>
+   <component name="CommonLogging_ESB_SOA" version="2.0">
+      <implementation.bpel src="BPEL/CommonLogging_ESB_SOA.bpel"/>
+      <componentType>
+         <service name="CommonLoggingRequesterAqAdapter" ui:wsdlLocation="CommonLoggingRequesterAqAdapter.wsdl">
+            <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingRequesterAqAdapter#wsdl.interface(Dequeue_ptt)"/>
+         </service>
+         <reference name="CommonLoggingProviderAQAdapter" ui:wsdlLocation="CommonLoggingProviderAQAdapter.wsdl">
+            <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter#wsdl.interface(Enqueue_ptt)"/>
+         </reference>
+      </componentType>
+      <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
+      <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string" many="false">sync</property>
+   </component>
+   <reference name="CommonLoggingProviderAQAdapter" ui:wsdlLocation="CommonLoggingProviderAQAdapter.wsdl">
+      <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter#wsdl.interface(Enqueue_ptt)"/>
+      <binding.jca config="CommonLoggingProviderAQAdapter_aq.jca"/>
+   </reference>
+   <wire>
+      <source.uri>CommonLogging_ep</source.uri>
+      <target.uri>CommonLogging/CommonLogging</target.uri>
+   </wire>
+   <wire>
+      <source.uri>CommonLogging/CommonLoggingProviderAQAdapter</source.uri>
+      <target.uri>CommonLoggingProviderAQAdapter</target.uri>
+   </wire>
+   <wire>
+      <source.uri>CommonLoggingRequesterAqAdapter</source.uri>
+      <target.uri>CommonLogging_ESB_SOA/CommonLoggingRequesterAqAdapter</target.uri>
+   </wire>
+   <wire>
+      <source.uri>CommonLogging_ESB_SOA/CommonLoggingProviderAQAdapter</source.uri>
+      <target.uri>CommonLoggingProviderAQAdapter</target.uri>
+   </wire>
+</composite>

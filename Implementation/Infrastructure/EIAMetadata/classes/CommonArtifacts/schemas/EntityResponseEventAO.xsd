@@ -1,0 +1,17 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+        targetNamespace="http://xmlns.eia.com/EDN/1.0/Event" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:event="http://xmlns.eia.com/EDN/1.0/Event" xmlns:params="http://schemas.oracle.com/service/bpel/common">
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          schemaLocation="../../EO/common/V1.0/XSLParameters.xsd"/>
+  <element name="Event">
+    <complexType>
+      <sequence>
+        <element name="EventName" type="string" minOccurs="0"/>
+        <element name="EventId" type="string" minOccurs="0"/>
+        <element name="EventDate" type="string" minOccurs="0"/>
+        <element ref="params:parameters" minOccurs="0"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>

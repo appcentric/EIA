@@ -1,0 +1,65 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_EBS_PRODUCT_CODES" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_EBS_PRODUCT_CODES" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="EbsProductCodesCollection" type="EbsProductCodesCollection"/>
+   <xs:complexType name="EbsProductCodesCollection">
+      <xs:sequence>
+         <xs:element name="EbsProductCodes" type="EbsProductCodes" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="EbsProductCodes">
+      <xs:sequence>
+         <xs:element name="prodCode" type="string80"/>
+         <xs:element name="prodShape" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="prodSize" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="gradeCode" type="string40" minOccurs="0"/>
+         <xs:element name="unitLength" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="primaryUomCode" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="transactionUomCode" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="prodType" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="prodDesc1" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="prodDesc2" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdatedBy" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="Item_Status" type="string20" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string80">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="80"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string150">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="150"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string40">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="40"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,123 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/PollOMSI_DBAdapter" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/PollOMSI_DBAdapter" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="LogEntryCollection" type="LogEntryCollection"/>
+   <xs:complexType name="LogEntryCollection">
+      <xs:sequence>
+         <xs:element name="LogEntry" type="LogEntry" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="LogEntry">
+      <xs:sequence>
+         <xs:element name="logEntryId" type="xs:decimal"/>
+         <xs:element name="operationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="operation" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="resultCode" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="resultMessage" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="isRead" type="xs:int" minOccurs="0"/>
+         <xs:element name="processTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="appointmentLogEntry" type="AppointmentLogEntry" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentLogEntry" type="ShipmentLogEntry" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AppointmentLogEntry">
+      <xs:sequence>
+         <xs:element name="appointmentId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="stopSequenceNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="startTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="endTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="stopDuration" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="isInbound" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="isExternal" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="locationCode" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="doorName" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierName" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierScac" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorId" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="customerOrderNumber" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="shipperRefNumber" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="poNumber" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="bolNumber" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="consigneeSupplier" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="logInTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="logInNotes" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="logOutTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="logOutNotes" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="gateInTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="gateInNotes" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="gateOutTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="gateOutNotes" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="schedulingUser" type="string152" minOccurs="0" nillable="true"/>
+         <xs:element name="schedulingCompany" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="trailerNumber" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveringCarrierName" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveringCarrierScac" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveringCarrierVendorId" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="brokeredToCarrier" type="string75" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ShipmentLogEntry">
+      <xs:sequence>
+         <xs:element name="clientKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="bidTotal" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="bidAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="bidQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="bidType" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierScacCode" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorId" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierComments" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierTruckNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierDriverNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierContractNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierEquipmentNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="isCompleted" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="isCancelled" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="dsmId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="equipmentType" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="timeAwarded" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveringCarrierName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveringCarrierScac" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveringCarrierVendorId" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelationReasonCode" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="brokeredToCarrier" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="pickupDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="deliveryDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string75">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="75"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string152">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="152"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

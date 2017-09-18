@@ -1,0 +1,35 @@
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="card">
+    <button (click)="addPOTab()" pButton type="button" icon="ui-icon-add" label="Add Tab" iconPos="right" class="flat"  style="float:right;width:auto;height:48px"></button>
+    <p-tabView>
+        <!--<li class="ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ui-state-default ui-corner-top">-->
+        <p-tabPanel header="Purchase Orders" leftIcon="ui-icon-work">
+            <purchaseorders></purchaseorders>
+        </p-tabPanel>
+        <p-tabPanel *ngFor="let tab of poTabs;let i = index;" [header]="tab.header" [closable]="true">
+            <purchaseorders></purchaseorders>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="card">
+    <button (click)="addShipmentTab()" pButton type="button" icon="ui-icon-add" label="Add Tab" iconPos="right" class="flat" style="float:right;width:auto;height:48px"></button>
+    <p-tabView>
+        <p-tabPanel header="Shipments" leftIcon="ui-icon-local-shipping">
+            <shipments></shipments>
+        </p-tabPanel>
+        <p-tabPanel *ngFor="let tab of shipmentTabs;let i = index;" [header]="tab.header" [closable]="true">
+            <shipments></shipments>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="card">
+    <button (click)="addAPInvoiceTab()" pButton type="button" icon="ui-icon-add" label="Add Tab" iconPos="right" class="flat" style="float:right;width:auto;height:48px"></button>
+    <p-tabView>
+        <p-tabPanel header="AP Invoices"  leftIcon="ui-icon-mail">
+            <apinvoices></apinvoices>
+        </p-tabPanel>
+        <p-tabPanel *ngFor="let tab of apInvoiceTabs;let i = index;" [header]="tab.header" [closable]="true">
+            <apinvoices></apinvoices>
+        </p-tabPanel>
+    </p-tabView>
+</div>

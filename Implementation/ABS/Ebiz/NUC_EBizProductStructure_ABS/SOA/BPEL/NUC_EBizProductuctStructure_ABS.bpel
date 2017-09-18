@@ -1,0 +1,224 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Dec 03 16:47:31 IST 2015
+  Author:  magujar
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_EBizProductuctStructure_ABS"
+         targetNamespace="http://xmlns.oracle.com/Application2/NUC_EBizProductStructure_ABS/NUC_EBizProductuctStructure_ABS"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/Application2/NUC_EBizProductStructure_ABS/NUC_EBizProductuctStructure_ABS"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://oracle.com/sca/soapservice/Application2/NUC_EBizProductStructure_ABS/EbizProductStructure"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns2="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/Application2/NUC_EBizProductStructure_ABS/DB_Get_ProductStructure"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns5="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/Ebiz/D2S/ProductStructureAM/1.0"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Get_ProductStructure"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.eia.com/AO/Ebiz/D2S/ProductStructureAO/1.0">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://oracle.com/sca/soapservice/Application2/NUC_EBizProductStructure_ABS/EbizProductStructure"
+          location="../WSDLs/EbizProductStructure.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="EbizProductStructure" partnerLinkType="ns1:EbizProductStructure"
+                 myRole="EbizProductStructureProvider"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Get_ProductStructure" partnerLinkType="ns3:DB_Get_ProductStructure_plt"
+                 partnerRole="DB_Get_ProductStructure_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="g_OnMessage_queryProductStructure_InputVariable" messageType="ns1:requestMessage"/>
+    <variable name="g_Reply_queryProductStructure_OutputVariable" messageType="ns1:replyMessage"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+    <variable name="g_Invoke_DB_Get_ProductStructure_InputVariable" messageType="ns3:args_in_msg"/>
+    <variable name="g_Invoke_DB_Get_ProductStructure_OutputVariable" messageType="ns3:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence3">
+        <assign name="Assign_Error">
+          <copy>
+            <from>'Error'</from>
+            <to>$g_Reply_queryProductStructure_OutputVariable.queryProductStructureRs/ns5:HeaderRs/ns5:Status/ns5:Status</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$g_Reply_queryProductStructure_OutputVariable.queryProductStructureRs/ns5:HeaderRs/ns5:Status/ns5:Exceptions/ns5:StatusText</to>
+          </copy>
+        </assign>
+        <reply name="Reply_Error" variable="g_Reply_queryProductStructure_OutputVariable"
+               partnerLink="EbizProductStructure" portType="ns1:execute_ptt" operation="queryProductStructure"/>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns2:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <!--scope name="Scope2">
+          <sequence name="Sequence2">
+          </sequence>
+        </scope-->
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="g_OnMessage_queryProductStructure_InputVariable" partnerLink="EbizProductStructure"
+                 portType="ns1:execute_ptt" operation="queryProductStructure">
+        <sequence name="Sequence1">
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns5:HeaderRq/ns5:TransactionIDREF</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns5:HeaderRq/ns5:ComponentID</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns5:HeaderRq/ns5:TransactionName</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+            </copy>
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns5:HeaderRq/ns5:Source</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns5:HeaderRq/ns5:Target</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-003'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                  operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <!--scope name="Scope1">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence2">
+            </sequence>
+          </scope-->
+          <assign name="Assign_EventID">
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns4:RequestID</from>
+              <to>$g_Invoke_DB_Get_ProductStructure_InputVariable.InputParameters/ns6:P_REQUEST_ID</to>
+            </copy>
+            <copy>
+              <from>$g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq/ns5:HeaderRq/ns5:TransactionIDREF</from>
+              <to>$g_Invoke_DB_Get_ProductStructure_InputVariable.InputParameters/ns6:P_EVENT_ID</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_ProductStructure" bpelx:invokeAsDetail="no" partnerLink="DB_Get_ProductStructure"
+                  portType="ns3:DB_Get_ProductStructure_ptt" operation="DB_Get_ProductStructure"
+                  inputVariable="g_Invoke_DB_Get_ProductStructure_InputVariable"
+                  outputVariable="g_Invoke_DB_Get_ProductStructure_OutputVariable"/>
+          <assign name="Transformation_DB_Output">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/Transformation_DB_Output.xsl", $g_OnMessage_queryProductStructure_InputVariable.queryStructureProductReq, "g_Invoke_DB_Get_ProductStructure_OutputVariable.OutputParameters", $g_Invoke_DB_Get_ProductStructure_OutputVariable.OutputParameters)</from>
+              <to variable="g_Reply_queryProductStructure_OutputVariable" part="queryProductStructureRs"/>
+            </copy>
+          </assign>
+          <reply name="Reply_EbizProductStructure" variable="g_Reply_queryProductStructure_OutputVariable"
+                 partnerLink="EbizProductStructure" portType="ns1:execute_ptt" operation="queryProductStructure"/>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>'BMG-002'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                  operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <!--scope name="Scope3">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence2">
+            </sequence>
+          </scope-->
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

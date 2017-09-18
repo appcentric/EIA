@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:invam="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0" xmlns:apinvao="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0" xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0">
+<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/InvoiceAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+<xsd:element name="CreateInvoiceRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="Invoice" type="apinvao:InvoicesType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateInvoiceResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateListOfInvoicesRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="Invoice" type="apinvao:ListOfInvoiceType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateListOfInvoicesResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="InvoicesResponse" minOccurs="0" nillable="true" maxOccurs="unbounded">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="Invoice" type="apinvao:InvoicesType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="QueryInvoiceRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="Invoice" type="apinvao:InvoicesType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="QueryInvoiceResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="ListOfInvoices" type="apinvao:ListOfInvoiceType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="LaunchAutoInvoiceRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="InterfaceParams" type="apinvao:InterfaceParamsType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="LaunchAutoInvoiceResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="LaunchAutoInvoiceAPIRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element name="InterfaceParams" type="apinvao:LaunchAutoInvoiceAPIInterfaceParamsType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="LaunchAutoInvoiceAPIResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>

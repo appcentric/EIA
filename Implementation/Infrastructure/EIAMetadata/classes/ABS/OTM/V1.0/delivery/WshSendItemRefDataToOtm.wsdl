@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions
+     name="WshSendItemRefDataToOtm"
+     targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendItemRefDataToOtm"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ref="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+     xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendItemRefDataToOtm"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <!--documentation>
+        <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/otm/WshSendItemRefDataToOtm!1.0/WshSendItemRefDataToOtm.wsdl</abstractWSDL>
+    </documentation-->
+    <plnk:partnerLinkType name="WshSendItemRefDataToOtm">
+        <plnk:role name="WshSendItemRefDataToOtmProvider">
+            <plnk:portType name="client:WshSendItemRefDataToOtm"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <types>
+        <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendItemRefDataToOtm"
+             xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+                 schemaLocation="../../../../AO/OTM/common/V1.0/WshOtmGlobalOutbound.xsd"/>
+            <element name="WshSendItemRefDataToOtmProcessRequest">
+                <complexType>
+                    <sequence>
+                        <element name="input" type="ref:tOutboundInput"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="WshSendItemRefDataToOtmProcessResponse">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="ref:tOutboundOutput"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <message name="WshSendItemRefDataToOtmRequestMessage">
+        <part name="payload" element="client:WshSendItemRefDataToOtmProcessRequest"/>
+    </message>
+    <message name="WshSendItemRefDataToOtmResponseMessage">
+        <part name="payload" element="client:WshSendItemRefDataToOtmProcessResponse"/>
+    </message>
+    <portType name="WshSendItemRefDataToOtm">
+        <operation name="process">
+            <input message="client:WshSendItemRefDataToOtmRequestMessage"/>
+            <output message="client:WshSendItemRefDataToOtmResponseMessage"/>
+        </operation>
+    </portType>
+    <binding name="WshSendItemRefDataToOtmBinding" type="client:WshSendItemRefDataToOtm">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="WshSendItemRefDataToOtm">
+        <port name="WshSendItemRefDataToOtm" binding="client:WshSendItemRefDataToOtmBinding">
+            <soap:address location="http://example.org"/>
+        </port>
+    </service>
+</definitions>

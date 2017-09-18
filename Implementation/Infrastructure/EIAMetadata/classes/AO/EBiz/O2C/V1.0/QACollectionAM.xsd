@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:eamm="http://xmlns.eia.com/AO/EBiz/O2C/QACollectionAM/1.0"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/QACollectionAM/1.0"
+            xmlns:eamo="http://xmlns.eia.com/AO/EBiz/O2C/QACollectionAO/1.0"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+            elementFormDefault="qualified">
+  <xsd:import schemaLocation="../../../../AO/EBiz/O2C/V1.0/QACollectionAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/O2C/QACollectionAO/1.0" />
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" />
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0" />
+  <xsd:element name="CreateQaCollectionRequestMessage">
+    <xsd:annotation>
+      <xsd:documentation>
+        A sample element
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType"
+                     maxOccurs="1" minOccurs="0"/>
+        <xsd:element name="ListOfQaResult"
+                     type="eamo:ListOfQaResultTypes"
+                     maxOccurs="1" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="CreateQaCollectionResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="OperationalResult"
+                     type="res:OperationResultType" maxOccurs="1"
+                     minOccurs="0" nillable="true"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="LaunchQaCollectionRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType"
+                     maxOccurs="1" minOccurs="0" nillable="true"/>
+        <xsd:element name="InterfaceParams" type="eamo:InterfaceParamsType"
+                     maxOccurs="1" minOccurs="0" nillable="true"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="LaunchQaCollectionResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="OperationResult" type="res:OperationResultType"
+                     maxOccurs="1" minOccurs="0" nillable="true"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

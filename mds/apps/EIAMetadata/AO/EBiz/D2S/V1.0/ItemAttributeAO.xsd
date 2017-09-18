@@ -1,0 +1,529 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://nucor.eia.com/AO/Ebiz/D2S/ItemAttributeAO/1.0"
+xmlns:obj="http://nucor.eia.com/AO/Ebiz/D2S/ItemAttributeAO/1.0"
+xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            <Version>1.0</Version>
+            <Definition>Common SOA Composite PO</Definition>
+            <Description>This schema defines the objects to create or extract Batch /Job</Description>
+            <Author>Manish Gujar</Author>
+            <ModifiedBy>Manish Gujar</ModifiedBy>
+            <VersionDate>20-01-2016</VersionDate>
+            <VersionDescription>Initial standard</VersionDescription>
+            <ModificationHistory>20-01-2016 Version 1.0 - Initial Development Version</ModificationHistory>
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+    <xsd:element name="ItemAttributeDetails" type="obj:ItemAttribute"/>
+
+    <xsd:element name="BasicItemAttribute" type="obj:BasicItemAttributeType"/>
+     <xsd:complexType name="BasicItemAttributeType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="OrganizationCode"          type="common:C4"/>
+            <xsd:element minOccurs="0" name="OrganizationId"            type="common:Integer"/>
+            <xsd:element minOccurs="0" name="InventoryItemId"           type="common:Integer"/>
+            <xsd:element minOccurs="0" name="ItemNumber"                type="common:C40"/>
+            <xsd:element minOccurs="0" name="ItemDescription"           type="common:C240"/>
+            <xsd:element minOccurs="0" name="ItemRevision"              type="common:C4"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ItemAttribute">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="OrganizationCode" 		type="common:C4"/>
+            <xsd:element minOccurs="0" name="OrganizationId" 		type="common:Integer"/>
+            <xsd:element minOccurs="0" name="InventoryItemId" 		type="common:Integer"/>
+            <xsd:element minOccurs="0" name="ItemNumber" 			type="common:C40"/>
+            <xsd:element minOccurs="0" name="ItemDescription" 		type="common:C240"/>
+            <xsd:element minOccurs="0" name="ItemLongDescription" 	type="common:C4000"/>
+            <xsd:element minOccurs="0" name="ItemCatGroupName" 		type="common:C40"/>
+            <xsd:element minOccurs="0" name="ItemCatGroupDesc" 		type="common:C240"/>
+            <xsd:element minOccurs="0" name="ItemRevision" 			type="common:C4"/>
+            <xsd:element minOccurs="0" name="PrimaryUomCode" 		type="common:C4"/>
+            <xsd:element minOccurs="0" name="PrimaryUnitOfMeasure" type="common:C30"/>
+            <xsd:element minOccurs="0" name="ItemType" type="common:C30"/>
+            <xsd:element minOccurs="0" name="UserItemType" type="common:C80"/>
+            <xsd:element minOccurs="0" name="ResourceName" type="common:C30"/>
+            <xsd:element minOccurs="0" name="ProdGroup" type="common:C50"/>
+            <xsd:element minOccurs="0" name="ProdClass" type="common:C50"/>
+            <!--xsd:element minOccurs="0" name="ProdSize" type="common:C100"/-->
+            <xsd:element minOccurs="0" name="BundleType" type="common:C50"/>
+            <xsd:element minOccurs="0" name="TheoActual" type="common:C50"/>
+            <xsd:element minOccurs="0" name="MetricImperial" type="common:C50"/>
+            <xsd:element minOccurs="0" name="LastError" type="common:C50"/>
+            <xsd:element minOccurs="0" name="ProdType" type="common:C50"/>
+            <xsd:element minOccurs="0" name="BundlePieces" type="common:C50"/>
+            <xsd:element minOccurs="0" name="BundleWeight" type="common:C50"/>
+            <xsd:element minOccurs="0" name="ParentBilletProdCode" type="common:C50"/>
+            <xsd:element minOccurs="0" name="SpecCode" type="common:C50"/>
+            <xsd:element minOccurs="0" name="MeltPractice" type="common:C50"/>
+            <xsd:element minOccurs="0" name="CreationDate" type="common:Dt"/>
+            <xsd:element minOccurs="0" name="CreatedBy" type="common:Integer"/>
+            <!--Girish: Def#1855 -->
+            <xsd:element name="AcceptableEarlyDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AcceptableRateDecrease" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AcceptableRateIncrease" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AccountingRuleId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AllowedUnitsLookupCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AllowExpressDeliveryFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AllowItemDescUpdateFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AllowSubstituteReceiptsFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AllowUnorderedReceiptsFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ApprovalStatus" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AsnAutoexpireFlag" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AssetCategoryId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AssetCreationCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AtoForecastControl" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AtpComponentsFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AtpFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AtpRuleId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute1" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute10" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute11" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute12" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute13" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute14" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute15" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute16" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute17" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute18" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute19" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute2" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute20" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute21" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute22" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute23" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute24" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute25" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute26" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute27" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute28" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute29" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute3" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute30" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute4" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute5" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute6" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute7" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute8" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Attribute9" type="common:C240" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AttributeCategory" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AutoCreatedConfigFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AutoLotAlphaPrefix" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AutoReduceMps" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="AutoSerialAlphaPrefix" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BackOrderableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BaseItemId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BaseWarrantyServiceId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BomEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BomItemType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BuildInWipFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BulkPickedFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="BuyerId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CarryingCost" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CasNumber" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CatalogStatusFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ChargePeriodicityCode" type="common:C3" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CheckShortagesFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ChildLotFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ChildLotPrefix" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ChildLotStartingNumber" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ChildLotValidationFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CollateralFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CommsActivationReqdFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CommsNlTrackableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ConfigMatch" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ConfigModelType" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ConfigOrgs" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ConsignedFlag" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ContainerItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ContainerTypeCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ContinousTransfer" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ContractItemTypeCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Convergence" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CopyLotAttributeFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CostingEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CostOfSalesAccount" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CouponExemptFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CoverageScheduleId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CreatedBy" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CreateSupplyFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CriticalComponentFlag" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CumulativeTotalLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CumManufacturingLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CurrentPhaseId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CustomerOrderEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CustomerOrderFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="CycleCountEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DaysEarlyReceiptAllowed" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DaysLateReceiptAllowed" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DaysMaxInvSupply" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DaysMaxInvWindow" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DaysTgtInvSupply" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DaysTgtInvWindow" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultGrade" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultIncludeInRollupFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultLotStatusId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultMaterialStatusId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultSerialStatusId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultShippingOrg" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefaultSoSourceType" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DefectTrackingOnFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DemandTimeFenceCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DemandTimeFenceDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DimensionUomCode" type="common:C3" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Divergence" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DownloadableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DrpPlannedFlag" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DualUomControl" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DualUomDeviationHigh" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="DualUomDeviationLow" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EamActivityCauseCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EamActivitySourceCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EamActivityTypeCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EamActNotificationFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EamActShutdownStatus" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EamItemType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EffectivityControl" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EgoMasterItemsDffCtx" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ElectronicFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EncumbranceAccount" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EndAssemblyPeggingFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EndDateActive" type="common:Dt" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EnforceShipToLocationCode" type="common:C25" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EngineeringDate" type="common:Dt" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EngineeringEcnCode" type="common:C50" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EngineeringItemId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EngItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EquipmentType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="EventFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ExcludeFromBudgetFlag" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ExpenseAccount" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ExpenseBillableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ExpirationActionCode" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ExpirationActionInterval" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="FinancingAllowedFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="FixedDaysSupply" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="FixedLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="FixedLotMultiplier" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="FixedOrderQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ForecastHorizon" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="FullLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GdsnOutboundEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute1" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute10" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute11" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute12" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute13" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute14" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute15" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute16" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute17" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute18" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute19" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute2" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute20" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute3" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute4" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute5" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute6" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute7" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute8" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttribute9" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GlobalAttributeCategory" type="common:C150" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="GradeControlFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="HazardousMaterialFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="HazardClassId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="HoldDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="IbItemInstanceClass" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="IbItemTrackingLevel" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="IndivisibleFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InspectionRequiredFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InternalOrderEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InternalOrderFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InternalVolume" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InventoryAssetFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InventoryCarryPenalty" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InventoryItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InventoryItemStatusCode" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InventoryPlanningCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InvoiceableItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InvoiceCloseTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InvoiceEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InvoicingRuleId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ItemCatalogGroupId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LastSubmittedNirId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LastUpdatedBy" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LastUpdateDate" type="common:Dt" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LastUpdateLogin" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LeadTimeLotSize" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LifecycleId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ListPricePerUnit" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LocationControlCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotControlCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotDivisibleFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotMergeEnabled" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotSplitEnabled" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotStatusEnabled" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotSubstitutionEnabled" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="LotTranslateEnabled" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MarketPrice" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MaterialBillableFlag" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MaturityDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MaximumLoadWeight" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MaximumOrderQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MaxMinmaxQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MaxWarrantyAmount" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MinimumFillPercent" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MinimumLicenseQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MinimumOrderQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MinMinmaxQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ModelConfigClauseName" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MrpCalculateAtpFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MrpPlanningCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MrpSafetyStockCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MrpSafetyStockPercent" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MtlTransactionsEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="MustUseApprovedVendorFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="NegativeMeasurementError" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="NewRevisionCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ObjectVersionNumber" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OntPricingQtySource" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OperationSlackPenalty" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OptionSpecificSourced" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OrderableOnWebFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OrderCost" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OutsideOperationFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OutsideOperationUomType" type="common:C25" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OutsourcedAssembly" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OvercompletionToleranceType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OvercompletionToleranceValue" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OverrunPercentage" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OverReturnTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="OverShipmentTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ParentChildGenerationFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PaymentTermsId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PickingRuleId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PickComponentsFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PlannedInvPointFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PlannerCode" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PlanningExceptionSet" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PlanningMakeBuyCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PlanningTimeFenceCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PlanningTimeFenceDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PositiveMeasurementError" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PostprocessingLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PrepositionPoint" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PreprocessingLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PreventiveMaintenanceFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PriceTolerancePercent" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PrimarySpecialistId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessCostingEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessExecutionEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessQualityEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessSupplyLocatorId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessSupplySubinventory" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessYieldLocatorId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProcessYieldSubinventory" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProductFamilyItemId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProgramApplicationId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProgramId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProgramUpdateDate" type="common:Dt" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ProrateServiceFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PurchasingEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PurchasingItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="PurchasingTaxCode" type="common:C50" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="QtyRcvExceptionCode" type="common:C25" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="QtyRcvTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReceiptDaysExceptionCode" type="common:C25" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReceiptRequiredFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReceiveCloseTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReceivingRoutingId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RecipeEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RecoveredPartDispCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReleaseTimeFenceCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReleaseTimeFenceDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RepairLeadtime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RepairProgram" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RepairYield" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RepetitivePlanningFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReplenishToOrderFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RequestId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReservableType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ResponseTimePeriodCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ResponseTimeValue" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RestrictLocatorsCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RestrictSubinventoriesCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RetestInterval" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReturnableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ReturnInspectionRequirement" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RevisionQtyControlCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RfqRequiredFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RoundingControlType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="RoundingFactor" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SafetyStockBucketDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SalesAccount" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SecondaryDefaultInd" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SecondarySpecialistId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SecondaryUomCode" type="common:C3" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment1" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment10" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment11" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment12" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment13" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment14" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment15" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment16" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment17" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment18" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment19" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment2" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment20" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment3" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment4" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment5" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment6" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment7" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment8" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="Segment9" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SerialNumberControlCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SerialStatusEnabled" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SerialTaggingFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceableComponentFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceableItemClassId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceableProductFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceDuration" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceDurationPeriodCode" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServiceStartingDelay" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServBillingEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServImportanceLevel" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ServReqEnabledCode" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ShelfLifeCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ShelfLifeDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ShippableItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ShipModelCompleteFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="ShrinkageRate" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SourceOrganizationId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SourceSubinventory" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SourceType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SoAuthorizationFlag" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SoTransactionsFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StartAutoLotNumber" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StartAutoSerialNumber" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StartDateActive" type="common:Dt" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StdLotSize" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StockEnabledFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StyleItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="StyleItemId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SubcontractingComponent" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SubscriptionDependFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SubstitutionWindowCode" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SubstitutionWindowDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="SummaryFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="TaxableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="TaxCode" type="common:C50" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="TimeBillableFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="TrackingQuantityInd" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="TradeItemDescriptor" type="common:C40" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnderReturnTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnderShipmentTolerance" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnitHeight" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnitLength" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnitOfIssue" type="common:C25" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnitVolume" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnitWeight" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnitWidth" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UnNumberId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="UsageItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VariableLeadTime" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VehicleItemFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VendorWarrantyFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VmiFixedOrderQuantity" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VmiForecastType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VmiMaximumDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VmiMaximumUnits" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VmiMinimumDays" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VmiMinimumUnits" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VolumeUomCode" type="common:C3" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="VolDiscountExemptFlag" type="common:C1" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WarrantyVendorId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WebStatus" type="common:C30" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WeightUomCode" type="common:C3" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WhUpdateDate" type="common:Dt" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WipSupplyLocatorId" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WipSupplySubinventory" type="common:C10" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="WipSupplyType" type="common:Integer" minOccurs="0" maxOccurs="1" />
+            <xsd:element minOccurs="0" name="UDADetails">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="UDADetails" type="obj:UDADetail" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CategoryDetails">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CategoryDetails" type="obj:CategoryDetail" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="UDADetail">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="InventoryItemId" type="common:Integer"/>
+            <xsd:element minOccurs="0" name="UDAType" type="common:C30"/>
+            <xsd:element minOccurs="0" name="AttrGroupName" type="common:C30"/>
+            <xsd:element minOccurs="0" name="AttrGroupDispName" type="common:C80"/>
+            <xsd:element minOccurs="0" name="AttrGroupDesc" type="common:C240"/>
+            <xsd:element minOccurs="0" name="AttrName" type="common:C30"/>
+            <xsd:element minOccurs="0" name="AttrDispName" type="common:C80"/>
+            <xsd:element minOccurs="0" name="AttrValue" type="common:C150"/>
+            <xsd:element minOccurs="0" name="AttrValueConvt" type="common:C150"/>
+            <xsd:element minOccurs="0" name="AttrSeqNum" type="common:C150"/>
+
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CategoryDetail">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="InventoryItemId" type="common:Integer"/>
+            <xsd:element minOccurs="0" name="CategorySetId" type="common:Integer"/>
+            <xsd:element minOccurs="0" name="CategorySet" type="common:C80"/>
+            <xsd:element minOccurs="0" name="CategoryId" type="common:Integer"/>
+            <xsd:element minOccurs="0" name="Segment1" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment2" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment3" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment4" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment5" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment6" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment7" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment8" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment9" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment10" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment11" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment12" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment13" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment14" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment15" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment16" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment17" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment18" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment19" type="common:C80"/>
+            <xsd:element minOccurs="0" name="Segment20" type="common:C80"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:element name="ItemAttributeResponse" type="obj:ItemAttributeRes"/>
+    <xsd:complexType name="ItemAttributeRes">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Result" type="common:C100"/>
+            <xsd:element minOccurs="0" name="ErrorMsg" type="common:C4000"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

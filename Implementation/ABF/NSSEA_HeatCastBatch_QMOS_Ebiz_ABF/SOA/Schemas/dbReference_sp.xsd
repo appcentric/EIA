@@ -1,0 +1,156 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/dbReference" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/dbReference" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_IN_INIT_PARAMS" type="db:XXNUC.XXNUC_APPS_INIT_OBJ_TYPE" db:index="1" db:type="Struct" minOccurs="0" nillable="true"/>
+            <element name="P_TRX_TAB" type="db:XXNUC.XXNUC_QMOS_PRDCNFM_HDR_TAB_TYP" db:index="2" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_IN_ORGN_CODE" type="string" db:index="3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_RESULT_TAB" type="db:XXNUC.XXNUC_RESULT_TAB_TYPE" db:index="4" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_RESULT_OBJ">
+      <sequence>
+         <element name="TRX_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_CODE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESULT_MESSAGE" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DTLS_RESULTS" type="db:XXNUC.XXNUC_RESULT_DTLS_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_QMOS_PRDCNFM_MTL_TAB_TYP">
+      <sequence>
+         <element name="PROD_CONF_MTL_DETAIL_ITEM" type="db:XXNUC.XXNUC_QMOS_PRD_CNFM_MTL_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_RESULT_DTLS_OBJ">
+      <sequence>
+         <element name="DTLS_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_CODE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESULT_MESSAGE" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_QMOS_PROD_CNFRM_HDR_OBJ">
+      <sequence>
+         <element name="ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WOR_ORDER_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="HEAT_NO" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROD_CODE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PCD_PROD_TYPE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="START_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="END_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATE_USER" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="PROCESSED" type="db:string2" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="ERROR_MESSAGE" type="db:string2000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROD_CONF_MTL_DETAIL" type="db:XXNUC.XXNUC_QMOS_PRDCNFM_MTL_TAB_TYP" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_APPS_INIT_OBJ_TYPE">
+      <sequence>
+         <element name="USER_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="USER_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESPONSIBILITY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_QMOS_PRDCNFM_HDR_TAB_TYP">
+      <sequence>
+         <element name="P_TRX_TAB_ITEM" type="db:XXNUC.XXNUC_QMOS_PROD_CNFRM_HDR_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_QMOS_PRD_CNFM_MTL_OBJ">
+      <sequence>
+         <element name="ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ID_HEADER" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WOR_ORDER_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WORK_CENTER_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ERP_MAT_ID" type="db:string18" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ERP_CAST_LOT" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANS_TYPE" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MAT_PILE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="QTY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ADJ_QTY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="UOM" type="db:string4" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ERP_MAT_DESC" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MTG_GROUP_ID" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="POUR_BACK_HEAT_NO" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="POUR_BACK_REASON" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATE_USER" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESSED" type="db:string2" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="ERROR_MESSAGE" type="db:string2000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_RESULT_DTLS_TAB_TYPE">
+      <sequence>
+         <element name="DTLS_RESULTS_ITEM" type="db:XXNUC.XXNUC_RESULT_DTLS_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_RESULT_TAB_TYPE">
+      <sequence>
+         <element name="P_RESULT_TAB_ITEM" type="db:XXNUC.XXNUC_RESULT_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string15">
+      <restriction base="string">
+         <maxLength value="15"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2">
+      <restriction base="string">
+         <maxLength value="2"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2000">
+      <restriction base="string">
+         <maxLength value="2000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string18">
+      <restriction base="string">
+         <maxLength value="18"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string3">
+      <restriction base="string">
+         <maxLength value="3"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4">
+      <restriction base="string">
+         <maxLength value="4"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string40">
+      <restriction base="string">
+         <maxLength value="40"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string20">
+      <restriction base="string">
+         <maxLength value="20"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4000">
+      <restriction base="string">
+         <maxLength value="4000"/>
+      </restriction>
+   </simpleType>
+</schema>

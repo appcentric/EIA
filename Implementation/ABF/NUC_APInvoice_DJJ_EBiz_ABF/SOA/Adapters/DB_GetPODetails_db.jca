@@ -1,0 +1,13 @@
+<adapter-config name="DB_GetPODetails" adapter="db" wsdlLocation="../WSDLs/DB_GetPODetails.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBS_DEV" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_GetPODetails_ptt" operation="DB_GetPODetails">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_AP_APXIIMPT_DJJ_PKG"/>
+      <property name="ProcedureName" value="GET_DJJ_INV_INTF_COLS"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,85 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_UpdatePurchaseOrderEBS" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_UpdatePurchaseOrderEBS" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="X_PO_NUMBER" type="string" db:index="1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="X_RELEASE_NUMBER" type="decimal" db:index="2" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="X_REVISION_NUMBER" type="decimal" db:index="3" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="X_LINE_NUMBER" type="decimal" db:index="4" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="X_SHIPMENT_NUMBER" type="decimal" db:index="5" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="NEW_QUANTITY" type="decimal" db:index="6" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="NEW_PRICE" type="decimal" db:index="7" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="NEW_PROMISED_DATE" type="dateTime" db:index="8" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="NEW_NEED_BY_DATE" type="dateTime" db:index="9" db:default="true" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="LAUNCH_APPROVALS_FLAG" type="string" db:index="10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="UPDATE_SOURCE" type="string" db:index="11" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="VERSION" type="string" db:index="12" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="X_OVERRIDE_DATE" type="dateTime" db:index="13" db:default="true" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="P_BUYER_NAME" type="string" db:index="15" db:default="true" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="P_SECONDARY_QUANTITY" type="decimal" db:index="16" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_PREFERRED_GRADE" type="string" db:index="17" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="P_ORG_ID" type="decimal" db:index="18" db:default="true" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="UPDATE_PO" type="decimal" db:index="0" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="X_API_ERRORS" type="db:APPS.PO_API_ERRORS_REC_TYPE" db:index="14" db:type="Struct" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="APPS.PO_TBL_NUMBER">
+      <sequence>
+         <element name="ENTITY_ID_ITEM" type="decimal" db:type="NUMBER" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.PO_API_ERRORS_REC_TYPE">
+      <sequence>
+         <element name="MESSAGE_NAME" type="db:APPS.PO_TBL_VARCHAR30" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="MESSAGE_TEXT" type="db:APPS.PO_TBL_VARCHAR2000" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="TABLE_NAME" type="db:APPS.PO_TBL_VARCHAR30" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="COLUMN_NAME" type="db:APPS.PO_TBL_VARCHAR30" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="ENTITY_TYPE" type="db:APPS.PO_TBL_VARCHAR30" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="ENTITY_ID" type="db:APPS.PO_TBL_NUMBER" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="PROCESSING_DATE" type="db:APPS.PO_TBL_DATE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="MESSAGE_TYPE" type="db:APPS.PO_TBL_VARCHAR1" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.PO_TBL_VARCHAR2000">
+      <sequence>
+         <element name="MESSAGE_TEXT_ITEM" type="db:string2000" db:type="VARCHAR2" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.PO_TBL_DATE">
+      <sequence>
+         <element name="PROCESSING_DATE_ITEM" type="dateTime" db:type="DATE" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.PO_TBL_VARCHAR1">
+      <sequence>
+         <element name="MESSAGE_TYPE_ITEM" type="db:string1" db:type="VARCHAR2" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.PO_TBL_VARCHAR30">
+      <sequence>
+         <element name="MESSAGE_NAME_ITEM" type="db:string30" db:type="VARCHAR2" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string30">
+      <restriction base="string">
+         <maxLength value="30"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2000">
+      <restriction base="string">
+         <maxLength value="2000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+</schema>

@@ -1,0 +1,14 @@
+<adapter-config name="ftpUtilityFileLoad" adapter="ftp" wsdlLocation="../WSDLs/ftpUtilityFileLoad.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/HAFtpMoveIt"/>
+  <endpoint-interaction portType="ChunkedRead_ptt" operation="ChunkedRead">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPChunkedInteractionSpec">
+      <property name="ChunkSize" value="1"/>
+      <property name="PhysicalDirectory" value="Utility"/>
+      <property name="FileType" value="ascii"/>
+      <property name="FileName" value="XREF_Data_Load.csv"/>
+      <property name="DeleteFile" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

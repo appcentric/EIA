@@ -1,0 +1,15 @@
+<adapter-config name="DB_NSNE_QualitySpec_Stg" adapter="db" wsdlLocation="../WSDLs/DB_NSNE_QualitySpec_Stg.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="dv1_mes_nsne" location="eis/DB/mes_nsne"/>
+  <endpoint-interaction portType="DB_NSNE_QualitySpec_Stg_ptt" operation="merge">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_NSNE_QualitySpec_Stg.L2XxnucQualitySpecsStg"/>
+      <property name="DmlType" value="merge"/>
+      <property name="MappingsMetaDataURL" value="DB_NSNE_QualitySpec_Stg-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="OptimizeMerge" value="true"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

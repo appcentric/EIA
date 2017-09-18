@@ -1,0 +1,276 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Apr 24 14:59:37 PDT 2017
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ePayRecon_MFT_EBiz_ABF"
+               targetNamespace="http://xmlns.eia.com/I142/NUC_ePayRecon_MFT_EBiz_ABF/ePayRecon_MFT_EBiz_ABF"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/I142/NUC_ePayRecon_MFT_EBiz_ABF/ePayRecon_MFT_EBiz_ABF"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/fmw/mft/soap" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.eia.com/CommonLogging"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns3="http://nucor.eia.com/ePayments/Reconciliation"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NUC_ePayRecon_MFT_EBiz_ABF/DB_Insert_XXNUC_AP_CCARD_INV_STG"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NUC_ePayRecon_MFT_EBiz_ABF/DB_Call_XXNUC_AP_CCARD_INV_PKG"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NUC_ePayRecon_MFT_EBiz_ABF/DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://nucor.eia.com/ePayments/Reconciliation" location="../Schemas/ePaymentReconciliation.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/fmw/mft/soap" location="../WSDLs/MFTReceiveePayReconci.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="MFTReceiveePayReconci" partnerLinkType="ns1:submit_plt" myRole="submit_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Insert_XXNUC_AP_CCARD_INV_STG" partnerLinkType="ns4:DB_Insert_XXNUC_AP_CCARD_INV_STG_plt"
+                 partnerRole="DB_Insert_XXNUC_AP_CCARD_INV_STG_role"/>
+    <partnerLink name="DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG"
+                 partnerLinkType="ns6:DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_plt"
+                 partnerRole="DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_MFTReceiveePayReconci_submit_InputVariable" messageType="ns1:MFTServiceRequest"/>
+    <variable name="Reply_MFTReceiveePayReconci_submit_OutputVariable" messageType="ns1:MFTServiceResponse"/>
+    <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+    <variable name="g_ePaymentReconciliationXML" element="ns3:Payments"/>
+    <variable name="Invoke_DB_Insert_XXNUC_AP_CCARD_INV_STG_insert_InputVariable"
+              messageType="ns4:XxnucApCcardInvStgCollection_msg"/>
+    <variable name="Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Input" messageType="ns6:args_in_msg"/>
+    <variable name="Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Output" messageType="ns6:args_out_msg"/>
+    <variable name="g_TitleVar" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <scope name="Scope_CatchAllLogging">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence4">
+            <assign name="Assign_CatchAllLogging">
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns2:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+        <assign name="Assign_Response">
+          <copy>
+            <from>concat('Error:',$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:MessageDescription)</from>
+            <to>$Reply_MFTReceiveePayReconci_submit_OutputVariable.payload</to>
+          </copy>
+        </assign>
+        <reply name="Reply_CatchAll" variable="Reply_MFTReceiveePayReconci_submit_OutputVariable"
+               partnerLink="MFTReceiveePayReconci" portType="ns1:submit_ptt" operation="submit"/>
+        <rethrow name="Rethrow_Fault"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_MFTReceiveePayReconci" partnerLink="MFTReceiveePayReconci" portType="ns1:submit_ptt"
+             operation="submit" variable="Receive_MFTReceiveePayReconci_submit_InputVariable" createInstance="yes"/>
+    <scope name="Scope_StartLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence2">
+        <assign name="Assign_StartLogging">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($Receive_MFTReceiveePayReconci_submit_InputVariable.qheader/ns1:TargetFilename))</from>
+            <to>$g_TitleVar</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I141'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'Payments'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns2:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Assign_ParseXML">
+      <copy>
+        <from>ora:doTranslateFromNative($Receive_MFTReceiveePayReconci_submit_InputVariable.payload/ns1:BinaryPayload,'Schemas/ePaymentReconciliation.xsd','Payments','DOM')</from>
+        <to>$g_ePaymentReconciliationXML</to>
+      </copy>
+    </assign>
+    <assign name="Xform_ePaymentReconciliation_To_CCardInvStgTable">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Xform_ePaymentReconciliation_To_CCardInvStgTable.xsl", $Receive_MFTReceiveePayReconci_submit_InputVariable.qheader, "Receive_MFTReceiveePayReconci_submit_InputVariable.payload", $Receive_MFTReceiveePayReconci_submit_InputVariable.payload, "g_ePaymentReconciliationXML", $g_ePaymentReconciliationXML)</from>
+        <to variable="Invoke_DB_Insert_XXNUC_AP_CCARD_INV_STG_insert_InputVariable"
+            part="XxnucApCcardInvStgCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_Insert_XXNUC_AP_CCARD_INV_STG" bpelx:invokeAsDetail="no"
+            partnerLink="DB_Insert_XXNUC_AP_CCARD_INV_STG" portType="ns4:DB_Insert_XXNUC_AP_CCARD_INV_STG_ptt"
+            operation="insert" inputVariable="Invoke_DB_Insert_XXNUC_AP_CCARD_INV_STG_insert_InputVariable"/>
+    <assign name="Xform_MFTInput_To_DbProcedureInput">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Xform_MFTInput_To_DbProcedureInput.xsl", $Receive_MFTReceiveePayReconci_submit_InputVariable.qheader)</from>
+        <to variable="Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Input" part="InputParameters"/>
+      </copy>
+    </assign>
+    <assign name="Assign_TransactionId">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Input.InputParameters/ns7:P_TXN_ID</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG" bpelx:invokeAsDetail="no"
+            partnerLink="DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG" portType="ns6:DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_ptt"
+            operation="DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG"
+            inputVariable="Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Input"
+            outputVariable="Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Output"/>
+    <scope name="Scope_EndLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <assign name="Assign_EndLogging">
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'BMG-013'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>$Invoke_DB_Call_XXNUC_AP_CCARD_INV_WRAP_PKG_Output.OutputParameters/ns7:P_REQUEST_ID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns2:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Assign_Response">
+      <copy>
+        <from>'Success'</from>
+        <to>$Reply_MFTReceiveePayReconci_submit_OutputVariable.payload</to>
+      </copy>
+    </assign>
+    <reply name="Reply_MFTReceiveePayReconci" variable="Reply_MFTReceiveePayReconci_submit_OutputVariable"
+           partnerLink="MFTReceiveePayReconci" portType="ns1:submit_ptt" operation="submit"/>
+  </sequence>
+</process>

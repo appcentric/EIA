@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAO/1.0" xmlns:obj="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAO/1.0" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			<Version>1.0</Version>
+			<Definition>Common SOA Composite PO</Definition>
+			<Description>This schema defines the objects to create or extract Batch /Job</Description>
+			<Author>Manish Gujar</Author>
+			<ModifiedBy>Manish Gujar</ModifiedBy>
+			<VersionDate>10-11-2015</VersionDate>
+			<VersionDescription>Initial standard</VersionDescription>
+			<ModificationHistory>24-07-2015 Version 1.0 - Initial Development Version</ModificationHistory>
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+	<xsd:element name="InventoryTransactionDetails" type="obj:ListOfInvTrx"/>
+	<xsd:complexType name="ListOfInvTrx">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="ListOfInvTrx" type="obj:InvTrx"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvTrx">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="TransactionID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="OrgID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="OrgCode" type="common:C5"/>
+			<xsd:element minOccurs="0" name="OrgName" type="common:C240"/>
+			<xsd:element minOccurs="0" name="ResourceName" type="common:C240"/>
+			<xsd:element minOccurs="0" name="TransactionTypeID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="TransactionType" type="common:C240"/>
+			<xsd:element minOccurs="0" name="SubinventoryCode" type="common:C80"/>
+			<xsd:element minOccurs="0" name="LocatorID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="Locator" type="common:C240"/>
+			<xsd:element minOccurs="0" name="LocatorStatus" type="common:C80"/>
+			<xsd:element minOccurs="0" name="ItemID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="ItemNumber" type="common:C80"/>
+			<xsd:element minOccurs="0" name="ItemDescription" type="common:C240"/>
+			<xsd:element minOccurs="0" name="ItemType" type="common:C80"/>
+			<xsd:element minOccurs="0" name="Revision" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="PriUOMCode" type="common:C10"/>
+			<xsd:element minOccurs="0" name="TransactionDate" type="common:Dt"/>
+			<xsd:element minOccurs="0" name="TransactionQty" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="TrxUOMCode" type="common:C10"/>
+			<xsd:element minOccurs="0" name="XferOrgnID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="XferOrgnCode" type="common:C10"/>
+			<xsd:element minOccurs="0" name="XferSubinventory" type="common:C80"/>
+			<xsd:element minOccurs="0" name="XferLocatorID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="XferLocator" type="common:C240"/>
+			<xsd:element minOccurs="0" name="TransactionReason" type="common:C240"/>
+			<xsd:element minOccurs="0" name="TrxSourceCode" type="common:C80"/>			
+			<xsd:element minOccurs="0" name="TrxSourceName" type="common:C80"/>	
+			<xsd:element minOccurs="0" name="LPNID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="LPN" type="common:C240"/>
+			<xsd:element minOccurs="0" name="Attribute" type="obj:Attribute5"/>
+			<xsd:element minOccurs="0" name="LPNAttribute" type="obj:Attribute5"/>
+			<xsd:element minOccurs="0" name="ListOfInvTrxSrcDetails">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="InvTrxSrcDetails" type="obj:InvTrxSrcDetail" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element minOccurs="0" name="ListOfInvTrxDetails">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="InvTrxDetails" type="obj:InvTrxDetail" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvTrxDetail">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="TransactionID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="LPNID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="LPN" type="common:C240"/>
+			<xsd:element minOccurs="0" name="PrimaryLot" type="common:C240"/>
+			<xsd:element minOccurs="0" name="LotNumber" type="common:C240"/>
+			<xsd:element minOccurs="0" name="TrxLotQuantity" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="LotExpirationDate" type="common:Dt"/>
+			<xsd:element minOccurs="0" name="SupplierLot" type="common:C240"/>
+			<xsd:element minOccurs="0" name="GradeCode" type="common:C80"/>
+			<xsd:element minOccurs="0" name="LotStatus" type="common:C80"/>
+			<xsd:element minOccurs="0" name="SerialNumber" type="common:C150"/>
+			<xsd:element minOccurs="0" name="UnitNumber" type="common:C150"/>
+			<xsd:element minOccurs="0" name="SerialStatus" type="common:C80"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="InvTrxSrcDetail">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="TransactionID" type="common:Integer"/>
+			<xsd:element minOccurs="0" name="TrxSourceType" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceNumber" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceLine" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo1" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo2" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo3" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo4" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo5" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo6" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo7" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo8" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo9" type="common:C80"/>
+			<xsd:element minOccurs="0" name="TrxSourceInfo10" type="common:C80"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Attribute5">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="ATTRIBUTECATEGORY" type="common:C30"/>
+			<xsd:element minOccurs="0" name="ATTRIBUTE1" type="common:C240"/>
+			<xsd:element minOccurs="0" name="ATTRIBUTE2" type="common:C240"/>
+			<xsd:element minOccurs="0" name="ATTRIBUTE3" type="common:C240"/>
+			<xsd:element minOccurs="0" name="ATTRIBUTE4" type="common:C240"/>
+			<xsd:element minOccurs="0" name="ATTRIBUTE5" type="common:C240"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="InventoryTransactionResponse" type="obj:InventoryTransactionRes"/>
+	<xsd:complexType name="InventoryTransactionRes">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="Result" type="common:C100"/>
+			<xsd:element minOccurs="0" name="ErrorMsg" type="common:C4000"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

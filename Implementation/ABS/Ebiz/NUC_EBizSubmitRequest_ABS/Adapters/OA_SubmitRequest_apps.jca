@@ -1,0 +1,15 @@
+<adapter-config name="OA_SubmitRequest" adapter="apps" wsdlLocation="../OA_SubmitRequest.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="RZEBSDEV" location="eis/Apps/ebs" UIConcurrentPgmName="" UIOracleAppType="DBOBJECT"/>
+  <endpoint-interaction portType="OA_SubmitRequest_ptt" operation="OA_SubmitRequest">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_FND_REQUEST_WRAPPER_PK"/>
+      <property name="ProcedureName" value="SUBMIT_REQUEST"/>
+      <property name="IRepInternalName" value="PLSQL:XXNUC_FND_REQUEST_WRAPPER_PK:SUBMIT_REQUEST"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

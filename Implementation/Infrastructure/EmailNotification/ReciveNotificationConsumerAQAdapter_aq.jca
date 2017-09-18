@@ -1,0 +1,11 @@
+<adapter-config name="ReciveNotificationConsumerAQAdapter" adapter="aq" wsdlLocation="ReciveNotificationConsumerAQAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/AQ/soa_audit" UIConnectionName="Nucor_DEV_xxnuc_logging" adapterRef=""/>
+  <endpoint-activation portType="Dequeue_ptt" operation="Dequeue">
+    <activation-spec className="oracle.tip.adapter.aq.inbound.AQDequeueActivationSpec">
+      <property name="SchemaValidation" value="false"/>
+      <property name="QueueName" value="EMAILNOTIFICATION_Q"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

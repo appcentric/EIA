@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_NSNE_QualitySpec_Stg"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeQualitySpecs_QMOS_ABF/DB_NSNE_QualitySpec_Stg"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeQualitySpecs_QMOS_ABF/DB_NSNE_QualitySpec_Stg"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_NSNE_QualitySpec_Stg"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_NSNE_QualitySpec_Stg_plt" >
+    <plt:role name="DB_NSNE_QualitySpec_Stg_role" >
+      <plt:portType name="tns:DB_NSNE_QualitySpec_Stg_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_NSNE_QualitySpec_Stg" schemaLocation="../Schemas/DB_NSNE_QualitySpec_Stg_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="L2XxnucQualitySpecsStgCollection_msg">
+        <wsdl:part name="L2XxnucQualitySpecsStgCollection" element="top:L2XxnucQualitySpecsStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_NSNE_QualitySpec_Stg_ptt">
+        <wsdl:operation name="merge">
+            <wsdl:input message="tns:L2XxnucQualitySpecsStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

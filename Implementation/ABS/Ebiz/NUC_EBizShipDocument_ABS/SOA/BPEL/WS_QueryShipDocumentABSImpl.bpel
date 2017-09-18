@@ -1,0 +1,370 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Aug 18 17:39:13 CDT 2017
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="WS_QueryShipDocumentABSImpl"
+               targetNamespace="http://xmlns.eia.com/ABS/EBiz/V1.0/NUC_EbizShipDocument_ABS/WS_QueryShipDocumentABSImpl"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/EBiz/V1.0/NUC_EbizShipDocument_ABS/WS_QueryShipDocumentABSImpl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/O2C/ShipDocumentABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xml:id="id_1"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Application2/NUC_EBizShipDocument_ABS/DB_GetSHippingDocument"
+         xmlns:ns4="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAO/1.0"
+         xmlns:ns3="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAM/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns7="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/Application2/NUC_EBizShipDocument_ABS/DB_GetShippingDocument_db"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetShippingDocument_db">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/O2C/ShipDocumentABS/1.0"
+          location="../WSDLs/ShipDocumentABSWrapper.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true" xml:id="id_2"/>
+  <partnerLinks xml:id="id_3">
+    <partnerLink name="WS_ShipDocumentABS"
+                 partnerLinkType="ns1:WS_ShipDocumentABS"
+                 myRole="SyncPortType" xml:id="id_4"/>
+    <partnerLink name="WS_CommonLogging" partnerLinkType="ns7:CommonLogging" partnerRole="CommonLoggingProvider"
+                 xml:id="id_46"/>
+    <partnerLink name="DB_GetShippingDocument_db" partnerLinkType="ns9:DB_GetShippingDocument_db_plt"
+                 partnerRole="DB_GetShippingDocument_db_role" xml:id="id_146"/>
+  </partnerLinks>
+  <variables xml:id="id_5">
+    <variable name="QueryShipDocumentSync_ReqMsg"
+              messageType="ns1:QueryShipDocumentRequestMessageType" xml:id="id_6"/>
+    <variable name="QueryShipDocumentSync_RespMsg"
+              messageType="ns1:QueryShipDocumentResponseMessageType" xml:id="id_7"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns7:CommonLoggingRequestMessage"
+              xml:id="id_93"/>
+    <variable name="g_DB_GetShippingDocument_dbSelect_InputVariable"
+              messageType="ns9:DB_GetShippingDocument_dbSelect_inputParameters" xml:id="id_148"/>
+    <variable name="g_DB_GetShippingDocument_dbSelect_OutputVariable"
+              messageType="ns9:WshDocumentInstancesCollection_msg" xml:id="id_149"/>
+  </variables>
+  <faultHandlers xml:id="id_27">
+    <catchAll xml:id="id_28">
+      <sequence name="Sequence1" xml:id="id_33">
+        <assign name="Xform_Error_RespMsg" xml:id="id_236">
+          <bpelx:annotation xml:id="id_237">
+            <bpelx:pattern patternName="bpelx:transformation" xml:id="id_238"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy xml:id="id_239">
+            <from xml:id="id_240">ora:doXSLTransformForDoc("../Transformations/Xform_Error_RespMsg.xsl", $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage)</from>
+            <to xml:id="id_241" variable="QueryShipDocumentSync_RespMsg" part="QueryShipDocumentResponseMessage"/>
+          </copy>
+        </assign>
+        <assign name="AssignErrorResponse" xml:id="id_29">
+          <copy xml:id="id_30">
+            <from xml:id="id_31">ora:getFaultAsString()</from>
+            <to xml:id="id_32">$QueryShipDocumentSync_RespMsg.QueryShipDocumentResponseMessage/ns3:OperationResult/ns5:Errors/ns5:OperationResultError</to>
+          </copy>
+        </assign>
+        <reply name="ReplyError" xml:id="id_34" variable="QueryShipDocumentSync_RespMsg" partnerLink="WS_ShipDocumentABS"
+               portType="ns1:SyncPortType" operation="QueryShipDocumentSync"/><scope name="Scope3"
+                                                                                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                                                                                     xml:id="id_128">
+      <faultHandlers xml:id="id_129">
+         <catchAll xml:id="id_130">
+            <empty name="Do_Nothing" xml:id="id_131"/>
+         </catchAll>
+      </faultHandlers>
+      <sequence xml:id="id_132">
+         <assign name="Assign_CommonLogging" xml:id="id_133">
+            <copy xml:id="id_134">
+               <from xml:id="id_135">4</from>
+               <to xml:id="id_136">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+            </copy>
+            <copy xml:id="id_137">
+               <from xml:id="id_138">''</from>
+               <to xml:id="id_139">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+            </copy>
+            <copy xml:id="id_140">
+               <from xml:id="id_141">concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+               <to xml:id="id_142">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+            </copy>
+         </assign>
+         <invoke name="Invoke_CommonLogging" partnerLink="WS_CommonLogging"
+                 portType="ns7:CommonLogging" operation="process"
+                 inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                 xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xml:id="id_143" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties xml:id="id_144">
+               <bpelx:toProperty name="endpointURI" xml:id="id_145">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+      </sequence>
+   </scope></sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main" xml:id="id_8">
+    <receive name="Receive_QueryShipDocumentSync" createInstance="yes"
+             partnerLink="WS_ShipDocumentABS" portType="ns1:SyncPortType"
+             operation="QueryShipDocumentSync"
+             variable="QueryShipDocumentSync_ReqMsg" xml:id="id_9"/><scope name="CommonLogging"
+                                                                           xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                                                                           xml:id="id_47">
+      <faultHandlers xml:id="id_48">
+         <catchAll xml:id="id_49">
+            <empty name="DoNothing" xml:id="id_50"/>
+         </catchAll>
+      </faultHandlers>
+      <sequence name="CommonLog_Seq" xml:id="id_51">
+        <if name="If1" xml:id="id_175">
+          <documentation xml:id="id_177">
+            <![CDATA[HeaderExist]]>
+          </documentation>
+          <condition xml:id="id_218">count($QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns4:HeaderRq/ns4:TransactionRequestID) &gt; 0</condition>
+          <assign name="Assign_CommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                  xml:id="id_52">
+            <copy xml:id="id_53">
+              <from xml:id="id_54">'NextGen'</from>
+              <to xml:id="id_55">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProjectName</to>
+            </copy>
+            <copy xml:id="id_94">
+              <from xml:id="id_95">$QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns4:HeaderRq/ns4:TransactionIDREF</from>
+              <to xml:id="id_96">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionId</to>
+            </copy>
+            <copy xml:id="id_97">
+              <from xml:id="id_98">$QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns4:HeaderRq/ns4:ComponentID</from>
+              <to xml:id="id_99">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ComponentId</to>
+            </copy>
+            <copy xml:id="id_100">
+              <from xml:id="id_101">$QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns4:HeaderRq/ns4:TransactionName</from>
+              <to xml:id="id_102">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionName</to>
+            </copy>
+            <copy xml:id="id_65">
+              <from xml:id="id_66">ora:getCompositeName()</from>
+              <to xml:id="id_67">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProcessName</to>
+            </copy>
+            <copy xml:id="id_103">
+              <from xml:id="id_104">$QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns4:HeaderRq/ns4:Source</from>
+              <to xml:id="id_105">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:SourceSystem</to>
+            </copy>
+            <copy xml:id="id_106">
+              <from xml:id="id_107">$QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns4:HeaderRq/ns4:Target</from>
+              <to xml:id="id_108">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TargetSystem</to>
+            </copy>
+            <copy xml:id="id_68">
+              <from xml:id="id_69">1</from>
+              <to xml:id="id_70">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LoggingSystem</to>
+            </copy>
+            <copy xml:id="id_77">
+              <from xml:id="id_78">1</from>
+              <to xml:id="id_79">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+            </copy>
+            <copy xml:id="id_80">
+              <from xml:id="id_81">'BMG-003'</from>
+              <to xml:id="id_82">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+            </copy>
+            <copy xml:id="id_83">
+              <from xml:id="id_84">1</from>
+              <to xml:id="id_85">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+            </copy>
+          </assign>
+          <else xml:id="id_176">
+            <documentation xml:id="id_178">
+              <![CDATA[NoHeaderInfo]]>
+            </documentation><sequence name="Sequence2" xml:id="id_180">
+            <assign name="Assign_CommonLogging"
+                                                                                                                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                                                                                                                xml:id="id_181">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   <copy xml:id="id_182">
+         <from xml:id="id_183">'NextGen'</from>
+         <to xml:id="id_184">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProjectName</to>
+      </copy>
+      <!--copy xml:id="id_188">
+         <from xml:id="id_189">'Shipping_Document'</from>
+         <to xml:id="id_190">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ComponentId</to>
+      </copy -->
+      <copy xml:id="id_215">
+                  <from xml:id="id_216">ora:getFlowId()</from>
+                  <to xml:id="id_217">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionId</to>
+                </copy><copy xml:id="id_191">
+         <from xml:id="id_192">'Shipping_Document'</from>
+         <to xml:id="id_193">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionName</to>
+      </copy><copy xml:id="id_194">
+         <from xml:id="id_195">ora:getCompositeName()</from>
+         <to xml:id="id_196">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProcessName</to>
+      </copy><copy xml:id="id_197">
+         <from xml:id="id_198">1</from>
+         <to xml:id="id_199">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:SourceSystem</to>
+      </copy><copy xml:id="id_200">
+         <from xml:id="id_201">2</from>
+         <to xml:id="id_202">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TargetSystem</to>
+      </copy><copy xml:id="id_203">
+         <from xml:id="id_204">1</from>
+         <to xml:id="id_205">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LoggingSystem</to>
+      </copy><copy xml:id="id_206">
+         <from xml:id="id_207">1</from>
+         <to xml:id="id_208">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+      </copy><copy xml:id="id_209">
+         <from xml:id="id_210">'BMG-003'</from>
+         <to xml:id="id_211">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+      </copy><copy xml:id="id_212">
+         <from xml:id="id_213">1</from>
+         <to xml:id="id_214">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+      </copy></assign></sequence></else>
+        </if>
+         <invoke name="Invoke_CommonLogging" partnerLink="WS_CommonLogging" portType="ns7:CommonLogging"
+                 operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xml:id="id_89"
+                 bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition xml:id="id_90">eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties xml:id="id_91">
+               <bpelx:toProperty name="endpointURI" xml:id="id_92">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+         </invoke>
+      </sequence>
+   </scope>
+    <assign name="Xform_InputRequestMesg" xml:id="id_242">
+      <bpelx:annotation xml:id="id_243">
+        <bpelx:pattern patternName="bpelx:transformation" xml:id="id_244"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy xml:id="id_245">
+        <from xml:id="id_246">ora:doXSLTransformForDoc("../Transformations/Xform_InputRequestMesg.xsl", $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage)</from>
+        <to xml:id="id_247" variable="QueryShipDocumentSync_ReqMsg" part="QueryShipDocumentRequestMessage"/>
+      </copy>
+    </assign>
+    <if name="If2" xml:id="id_225">
+      <documentation xml:id="id_227">
+        <![CDATA[MandatoryParameterCheck]]>
+      </documentation>
+      <condition xml:id="id_228">$QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns3:ShipDocument/ns3:OrganizationId ='' and $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage/ns3:ShipDocument/ns3:OrganizationCode =''</condition><sequence name="Sequence3" xml:id="id_248"><assign name="Xform_ErrorResponse"
+                                                                                                                                                                                                                                                                                                                 xml:id="id_229"><bpelx:annotation xml:id="id_230"><bpelx:pattern patternName="bpelx:transformation"
+                                                                                                                                                                                                                                                                                                                                                                                  xml:id="id_231"></bpelx:pattern></bpelx:annotation><copy xml:id="id_232"><from xml:id="id_233">ora:doXSLTransformForDoc("../Transformations/Xform_MandatoryField_ErrorResponse.xsl", $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage)</from><to xml:id="id_234"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                variable="QueryShipDocumentSync_RespMsg"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                part="QueryShipDocumentResponseMessage"/></copy></assign><assign name="Assign_CommonLogging"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 xml:id="id_249">
+      
+      
+   <copy xml:id="id_250">
+         <from xml:id="id_251">4</from>
+         <to xml:id="id_252">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+      </copy><copy xml:id="id_253">
+         <from xml:id="id_254">''</from>
+         <to xml:id="id_255">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+      </copy><copy xml:id="id_256">
+            <from xml:id="id_257">$QueryShipDocumentSync_RespMsg.QueryShipDocumentResponseMessage/ns3:OperationResult/ns5:Errors/ns5:OperationResultError</from>
+            <to xml:id="id_258">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+          </copy></assign></sequence><else xml:id="id_226">
+        <sequence xml:id="id_235">
+          <assign name="Xform_QueryRequestMsg" xml:id="id_219">
+            <bpelx:annotation xml:id="id_220">
+              <bpelx:pattern patternName="bpelx:transformation" xml:id="id_221"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy xml:id="id_222">
+              <from xml:id="id_223">ora:doXSLTransformForDoc("../Transformations/Xform_QueryRequestMsg.xsl", $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage)</from>
+              <to xml:id="id_224" variable="g_DB_GetShippingDocument_dbSelect_InputVariable"
+                  part="DB_GetShippingDocument_dbSelect_inputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DBShippingDoc" xml:id="id_147" partnerLink="DB_GetShippingDocument_db"
+                  portType="ns9:DB_GetShippingDocument_db_ptt" operation="DB_GetShippingDocument_dbSelect"
+                  inputVariable="g_DB_GetShippingDocument_dbSelect_InputVariable"
+                  outputVariable="g_DB_GetShippingDocument_dbSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+          <assign name="Xform_QueryResponseMsg" xml:id="id_169">
+            <bpelx:annotation xml:id="id_170">
+              <bpelx:pattern patternName="bpelx:transformation" xml:id="id_171"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy xml:id="id_172">
+              <from xml:id="id_173">ora:doXSLTransformForDoc("../Transformations/Xform_QueryResponseMsg.xsl", $g_DB_GetShippingDocument_dbSelect_OutputVariable.WshDocumentInstancesCollection, "QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage", $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage)</from>
+              <to xml:id="id_174" variable="QueryShipDocumentSync_RespMsg" part="QueryShipDocumentResponseMessage"/>
+            </copy>
+          </assign>
+          <assign name="Assign_CommonLogging" xml:id="id_114">
+            <copy xml:id="id_115">
+              <from xml:id="id_116">1</from>
+              <to xml:id="id_117">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+            </copy>
+            <copy xml:id="id_118">
+              <from xml:id="id_119">'BMG-002'</from>
+              <to xml:id="id_120">$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+            </copy>
+          </assign>
+        </sequence>
+      </else>
+    </if>
+    <reply name="Reply_QueryShipDocumentSync" variable="QueryShipDocumentSync_RespMsg" partnerLink="WS_ShipDocumentABS"
+           portType="ns1:SyncPortType" operation="QueryShipDocumentSync" xml:id="id_16"/>
+    <scope name="Scope2" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xml:id="id_109">
+      <faultHandlers xml:id="id_110">
+        <catchAll xml:id="id_111">
+          <empty name="Do_Nothing" xml:id="id_112"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence xml:id="id_113">
+        <invoke name="Invoke_CommonLogging" partnerLink="WS_CommonLogging" portType="ns7:CommonLogging"
+                operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xml:id="id_121"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition xml:id="id_122">eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties xml:id="id_123">
+            <bpelx:toProperty name="endpointURI" xml:id="id_124">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <!--<assign name="Xquery_GetShippingDoc_ReqMsg" xml:id="id_21">
+      <bpelx:annotation xml:id="id_22">
+        <bpelx:pattern patternName="bpelx:transformation" xml:id="id_23"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy xml:id="id_24">
+        <from xml:id="id_25">ora:doXSLTransformForDoc("../Transformations/Xquery_GetShippingDoc_ReqMsg_1.xsl", $QueryShipDocumentSync_ReqMsg.QueryShipDocumentRequestMessage)</from>
+        <to xml:id="id_26" variable="g_DB_GetSHippingDocumentSelect_InputVariable"
+            part="DB_GetSHippingDocumentSelect_inputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_GetShippingDoc" xml:id="id_18" partnerLink="DB_GetSHippingDocument"
+            portType="ns2:DB_GetSHippingDocument_ptt" operation="DB_GetSHippingDocumentSelect"
+            inputVariable="g_DB_GetSHippingDocumentSelect_InputVariable"
+            outputVariable="g_DB_GetSHippingDocumentSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Xform_QueryResponse" xml:id="id_38">
+      <bpelx:annotation xml:id="id_39">
+        <bpelx:pattern patternName="bpelx:transformation" xml:id="id_40"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy xml:id="id_41">
+        <from xml:id="id_42">ora:doXSLTransformForDoc("../Transformations/Transformation_2.xsl", $g_DB_GetSHippingDocumentSelect_OutputVariable.WshDocumentInstancesCollection)</from>
+        <to xml:id="id_43" variable="QueryShipDocumentSync_RespMsg" part="QueryShipDocumentResponseMessage"/>
+      </copy>
+    </assign> -->
+  </sequence>
+</process>

@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Insert_API_BILLET_TRANS"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeInventory_EBiz_QMOS_ABF/DB_Insert_API_BILLET_TRANS"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeInventory_EBiz_QMOS_ABF/DB_Insert_API_BILLET_TRANS"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_API_BILLET_TRANS"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Insert_API_BILLET_TRANS_plt" >
+    <plt:role name="DB_Insert_API_BILLET_TRANS_role" >
+      <plt:portType name="tns:DB_Insert_API_BILLET_TRANS_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_API_BILLET_TRANS" schemaLocation="../Schemas/DB_Insert_API_BILLET_TRANS_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="ApiBilletTransExtCollection_msg">
+        <wsdl:part name="ApiBilletTransExtCollection" element="top:ApiBilletTransExtCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Insert_API_BILLET_TRANS_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:ApiBilletTransExtCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_QMOS_TAB-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_QMOS_TAB.ApiProdConfirmHeader</class>
+         <alias>API_PROD_CONFIRM_HEADER</alias>
+         <primary-key>
+            <field table="API_PROD_CONFIRM_HEADER" name="ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_QMOS_TABSelect" xsi:type="read-all-query">
+                  <arguments>
+                     <argument name="rowNumValue">
+                        <type>java.lang.String</type>
+                     </argument>
+                  </arguments>
+                  <call xsi:type="sql-call">
+                     <sql>SELECT ID, WOR_ORDER_NO, HEAT_NO, PROD_CODE, PCD_PROD_TYPE, START_DATE, END_DATE, CREATE_USER, CREATE_DATE, PROCESSED, PROCESS_DATE, ERROR_MESSAGE FROM API_PROD_CONFIRM_HEADER WHERE ((PROCESSED = 'N') AND (ROWNUM &lt;= #rowNumValue))</sql>
+                  </call>
+                  <reference-class>DB_QMOS_TAB.ApiProdConfirmHeader</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>id</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>worOrderNo</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="WOR_ORDER_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>heatNo</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="HEAT_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prodCode</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="PROD_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pcdProdType</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="PCD_PROD_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>startDate</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="START_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>endDate</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="END_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createUser</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="CREATE_USER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createDate</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="CREATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processed</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="PROCESSED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processDate</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="PROCESS_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>errorMessage</attribute-name>
+               <field table="API_PROD_CONFIRM_HEADER" name="ERROR_MESSAGE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>apiProdConfirmMaterialCollection</attribute-name>
+               <reference-class>DB_QMOS_TAB.ApiProdConfirmMaterial</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="API_PROD_CONFIRM_MATERIAL" name="ID_HEADER" xsi:type="column"/>
+                     <target-field table="API_PROD_CONFIRM_HEADER" name="ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_QMOS_TAB.ApiProdConfirmMaterial</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="API_PROD_CONFIRM_HEADER"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_QMOS_TAB.ApiProdConfirmMaterial</class>
+         <alias>API_PROD_CONFIRM_MATERIAL</alias>
+         <primary-key>
+            <field table="API_PROD_CONFIRM_MATERIAL" name="ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>id</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>idHeader</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ID_HEADER" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>worOrderNo</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="WOR_ORDER_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>workCenterId</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="WORK_CENTER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>erpMatId</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ERP_MAT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>erpCastLot</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ERP_CAST_LOT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>transType</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="TRANS_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>matPile</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="MAT_PILE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>qty</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="QTY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>adjQty</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ADJ_QTY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>uom</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>erpMatDesc</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ERP_MAT_DESC" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mtgGroupId</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="MTG_GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pourBackHeatNo</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="POUR_BACK_HEAT_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pourBackReason</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="POUR_BACK_REASON" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createUser</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="CREATE_USER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processed</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="PROCESSED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processDate</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="PROCESS_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>errorMessage</attribute-name>
+               <field table="API_PROD_CONFIRM_MATERIAL" name="ERROR_MESSAGE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-one-mapping">
+               <attribute-name>idHeader</attribute-name>
+               <reference-class>DB_QMOS_TAB.ApiProdConfirmHeader</reference-class>
+               <private-owned>true</private-owned>
+               <foreign-key>
+                  <field-reference>
+                     <source-field table="API_PROD_CONFIRM_MATERIAL" name="ID_HEADER" xsi:type="column"/>
+                     <target-field table="API_PROD_CONFIRM_HEADER" name="ID" xsi:type="column"/>
+                  </field-reference>
+               </foreign-key>
+               <foreign-key-fields>
+                  <field table="API_PROD_CONFIRM_MATERIAL" name="ID_HEADER" xsi:type="column"/>
+               </foreign-key-fields>
+               <batch-reading>true</batch-reading>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-object-query">
+                  <reference-class>DB_QMOS_TAB.ApiProdConfirmHeader</reference-class>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="API_PROD_CONFIRM_MATERIAL"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

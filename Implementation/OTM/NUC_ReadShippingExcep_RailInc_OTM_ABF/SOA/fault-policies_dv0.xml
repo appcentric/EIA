@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faultPolicies xmlns="http://schemas.oracle.com/bpel/faultpolicy">
+   <faultPolicy version="2.0.1" id="RejectedMessages">
+      <Conditions>
+         <faultName name="rjm:FTP_ReadFile_RailInc" xmlns:rjm="http://schemas.oracle.com/sca/rejectedmessages"
+                    path="WSDLs/FTP_ReadFile_RailInc.wsdl">
+            <condition>
+               <action ref="ora-File"/>
+            </condition>
+         </faultName>
+      </Conditions>
+      <Actions>
+         <Action id="ora-File">
+            <fileAction>
+               <location>/data/SOA/ftpzone/dv0/RailInc/Rejected</location>
+               <fileName>RailInc_%TIMESTAMP%.txt</fileName>
+            </fileAction>
+         </Action>
+      </Actions>
+   </faultPolicy>
+</faultPolicies>

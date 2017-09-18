@@ -1,0 +1,418 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Apr 25 09:26:50 CDT 2016
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SubscribeEBizPOReceipt_JMS_DJJ_ABF"
+               targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF/SubscribeEBizPOReceipt_JMS_DJJ_ABF"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/Implementation/ABF/NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF/SubscribeEBizPOReceipt_JMS_DJJ_ABF"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF/JMSConsumePOReceipt"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ns3="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptABM/1.0"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns13="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns14="http://xmlns.oracle.com/DV1Application/NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF/Rest_DJJCreateReceipt"
+         xmlns:ns15="http://xmlns.eia.com/CommonLogging">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF/JMSConsumePOReceipt"
+          location="../WSDLs/JMSConsumePOReceipt.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMSConsumePOReceipt" partnerLinkType="ns1:Consume_Message_plt" myRole="Consume_Message_role"/>
+    <partnerLink name="Rest_DJJCreateReceipt" partnerLinkType="ns14:Rest_DJJCreateReceipt"
+                 partnerRole="Rest_DJJCreateReceiptProvider"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns15:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ReceiveReceipt_Consume_Message_InputVariable" messageType="ns1:Consume_Message_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence2">
+        <scope name="Scope_CommonLoggin_CatchAll">
+          <variables>
+            <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                      messageType="ns15:CommonLoggingRequestMessage"/>
+          </variables>
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence4">
+            <assign name="Assign_CatchAllLogging">
+              <copy>
+                <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionIDREF</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProjectName</to>
+              </copy>
+              <copy>
+                <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:ComponentID</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ComponentId</to>
+              </copy>
+              <copy>
+                <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionName</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>15</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LogType</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',$ReceiveReceipt_Consume_Message_InputVariable.body/ns2:ListOfReceipts/ns5:Receipt/ns5:BasicReceipt/ns5:ShipmentNumber,'::',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns15:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="ReceiveReceipt" partnerLink="JMSConsumePOReceipt" portType="ns1:Consume_Message_ptt"
+             operation="Consume_Message" variable="ReceiveReceipt_Consume_Message_InputVariable" createInstance="yes"/>
+    <scope name="Scope_StartLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <assign name="Assign_StartLogging">
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:ComponentID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ComponentId</to>
+          </copy>
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionName</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>15</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns15:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <forEach parallel="no" counterName="RcptLineIdx" name="ForEachReceiptLine">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($ReceiveReceipt_Consume_Message_InputVariable.body/ns2:ListOfReceipts/ns5:Receipt/ns5:ListOfBasicReceiptLines/ns5:ReceiptLine)</finalCounterValue>
+      <scope name="Scope_CallDJJ">
+        <variables>
+          <variable name="tmp_Parameter" element="ns13:parameters"/>
+          <variable name="Rest_DJJCreateReceipt_createReceipt_InputVariable"
+                    messageType="ns14:createReceipt_inputMessage"/>
+          <variable name="Rest_DJJCreateReceipt_createReceipt_OutputVariable" messageType="ns14:Rest_EmptyMessage"/>
+          <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                    messageType="ns15:CommonLoggingRequestMessage"/>
+        </variables>
+        <faultHandlers>
+          <catchAll>
+            <sequence name="Sequence6">
+              <assign name="Assign_LineError">
+                <copy>
+                  <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionIDREF</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:ComponentID</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionName</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>15</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LogType</to>
+                </copy>
+                <copy>
+                  <from>concat('Test',ora:getFaultAsString())</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                      portType="ns15:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </catchAll>
+        </faultHandlers>
+        <sequence name="Sequence1">
+          <assign name="Assign_Index">
+            <copy>
+              <from>'RcptLineIdx'</from>
+              <to>$tmp_Parameter/ns13:item/ns13:name</to>
+            </copy>
+            <copy>
+              <from>$RcptLineIdx</from>
+              <to>$tmp_Parameter/ns13:item/ns13:value</to>
+            </copy>
+          </assign>
+          <assign name="XformReceivePOConsumeInput_To_DJJCreateReceiptInput">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformReceivePOConsumeInput_To_DJJCreateReceiptInput.xsl", $ReceiveReceipt_Consume_Message_InputVariable.body, "tmp_Parameter", $tmp_Parameter)</from>
+              <to variable="Rest_DJJCreateReceipt_createReceipt_InputVariable" part="request"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Rest_DJJCreateReceipt" partnerLink="Rest_DJJCreateReceipt"
+                  portType="ns14:Rest_DJJCreateReceipt_ptt" operation="createReceipt"
+                  inputVariable="Rest_DJJCreateReceipt_createReceipt_InputVariable"
+                  outputVariable="Rest_DJJCreateReceipt_createReceipt_OutputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="rest.binding.http.IP">eia:getEIAModuleProperty('NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF','rest.binding.http.IP')</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.http.APIUserId">dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm", "CONSUMER_REF_ID", $Rest_DJJCreateReceipt_createReceipt_InputVariable.request/CustomerRefID, "SC_API_USER_ID", "" )</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">eia:getEIAServiceProperty('NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF','rest.binding.http.Ocp-Apim-Subscription-Key')</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.requestURI">eia:getEIAServiceProperty('NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF','rest.binding.requestURI')</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </forEach>
+    <scope name="Scope_EndLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence5">
+        <assign name="Assign_EndLogging">
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:ComponentID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ComponentId</to>
+          </copy>
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns3:HeaderRs/ns3:RequestDetails/ns3:TransactionName</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>15</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-013'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:MessageCode</to>
+          </copy>
+          <copy>
+            <from>$ReceiveReceipt_Consume_Message_InputVariable.body/ns2:ListOfReceipts/ns5:Receipt/ns5:BasicReceipt/ns5:ShipmentNumber</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns15:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

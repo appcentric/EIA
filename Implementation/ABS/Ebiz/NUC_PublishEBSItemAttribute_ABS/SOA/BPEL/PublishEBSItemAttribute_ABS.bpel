@@ -1,0 +1,263 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jan 27 12:19:49 CST 2016
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="PublishEBSItemAttribute_ABS"
+         targetNamespace="http://xmlns.oracle.com/Manish/NUC_PublishEBSItemAttribute_ABS/PublishEBSItemAttribute_ABS"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/Manish/NUC_PublishEBSItemAttribute_ABS/PublishEBSItemAttribute_ABS"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/NUC_PublishEBSItemAttribute_ABS/AQ_DEQ_XXNUC_COMM_OUTINTF_Q"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns2="http://xmlns.eia.com/CommonLogging"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://xmlns.oracle.com/xdb/APPS_NE"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_PublishEBSItemAttribute_ABS/DB_Get_Item_Attr_Details"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Get_Item_Attr_Details"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/jms/Manish/NUC_PublishEBSItemAttribute_ABS/JMS_ENQ_NextGen_DistributedTopic"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/NUC_PublishEBSItemAttribute_ABS/AQ_DEQ_XXNUC_COMM_OUTINTF_Q"
+          location="../WSDLs/AQ_DEQ_XXNUC_COMM_OUTINTF_Q.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="AQ_DEQ_XXNUC_COMM_OUTINTF_Q" partnerLinkType="ns1:Dequeue_plt" myRole="Dequeue_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Get_Item_Attr_Details" partnerLinkType="ns4:DB_Get_Item_Attr_Details_plt"
+                 partnerRole="DB_Get_Item_Attr_Details_role"/>
+    <partnerLink name="JMS_ENQ_NextGen_DistributedTopic" partnerLinkType="ns6:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="g_Receive_AQ_DEQ_OUTINTF_Dequeue_InputVariable" messageType="ns1:XXNUC_COMM_OUTINTF_OBJ_TYP_msg"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+    <variable name="g_Invoke_DB_Get_Item_Attr_Details_InputVariable" messageType="ns4:args_in_msg"/>
+    <variable name="g_Invoke_DB_Get_Item_Attr_Details_OutputVariable" messageType="ns4:args_out_msg"/>
+    <variable name="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" messageType="ns6:Produce_Message_msg"/>
+    <variable name="g_Resource" type="xsd:string"/>
+    <variable name="g_System" type="xsd:string"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns2:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_AQ_DEQ_OUTINTF" createInstance="yes" partnerLink="AQ_DEQ_XXNUC_COMM_OUTINTF_Q"
+             portType="ns1:Dequeue_ptt" operation="Dequeue" variable="g_Receive_AQ_DEQ_OUTINTF_Dequeue_InputVariable"/>
+    
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>$g_Receive_AQ_DEQ_OUTINTF_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/BATCH_ID</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_AQ_DEQ_OUTINTF_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+      </copy>
+      <copy>
+        <from>'I114'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+      </copy>
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId))</from>
+        <to>$setTitleVar</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+            portType="ns2:CommonLogging" operation="process"
+            inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    
+    <assign name="Assign_Request_ID">
+      <copy>
+        <from>$g_Receive_AQ_DEQ_OUTINTF_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+        <to>$g_Invoke_DB_Get_Item_Attr_Details_InputVariable.InputParameters/ns5:P_REQUEST_ID</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_AQ_DEQ_OUTINTF_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/BATCH_ID</from>
+        <to>$g_Invoke_DB_Get_Item_Attr_Details_InputVariable.InputParameters/ns5:P_PROCESS_BATCH_ID</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_Get_Item_Attr_Details" partnerLink="DB_Get_Item_Attr_Details"
+            portType="ns4:DB_Get_Item_Attr_Details_ptt" operation="DB_Get_Item_Attr_Details"
+            inputVariable="g_Invoke_DB_Get_Item_Attr_Details_InputVariable"
+            outputVariable="g_Invoke_DB_Get_Item_Attr_Details_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <if name="If_Payload_Check">
+      <documentation>
+        <![CDATA[Payload_Present]]>
+      </documentation>
+      <condition>count($g_Invoke_DB_Get_Item_Attr_Details_OutputVariable.OutputParameters/ns5:P_ITEM_TAB/ns5:P_ITEM_TAB_ITEM) &gt; 0</condition>
+      <sequence name="Sequenc_Payload_Present">
+        <assign name="Assign_Resource">
+          <copy>
+            <from>$g_Invoke_DB_Get_Item_Attr_Details_OutputVariable.OutputParameters/ns5:P_ITEM_TAB/ns5:P_ITEM_TAB_ITEM[1]/ns5:RESOURCE_NAME</from>
+            <to>$g_Resource</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Resource,"SYSTEM","","ORG_CODE",$g_Invoke_DB_Get_Item_Attr_Details_OutputVariable.OutputParameters/ns5:P_ITEM_TAB/ns5:P_ITEM_TAB_ITEM[1]/ns5:ORGANIZATION_CODE)</from>
+            <to>$g_System</to>
+          </copy>
+        </assign>
+        <assign name="Transformation_DB_JMS">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_DB_JMS.xsl", $g_Invoke_DB_Get_Item_Attr_Details_OutputVariable.OutputParameters, "g_Invoke_CommonLogging_process_InputVariable.CommonLogging", $g_Invoke_CommonLogging_process_InputVariable.CommonLogging)</from>
+            <to variable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" part="body"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_JMS_ENQ_NextGen" partnerLink="JMS_ENQ_NextGen_DistributedTopic"
+                portType="ns6:Produce_Message_ptt" operation="Produce_Message"
+                inputVariable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jms.JMSType">'ItemAttribute'</bpelx:toProperty>
+            <!--<bpelx:toProperty name="jca.jms.JMSProperty.ResourceName" variable="g_Resource"/> -->
+            <bpelx:toProperty name="jca.jms.JMSProperty.OrgName"
+                              variable="g_Invoke_DB_Get_Item_Attr_Details_OutputVariable" part="OutputParameters">
+              <bpelx:query>ns5:P_ITEM_TAB/ns5:P_ITEM_TAB_ITEM[1]/ns5:ORGANIZATION_NAME</bpelx:query>
+            </bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[Payload_NotPresnet]]>
+        </documentation>
+        <sequence name="Sequence_Payload_NotPresent">
+        <assign name="Assign_CommonLogging">
+            <copy>
+              <from>4</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-162'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+            </copy>
+            <copy>
+              <from>$g_Invoke_DB_Get_Item_Attr_Details_InputVariable.InputParameters/ns5:P_PROCESS_BATCH_ID</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+            </copy>
+          </assign>
+            <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+      </else>
+    </if>
+    
+  </sequence>
+</process>

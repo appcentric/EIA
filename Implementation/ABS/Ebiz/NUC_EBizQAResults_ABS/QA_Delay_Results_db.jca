@@ -1,0 +1,14 @@
+<adapter-config name="QA_Delay_Results" adapter="Database Adapter" wsdlLocation="QA_Delay_Results.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="EBSDEVR" adapterRef=""/>
+  <endpoint-interaction portType="QA_Delay_Results_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="QA_Delay_Results.QaResultsInterface"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="QA_Delay_Results-or-mappings.xml"/>
+      <property name="DetectOmissions" value="true"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

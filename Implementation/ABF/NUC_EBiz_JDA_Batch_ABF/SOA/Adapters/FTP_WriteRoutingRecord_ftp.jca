@@ -1,0 +1,14 @@
+<adapter-config name="FTP_WriteRoutingRecord" adapter="ftp" wsdlLocation="../WSDLs/FTP_WriteRoutingRecord.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/JDA"/>
+  <endpoint-interaction portType="Put_ptt" operation="Put">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPInteractionSpec">
+      <property name="PhysicalDirectory" value="Directory"/>
+      <property name="NumberMessages" value="1"/>
+      <property name="Append" value="false"/>
+      <property name="FileType" value="ascii"/>
+      <property name="FileNamingConvention" value="routingFileName"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

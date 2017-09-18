@@ -1,0 +1,81 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="FTP_ReadASNSupplier_Ross"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:pc="http://xmlns.oracle.com/pcbpel/"
+     xmlns:imp1="http://www.example.org"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+     xmlns:ns2="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+     xmlns:ns3="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+     xmlns:cor="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0/correlationset"
+     xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+     xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+     xmlns:ns4="http://xmlns.eia.com/EDN/1.0/Event"
+    >
+    <plt:partnerLinkType name="Get_plt">
+        <plt:role name="Get_role">
+            <plt:portType name="tns:Get_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <vprop:propertyAlias propertyName="cor:Property_LaunchProcessRequestID" xmlns:ns20="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+         messageType="ns20:LaunchReceiptResponseMessageType" part="LaunchReceiptResponseMessage"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptABM/1.0">
+        <vprop:query>ns4:RequestID</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="cor:Property_LaunchProcessRequestID" xmlns:ns27="http://xmlns.eia.com/EDN/1.0/Event"
+         element="ns27:Event">
+        <vprop:query>ns27:EventId</vprop:query>
+    </vprop:propertyAlias>
+    <wsdl:import namespace="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/PurchaseOrderABS.wsdl"/>
+    <wsdl:import namespace="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+         location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/LotABS.wsdl"/>
+    <wsdl:import namespace="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" location="ReceiptABSWrapper.wsdl"/>
+    <wsdl:import namespace="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/ReceiptABS.wsdl"/>
+    <wsdl:import namespace="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0/correlationset"
+         location="ASNQualityResultsSupplier_properties.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+             xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:imp1="http://www.example.org"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+             xmlns:ns2="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" xmlns:ns3="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+             xmlns:cor="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0/correlationset"
+             xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+             xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" xmlns:ns4="http://xmlns.eia.com/EDN/1.0/Event">
+            <import namespace="http://www.example.org" schemaLocation="../Schemas/ASN_ROSS_Input.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+             xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:imp1="http://www.example.org"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+             xmlns:ns2="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" xmlns:ns3="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+             xmlns:cor="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0/correlationset"
+             xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+             xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" xmlns:ns4="http://xmlns.eia.com/EDN/1.0/Event">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+             xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:imp1="http://www.example.org"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+             xmlns:ns2="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" xmlns:ns3="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+             xmlns:cor="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0/correlationset"
+             xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+             xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" xmlns:ns4="http://xmlns.eia.com/EDN/1.0/Event">
+            <xsd:import namespace="http://xmlns.eia.com/EDN/1.0/Event" schemaLocation="oramds:/apps/EIAMetadata/CommonArtifacts/schemas/EntityResponseEventAO.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Get_msg">
+        <wsdl:part name="body" element="imp1:Envelope"/>
+    </wsdl:message>
+    <wsdl:portType name="Get_ptt">
+        <wsdl:operation name="Get">
+            <wsdl:input message="tns:Get_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,1974 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAO/1.0"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAO/1.0"
+            elementFormDefault="qualified">
+  <xsd:element name="PoRequisitionsInterfaceAllCollection" type="PoRequisitionsInterfaceAllCollection"/>
+   <xsd:complexType name="PoRequisitionsInterfaceAllCollection">
+      <xsd:sequence>
+         <xsd:element name="PoRequisitionsInterfaceAll" type="PoRequisitionsInterfaceAll" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="PoRequisitionsInterfaceAll">
+      <xsd:sequence>
+         <xsd:element name="transactionId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="processFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="requestId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="programId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="programApplicationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="programUpdateDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="lastUpdatedBy" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="lastUpdateDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="lastUpdateLogin" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="creationDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="createdBy" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="interfaceSourceCode" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="interfaceSourceLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="sourceTypeCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="requisitionHeaderId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="requisitionLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="reqDistributionId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="requisitionType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="destinationTypeCode" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemDescription" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="quantity" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="unitPrice" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="authorizationStatus" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="batchId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="groupCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="deleteEnabledFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="updateEnabledFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="approverId" type="xsd:int" minOccurs="0" nillable="true"/>
+         <xsd:element name="approverName" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="approvalPathId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="noteToApprover" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="480"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="preparerId" type="xsd:int" minOccurs="0" nillable="true"/>
+         <xsd:element name="autosourceFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="reqNumberSegment1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="reqNumberSegment2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="reqNumberSegment3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="reqNumberSegment4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="reqNumberSegment5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerDescription" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttributeCategory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="urgentFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="headerAttribute15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="rfqRequiredFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="justification" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="480"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="noteToBuyer" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="480"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="noteToReceiver" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="480"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="itemSegment1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment16" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment17" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment18" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment19" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemSegment20" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="itemRevision" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="chargeAccountSegment1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment16" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment17" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment18" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment19" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment20" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment21" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment22" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment23" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment24" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment25" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment26" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment27" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment28" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment29" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment30" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categoryId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="categorySegment1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment16" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment17" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment18" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment19" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="categorySegment20" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="unitOfMeasure" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="uomCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineTypeId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="lineType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="unNumberId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="unNumber" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="hazardClassId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="hazardClass" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="40"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="mustUseSuggVendorFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="referenceNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="wipEntityId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="wipLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="wipOperationSeqNum" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="wipResourceSeqNum" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="wipRepetitiveScheduleId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="projectNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="taskNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="expenditureType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="sourceOrganizationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="sourceOrganizationCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="sourceSubinventory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="destinationOrganizationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="destinationOrganizationCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="destinationSubinventory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="deliverToLocationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="deliverToLocationCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="deliverToRequestorId" type="xsd:int" minOccurs="0" nillable="true"/>
+         <xsd:element name="deliverToRequestorName" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="suggestedBuyerId" type="xsd:int" minOccurs="0" nillable="true"/>
+         <xsd:element name="suggestedBuyerName" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="suggestedVendorName" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="suggestedVendorId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="suggestedVendorSite" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="15"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="suggestedVendorSiteId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="suggestedVendorContact" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="suggestedVendorContactId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="suggestedVendorPhone" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="suggestedVendorItemNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttributeCategory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="lineAttribute15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="needByDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="note1Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note2Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note3Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note4Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note5Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note6Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note7Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note8Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note9Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note10Id" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="note1Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note2Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note3Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note4Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note5Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note6Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note7Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note8Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note9Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="note10Title" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="80"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="glDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="distAttributeCategory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="preparerName" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="240"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="bomResourceId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="accrualAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="varianceAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="budgetAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="ussglTransactionCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="governmentContext" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="currencyCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="15"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="currencyUnitPrice" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="rate" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="rateDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="rateType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="preventEncumbranceFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="autosourceDocHeaderId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="autosourceDocLineNum" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="projectAccountingContext" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="expenditureOrganizationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="projectId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="taskId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="endItemUnitNumber" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="expenditureItemDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="documentTypeCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="orgId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="transactionReasonCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="allocationType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="allocationValue" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="multiDistributions" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="reqDistSequenceId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="kanbanCardId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="emergencyPoNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="awardId" type="xsd:long" minOccurs="0" nillable="true"/>
+         <xsd:element name="taxCodeId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractHeaderId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="120"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="okeContractVersionId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractLineNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="okeContractDeliverableId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractDeliverableNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="secondaryUnitOfMeasure" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="secondaryUomCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="3"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="secondaryQuantity" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="preferredGrade" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="vmiFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="taxUserOverrideFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="amount" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="currencyAmount" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="shipMethod" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="estimatedPickupDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="baseUnitPrice" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="negotiatedByPreparerFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="taxName" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="poReqDistInterfaceAllCollection" minOccurs="0">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="PoReqDistInterfaceAll" type="PoReqDistInterfaceAll" minOccurs="0" maxOccurs="unbounded"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="PoReqDistInterfaceAll">
+      <xsd:sequence>
+         <xsd:element name="accrualAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="allocationType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="allocationValue" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="batchId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="budgetAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="chargeAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="chargeAccountSegment1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment16" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment17" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment18" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment19" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment20" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment21" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment22" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment23" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment24" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment25" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment26" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment27" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment28" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment29" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment30" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="chargeAccountSegment9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="createdBy" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="creationDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="destinationOrganizationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="destinationSubinventory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="10"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="destinationTypeCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute10" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute11" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute12" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute13" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute14" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute15" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute2" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute3" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute4" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute5" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute6" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute7" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute8" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionAttribute9" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distributionNumber" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="distAttributeCategory" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="distSequenceId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="expenditureItemDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="expenditureOrganizationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="expenditureType" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="glDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="governmentContext" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="groupCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="interfaceSourceCode" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="interfaceSourceLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="itemId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="lastUpdatedBy" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="lastUpdateDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="lastUpdateLogin" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="orgId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="preventEncumbranceFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="processFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="programApplicationId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="programId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="programUpdateDate" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+         <xsd:element name="projectAccountingContext" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="projectId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="projectNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="quantity" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="requestId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="reqNumberSegment1" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="requisitionLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="reqDistributionId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="taskId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="taskNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="25"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="transactionId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="updateEnabledFlag" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="ussglTransactionCode" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="varianceAccountId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractLineId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractLineNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="okeContractDeliverableId" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="okeContractDeliverableNum" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="150"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="amount" type="xsd:decimal" minOccurs="0" nillable="true"/>
+         <xsd:element name="currencyAmount" type="xsd:decimal" minOccurs="0" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

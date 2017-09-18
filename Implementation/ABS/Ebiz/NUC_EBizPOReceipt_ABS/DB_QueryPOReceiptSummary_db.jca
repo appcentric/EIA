@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="DB_QueryPOReceiptSummary" adapter="db" wsdlLocation="DB_QueryPOReceiptSummary.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="EBSDEVP" adapterRef=""/>
+  <endpoint-interaction portType="DB_QueryPOReceiptSummary_ptt" operation="DB_QueryPOReceiptSummary">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="select hou.name as org_name , pha.segment1 as po_number , pha.vendor_id vendor_id , pha.vendor_site_id vendor_site_id , pha.type_lookup_code order_type , pla.LINE_NUM line_num , sum(plla.quantity_received) as quantity_received , sum(plla.quantity) as quantity_ordered , sum(plla.quantity_billed) as quantity_invoiced , sum(plla.quantity_cancelled) as quantity_cancelled , pla.unit_meas_lookup_code  uom_code , pla.unit_price unit_price , pla.item_description item_description , pla.attribute1 as wh_part_number , pda.req_header_reference_num  , pda.req_line_reference_num , prha.SEGMENT1 as requisition_number , prla.line_num as requisition_line_number , pha.closed_code as po_status , pha.closed_date as po_close_date , pha.authorization_status authorization_status , pha.cancel_flag cancel_flag , pla.closed_code as line_status , pha.creation_date as po_date , prha.creation_date as req_date , prha.approved_date as req_approved_date , pha.approved_date as po_approved_date , pha.org_id org_id , gcc.concatenated_segments gl_account_string from po.po_headers_all pha  ,po_lines_all pla  ,po_distributions_all pda ,gl_code_combinations_kfv gcc ,hr_operating_units hou ,po_req_distributions_all prda ,po_requisition_lines_all prla ,po_requisition_headers_all prha ,po_line_locations_all plla where pha.po_header_id=pla.po_header_id and pla.po_line_id = plla.po_line_id and plla.line_location_id = pda.line_location_id and pda.code_combination_id = gcc.code_combination_id and pha.org_id = HOU.organization_id and pda.REQ_DISTRIBUTION_ID=prda.distribution_id(+) and prda.REQUISITION_LINE_ID = prla.REQUISITION_LINE_ID(+) and prla.requisition_header_id=prha.requisition_header_id(+) and pha.segment1 = #PoNum and hou.name = #OrgName group by pha.org_id, pha.segment1 ,pla.line_num ,pla.unit_meas_lookup_code ,pla.unit_price ,pla.item_description ,prha.segment1 ,prla.line_num, pha.CLOSED_CODE ,pha.CLOSED_DATE ,pha.authorization_status ,pha.cancel_flag ,pla.CLOSED_CODE ,pha.vendor_id ,pha.vendor_site_id ,pha.type_lookup_code ,gcc.concatenated_segments ,hou.name, pha.CREATION_DATE ,prha.CREATION_DATE ,prha.APPROVED_DATE ,pha.approved_date ,pla.attribute1 ,pda.code_combination_id , pda.req_header_reference_num  , pda.req_line_reference_num"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

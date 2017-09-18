@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryOnHandAO/1.0" xmlns:obj="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryOnHandAO/1.0" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite PO</Definition>
+<Description>This schema defines the objects to create or extract Batch /Job</Description>
+<Author>Manish Gujar</Author>
+<ModifiedBy>Manish Gujar</ModifiedBy>
+<VersionDate>10-11-2015</VersionDate>
+<VersionDescription>Initial standard</VersionDescription>
+<ModificationHistory>24-07-2015 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+<xsd:element name="InventoryOnHandDetails" type="obj:ListOfInventoryOnHandDetails"/>
+<xsd:complexType name="ListOfInventoryOnHandDetails">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ListOfInvOnHands" type="obj:InvOnHand"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="InvOnHand">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="OrganizationCode" type="common:C240"/>
+<xsd:element minOccurs="0" name="SubinventoryCode" type="common:C240"/>
+<xsd:element minOccurs="0" name="Locator" type="common:C240"/>
+<xsd:element minOccurs="0" name="Item" type="common:C240"/>
+<xsd:element minOccurs="0" name="ItemDescription" type="common:C240"/>
+<xsd:element minOccurs="0" name="Revision" type="common:C240"/>
+<xsd:element minOccurs="0" name="UOM" type="common:C240"/>
+<xsd:element minOccurs="0" name="OnHand" type="common:C240"/>
+<xsd:element minOccurs="0" name="Unpacked" type="common:C240"/>
+<xsd:element minOccurs="0" name="Packed" type="common:C240"/>
+<xsd:element minOccurs="0" name="CostGroupId" type="common:C240"/>
+<xsd:element minOccurs="0" name="LPN" type="common:C240"/>
+<xsd:element minOccurs="0" name="PrimaryLot" type="common:C240"/>
+<xsd:element minOccurs="0" name="LotNumber" type="common:C240"/>
+<xsd:element minOccurs="0" name="ExpirationDate" type="common:C240"/>
+<xsd:element minOccurs="0" name="SerialNumber" type="common:C240"/>
+<xsd:element minOccurs="0" name="UnitNumber" type="common:C240"/>
+<xsd:element minOccurs="0" name="ProjectId" type="common:C240"/>
+<xsd:element minOccurs="0" name="TaskId" type="common:C240"/>
+<xsd:element minOccurs="0" name="Status" type="common:C240"/>
+<xsd:element minOccurs="0" name="LocatorStatusId" type="common:C240"/>
+<xsd:element minOccurs="0" name="LotStatusId" type="common:C240"/>
+<xsd:element minOccurs="0" name="SupplierLot" type="common:C240"/>
+<xsd:element minOccurs="0" name="PlanningTpType" type="common:C240"/>
+<xsd:element minOccurs="0" name="PlanningOrganizationId" type="common:C240"/>
+<xsd:element minOccurs="0" name="OwningTpType" type="common:C240"/>
+<xsd:element minOccurs="0" name="OwningOrganizationId" type="common:C240"/>
+<xsd:element minOccurs="0" name="SecondaryOnhand" type="common:C240"/>
+<xsd:element minOccurs="0" name="SecondaryUomCode" type="common:C240"/>
+<xsd:element minOccurs="0" name="GradeCode" type="common:C240"/>
+<xsd:element minOccurs="0" name="SecondaryUnpacked" type="common:C240"/>
+<xsd:element minOccurs="0" name="SecondaryPacked" type="common:C240"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="InventoryOnHandResponse" type="obj:InventoryOnHandRes"/>
+<xsd:complexType name="InventoryOnHandRes">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="Result" type="common:C100"/>
+<xsd:element minOccurs="0" name="ErrorMsg" type="common:C4000"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

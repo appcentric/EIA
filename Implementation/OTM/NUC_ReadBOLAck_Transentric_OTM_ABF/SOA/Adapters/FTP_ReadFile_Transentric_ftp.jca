@@ -1,0 +1,19 @@
+<adapter-config name="FTP_ReadFile_Transentric" adapter="ftp" wsdlLocation="../WSDLs/FTP_ReadFile_Transentric.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/HAFtpMoveIt" UIincludeWildcard="*.*"/>
+  <endpoint-activation portType="Get_ptt" operation="Get">
+    <activation-spec className="oracle.tip.adapter.ftp.inbound.FTPActivationSpec">
+      <property name="DeleteFile" value="true"/>
+      <property name="MinimumAge" value="0"/>
+      <property name="PhysicalDirectory" value="Inventory/Transentric997/IntoOracle"/>
+      <property name="Recursive" value="false"/>
+      <property name="PollingFrequency" value="600"/>
+      <property name="FileType" value="ascii"/>
+      <property name="PhysicalArchiveDirectory" value="Inventory/Transentric997/Processed"/>
+      <property name="IncludeFiles" value=".*\..*"/>
+      <property name="UseHeaders" value="false"/>
+      <property name="UseRemoteArchive" value="true"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

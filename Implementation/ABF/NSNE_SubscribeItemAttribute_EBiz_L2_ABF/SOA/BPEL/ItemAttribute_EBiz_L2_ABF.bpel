@@ -1,0 +1,388 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Jan 28 11:58:57 CST 2016
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ItemAttribute_EBiz_L2_ABF"
+         targetNamespace="http://nucor.eia.com/NSNE_SubscribeItemAttribute_EBiz_QMOS_ABF/ItemAttribute_EBiz_QMOS_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://nucor.eia.com/NSNE_SubscribeItemAttribute_EBiz_QMOS_ABF/ItemAttribute_EBiz_QMOS_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/I114/NSNE_SubscribeItemAttribute_EBiz_QMOS_ABF/JMS_DEQ_NextGenDistributedTopic"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/I114/NSNE_SubscribeItemAttribute_EBiz_QMOS_ABF/DB_Insert_API_PRODUCT_CODE"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns4="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns5="http://nucor.eia.com/AO/Ebiz/D2S/ItemAttributeAO/1.0"
+         xmlns:ns3="http://nucor.eia.com/AO/Ebiz/D2S/ItemAttributeAM/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns6="http://xmlns.eia.com/CommonLogging"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:ns7="http://nucor.eia.com/common"
+         xmlns:ns8="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeItemAttribute_EBiz_L2_ABF/NSNE_SubscribeItemAttribute_EBiz_L2_ABF/DB_Insert_EBS_PRODUCT_CODES"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/NSNE_SubscribeItemAttribute_EBiz_L2_ABF/NSNE_SubscribeItemAttribute_EBiz_L2_ABF/DB_Insert_EBS_GRADE_CODES"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_EBS_GRADE_CODES"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_EBS_PRODUCT_CODES">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <!--
+  <import namespace="http://nucor.eia.com/common" location="../Schemas/Params.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+          -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/I114/NSNE_SubscribeItemAttribute_EBiz_QMOS_ABF/JMS_DEQ_NextGenDistributedTopic"
+          location="../WSDLs/JMS_DEQ_NextGenDistributedTopic.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMS_DEQ_NextGenDistributedTopic" partnerLinkType="ns1:Consume_Message_plt"
+                 myRole="Consume_Message_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns6:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Insert_EBS_PRODUCT_CODES" partnerLinkType="ns9:DB_Insert_EBS_PRODUCT_CODES_plt"
+                 partnerRole="DB_Insert_EBS_PRODUCT_CODES_role"/>
+    <partnerLink name="DB_Insert_EBS_GRADE_CODES" partnerLinkType="ns10:DB_Insert_EBS_GRADE_CODES_plt"
+                 partnerRole="DB_Insert_EBS_GRADE_CODES_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_SubscribeItemAttribute_InputVariable" messageType="ns1:Consume_Message_msg"/>
+    <variable name="Invoke_Insert_L2_EBS_PRODUCT_CODES_InputVariable" messageType="ns9:EbsProductCodesCollection_msg"/>
+    <variable name="jndiName" type="xsd:string"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns6:CommonLoggingRequestMessage"/>
+    <variable name="g_ResourceName" type="xsd:string"/>
+    <variable name="paramVar" element="ns8:parameters"/>
+    <variable name="jdbcName" type="xsd:string"/>
+    <variable name="g_System" type="xsd:string"/>
+    <variable name="Invoke_Insert_L2_EBS_GRADE_CODES_InputVariable" messageType="ns10:EbsGradeCodesCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence>
+        <scope name="Scope_COmmmonLogError">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="Assign_CommonLogging">
+              <copy>
+                <from>4</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageCode</to>
+              </copy>
+              <copy>
+                <from>ora:getFaultAsString()</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                    portType="ns6:CommonLogging" operation="process"
+                    inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_SubscribeItemAttribute" createInstance="yes" partnerLink="JMS_DEQ_NextGenDistributedTopic"
+             portType="ns1:Consume_Message_ptt" operation="Consume_Message"
+             variable="Receive_SubscribeItemAttribute_InputVariable"/>
+    <scope name="Scope_CommonLog">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>$Receive_SubscribeItemAttribute_InputVariable.body/ns4:HeaderRq/ns4:TransactionRequestID</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I114'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:ComponentId</to>
+          </copy>
+          <copy>
+            <from>$Receive_SubscribeItemAttribute_InputVariable.body/ns4:HeaderRq/ns4:TransactionName</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>21</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns6:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Assign_Resource">
+      <copy>
+        <from>$Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails[1]/ns5:ResourceName</from>
+        <to>$g_ResourceName</to>
+      </copy>
+    </assign>
+    <assign name="Assign_Get_JNDI_JDBC">
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_ResourceName,"JNDI","","ORG_CODE",$Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails[1]/ns5:OrganizationCode)</from>
+        <to>$jndiName</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_ResourceName,"JDBC","","ORG_CODE",$Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails[1]/ns5:OrganizationCode)</from>
+        <to>$jdbcName</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_ResourceName,"SYSTEM","","ORG_CODE",$Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails[1]/ns5:OrganizationCode)</from>
+        <to>$g_System</to>
+      </copy>
+      <copy>
+        <from>'JDBCName'</from>
+        <to>$paramVar/ns8:item/ns8:name</to>
+      </copy>
+      <copy>
+        <from>$jdbcName</from>
+        <to>$paramVar/ns8:item/ns8:value</to>
+      </copy>
+    </assign>
+    <if name="Check_For_JNDI">
+      <documentation>
+        <![CDATA[L2]]>
+      </documentation>
+      <condition>contains($g_ResourceName,'CASTER') or contains($g_ResourceName,'EAF') or contains($g_ResourceName,'LMF')</condition>
+      <sequence name="Sequence_L2">
+        <flow name="Flow_Product_Grades">
+          <sequence name="Sequence_L2_Product_Codes">
+            <assign name="Xform_Ebiz_L2_Product">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Ebiz_L2.xsl", $Receive_SubscribeItemAttribute_InputVariable.body, "paramVar", $paramVar)</from>
+                <to variable="Invoke_Insert_L2_EBS_PRODUCT_CODES_InputVariable" part="EbsProductCodesCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_L2_EBS_PRODUCT_CODES" partnerLink="DB_Insert_EBS_PRODUCT_CODES"
+                    portType="ns9:DB_Insert_EBS_PRODUCT_CODES_ptt"
+                    inputVariable="Invoke_Insert_L2_EBS_PRODUCT_CODES_InputVariable"
+                    operation="merge" bpelx:invokeAsDetail="no"/>
+            <scope name="Scope1">
+              <faultHandlers>
+                <catchAll>
+                  <empty name="DoNothing"/>
+                </catchAll>
+              </faultHandlers>
+              <sequence>
+                <assign name="Assign_CommonLogging">
+                  <copy>
+                    <from>'BMG-002'</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageCode</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionStatus</to>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns6:CommonLogging"
+                        operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                        bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+            <if name="If1">
+              <documentation>
+                <![CDATA[NotLotControlledItem]]>
+              </documentation>
+              <condition>count($Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails[ns5:LotControlCode =1]) &gt; 0 and (xp20:compare($Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails/ns5:ProdType,'BIL')=0 or xp20:compare($Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails/ns5:ItemType,'LIQUID MELT')=0 )</condition>
+              <scope name="Scope3">
+                <faultHandlers>
+                  <catchAll>
+                    <empty name="DoNothing"/>
+                  </catchAll>
+                </faultHandlers>
+                <sequence name="Sequence3" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <assign name="Assign_CommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+         
+         
+         
+         
+      <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:LogType</to>
+         </copy><copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageCode</to>
+         </copy><copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionStatus</to>
+         </copy><copy>
+            <from>concat('Item :',substring(oraext:create-delimited-string($Receive_SubscribeItemAttribute_InputVariable.body/ns5:ItemAttributeDetails[ns5:LotControlCode =1 and (xp20:compare(ns5:ProdType,'BIL')=0 or xp20:compare(ns5:ItemType,'LIQUID MELT')=0 )]/ns5:ItemNumber,','),1,2000),' is not lot controlled for a billet or bundle')</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageDescription</to>
+         </copy></assign>
+      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+              portType="ns6:CommonLogging" operation="process"
+              inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+         <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+         </bpelx:toProperties>
+      </invoke>
+   </sequence>
+              </scope>
+              <else>
+                <documentation>
+                  <![CDATA[LotControlledItem]]>
+                </documentation>
+                <empty name="DoNothing"/>
+              </else>
+            </if>
+          </sequence>
+          <sequence name="Sequence_L2_Grade_Codes">
+            <assign name="Xform_Ebiz_L2_Grade">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Ebiz_L2_Grade.xsl", $Receive_SubscribeItemAttribute_InputVariable.body)</from>
+                <to variable="Invoke_Insert_L2_EBS_GRADE_CODES_InputVariable" part="EbsGradeCodesCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_L2_EBS_GRADE_CODES" partnerLink="DB_Insert_EBS_GRADE_CODES"
+                    portType="ns10:DB_Insert_EBS_GRADE_CODES_ptt" operation="merge"
+                    inputVariable="Invoke_Insert_L2_EBS_GRADE_CODES_InputVariable" bpelx:invokeAsDetail="no"/>
+            <scope name="Scope2">
+              <faultHandlers>
+                <catchAll>
+                  <empty name="DoNOthing"/>
+                </catchAll>
+              </faultHandlers>
+              <sequence>
+                <assign name="Assign_CommonLogging">
+                  <copy>
+                    <from>'BMG-002'</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageCode</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionStatus</to>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns6:CommonLogging"
+                        operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                        bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+          </sequence>
+        </flow>
+      </sequence>
+      <!--<else>
+        <documentation>
+          <![CDATA[OtherSystem]]>
+        </documentation>
+        <sequence name="Sequnce_OtherSystem">
+         <assign name="Assign_CommonLogging">
+            <copy>
+              <from>'BMG-155'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageCode</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:LogType</to>
+            </copy>
+            <copy>
+              <from>concat($g_ResourceName,',','QMOS')</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns6:TransactionStatus</to>
+            </copy>
+          </assign>
+    <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+            portType="ns6:CommonLogging" operation="process"
+            inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+        
+        </sequence>
+      </else> -->
+    </if>
+  </sequence>
+</process>

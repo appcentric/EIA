@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="DB_QueryCustomerByOrigRef" adapter="db" wsdlLocation="DB_QueryCustomerByOrigRef.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="EBSDEVP" adapterRef=""/>
+  <endpoint-interaction portType="DB_QueryCustomerByOrigRef_ptt" operation="queryByExample">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_QueryCustomerByOrigRef.XxnucCustOrigSysRefsV"/>
+      <property name="IsQueryByExample" value="true"/>
+      <property name="MappingsMetaDataURL" value="DB_QueryCustomerByOrigRef-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

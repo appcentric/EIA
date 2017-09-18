@@ -1,0 +1,33 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<?binding.jca OA_BE_PublishPOReceipt_apps.jca?>
+<wsdl:definitions
+     name="OA_BE_PublishPOReceipt"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishPOReceipt_EBiz_ABF/OA_BE_PublishPOReceipt"
+     xmlns:ns1="http://xmlns.eia.com/EO/Common/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_PublishPOReceipt_EBiz_ABF/OA_BE_PublishPOReceipt"
+     xmlns:imp1="http://xmlns.oracle.com/xdb/APPS/OA_BE_PublishPOReceipt"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+    >
+    <plt:partnerLinkType name="DEQUEUE_plt">
+        <plt:role name="DEQUEUE_role">
+            <plt:portType name="tns:DEQUEUE_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/xdb/APPS/OA_BE_PublishPOReceipt" schemaLocation="xsd/APPS_WF_EVENT_T_OA_BE_PublishPOReceipt.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="oramds:/apps/EIAMetadata/EO/common/Common.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="WF_EVENT_T_msg">
+        <wsdl:part name="WF_EVENT_T" element="imp1:WF_EVENT_T"/>
+    </wsdl:message>
+    <wsdl:portType name="DEQUEUE_ptt">
+        <wsdl:operation name="DEQUEUE">
+            <wsdl:input message="tns:WF_EVENT_T_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

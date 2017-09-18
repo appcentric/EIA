@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+targetNamespace="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0" 
+elementFormDefault="qualified" attributeFormDefault="unqualified"
+            version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:commonao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+            xmlns:amtao="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+            xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+            xmlns:uomao="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+            xmlns:itemao="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0">
+ <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/UomAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"/>
+ 
+ 
+ <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AmountAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"/>
+              
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"/>
+ 
+              
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/WhoAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"/>
+
+<xsd:element name="BasicItem" type="itemao:BasicItemType"/>
+
+<xsd:element name="Item" type="itemao:ItemType"/>
+
+<xsd:complexType name="BasicItemType">
+<xsd:sequence>
+ <xsd:element name="Identifier" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="Item" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="Description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="Code" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="ItemRevision" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="OrgCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ItemType">
+<xsd:sequence>
+ <xsd:element name="BasicItem" type="itemao:BasicItemType" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="SegmentKFF" type="commonao:SegmentKFFType" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="EnabledFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="StartDateActive" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="EndDateActive" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="WeightUom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+  <xsd:element name="VolumeUom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="UnitVolume" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="UnitWeight" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="WhoColumns" type="whoao:WhoColumnsType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+
+
+</xsd:schema>

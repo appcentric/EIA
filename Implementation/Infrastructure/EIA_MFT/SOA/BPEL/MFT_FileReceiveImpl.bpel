@@ -1,0 +1,113 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Mar 15 13:58:17 CDT 2017
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="MFT_FileReceiveImpl"
+               targetNamespace="http://xmlns.oracle.com/SMG_common/EIA_MFT/MFT_FileReceiveImpl"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SMG_common/EIA_MFT/MFT_FileReceiveImpl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/fmw/mft/soap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/ias/pcbpel/NotificationService"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/fmw/mft/soap" location="../WSDLs/MFT_ReceiveFile.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="MFT_ReceiveFile" partnerLinkType="ns1:submit_plt" myRole="submit_role"/>
+    <partnerLink name="SendFile" partnerLinkType="ns2:NotificationServiceLink"
+                 partnerRole="NotificationServiceProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="MFTFile_ReqMsg" messageType="ns1:MFTServiceRequest"/>
+    <variable name="MFTFile_RespMsg" messageType="ns1:MFTServiceResponse"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive_MFTFile" createInstance="yes" partnerLink="MFT_ReceiveFile" portType="ns1:submit_ptt"
+             operation="submit" variable="MFTFile_ReqMsg"/>
+    <scope name="MailFile">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:email"></bpelx:pattern>
+      </bpelx:annotation>
+      <variables>
+        <variable name="varNotificationReq" messageType="ns2:EmailNotificationRequest"/>
+        <variable name="varNotificationResponse" messageType="ns2:ArrayOfResponse"/>
+        <variable name="NotificationServiceFaultVariable" messageType="ns2:NotificationServiceErrorMessage"/>
+      </variables>
+      <sequence name="Sequence1">
+        <assign name="EmailParamsAssign">
+          <copy>
+            <from>string('smg-dv0-mft@nucor.com')</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:FromAccountName</query></to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:Bcc</query></to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:Cc</query></to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:ReplyToAddress</query></to>
+          </copy>
+          <copy>
+            <from>concat("File ", $MFTFile_ReqMsg.qheader/ns1:TargetFilename, " is processed")</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:Subject</query></to>
+          </copy>
+          <copy>
+            <from>'vivek.srinivasan@nucor.com'</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:To</query></to>
+          </copy>
+          <copy>
+            <from>$MFTFile_ReqMsg.qheader/ns1:TargetFilename</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:Content/ns2:ContentBody</query></to>
+          </copy>
+          <copy>
+            <from>string('text/html; charset=UTF-8')</from>
+            <to variable="varNotificationReq" part="EmailPayload"><query>ns2:Content/ns2:MimeType</query></to>
+          </copy>
+        </assign>
+        <invoke name="InvokeNotificationService" portType="ns2:NotificationService" partnerLink="SendFile"
+                inputVariable="varNotificationReq" outputVariable="varNotificationResponse"
+                operation="sendEmailNotification"/>
+      </sequence>
+    </scope>
+    <assign name="Assign1">
+      <copy>
+        <from>'Done'</from>
+        <to>$MFTFile_RespMsg.payload</to>
+      </copy>
+    </assign>
+    <reply name="Reply1" variable="MFTFile_RespMsg" partnerLink="MFT_ReceiveFile" portType="ns1:submit_ptt"
+           operation="submit"/>
+  </sequence>
+</process>

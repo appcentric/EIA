@@ -1,0 +1,14 @@
+<adapter-config name="DB_Cast_Batch_View" adapter="db" wsdlLocation="../WSDLs/DB_Cast_Batch_View.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="L2_Dev" location="eis/DB/nsneL2"/>
+  <endpoint-interaction portType="DB_Cast_Batch_View_ptt" operation="DB_Cast_Batch_ViewSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_Cast_Batch_View.vw_L2_Cast_Batch_Header"/>
+      <property name="QueryName" value="DB_Cast_Batch_ViewSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_Cast_Batch_View-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

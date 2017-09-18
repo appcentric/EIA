@@ -1,0 +1,21 @@
+<?binding.jca OA_PurchaseOrderEBS_apps.jca?>
+<wsdl:definitions name="OA_PurchaseOrderEBS" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EbizPurchaseOrder_ABS/OA_PurchaseOrderEBS" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EbizPurchaseOrder_ABS/OA_PurchaseOrderEBS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_PurchaseOrderEBS">
+    <plt:partnerLinkType name="OA_PurchaseOrderEBS_plt">
+        <plt:role name="OA_PurchaseOrderEBS_role">
+            <plt:portType name="tns:OA_PurchaseOrderEBS_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_PurchaseOrderEBS" schemaLocation="xsd/OA_PurchaseOrderEBS_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="PoHeadersInterfaceCollection_msg">
+        <wsdl:part name="PoHeadersInterfaceCollection" element="top:PoHeadersInterfaceCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="OA_PurchaseOrderEBS_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:PoHeadersInterfaceCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

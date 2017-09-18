@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAM/1.0" xmlns="http://xmlns.eia.com/AO/EBiz/P2P/CustomerAM/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:commonao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0" xmlns:amtao="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0" xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0" xmlns:uomao="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0" xmlns:custao="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAO/1.0" xmlns:custam="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAM/1.0">
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"/>
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/WhoAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"/>
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/UomAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"/>
+	<xsd:import schemaLocation="../../../../AO/EBiz/O2C/V1.0/CustomerAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAO/1.0"/>
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AmountAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"/>
+	<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+	<xsd:element name="QueryByOrigSystemRef_BasicCustomerRequestMessage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="CustomerOrigSystemInfo" type="custao:OrigSystemType" minOccurs="0" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="QueryByOrigSystemRef_BasicCustomerResponseMessage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="BasicCustomer" type="custao:BasicCustomerType" minOccurs="0" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="QueryByOrigSystemRef_BasicSiteRequestMessage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SiteOrigSystemInfo" type="custao:OrigSystemType" minOccurs="0" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="QueryByOrigSystemRef_BasicSiteResponseMessage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="BasicSite" type="custao:BasicSiteType" minOccurs="0" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PublishListOfOrganizationCustomersInfoMessage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="header:HeaderRq"/>
+				<xsd:element name="ListOfOrganizationCustomersInfo" type="custao:ListOfOrganizationCustomersInfoType" minOccurs="0" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

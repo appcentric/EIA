@@ -1,0 +1,14 @@
+<adapter-config name="DBSELECT_MILLSCALE_UOM" adapter="db" wsdlLocation="../WSDLs/DBSELECT_MILLSCALE_UOM.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSCRP3" location="eis/DB/nsne_milldb"/>
+  <endpoint-interaction portType="DBSELECT_MILLSCALE_UOM_ptt" operation="DBSELECT_MILLSCALE_UOMSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DBSELECT_MILLSCALE_UOM.XxnucInvScaleStg"/>
+      <property name="QueryName" value="DBSELECT_MILLSCALE_UOMSelect"/>
+      <property name="MappingsMetaDataURL" value="DBSELECT_MILLSCALE_UOM-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

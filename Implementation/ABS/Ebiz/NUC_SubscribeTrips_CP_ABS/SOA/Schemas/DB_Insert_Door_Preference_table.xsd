@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Door_Preference" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Door_Preference" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="DoorPreferenceCollection" type="DoorPreferenceCollection"/>
+   <xs:complexType name="DoorPreferenceCollection">
+      <xs:sequence>
+         <xs:element name="DoorPreference" type="DoorPreference" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DoorPreference">
+      <xs:sequence>
+         <xs:element name="operationId" type="xs:decimal"/>
+         <xs:element name="stopSequenceNumber" type="xs:decimal"/>
+         <xs:element name="name" type="xs:string" nillable="true"/>
+         <xs:element name="groupSequence" type="xs:decimal" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

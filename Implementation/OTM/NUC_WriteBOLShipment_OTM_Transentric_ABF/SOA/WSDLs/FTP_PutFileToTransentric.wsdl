@@ -1,0 +1,29 @@
+<wsdl:definitions
+     name="FTP_PutFileToTransentric"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/I132/NUC_WriteBOLShipment_OTM_Transentric_ABF/FTP_PutFileToTransentric"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/I132/NUC_WriteBOLShipment_OTM_Transentric_ABF/FTP_PutFileToTransentric"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://xmlns.oracle.com/apps/otm"
+    >
+  <plt:partnerLinkType name="Put_plt" >
+    <plt:role name="Put_role" >
+      <plt:portType name="tns:Put_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/I132/NUC_WriteBOLShipment_OTM_Transentric_ABF/FTP_PutFileToTransentric"
+              xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/apps/otm" schemaLocation="oramds:/apps/EIAMetadata/AO/OTM/common/V1.0/GLogXML.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Put_msg">
+        <wsdl:part name="body" element="imp1:Transmission"/>
+    </wsdl:message>
+    <wsdl:portType name="Put_ptt">
+        <wsdl:operation name="Put">
+            <wsdl:input message="tns:Put_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

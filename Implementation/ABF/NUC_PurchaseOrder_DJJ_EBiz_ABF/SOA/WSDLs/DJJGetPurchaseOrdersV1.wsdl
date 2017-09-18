@@ -1,0 +1,49 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="DJJGetPurchaseOrdersV1"
+     targetNamespace="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+     xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+     xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="DJJGetPurchaseOrdersV1">
+        <plnk:role name="DJJGetPurchaseOrdersV1Provider" portType="tns:DJJGetPurchaseOrdersV1_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             elementFormDefault="qualified" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <element name="empty">
+                <complexType/>
+            </element>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <xsd:include schemaLocation="../Schemas/PurchaseOrderAO.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Rest_EmptyMessage">
+        <wsdl:part name="Empty" element="tns:empty"/>
+    </wsdl:message>
+    <wsdl:message name="GetPurchaseOrder_outputMessage">
+        <wsdl:part name="reply" element="ApiResponsePOHeader"/>
+    </wsdl:message>
+    <wsdl:portType name="DJJGetPurchaseOrdersV1_ptt">
+        <wsdl:operation name="GetPurchaseOrder">
+            <wsdl:input message="tns:Rest_EmptyMessage"/>
+            <wsdl:output message="tns:GetPurchaseOrder_outputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

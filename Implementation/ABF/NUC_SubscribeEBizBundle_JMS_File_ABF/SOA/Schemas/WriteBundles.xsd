@@ -1,0 +1,150 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd"
+            xmlns:tns="writeBundles" targetNamespace="writeBundles" elementFormDefault="qualified"
+            attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars" nxsd:encoding="US-ASCII">
+  <xsd:element name="BOL">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="BillOfLadingHeaderInfo" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="BillOfLading" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="Sequence" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="BillOfLadingDate" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="BillOfLadingTime" type="xsd:string" nxsd:style="fixedLength" nxsd:length="6" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="ShippedBy" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerPickUp" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="ScaleTicket" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="TareWeight" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="GrossWeight" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="NetWeight" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="Carrier" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CarNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="14" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="PrepaidFreight" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="FreightRate" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="FreightBy" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Miles" type="xsd:string" nxsd:style="fixedLength" nxsd:length="5" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="FreightAmount" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="StopCharge" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="OtherChargeDescription" type="xsd:string" nxsd:style="fixedLength" nxsd:length="20" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="OtherCharge" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="LoadOrderNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="SalesDivision" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="OSP" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:length="71"  nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="RailInformation" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="BillOfLading" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="Sequence" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RailContract" type="xsd:string" nxsd:style="fixedLength" nxsd:length="40" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="RailRouting" type="xsd:string" nxsd:style="fixedLength" nxsd:length="40" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="RailRouting1" type="xsd:string" nxsd:style="fixedLength" nxsd:length="40" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:padStyle="tail"
+                           nxsd:paddedBy=" " nxsd:length="107"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="BillToAddress" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="BillOfLading" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="Sequence" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="CustomerName" type="xsd:string" nxsd:style="fixedLength" nxsd:length="40" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerAddress1" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerAddress2" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerAddress3" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerCity" type="xsd:string" nxsd:style="fixedLength" nxsd:length="20" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerState" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerZip" type="xsd:string" nxsd:style="fixedLength" nxsd:length="9" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+              <xsd:element name="CustomerNation" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerForeignZip" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:padStyle="tail"
+               nxsd:paddedBy=" " nxsd:length="48"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="ShipToAddress" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="BillOfLading" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="Sequence" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="CustomerName" type="xsd:string" nxsd:style="fixedLength" nxsd:length="40" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerAddress1" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerAddress2" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerAddress3" type="xsd:string" nxsd:style="fixedLength" nxsd:length="30" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerCity" type="xsd:string" nxsd:style="fixedLength" nxsd:length="20" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerState" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerZip" type="xsd:string" nxsd:style="fixedLength" nxsd:length="9" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+              <xsd:element name="CustomerNation" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerForeignZip" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:padStyle="tail"
+               nxsd:paddedBy=" " nxsd:length="48"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="BillOfLadingDetails" minOccurs="0" maxOccurs="unbounded" nxsd:style="array">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="BillOfLading" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="BOLLineNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="CustomerPurchaseOrder" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomeRProductNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="20" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="NumberOfBundlesOrCoils" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="TotalNumberOfPieces" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="TheoreticalWeight" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="ProductDescription" type="xsd:string" nxsd:style="fixedLength" nxsd:length="25" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Grade" type="xsd:string" nxsd:style="fixedLength" nxsd:length="9" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="LengthInFeet" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="Inches" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="FractionOfanInch" type="xsd:string" nxsd:style="fixedLength" nxsd:length="5" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="SalesOrderNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="SalesOrderLineNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="ProductType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="NumericSize" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="NumericSizeDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+              <xsd:element name="FlatSize" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="FlatSizeDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+              <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:length="80" nxsd:padStyle="head" nxsd:paddedBy=" "/>
+            <xsd:element name="cellSeperator" type="xsd:string" nxsd:style="array" nxsd:length="1" nxsd:cellSeparatedBy="${eol}"/>
+              <!--<xsd:element name="C3" type="xsd:string" nxsd:style="array" nxsd:length="6" />-->
+              <xsd:element name="TagInformation" minOccurs="0" maxOccurs="unbounded" nxsd:style="array">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="BillOfLading" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="BOLLineNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="TagNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="NumberOfPieces" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="BundleWeight" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:length="183" nxsd:padStyle="head" nxsd:paddedBy=" "/>
+                     <xsd:element name="cellSeperator" type="xsd:string" nxsd:style="array" nxsd:length="1" nxsd:cellSeparatedBy="${eol}"/>
+                    <!--<xsd:element name="C3" type="xsd:string" nxsd:style="array" nxsd:length="4"  nxsd:cellSeparatedBy="${eol}"/>-->
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation>
+    <xsd:appinfo>NXSDSAMPLE=/C:/Users/nirav.sanghavi/Desktop/I137.txt</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+  <xsd:annotation>
+    <xsd:appinfo>NXSDSAMPLE=/C:/Users/nirav.sanghavi/Desktop/I137.txt</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

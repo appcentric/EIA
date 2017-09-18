@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_GetBillet_Details"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_GetBillet_Details"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_GetBillet_Details"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetBillet_Details"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_GetBillet_Details_plt" >
+    <plt:role name="DB_GetBillet_Details_role" >
+      <plt:portType name="tns:DB_GetBillet_Details_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetBillet_Details" schemaLocation="../Schemas/DB_GetBillet_Details_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_GetBillet_DetailsSelect_inputParameters">
+        <wsdl:part name="DB_GetBillet_DetailsSelect_inputParameters" element="top:DB_GetBillet_DetailsSelect_rownumValueInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="ApiBilletTransCollection_msg">
+        <wsdl:part name="ApiBilletTransCollection" element="top:ApiBilletTransCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_GetBillet_Details_ptt">
+        <wsdl:operation name="DB_GetBillet_DetailsSelect">
+            <wsdl:input message="tns:DB_GetBillet_DetailsSelect_inputParameters"/>
+            <wsdl:output message="tns:ApiBilletTransCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

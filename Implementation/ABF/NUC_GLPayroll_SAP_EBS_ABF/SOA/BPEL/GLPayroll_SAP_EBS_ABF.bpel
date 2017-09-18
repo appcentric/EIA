@@ -1,0 +1,269 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Aug 25 05:11:50 CDT 2015
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="GLPayroll_SAP_EBS_ABF"
+               targetNamespace="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns1="www.Nucor.com"
+         xmlns:ns2="http://nucor.eia.com/CommonLogging" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://www.example.org"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/GLPayroll_SAP_EBS_ABF/DB_XXNUC_GL_SAP_Payroll"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/GLPayroll_SAP_EBS_ABF/DB_xxnuc_gl_sap_payroll_pkg"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_xxnuc_gl_sap_payroll_pkg"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns7="http://nucor.eia.com"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/GLPayroll_SAP_EBS_ABF/DB_GL_Interface"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/apps/Manish/GLPayroll_SAP_EBS_ABF/APPS_GL_Interface">
+  
+  <import namespace="http://www.example.org" location="../Schemas/ProcessPayroll.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF" location="../WSDLs/GLPayroll_SAP_EBS_ABF.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="glpayroll_sap_ebs_abf_client" partnerLinkType="client:GLPayroll_SAP_EBS_ABF" myRole="GLPayroll_SAP_EBS_ABFProvider"/>
+    <partnerLink name="SAP_FI_Posting_Service" partnerLinkType="ns1:SAP_FI_Posting_Service" partnerRole="SapDataSoap"/>
+    <partnerLink name="DB_xxnuc_gl_sap_payroll_pkg" partnerLinkType="ns5:DB_xxnuc_gl_sap_payroll_pkg_plt"
+                 partnerRole="DB_xxnuc_gl_sap_payroll_pkg_role"/>
+    <partnerLink name="APPS_GL_Interface" partnerLinkType="ns9:APPS_GL_Interface_plt"
+                 partnerRole="APPS_GL_Interface_role"/>
+    <partnerLink name="CommonLoggin_PL" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:GLPayroll_SAP_EBS_ABFRequestMessage"/>
+    <variable name="Invoke_CommonLogging_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+    <variable name="Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_InputVariable"
+              messageType="ns1:Get_SAP_FIPostingSoapIn"/>
+    <variable name="Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_OutputVariable"
+              messageType="ns1:Get_SAP_FIPostingSoapOut"/>
+    <variable name="Invoke_DB_xxnuc_gl_sap_payroll_pkg_InputVariable" messageType="ns5:args_in_msg"/>
+    <variable name="Invoke_DB_xxnuc_gl_sap_payroll_pkg_OutputVariable" messageType="ns5:args_out_msg"/>
+    <variable name="Invoke_APPS_GL_Interface_insert_InputVariable" messageType="ns9:GlInterfaceCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_CatchAll">
+      
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>4</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+        </assign>
+
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLoggin_PL"
+                portType="ns2:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in GLPayroll_SAP_EBS_ABF.wsdl) -->
+    <receive name="receiveInput" partnerLink="glpayroll_sap_ebs_abf_client" portType="client:GLPayroll_SAP_EBS_ABF" operation="process" variable="inputVariable" createInstance="yes"/>
+   
+   <assign name="Assign_CommonLogging_PL">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+      </copy>
+      <copy>
+        <from>'I001'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'GeneralLedger'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+      </copy>
+      <copy>
+        <from>3</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+      </copy>      
+      <copy>
+        <from>1</from>
+        <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLoggin_PL"
+            portType="ns2:CommonLogging" operation="process"
+            inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no"/>
+            
+    <assign name="Assign_Input_SAP_FI_Posting_Service">
+      <copy>
+        <from>$inputVariable.payload/ns3:StartDate</from>
+        <to>$Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_InputVariable.parameters/ns1:StartPostingDate</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns3:EndDate</from>
+        <to>$Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_InputVariable.parameters/ns1:EndPostingDate</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns3:DivCode</from>
+        <to>$Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_InputVariable.parameters/ns1:DivCode</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns3:Env</from>
+        <to>$Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_InputVariable.parameters/ns1:Environment</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_SAP_FI_Posting_Service" partnerLink="SAP_FI_Posting_Service"
+            portType="ns1:SapDataSoap" operation="Get_SAP_FIPosting"
+            inputVariable="Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_InputVariable"
+            outputVariable="Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_OutputVariable" bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="javax.xml.ws.security.auth.username">dvm:lookupValue("oramds:/apps/dvm/EBS_LEGACY_LEDGER_NAME_MAP.dvm","LEGACY_DIV_NUM",$inputVariable.payload/ns3:DivCode,"DIV_USER_NAME","")</bpelx:toProperty>
+        <bpelx:toProperty name="javax.xml.ws.security.auth.password">dvm:lookupValue("oramds:/apps/dvm/EBS_LEGACY_LEDGER_NAME_MAP.dvm","LEGACY_DIV_NUM",$inputVariable.payload/ns3:DivCode,"DIV_PASSWORD","")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="Transformation_SAPGL_To_GLInterface">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Transformation_SAPGL_To_GLInterface.xsl", $Invoke_SAP_FI_Posting_Service_Get_SAP_FIPosting_OutputVariable.parameters)</from>
+        <to variable="Invoke_APPS_GL_Interface_insert_InputVariable" part="GlInterfaceCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_APPS_GL_Interface" partnerLink="APPS_GL_Interface"
+            portType="ns9:APPS_GL_Interface_ptt" operation="insert"
+            inputVariable="Invoke_APPS_GL_Interface_insert_InputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Assign_Transaction_Id">
+      <copy>
+        <from>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</from>
+        <to>$Invoke_DB_xxnuc_gl_sap_payroll_pkg_InputVariable.InputParameters/ns6:P_TXN_ID</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_xxnuc_gl_sap_payroll_pkg" bpelx:invokeAsDetail="no"
+            partnerLink="DB_xxnuc_gl_sap_payroll_pkg" portType="ns5:DB_xxnuc_gl_sap_payroll_pkg_ptt"
+            operation="DB_xxnuc_gl_sap_payroll_pkg" inputVariable="Invoke_DB_xxnuc_gl_sap_payroll_pkg_InputVariable"
+            outputVariable="Invoke_DB_xxnuc_gl_sap_payroll_pkg_OutputVariable"/>
+      
+    <if name="If_Check_ConcurrentProgram">
+      <documentation>
+        <![CDATA[If_Check_ConcurrentProgram]]>
+      </documentation>
+      <condition>$Invoke_DB_xxnuc_gl_sap_payroll_pkg_OutputVariable.OutputParameters/ns6:P_STATUS  = 2</condition>
+      
+        <assign name="Assign_CommonLogging_PL">
+        <copy>
+          <from>1</from>
+          <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+        </copy>
+        <copy>
+          <from>2</from>
+          <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+        </copy>
+        <copy>
+          <from>'BMG-002'</from>
+          <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+        </copy>
+      </assign>
+      
+      <else>
+        <documentation>
+          <![CDATA[ConcurrentProgram_else]]>
+        </documentation>
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>$Invoke_DB_xxnuc_gl_sap_payroll_pkg_OutputVariable.OutputParameters/ns6:P_STATUS</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>$Invoke_DB_xxnuc_gl_sap_payroll_pkg_OutputVariable.OutputParameters/ns6:P_MSG</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLoggin_PL" portType="ns2:CommonLogging" operation="process"
+            inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no"/>
+  </sequence>
+</process>

@@ -1,0 +1,33 @@
+<wsdl:definitions
+     name="WshSendOtmDocument"
+     targetNamespace="http://xmlns.oracle.com/WshSendOtmDocument"
+     xmlns:ns1="http://xmlns.oracle.com/apps/otm"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.oracle.com/WshSendOtmDocument"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="WshSendOtmDocument">
+        <plnk:role name="WshSendOtmDocumentProvider">
+            <plnk:portType name="client:WshSendOtmDocument"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://xmlns.oracle.com/apps/otm"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/WshSendOtmDocument"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.oracle.com/apps/otm" schemaLocation="oramds:/apps/EIAMetadata/AO/OTM/common/V1.0/GLogXML.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="WshSendOtmDocumentRequestMessage">
+        <wsdl:part name="payload" element="ns1:Transmission"/>
+    </wsdl:message>
+    <wsdl:message name="WshSendOtmDocumentResponseMessage">
+        <wsdl:part name="payload" element="ns1:TransmissionAck"/>
+    </wsdl:message>
+    <wsdl:portType name="WshSendOtmDocument">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:WshSendOtmDocumentRequestMessage"/>
+            <wsdl:output message="client:WshSendOtmDocumentResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

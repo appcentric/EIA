@@ -1,0 +1,44 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Batch_Stg" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Batch_Stg" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxnucGmeBatchHeaderStgCollection" type="XxnucGmeBatchHeaderStgCollection"/>
+   <xs:complexType name="XxnucGmeBatchHeaderStgCollection">
+      <xs:sequence>
+         <xs:element name="XxnucGmeBatchHeaderStg" type="XxnucGmeBatchHeaderStg" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucGmeBatchHeaderStg">
+      <xs:sequence>
+         <xs:element name="processStatus" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="processBatchId" type="xs:decimal" nillable="true"/>
+         <xs:element name="xxnucGmeBatchHdrDtlsStgCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="XxnucGmeBatchHdrDtlsStg" type="XxnucGmeBatchHdrDtlsStg" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="xxnucGmeBatchStepsStgCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="XxnucGmeBatchStepsStg" type="XxnucGmeBatchStepsStg" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucGmeBatchHdrDtlsStg">
+      <xs:sequence>
+         <xs:element name="processStatus" type="string25" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucGmeBatchStepsStg">
+      <xs:sequence>
+         <xs:element name="processStatus" type="string25" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

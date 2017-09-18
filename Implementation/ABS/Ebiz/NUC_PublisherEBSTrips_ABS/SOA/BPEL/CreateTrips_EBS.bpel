@@ -1,0 +1,439 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Sep 23 07:57:41 CDT 2015
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CreateTrips_EBS"
+               targetNamespace="http://xmlns.oracle.com/I028/NUC_PublisherEBSTrips_ABS/CreateTrips_EBS"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/I028/NUC_PublisherEBSTrips_ABS/CreateTrips_EBS"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/aq/I028/NUC_PublisherEBSTrips_ABS/AQ_EBS_Publish_Q"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_PublisherEBSTrips_ABS/DB_Select_Trips"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="http://xmlns.oracle.com/xdb/APPS_NE"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Select_Trips"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/jms/I028/NUC_PublisherEBSTrips_ABS/PublishTrips_JMSAdapter"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns7="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/O2C/TripsAO/1.0"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_PublisherEBSTrips_ABS/DB_Update_WSH_TRIP_DELVBL_TBL"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_PublisherEBSTrips_ABS/DB_Update_WSH_TRIP_STOPS_TBL"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_PublisherEBSTrips_ABS/DB_Update_XXNUC_WSH_TRIP_DEL_TBL"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_WSH_TRIP_DELVBL_TBL"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_WSH_TRIP_STOPS_TBL"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_XXNUC_WSH_TRIP_DEL_TBL"
+          xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns16="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_PublisherEBSTrips_ABS/Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/Update_XXNUC_WSH_TRIPS_STG_PureSQLDBAdapter"
+         xmlns:ns15="http://xmlns.eia.com/CommonLogging" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/db/I027New/NUC_PublisherEBSTrips_ABS/DB_Select_Trips">
+  <!--                       
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/I028/NUC_PublisherEBSTrips_ABS/AQ_EBS_Publish_Q"
+          location="../WSDLs/AQ_EBS_Publish_Q.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="AQ_EBS_Publish_Q" partnerLinkType="ns1:Dequeue_plt" myRole="Dequeue_role"/>
+    <partnerLink name="PublishTrips_JMSAdapter" partnerLinkType="ns5:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+    <partnerLink name="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+                 partnerLinkType="ns16:Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter_plt"
+                 partnerRole="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns15:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Select_Trips" partnerLinkType="ns19:DB_Select_Trips_plt" partnerRole="DB_Select_Trips_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="Input_Dequeue_Trips" messageType="ns1:XXNUC_COMM_OUTINTF_OBJ_TYP_msg"/>
+    <!--<variable name="InvokeSelectFromTrips_InputVariable" messageType="ns2:DB_Select_TripsSelect_inputParameters"/>-->
+    <variable name="InvokeSelectFromTrips_OutputVariable" messageType="ns19:XxnucWshTripsStgCollection_msg"/>
+    <!--<variable name="InvokePublishTrips_Produce_Message" messageType="ns5:Produce_Message_msg"/>-->
+    <!--<variable name="Invoke_Update_WSH_TRIP_DELVBL_TBL_InputVariable"
+              messageType="ns9:DB_Update_WSH_TRIP_DELVBL_TBLInput_msg"/>
+    <variable name="Invoke_Update_WSH_TRIP_STOPS_TBL_InputVariable"
+              messageType="ns10:DB_Update_WSH_TRIP_STOPS_TBLInput_msg"/>
+    <variable name="Invoke_Update_WSH_TRIP_DEL_TBL_InputVariable"
+              messageType="ns11:DB_Update_XXNUC_WSH_TRIP_DEL_TBLInput_msg"/>-->
+    <!--<variable name="Invoke_StartLog_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>-->
+    <!--<variable name="Invoke_End_Log_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>-->
+    <variable name="Invoker_Update_XXNUC_WSH_TRIPS_TBL_InputVariable"
+              messageType="ns16:Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapterInput_msg"/>
+    <variable name="InvokeError_Update_XXNUC_WSH_TRIPS_TBL__InputVariable"
+              messageType="ns16:Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapterInput_msg"/>
+    <!--<variable name="Invoke_Error_Log_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>-->
+    <variable name="InvokePublishTrips_Produce_Message" messageType="ns5:Produce_Message_msg"/>
+    <!--<variable name="Invoke_StartLog_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>-->
+    <variable name="InvokeSelectFromTrips_InputVariable" messageType="ns19:DB_Select_TripsSelect_inputParameters"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="Scope1">
+        <variables>
+          <variable name="Invoke_Error_Log_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>
+        </variables>
+        <sequence name="Sequence4">
+          <assign name="AssignErrorUpdate">
+            <copy>
+              <from>$Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+              <to>$InvokeError_Update_XXNUC_WSH_TRIPS_TBL__InputVariable.Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapterInput_msg/ns18:REQUEST_ID</to>
+            </copy>
+            <copy>
+              <from>'ERROR'</from>
+              <to>$InvokeError_Update_XXNUC_WSH_TRIPS_TBL__InputVariable.Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapterInput_msg/ns18:PROCESS_FLAG</to>
+            </copy>
+          </assign>
+          <invoke name="InvokeErrorUpdate" partnerLink="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+                  portType="ns16:Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter_ptt"
+                  operation="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+                  inputVariable="InvokeError_Update_XXNUC_WSH_TRIPS_TBL__InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Assign_Error_Log">
+            <copy>
+              <from>$Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I028'</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:ComponentId</to>
+            </copy>
+            <copy>
+              <from>'CreateTrips'</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>5</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:LogType</to>
+            </copy>
+            <copy>
+              <from>concat('FlowID:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_Error_Log_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Error_Log" partnerLink="CommonLogging" portType="ns15:CommonLogging" operation="process"
+                  inputVariable="Invoke_Error_Log_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope></catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in CreateTrips_EBS.wsdl) -->
+    <receive name="receiveInput" partnerLink="AQ_EBS_Publish_Q" portType="ns1:Dequeue_ptt" operation="Dequeue"
+             variable="Input_Dequeue_Trips" createInstance="yes"/>
+    <scope name="ScopeStartLog">
+      <variables>
+         <variable name="Invoke_StartLog_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="Empty"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence5">
+        <assign name="AssignStartLog">
+          <copy>
+            <from>ora:setCompositeInstanceTitle(string($Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID))</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I028'</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:ProcessName</to>
+          </copy>
+          <copy>
+            <from>'CarrierPointOutbound'</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_StartLog_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_StartLog" partnerLink="CommonLogging" portType="ns15:CommonLogging" operation="process"
+                inputVariable="Invoke_StartLog_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+
+                </invoke>
+      </sequence>
+    </scope>
+    <scope name="ScopeSelectFromEBSTables">
+      <sequence>
+        <assign name="AssignRecordId">
+          <copy>
+            <from>$Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+            <to>$InvokeSelectFromTrips_InputVariable.DB_Select_TripsSelect_inputParameters/ns3:recordIdentifier</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeSelectFromTrips" partnerLink="DB_Select_Trips" portType="ns19:DB_Select_Trips_ptt"
+                operation="DB_Select_TripsSelect" inputVariable="InvokeSelectFromTrips_InputVariable"
+                outputVariable="InvokeSelectFromTrips_OutputVariable" bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </scope>
+    <assign name="Transformation_EBSTripTablesToCanonical">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Xform_EBSTripTables_Canonical.xsl", $InvokeSelectFromTrips_OutputVariable.XxnucWshTripsStgCollection)</from>
+        <to variable="InvokePublishTrips_Produce_Message" part="body"/>
+      </copy>
+    </assign>
+    <scope name="PublishToJMS">
+      <sequence name="Sequence2">
+      <assign name="AssignHeader">
+          <copy>
+            <from>'ENG'</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:Language</to>
+          </copy>
+          <copy>
+            <from>'I028'</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:ComponentID</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:ServiceName</to>
+          </copy>
+          <copy>
+            <from>$Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:TransactionRequestID</to>
+          </copy>
+          <copy>
+            <from>'CreateTrips'</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>'CarrierPointOutbound'</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:Source</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$InvokePublishTrips_Produce_Message.body/ns7:HeaderRq/ns7:Target</to>
+          </copy>
+        </assign>
+        <invoke name="InvokePublishTrips" partnerLink="PublishTrips_JMSAdapter" portType="ns5:Produce_Message_ptt"
+                operation="Produce_Message" inputVariable="InvokePublishTrips_Produce_Message"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jms.JMSType">'Carrier_Point-Trips'</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <scope name="UpdateStagingTables">
+      <sequence>
+        <assign name="AssignUpdate">
+          <copy>
+            <from>$Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+            <to>$Invoker_Update_XXNUC_WSH_TRIPS_TBL_InputVariable.Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapterInput_msg/ns18:REQUEST_ID</to>
+          </copy>
+          <copy>
+            <from>'SUCCESS'</from>
+            <to>$Invoker_Update_XXNUC_WSH_TRIPS_TBL_InputVariable.Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapterInput_msg/ns18:PROCESS_FLAG</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeUpdateDBAdapter"
+                partnerLink="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+                portType="ns16:Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter_ptt"
+                operation="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter"
+                inputVariable="Invoker_Update_XXNUC_WSH_TRIPS_TBL_InputVariable" bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </scope>
+    <scope name="ScopeEndLog">
+      <variables>
+       <variable name="Invoke_End_Log_InputVariable" messageType="ns15:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="Empty"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence6">
+        <assign name="AssignEndLog">
+          <copy>
+            <from>$Input_Dequeue_Trips.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I028'</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'CarrierPointOutbound'</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_End_Log_InputVariable.CommonLogging/ns15:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_End_Log" partnerLink="CommonLogging" portType="ns15:CommonLogging" operation="process"
+                inputVariable="Invoke_End_Log_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+
+                </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

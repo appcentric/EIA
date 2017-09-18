@@ -1,0 +1,87 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Dec 18 11:30:24 IST 2013
+  Author:  biagrawa
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CommonLogging"
+               targetNamespace="http://xmlns.eia.com/CommonLogging"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.eia.com/CommonLogging"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/file/CommonLogging/CommonLogging/AuditLogFailFileWriteAdapter"
+         xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[CommonLogging.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="CommonLogging" partnerLinkType="client:CommonLogging" myRole="CommonLoggingProvider"/>
+    <partnerLink name="CommonLoggingProviderAQAdapter" partnerRole="Enqueue_role" partnerLinkType="ns1:Enqueue_plt"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ReceiveCommonLoggingInput_process_InputVariable" messageType="client:CommonLoggingRequestMessage"/>
+    <variable name="Invoke_Enqueue_InputVariable" messageType="ns1:XXNUC_COMM_LOGG_OBJ_TYP_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence>
+        <empty name="Create_LogToFile"/>
+        <terminate name="Terminate_FailedService"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in CommonLogging.wsdl) -->
+    <receive name="ReceiveCommonLoggingInput" partnerLink="CommonLogging" portType="client:CommonLogging" operation="process" createInstance="yes"
+             variable="ReceiveCommonLoggingInput_process_InputVariable"/>
+    <assign name="Transformation_CommonLogging">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('Transformations/Transformation_2.xsl', $ReceiveCommonLoggingInput_process_InputVariable.CommonLogging)"/>
+        <to variable="Invoke_Enqueue_InputVariable" part="XXNUC_COMM_LOGG_OBJ_TYP"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke" inputVariable="Invoke_Enqueue_InputVariable" partnerLink="CommonLoggingProviderAQAdapter"
+            portType="ns1:Enqueue_ptt" operation="Enqueue"/>
+  </sequence>
+</process>

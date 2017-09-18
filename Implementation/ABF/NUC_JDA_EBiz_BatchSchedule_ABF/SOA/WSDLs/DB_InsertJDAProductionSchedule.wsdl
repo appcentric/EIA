@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_InsertJDAProductionSchedule"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen/NUC_JDA_EBiz_BatchSchedule_ABF/DB_InsertJDAProductionSchedule"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen/NUC_JDA_EBiz_BatchSchedule_ABF/DB_InsertJDAProductionSchedule"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_InsertJDAProductionSchedule"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_InsertJDAProductionSchedule_plt" >
+    <plt:role name="DB_InsertJDAProductionSchedule_role" >
+      <plt:portType name="tns:DB_InsertJDAProductionSchedule_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_InsertJDAProductionSchedule" schemaLocation="../Schemas/DB_InsertJDAProductionSchedule_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucGmeJdaTrnScheduleStgCollection_msg">
+        <wsdl:part name="XxnucGmeJdaTrnScheduleStgCollection" element="top:XxnucGmeJdaTrnScheduleStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_InsertJDAProductionSchedule_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:XxnucGmeJdaTrnScheduleStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

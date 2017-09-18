@@ -1,0 +1,11 @@
+<adapter-config name="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter" adapter="db" wsdlLocation="../WSDLs/Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="AppsDB" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter_ptt" operation="Update_XXNUC_WSH_TRIPS_TBL_PureSQLDBAdapter">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE XXNUC_WSH_TRIPS_STG SET PROCESS_FLAG = #PROCESS_FLAG WHERE RECORD_IDENTIFIER = #REQUEST_ID "/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

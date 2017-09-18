@@ -1,0 +1,240 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="ui-toolbar-group-left">
+                    <!--<i style="float:left" class="material-icons">mail</i>-->
+                    <!--<div style="float:left;margin-right:15px;font-weight:400;font-size:1.375em;">AP Invoices</div>-->
+                    <form class="ui-toolbar-group-left" [formGroup]="form">
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #invoiceNumber formControlName="APInvoice" id="APInvoice" pInputText>
+                            <label>Invoice Number</label>
+                            <div *ngIf="form.controls['APInvoice'].invalid&&form.controls['APInvoice'].dirty" class="ui-message ui-messages-error ui-corner-all">
+                                Must be a number between 5 and 7 digits
+                            </div>
+                        </span>
+                        <button pButton icon="ui-icon-send" label="Submit" [disabled]="!form.valid"  (click)="submit(invoiceNumber.value)"></button>
+                    </form>
+                    <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                    <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                </div>
+                <div class="ui-toolbar-group-right">
+                    <button pButton [disabled]="!APInvoices" type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()"></button>
+                </div>
+            </div>
+        </div>
+        <load-bar [visible]="loading"></load-bar>
+        <!--HAD TO REMOVE resizableColumns="true" as it caused an error with styleClass for Details -->
+        <p-dataTable #exportCSV [value]="APInvoices" [rows]="25" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" [responsive]="true">
+            <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+            <p-column field="InvoiceId" header="Invoice ID" ></p-column>
+            <p-column field="ShipmentID" header="Shipment ID" ></p-column>
+            <p-column field="AccountWgtRefID" header="Scale Connect Number"></p-column>
+            <p-column field="TotalAmt" header="Total Amount">
+                <ng-template let-APInvoice="rowData" pTemplate>
+                    {{APInvoice.TotalAmt | currency:'USD':true:'1.2-2'}}
+                </ng-template>
+            </p-column>
+            <p-column field="MaterialAmt" header="Material Amount">
+                <ng-template let-APInvoice="rowData" pTemplate>
+                    {{APInvoice.MaterialAmt | currency:'USD':true:'1.2-2'}}
+                </ng-template>
+            </p-column>
+            <p-column field="CommisionAmt" header="Commision Amount">
+                <ng-template let-APInvoice="rowData" pTemplate>
+                    {{APInvoice.CommisionAmt | currency:'USD':true:'1.2-2'}}
+                </ng-template>
+            </p-column>
+            <p-column field="InvWgtLB" header="Invoice Weight LB">
+                <ng-template let-APInvoice="rowData" pTemplate>
+                    {{APInvoice.InvWgtLB | number:'1.0-0'}}
+                </ng-template>
+            </p-column>
+            <p-column field="CreatedDate" header="Created Date">
+                <ng-template let-APInvoice="rowData" pTemplate>
+                    {{APInvoice.CreatedDate | date:'medium'}}
+                </ng-template>
+            </p-column>
+            <p-column  field="LastUpdatedDate" header="Last Updated Date">
+                <ng-template let-APInvoice="rowData" pTemplate>
+                    {{APInvoice.LastUpdatedDate | date:'medium'}}
+                </ng-template>
+            </p-column>
+            <!-- <p-column field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column> -->
+        <!-- These columns are hidden so that they show up on the ExportCSV. They also have the filter so that they can be searched when multiple invoices are shown-->
+            <p-column field="ChangeVersionID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="InvoiceTypeCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="InvoiceTypeCodeName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="AdjCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="AdjCodeName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="EntityID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="EntityName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="EntityRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="EntityInvoiceRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="InvoiceDate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="DueDate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="InvoiceStatusID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="InvoiceStatusName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="ShipmentLine" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="FrtAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="DeadFrtAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="FrtDifferential" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="MiscChgAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="DiscountAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="CargoNum" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="Remarks" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="DataChangeTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="DataChangeChildTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column field="BizType" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <ng-template let-APInvoice pTemplate="rowexpansion">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <h2>Invoice Details: {{APInvoice.InvoiceId}}</h2>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Shipment Number: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.ShipmentID}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Invoice Type: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.InvoiceTypeCodeName}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Total Amount: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.TotalAmt | currency:'USD':true:'1.2-2'}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Material Amount: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.MaterialAmt | currency:'USD':true:'1.2-2'}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Commission Amount: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.CommisionAmt | currency:'USD':true:'1.2-2'}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Invoice Weight: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.InvWgtLB | number:'1.0-0'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">ScaleConnect Ticket #: </div>
+                                <div class="ui-g-8">
+
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Invoice Date: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.InvoiceDate | date}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Due Date: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.DueDate | date}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Created Date: </div>
+                                <div class="ui-g-8">
+                                    {{APInvoice.CreatedDate | date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Last Updated Date: </div>
+                                <div class="ui-g-8">
+                                {{APInvoice.LastUpdatedDate | date:'medium'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <h2>Acknowledgement Details</h2>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-4">Ack Comment:</div>
+                            <div class="ui-g-8">
+                                <ng-template ngFor [ngForOf]="apInvoiceAck" let-apInvoiceAck>
+                                    {{apInvoiceAck.ClientComment}}
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-4">Client Status:</div>
+                            <div class="ui-g-8">
+                                <ng-template ngFor [ngForOf]="apInvoiceAck" let-apInvoiceAck>
+                                    {{apInvoiceAck.ClientStatusID}}
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-4">Error Count:</div>
+                            <div class="ui-g-8">
+                                <ng-template ngFor [ngForOf]="apInvoiceAck" let-apInvoiceAck>
+                                    {{apInvoiceAck.ErrorCount}}
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12">  
+                    <p-inplace closable="closable">
+                        <span pInplaceDisplay>
+                            CLICK FOR ALL DETAILS
+                        </span>
+                        <span pInplaceContent>
+                            <h1>Full Invoice Details</h1>
+                            <li>Invoice ID: {{APInvoice.InvoiceId}}</li>
+                            <li>Change Version ID: {{APInvoice.ChangeVersionID}}</li>
+                            <li>Invoice Type Code: {{APInvoice.InvoiceTypeCode}}</li>
+                            <li>Invoice Type Code Name: {{APInvoice.InvoiceTypeCodeName}}</li>
+                            <li>Adjustment Code: {{APInvoice.AdjCode}}</li>
+                            <li>Adjustment Code Name: {{APInvoice.AdjCodeName}}</li>
+                            <li>Entity ID: {{APInvoice.EntityID}}</li>
+                            <li>Entity Name: {{APInvoice.EntityName}}</li>
+                            <li>Entity Ref ID: {{APInvoice.EntityRefID}}</li>
+                            <li>Entity Invoice Ref ID: {{APInvoice.EntityInvoiceRefID}}</li>
+                            <li>Invoice Date: {{APInvoice.InvoiceDate | date}}</li>
+                            <li>Due Date: {{APInvoice.DueDate | date}}</li>
+                            <li>Invoice Status ID: {{APInvoice.InvoiceStatusID}}</li>
+                            <li>Invoice Status Name: {{APInvoice.InvoiceStatusName}}</li>
+                            <li>Shipment ID: {{APInvoice.ShipmentID}}</li>
+                            <li>Shipment Version ID: {{APInvoice.ShipmentVersionID}}</li>
+                            <li>Shipment Line: {{APInvoice.ShipmentLine}}</li>
+                            <li>ScaleConnect Ticket #: {{APInvoice.AccountWgtRefID}}</li>
+                            <li>Total Amount: {{APInvoice.TotalAmt}}</li>
+                            <li>Material Amount: {{APInvoice.MaterialAmt}}</li>
+                            <li>Commission Amount: {{APInvoice.CommisionAmt}}</li>
+                            <li>Freight Amount: {{APInvoice.FrtAmt}}</li>
+                            <li>Dead Freight Amount: {{APInvoice.DeadFrtAmt}}</li>
+                            <li>Freight Differential: {{APInvoice.FrtDifferential}}</li>
+                            <li>Miscellaneous Charge Amount: {{APInvoice.MiscChgAmt}}</li>
+                            <li>Discount Amount: {{APInvoice.DiscountAmt}}</li>
+                            <li>Invoice Weight LB: {{APInvoice.InvWgtLB}}</li>
+                            <li>Cargo Num: {{APInvoice.CargoNum}}</li>
+                            <li>Remarks: {{APInvoice.Remarks}}</li>
+                            <li>Created Date: {{APInvoice.CreatedDate}}</li>
+                            <li>Last Updated Date: {{APInvoice.LastUpdatedDate}}</li>
+                            <li>Data Change Type ID: {{APInvoice.DataChangeTypeID}}</li>
+                            <li>Data Change Child Type ID: {{APInvoice.DataChangeChildTypeID}}</li>
+                            <li>Biz Type: {{APInvoice.BizType}}</li>
+                        </span>
+                    </p-inplace>
+                </div>
+            </ng-template>
+        </p-dataTable>
+    </div>
+</div>

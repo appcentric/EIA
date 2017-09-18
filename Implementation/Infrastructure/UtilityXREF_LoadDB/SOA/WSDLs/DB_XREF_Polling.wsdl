@@ -1,0 +1,39 @@
+<wsdl:definitions
+     name="DB_XREF_Polling"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SMG_SOA_PS/UtilityXREF_LoadDB/DB_XREF_Polling"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/SMG_SOA_PS/UtilityXREF_LoadDB/DB_XREF_Polling"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:pc="http://xmlns.oracle.com/pcbpel/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_XREF_Polling"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_XREF_Polling_plt" >
+    <plt:role name="DB_XREF_Polling_role" >
+      <plt:portType name="tns:DB_XREF_Polling_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="DB_XREF_Polling_plt" >
+    <plt:role name="DB_XREF_Polling_role" >
+      <plt:portType name="tns:DB_XREF_Polling_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="DB_XREF_Polling_plt" >
+    <plt:role name="DB_XREF_Polling_role" >
+      <plt:portType name="tns:DB_XREF_Polling_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_XREF_Polling" schemaLocation="../Schemas/DB_XREF_Polling_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucXrefDataStgCollection_msg">
+        <wsdl:part name="XxnucXrefDataStgCollection" element="top:XxnucXrefDataStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_XREF_Polling_ptt">
+        <wsdl:operation name="receive">
+            <wsdl:input message="tns:XxnucXrefDataStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

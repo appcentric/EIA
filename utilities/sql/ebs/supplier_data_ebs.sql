@@ -1,0 +1,152 @@
+select '' supplier_in_key
+,aps.pay_site_flag pay_site_flag
+,aps.purchasing_site_flag purchasing_site_flag
+,aps.email_address email_address
+,aps.fax FAX_NUMBER
+,aps.fax_area_code FAX_AREA_CODE
+,aps.PHONE PHONE_NUMBER
+,aps.AREA_CODE PHONE_AREA_CODE
+,DECODE(DECODE (NVL (TO_CHAR (AP.END_DATE_ACTIVE),'A'),'A', NVL(TO_CHAR (APS.INACTIVE_DATE),'B')),'B', 'A' ,'I') ACTIVE
+,aps.vendor_site_code ADDRESS_NAME
+,aps.country COUNTRY
+,aps.county COUNTY
+,aps.zip POSTAL_CODE
+,aps.state STATE
+,aps.city CITY
+,aps.ADDRESS_LINE4 ADDRESS_LINE4
+,aps.ADDRESS_LINE3 ADDRESS_LINE3
+,aps.ADDRESS_LINE2 ADDRESS_LINE2
+,aps.ADDRESS_LINE1 ADDRESS_LINE1
+,aps.ship_to_location_id SHIP_TO_ADDRESS
+,aps.attribute4 CONFIRMATION_REQUIRED
+,aps.bank_number BANK_NUMBER
+,ap.credit_limit CREDIT_LIMIT
+,hp.ORGANIZATION_NAME_PHONETIC VENDOR_SORT_NAME
+,hp.tax_reference TAX_CLASSIFICATION
+,aps.FREIGHT_TERMS_LOOKUP_CODE FREIGHT_TERMS
+,aps.attribute3 RMA_REQUIRED
+,NVL((SELECT NAME FROM AP_TERMS WHERE TERM_ID = APS.TERMS_ID), 'no terms') TERMS_NAME
+,aps.attribute2 SINGLE_INVOICE_PROCESSOR
+,NVL(APS.PAY_GROUP_LOOKUP_CODE,AP.PAY_GROUP_LOOKUP_CODE) SUPPLIER_GROUP
+,AP.VENDOR_TYPE_LOOKUP_CODE SUPPLIER_TYPE
+,NVL(HP.JGZZ_FISCAL_CODE,NVL(DECODE (AP.ORGANIZATION_TYPE_LOOKUP_CODE ,'INDIVIDUAL', AP.INDIVIDUAL_1099,'FOREIGN INDIVIDUAL', AP.INDIVIDUAL_1099,AP.NUM_1099),-1)) TAXPAYER_ID
+,hop.EMPLOYEES_TOTAL EMPLOYEES_TOTAL
+,HOP.INCORP_YEAR INCORP_YEAR
+,HP.YEAR_ESTABLISHED YEAR_ESTABLISHED
+,HP.DUNS_NUMBER DUNS_NUMBER
+,HP.URL URL
+,ap.END_DATE_ACTIVE END_DATE_ACTIVE
+,AP.STANDARD_INDUSTRY_CLASS SIC_CODE
+, (SELECT HOSR.ORIG_SYSTEM_REFERENCE
+	FROM HZ_ORIG_SYS_REFERENCES HOSR
+	 WHERE HOSR.STATUS = 'A'
+	 AND OWNER_TABLE_NAME = 'HZ_PARTIES'
+	 AND HOSR.ORIG_SYSTEM = decode(hou.name,'NYS','NYS_AS400SUP','NCA','NCA_AS400SUP','')
+   and hosr.owner_table_id = ap.party_id
+                 and rownum < 2 ) VENDOR_NUMBER
+,HP.PARTY_NAME VENDOR_NAME
+,(SELECT NAME FROM HR_OPERATING_UNITS WHERE ORGANIZATION_ID = aps.org_id) OPERATING_UNIT
+,'' ACTION
+,'' STATUS
+,hp.PARTY_ID
+,(SELECT HOSR.ORIG_SYSTEM_REFERENCE
+                                FROM HZ_ORIG_SYS_REFERENCES HOSR
+                                 WHERE HOSR.STATUS = 'A'
+                                 AND OWNER_TABLE_NAME = 'HZ_PARTY_SITES'
+								 AND HOSR.ORIG_SYSTEM = decode(hou.name,'NYS','NYS_AS400SUP','NCA','NCA_AS400SUP','')
+                 and hosr.owner_table_id = aps.party_site_id
+                 and rownum < 2 ) ADDRESS_NUMBER
+,AP.TAX_REPORTING_NAME TAX_REPORTING_NAME
+,NVL((SELECT PAYMENT_METHOD_CODE FROM IBY_EXT_PARTY_PMT_MTHDS WHERE INACTIVE_DATE IS NULL
+      AND PRIMARY_FLAG = 'Y' AND EXT_PMT_PARTY_ID IN (
+                                           SELECT EXT_PAYEE_ID
+                                             FROM IBY_EXTERNAL_PAYEES_ALL A
+                                                 ,AP_SUPPLIER_SITES_ALL B
+                                            WHERE B.VENDOR_SITE_ID =
+                                                            A.SUPPLIER_SITE_ID
+                                              AND B.PAY_SITE_FLAG = 'Y'
+                                              AND A.SUPPLIER_SITE_ID =
+                                                            APS.VENDOR_SITE_ID)
+                                    AND ROWNUM < 2)
+                               , (SELECT PAYMENT_METHOD_CODE
+                                    FROM IBY_EXT_PARTY_PMT_MTHDS
+                                   WHERE INACTIVE_DATE IS NULL
+                                     AND PRIMARY_FLAG = 'Y'
+                                     AND EXT_PMT_PARTY_ID IN (
+                                            SELECT EXT_PAYEE_ID
+                                              FROM IBY_EXTERNAL_PAYEES_ALL A
+                                             WHERE A.PAYEE_PARTY_ID =
+                                                                   AP.PARTY_ID)
+                                     AND ROWNUM < 2)
+                               ) PAYMENT_METHOD
+,APS.INVOICE_CURRENCY_CODE INVOICE_CURRENCY_CODE
+,APS.EXCLUDE_FREIGHT_FROM_DISCOUNT EXCLUDE_FREIGHT_FROM_DISCOUNT
+,AP.TYPE_1099 TYPE_1099
+,AP.FEDERAL_REPORTABLE_FLAG VENDOR_1099_FLAG
+,AP.MINORITY_GROUP_LOOKUP_CODE MINORITY_GROUP_CODE
+,APS.SHIP_VIA_LOOKUP_CODE SHIP_VIA
+,APS.HOLD_ALL_PAYMENTS_FLAG HOLD_PAYMENT
+,APS.ATTRIBUTE1 AP_CLERK
+,APS.FOB_LOOKUP_CODE FOB_LOOKUP_CODE
+,APS.HOLD_ALL_PAYMENTS_FLAG STOP_PAYMENT
+,AP.ATTRIBUTE5 STATE_TAX_ID
+,AP.EMPLOYEE_ID RECEPIENT
+,'' NOTES
+,APS.SUPPLIER_NOTIF_METHOD NOTIFICATION_METHOD
+,APS.PCARD_SITE_FLAG P_CARD_SITE_FLAG
+,'' INSURANCE
+,'' INSURANCE_DATE
+,'' CONTRACT
+,'' CONTRACT_DATE
+,'' SAFETY
+,'' SAFETY_DATE
+,'' STIPULATION
+,'' DOC_DIST
+,'' MARKETABLE
+,'' APPT_REQD
+,'' CERTIFICATION_NUMBER
+,'' ITEM_CLASS
+,'' QUESTIONNAIRE_ONLY
+,aps.vendor_site_id REF_SUPPLIER_SITE_ID
+,aps.vendor_id REF_SUPPLIER_ID
+,ap.party_id REF_PARTY_ID
+,aps.party_site_id REF_PARTY_SITE_ID
+,aps.location_id REF_LOCATION_ID
+, sysdate CREATION_DATE
+, sysdate LAST_UPDATE_DATE
+, 'SOAUSER' CREATED_BY
+, 'SOAUSER' LAST_UPDATED_BY
+, '' PROCESS_DATE
+, 'NEW' PROCESS_STATUS
+,'' ERROR_MSG
+,'' REQUEST_ID
+,'' ATTRIBUTE_CATEGORY
+,'' ATTRIBUTE1
+,'' ATTRIBUTE2
+,'' ATTRIBUTE3
+,'' ATTRIBUTE4
+,'' ATTRIBUTE5
+,'' ATTRIBUTE6
+,'' ATTRIBUTE7
+,'' ATTRIBUTE8
+,'' ATTRIBUTE9
+,'' ATTRIBUTE10
+,'' ATTRIBUTE11
+,'' ATTRIBUTE12
+,'' ATTRIBUTE13
+,'' ATTRIBUTE14
+,'' ATTRIBUTE15
+ FROM ap_suppliers AP
+ ,ap_supplier_sites_all APS
+ ,HZ_PARTIES HP  
+ ,HZ_PARTY_SITES HPS
+ ,HZ_ORGANIZATION_PROFILES HOP
+ ,hr_operating_units HOU
+ WHERE APS.VENDOR_ID = AP.VENDOR_ID
+  AND HP.PARTY_ID = AP.PARTY_ID
+  AND APS.PARTY_SITE_ID = HPS.PARTY_SITE_ID
+ AND HOP.PARTY_ID(+) = HP.PARTY_ID
+ AND HOP.EFFECTIVE_END_DATE IS NULL
+ AND APS.ORG_ID = hou.organization_id
+ and hou.name IN ('NYS','NCA')
+/

@@ -1,0 +1,78 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/StorePostingData" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/StorePostingData" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxnucSapPayrollPostDataCollection" type="XxnucSapPayrollPostDataCollection"/>
+   <xs:complexType name="XxnucSapPayrollPostDataCollection">
+      <xs:sequence>
+         <xs:element name="XxnucSapPayrollPostData" type="XxnucSapPayrollPostData" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucSapPayrollPostData">
+      <xs:sequence>
+         <xs:element name="divCode" type="xs:decimal" nillable="true"/>
+         <xs:element name="runId" type="xs:decimal" nillable="true"/>
+         <xs:element name="sapGl" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="25"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="postingDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="sapGlDesc" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="30"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="sapCostCenter" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="25"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="debitAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="creditAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="segment1" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="paymentProcessed" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="1"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="240"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="lastUpdatedBy" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="240"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="processStatus" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="100"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="errorMsg" minOccurs="0" nillable="true">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="2000"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

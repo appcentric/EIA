@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="EmailGroupView"
+  Version="11.1.1.64.93"
+  InheritPersonalization="true"
+  SelectList="EmailGroup.GROUPNAME, 
+       EmailGroup.EMAIL_ID, 
+       EmailGroup.NOTIFICATION"
+  FromList="xxnuc_comm_email_group EmailGroup"
+  BindingStyle="OracleName"
+  CustomQuery="false"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="VarAccess"/>
+  </DesignTime>
+  <ViewAccessor
+    Name="EnabledDisabled1"
+    ViewObjectName="model.EnabledDisabled"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="GroupSettingView1"
+    ViewObjectName="model.GroupSettingView"
+    RowLevelBinds="true"/>
+  <ListBinding
+    Name="LOV_Notification"
+    ListVOName="EnabledDisabled1"
+    ListRangeSize="-1"
+    NullValueFlag="none"
+    NullValueId="LOV_Notification_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Notification"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Value"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Label"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Groupname"
+    ListVOName="GroupSettingView1"
+    ListRangeSize="-1"
+    NullValueFlag="none"
+    NullValueId="LOV_Groupname_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Groupname"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Groupname"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Groupname"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <EntityUsage
+    Name="EmailGroup"
+    Entity="model.EmailGroup"/>
+  <ViewAttribute
+    Name="Groupname"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Groupname"
+    EntityUsage="EmailGroup"
+    AliasName="GROUPNAME"
+    LOVName="LOV_Groupname">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="choice"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="EmailId"
+    PrecisionRule="true"
+    EntityAttrName="EmailId"
+    EntityUsage="EmailGroup"
+    AliasName="EMAIL_ID"/>
+  <ViewAttribute
+    Name="Notification"
+    PrecisionRule="true"
+    EntityAttrName="Notification"
+    EntityUsage="EmailGroup"
+    AliasName="NOTIFICATION"
+    LOVName="LOV_Notification">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="choice"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+</ViewObject>

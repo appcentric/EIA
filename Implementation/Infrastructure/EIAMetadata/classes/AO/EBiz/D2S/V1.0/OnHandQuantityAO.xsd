@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/Ebiz/D2S/OnHandQuantityAO/1.0" xmlns:obj="http://xmlns.eia.com/AO/Ebiz/D2S/OnHandQuantityAO/1.0" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite OnHand</Definition>
+<Description>This schema defines the objects to extract On Hand Quantity</Description>
+<Author>Venkatesan</Author>
+<ModifiedBy>Venkatesan</ModifiedBy>
+<VersionDate>07-31-2017</VersionDate>
+<VersionDescription>Initial standard</VersionDescription>
+<ModificationHistory>07-31-2017 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+<xsd:element name="OnHandQuantityDetails" type="obj:OnHandQuantity"/>
+<xsd:complexType name="ListOfOnHandQuantityDetails">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ListOfOnHandsQuantity" type="obj:OnHandQuantity"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="OnHandQuantity">
+<xsd:sequence>
+<xsd:element minOccurs="1" name="OrganizationCode" type="common:C240"/>
+<xsd:element minOccurs="0" name="UserItemType" type="common:C240"/>
+<xsd:element minOccurs="0" name="Item" type="common:C240"/>
+<xsd:element minOccurs="0" name="Locator" type="common:C240"/>
+<xsd:element minOccurs="0" name="LPN" type="common:C240"/>
+<xsd:element minOccurs="0" name="LotNumber" type="common:C240"/>
+<xsd:element minOccurs="0" name="ShowReserved" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="OnHandQuantityResponse" type="obj:OnHandQuantityRes"/>
+<xsd:complexType name="OnHandQuantityType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ItemType" type="common:C100"/>
+<xsd:element minOccurs="0" name="Item" type="common:C100"/>
+<xsd:element minOccurs="0" name="ItemDescription" type="common:C1000"/>
+<xsd:element minOccurs="0" name="PrimaryQuantity" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="PrimaryUOM" type="common:C10"/>
+<xsd:element minOccurs="0" name="AvailableToTransact" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="AvailableToReserve" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="SecondaryQuantity" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="SecondaryUOM" type="common:C10"/>
+<xsd:element minOccurs="0" name="LPN" type="common:C240"/>
+<xsd:element minOccurs="0" name="LotNumber" type="common:C240"/>
+<xsd:element minOccurs="0" name="Locator" type="common:C240"/>
+<xsd:element minOccurs="1" name="OrganizationCode" type="common:C240"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ListOfOnHandQuantityResponse">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="OnHandQuantityResult" type="obj:OnHandQuantityType"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="OnHandQuantityRes">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ListOfOnHandsQuantity" type="obj:ListOfOnHandQuantityResponse"/>
+<xsd:element minOccurs="0" name="ErrorMsg" type="common:C4000"/>
+<xsd:element minOccurs="0" name="ErrorStatus" type="common:C4000"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

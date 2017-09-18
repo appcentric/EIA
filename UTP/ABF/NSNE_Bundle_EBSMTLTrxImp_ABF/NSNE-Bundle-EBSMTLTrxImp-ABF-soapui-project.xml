@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="58549f91-4686-42a3-906e-3329840a6e1f" activeEnvironment="Default" name="NSNE_Bundle_EBSMTLTrxImp_ABF" soapui-version="5.2.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="c4af4573-29c2-4091-91fd-28fd29fa30b7" wsaVersion="NONE" name="NSNE_Bundle_EBSMTLTrxImp_ABFBinding" type="wsdl" bindingName="{http://nucor.eia.com/NSNE_Bundle_EBSMTLTrxImp_ABF}NSNE_Bundle_EBSMTLTrxImp_ABFBinding" soapVersion="1_1" anonymous="optional" definition="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep?WSDL"><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep?WSDL</con:url><con:content><![CDATA[<wsdl:definitions name="NSNE_Bundle_EBSMTLTrxImp_ABF" targetNamespace="http://nucor.eia.com/NSNE_Bundle_EBSMTLTrxImp_ABF" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://nucor.eia.com/NSNE_Bundle_EBSMTLTrxImp_ABF" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF!1.0/WSDLs/NSNE_Bundle_EBSMTLTrxImp_ABF.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="NSNE_Bundle_EBSMTLTrxImp_ABF">
+    <plnk:role name="NSNE_Bundle_EBSMTLTrxImp_ABFProvider" portType="client:NSNE_Bundle_EBSMTLTrxImp_ABF"/>
+  </plnk:partnerLinkType>
+  <wsp:Policy wsu:Id="wss_username_token_service_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+      <wsp:Policy>
+        <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+          <wsp:Policy>
+            <sp:WssUsernameToken10/>
+          </wsp:Policy>
+        </sp:UsernameToken>
+      </wsp:Policy>
+    </sp:SupportingTokens>
+  </wsp:Policy>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://nucor.eia.com/NSNE_Bundle_EBSMTLTrxImp_ABF" schemaLocation="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep?XSD=../Schemas/NSNE_Bundle_EBSMTLTrxImp_ABF.xsd"/>
+    </schema>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="NSNE_Bundle_EBSMTLTrxImp_ABFRequestMessage">
+    <wsdl:part name="payload" element="client:process"/>
+  </wsdl:message>
+  <wsdl:portType name="NSNE_Bundle_EBSMTLTrxImp_ABF">
+    <wsdl:operation name="process">
+      <wsdl:input message="client:NSNE_Bundle_EBSMTLTrxImp_ABFRequestMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NSNE_Bundle_EBSMTLTrxImp_ABFBinding" type="client:NSNE_Bundle_EBSMTLTrxImp_ABF">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsp:PolicyReference URI="#wss_username_token_service_policy" wsdl:required="false" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"/>
+    <wsdl:operation name="process">
+      <soap:operation style="document" soapAction="process"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="nsne_bundle_ebsmtltrximp_abf_client_ep">
+    <wsdl:port name="NSNE_Bundle_EBSMTLTrxImp_ABF_pt" binding="client:NSNE_Bundle_EBSMTLTrxImp_ABFBinding">
+      <soap:address location="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep?XSD=../Schemas/NSNE_Bundle_EBSMTLTrxImp_ABF.xsd</con:url><con:content><![CDATA[<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://nucor.eia.com/NSNE_Bundle_EBSMTLTrxImp_ABF" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="process">
+    <complexType>
+      <sequence>
+        <element name="ResourceName" type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://schemas.oracle.com/service/bpel/common" elementFormDefault="qualified" xmlns:common="http://schemas.oracle.com/service/bpel/common" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="parameters">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="item" minOccurs="1" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="name" type="xsd:string"/>
+              <xsd:element name="value" type="xsd:string"/>
+              <xsd:element name="msg" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep</con:endpoint></con:endpoints><con:operation id="ecaa03c8-8e5a-48b0-9663-65653b3c64b7" isOneWay="false" action="process" name="process" bindingOperationName="process" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="23fc5905-74e1-420c-8ea9-aab434cb77fa" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_Bundle_EBSMTLTrxImp_ABF/nsne_bundle_ebsmtltrximp_abf_client_ep</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nsne="http://nucor.eia.com/NSNE_Bundle_EBSMTLTrxImp_ABF">
+   <soapenv:Header>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="1">
+            <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" wsu:Id="UsernameToken-10b544k4N1Y1Iqw0rBy6dw22">
+                <wsse:Username>ws_mes_user</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">ws_mes_user</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soapenv:Header>
+   <soapenv:Body>
+      <nsne:process>
+         <nsne:ResourceName>RM1</nsne:ResourceName>
+      </nsne:process>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="process"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

@@ -1,0 +1,15 @@
+<adapter-config name="JMS_DEQ_NextGen_DistributedTopic" adapter="jms" wsdlLocation="../WSDLs/JMS_DEQ_NextGen_DistributedTopic.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1" location="eis/jms/EBizJMSTopic" UIJmsProvider="WLSJMS"/>
+  <endpoint-activation portType="Consume_Message_ptt" operation="Consume_Message">
+    <activation-spec className="oracle.tip.adapter.jms.inbound.JmsConsumeActivationSpec">
+      <property name="DestinationName" value="jms/EBizJMSTopic"/>
+      <property name="DurableSubscriber" value="NSSEASubscribeQualitySpec"/>
+      <property name="UseMessageListener" value="false"/>
+      <property name="PayloadType" value="TextMessage"/>
+     <property name="MessageSelector" value="JMSType='QualitySpecs' and OrgName='SMG_US_OU_NSSEA'"/>
+
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

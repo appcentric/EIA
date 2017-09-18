@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="AQ_Consume_ShipmentStatus">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="145" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="138" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="AQ_Consume_ShipmentStatus" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/SendShipmentStatusToOtm/AQ_Consume_ShipmentStatus#wsdl.interface(Dequeue_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/aq_adapter_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>Dequeue</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="WS_CommonLogging">
+        <dgm:body borderWidth="2" arcRad="20" X="496" Y="26" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="486" Y="19" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="WS_CommonLogging" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="WS_WshSendOtmDocument">
+        <dgm:body borderWidth="2" arcRad="20" X="496" Y="144" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="486" Y="137" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="WS_WshSendOtmDocument" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/WshSendOtmDocument#wsdl.interface(WshSendOtmDocument)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="DB_Update_Wsh_Otrips_Stg">
+        <dgm:body borderWidth="2" arcRad="20" X="496" Y="262" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="486" Y="255" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="DB_Update_Wsh_Otrips_Stg" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_SendShipmentStatus_EBiz_OTM_ABF/DB_Update_Wsh_Otrips_Stg#wsdl.interface(DB_Update_Wsh_Otrips_Stg_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/db_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>DB_Update_Wsh_Otrips_Stg</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="WshSendShipmentStatusToOtm">
+        <dgm:body borderWidth="2" arcRad="20" X="262" Y="130" width="130" height="111">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="252" Y="123" width="150" height="127">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="AQ_Consume_ShipmentStatus" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/SendShipmentStatusToOtm/AQ_Consume_ShipmentStatus#wsdl.interface(Dequeue_ptt)"/>
+        <dgm:outputPort name="CommonLogging" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:outputPort name="WshSendOtmDocument" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/WshSendOtmDocument#wsdl.interface(WshSendOtmDocument)"/>
+        <dgm:outputPort name="DB_Update_Wsh_Otrips_Stg" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_SendShipmentStatus_EBiz_OTM_ABF/DB_Update_Wsh_Otrips_Stg#wsdl.interface(DB_Update_Wsh_Otrips_Stg_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="AQ_Consume_ShipmentStatus" target="WshSendShipmentStatusToOtm/AQ_Consume_ShipmentStatus" width="2">
+        <dgm:gSegment X1="168" Y1="155" X2="252" Y2="155"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="WshSendShipmentStatusToOtm/CommonLogging" target="WS_CommonLogging" width="2">
+        <dgm:gSegment X1="402" Y1="155" X2="426" Y2="155"/>
+        <dgm:gSegment X1="426" Y1="155" X2="426" Y2="36"/>
+        <dgm:gSegment X1="426" Y1="36" X2="486" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="WshSendShipmentStatusToOtm/WshSendOtmDocument" target="WS_WshSendOtmDocument" width="2">
+        <dgm:gSegment X1="402" Y1="180" X2="441" Y2="180"/>
+        <dgm:gSegment X1="441" Y1="180" X2="441" Y2="154"/>
+        <dgm:gSegment X1="441" Y1="154" X2="486" Y2="154"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="WshSendShipmentStatusToOtm/DB_Update_Wsh_Otrips_Stg" target="DB_Update_Wsh_Otrips_Stg" width="2">
+        <dgm:gSegment X1="402" Y1="205" X2="426" Y2="205"/>
+        <dgm:gSegment X1="426" Y1="205" X2="426" Y2="272"/>
+        <dgm:gSegment X1="426" Y1="272" X2="486" Y2="272"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

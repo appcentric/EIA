@@ -1,0 +1,31 @@
+<wsdl:definitions
+     name="DB_QueryReceiptEBS"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EBizPOReceipt_ABS/DB_QueryReceiptEBS"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EBizPOReceipt_ABS/DB_QueryReceiptEBS"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryReceiptEBS"
+    >
+  <plt:partnerLinkType name="DB_QueryReceiptEBS_plt" >
+    <plt:role name="DB_QueryReceiptEBS_role" >
+      <plt:portType name="tns:DB_QueryReceiptEBS_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryReceiptEBS" schemaLocation="xsd/DB_QueryReceiptEBS_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="RcvShipmentHeaders_msg">
+        <wsdl:part name="RcvShipmentHeaders" element="top:RcvShipmentHeaders"/>
+    </wsdl:message>
+    <wsdl:message name="RcvShipmentHeadersCollection_msg">
+        <wsdl:part name="RcvShipmentHeadersCollection" element="top:RcvShipmentHeadersCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QueryReceiptEBS_ptt">
+        <wsdl:operation name="queryByExample">
+            <wsdl:input message="tns:RcvShipmentHeaders_msg"/>
+            <wsdl:output message="tns:RcvShipmentHeadersCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

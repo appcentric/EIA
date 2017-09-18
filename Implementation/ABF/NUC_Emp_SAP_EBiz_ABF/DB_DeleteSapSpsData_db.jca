@@ -1,0 +1,11 @@
+<adapter-config name="DB_DeleteSapSpsData" adapter="db" wsdlLocation="DB_DeleteSapSpsData.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="DEV_Apps_xxnuc" adapterRef=""/>
+  <endpoint-interaction portType="DB_DeleteSapSpsData_ptt" operation="DB_DeleteSapSpsData">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="Delete From XXNUC_HR_SAP_EMPLOYEE_STG"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

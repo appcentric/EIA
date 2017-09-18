@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_LaunchAutoInvoice" adapter="apps" wsdlLocation="OA_LaunchAutoInvoice.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBSDEVP" UIOracleAppType="DBOBJECT" UIConcurrentPgmName="APXIIMPT" adapterRef=""/>
+  <endpoint-interaction portType="OA_LaunchAutoInvoice_ptt" operation="OA_LaunchAutoInvoice">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:XXNUC_FND_REQUEST_WRAPPER_PK:SUBMIT_REQUEST"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_FND_REQUEST_WRAPPER_PK"/>
+      <property name="ProcedureName" value="SUBMIT_REQUEST"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

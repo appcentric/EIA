@@ -1,0 +1,56 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="DJJGetInvoiceV1"
+     targetNamespace="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+     xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+     xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+     xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0"
+    >
+    <plnk:partnerLinkType name="DJJGetInvoiceV1">
+        <plnk:role name="DJJGetInvoiceV1Provider" portType="tns:DJJGetInvoiceV1_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             elementFormDefault="qualified" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0">
+            <element name="empty">
+                <complexType/>
+            </element>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0">
+            <xsd:include schemaLocation="../Schemas/InvoiceAO.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:inp1="http://xmlns.oracle.com/SOAAppDev/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetInvoiceV1"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0">
+            <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/P2P/V1.0/InvoiceABM.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Rest_EmptyMessage">
+        <wsdl:part name="Empty" element="tns:empty"/>
+    </wsdl:message>
+    <wsdl:message name="GetAPInvoice_outputMessage">
+        <wsdl:part name="reply" element="ApiResponseAPInvoice"/>
+    </wsdl:message>
+    <wsdl:portType name="DJJGetInvoiceV1_ptt">
+        <wsdl:operation name="GetAPInvoice">
+            <wsdl:input message="tns:Rest_EmptyMessage"/>
+            <wsdl:output message="tns:GetAPInvoice_outputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

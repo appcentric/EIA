@@ -1,0 +1,24 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://xmlns.oracle.com/Test/NUC_APInvoice_DJJ_EBiz_ABF/DJJAcknowledge_ep" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="DJJAcknowledge_ep">RestReference</doc>
+   <grammars>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:include schemaLocation="../Schemas/AcknowledgeAO.xsd"/>
+        </xsd:schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/Test/NUC_APInvoice_DJJ_EBiz_ABF/DJJAcknowledge_ep" elementFormDefault="qualified">
+            <element name="empty">
+                <complexType/>
+            </element>
+        </schema>
+   </grammars>
+   <resources>
+      <resource path="/DJJ.Brokerage.ExternalAPI/api/v1/Consumer/Acknowledgement">
+         <method name="POST" soa:wsdlOperation="AcknowledgeINV">
+            <request>
+               <ns0:representation mediaType="application/xml" element="AcknowledgementModel" xmlns="" xmlns:ns0="http://wadl.dev.java.net/2009/02"/>
+            </request>
+            <response status="204 200"/>
+         </method>
+      </resource>
+   </resources>
+</application>

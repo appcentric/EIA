@@ -1,0 +1,51 @@
+<definitions
+     name="WshSendRefDataStlToOtm"
+     targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendRefDataStlToOtm"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ref="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendRefDataStlToOtm"
+    >
+    <types>
+        <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendRefDataStlToOtm"
+             xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+                 schemaLocation="oramds:/apps/EIAMetadata/AO/OTM/common/V1.0/WshOtmGlobalOutbound.xsd"/>
+            <element name="WshSendRefDataStlToOtmProcessRequest">
+                <complexType>
+                    <sequence>
+                        <element name="input" type="ref:tOutboundInput"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="WshSendRefDataStlToOtmProcessResponse">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="ref:tOutboundOutput"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <message name="WshSendRefDataStlToOtmRequestMessage">
+        <part name="payload" element="client:WshSendRefDataStlToOtmProcessRequest"/>
+    </message>
+    <message name="WshSendRefDataStlToOtmResponseMessage">
+        <part name="payload" element="client:WshSendRefDataStlToOtmProcessResponse"/>
+    </message>
+    <message name="WshLocRefErrorMessage">
+        <part name="payload" type="xsd:string"/>
+    </message>
+    <portType name="WshSendRefDataStlToOtm">
+        <operation name="process">
+            <input message="client:WshSendRefDataStlToOtmRequestMessage"/>
+            <output message="client:WshSendRefDataStlToOtmResponseMessage"/>
+        </operation>
+    </portType>
+    <plnk:partnerLinkType name="WshSendRefDataStlToOtm">
+        <plnk:role name="WshSendRefDataStlToOtmProvider">
+            <plnk:portType name="client:WshSendRefDataStlToOtm"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+</definitions>

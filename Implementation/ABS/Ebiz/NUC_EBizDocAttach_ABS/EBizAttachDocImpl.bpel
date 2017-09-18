@@ -1,0 +1,82 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Nov 05 20:53:05 CST 2014
+  Author:  vivek
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBizAttachDocImpl"
+               targetNamespace="http://xmlns.eia.com/ABS/EBiz/common/DocumentAttachmentABSImpl/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/EBiz/common/DocumentAttachmentABSImpl/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/common/DocumentAttachmentABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBizDocAttach_ABS/OA_AddDocAttachment">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <partnerLink name="EBizDocAttachABS" partnerLinkType="ns1:EBizDocAttachABS"
+                 myRole="DocumentAttachment"/>
+    <partnerLink name="OA_AddDocAttachment"
+                 partnerLinkType="ns2:OA_AddDocAttachment_plt"
+                 partnerRole="OA_AddDocAttachment_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="EBizDocAttachABS_ReqMsg"
+              messageType="ns1:AddAttachmentRequestMessage"/>
+    <variable name="EBizDocAttachABS_RespMsg"
+              messageType="ns1:AddAttachmentResponseMessage"/>
+    <variable name="OA_AddDocAttachment_ReqMsg" messageType="ns2:args_in_msg"/>
+    <variable name="OA_AddDocAttachment_RespMsg"
+              messageType="ns2:args_out_msg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive_EBizDocAttachABS" createInstance="yes"
+             partnerLink="EBizDocAttachABS" portType="ns1:DocumentAttachment"
+             operation="DocumentAttachment" variable="EBizDocAttachABS_ReqMsg"/>
+    <assign name="Xform_EBizDocAttachABSReqMsg_OA_AddDocAttachmentReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_EBizDocAttachABSReqMsg_OA_AddDocAttachmentReqMsg.xsl", $EBizDocAttachABS_ReqMsg.payload)</from>
+        <to variable="OA_AddDocAttachment_ReqMsg" part="InputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_OA_AddDocAttachment"
+            partnerLink="OA_AddDocAttachment"
+            portType="ns2:OA_AddDocAttachment_ptt"
+            operation="OA_AddDocAttachment"
+            inputVariable="OA_AddDocAttachment_ReqMsg"
+            outputVariable="OA_AddDocAttachment_RespMsg"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="jca.apps.Username">'SOAUSER'</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="Xform_OAAddDocAttachmentRespMsg_EBizDocAttachABSRespMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_OAAddDocAttachmentRespMsg_EBizDocAttachABSRespMsg.xsl", $OA_AddDocAttachment_RespMsg.OutputParameters)</from>
+        <to variable="EBizDocAttachABS_RespMsg" part="payload"/>
+      </copy>
+    </assign>
+    <reply name="Reply_EBizDocAttachABS" variable="EBizDocAttachABS_RespMsg"
+           partnerLink="EBizDocAttachABS" portType="ns1:DocumentAttachment"
+           operation="DocumentAttachment"/>
+  </sequence>
+</process>

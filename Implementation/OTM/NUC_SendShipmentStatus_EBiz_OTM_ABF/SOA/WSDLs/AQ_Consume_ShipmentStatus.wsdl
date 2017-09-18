@@ -1,0 +1,39 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="AQ_Consume_ShipmentStatus"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/SendShipmentStatusToOtm/AQ_Consume_ShipmentStatus"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/SendShipmentStatusToOtm/AQ_Consume_ShipmentStatus"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:pc="http://xmlns.oracle.com/pcbpel/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:obj1="http://xmlns.oracle.com/xdb/APPS_NE"
+     xmlns:ns1="http://eia.nucor.com"
+     xmlns:ns2="http://nucor.eia.com"
+    >
+    <plt:partnerLinkType name="Dequeue_plt">
+        <plt:role name="Dequeue_role">
+            <plt:portType name="tns:Dequeue_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/aq/Manish/SendShipmentStatusToOtm/AQ_Consume_ShipmentStatus"
+             xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:obj1="http://xmlns.oracle.com/xdb/APPS_NE" xmlns:ns1="http://eia.nucor.com"
+             xmlns:ns2="http://nucor.eia.com">
+            <import namespace="http://xmlns.oracle.com/xdb/APPS_NE" schemaLocation="../Schemas/APPS_NE_XXNUC_COMM_OUTINTF_OBJ_TYP.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://nucor.eia.com" schemaLocation="../Schemas/Shipment.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="XXNUC_COMM_OUTINTF_OBJ_TYP_msg">
+        <wsdl:part name="XXNUC_COMM_OUTINTF_OBJ_TYP" element="obj1:XXNUC_COMM_OUTINTF_OBJ_TYP"/>
+    </wsdl:message>
+    <wsdl:portType name="Dequeue_ptt">
+        <wsdl:operation name="Dequeue">
+            <wsdl:input message="tns:XXNUC_COMM_OUTINTF_OBJ_TYP_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

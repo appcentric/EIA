@@ -1,0 +1,54 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="DJJGetPOReceiptV1Impl"
+     targetNamespace="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:cor="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl/correlationset"
+     xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+     xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+     xmlns:ns2="http://xmlns.eia.com/EDN/1.0/Event"
+    >
+    <plnk:partnerLinkType name="DJJGetPOReceiptV1Impl">
+        <plnk:role name="DJJGetPOReceiptV1ImplProvider" portType="client:DJJGetPOReceiptV1Impl"/>
+    </plnk:partnerLinkType>
+    <vprop:propertyAlias propertyName="cor:EBSRequestID" xmlns:ns18="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+         messageType="ns18:LaunchReceiptResponseMessageType" part="LaunchReceiptResponseMessage"
+         xmlns:ns2="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptABM/1.0">
+        <vprop:query>ns2:RequestID</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="cor:EBSRequestID" xmlns:ns19="http://xmlns.eia.com/EDN/1.0/Event" element="ns19:Event">
+        <vprop:query>ns19:EventId</vprop:query>
+    </vprop:propertyAlias>
+    <wsdl:import namespace="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl/correlationset"
+         location="DJJGetPOReceiptV1Impl_properties.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:cor="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl/correlationset"
+             xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+             xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" xmlns:ns2="http://xmlns.eia.com/EDN/1.0/Event">
+            <import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:cor="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl/correlationset"
+             xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+             xmlns:ns="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" xmlns:ns2="http://xmlns.eia.com/EDN/1.0/Event">
+            <xsd:import namespace="http://xmlns.eia.com/EDN/1.0/Event" schemaLocation="oramds:/apps/EIAMetadata/CommonArtifacts/schemas/EntityResponseEventAO.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="DJJGetPOReceiptV1ImplRequestMessage">
+        <wsdl:part name="payload" element="ns1:parameters"/>
+    </wsdl:message>
+    <wsdl:portType name="DJJGetPOReceiptV1Impl">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:DJJGetPOReceiptV1ImplRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

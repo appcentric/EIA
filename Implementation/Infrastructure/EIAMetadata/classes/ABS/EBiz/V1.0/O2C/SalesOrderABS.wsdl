@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="CreateSalesOrderABS" targetNamespace="http://xmlns.eia.com/Implementation/ABS/EBiz/O2C/SalesOrderABS/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.eia.com/Implementation/ABS/EBiz/O2C/SalesOrderABS/1.0" xmlns:ns1="http://xmlns.eia.com/AO/EBiz/O2C/SalesOrderAM/1.0" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<!--wsdl:documentation>
+<abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_EbizCreateSalesOrder_ABS!1.0/WSDLs/CreateSalesOrderABS.wsdl</abstractWSDL>
+</wsdl:documentation-->
+<plnk:partnerLinkType name="CreateSalesOrderABS">
+<plnk:role name="CreateSalesOrderABSProvider" portType="client:CreateSalesOrderABS"/>
+</plnk:partnerLinkType>
+<wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+<import namespace="http://xmlns.eia.com/AO/EBiz/O2C/SalesOrderAM/1.0" schemaLocation="../../../../AO/EBiz/O2C/V1.0/SalesOrderAM.xsd"/>
+</schema>
+</wsdl:types>
+<wsdl:message name="CreateSalesOrderABSRequestMessage">
+<wsdl:part name="payload" element="ns1:SalesOrderAddRq"/>
+</wsdl:message>
+<wsdl:message name="CreateSalesOrderABSResponseMessage">
+<wsdl:part name="payload" element="ns1:SalesOrderAddRs"/>
+</wsdl:message>
+<wsdl:portType name="CreateSalesOrderABS">
+<wsdl:operation name="process">
+<wsdl:input message="client:CreateSalesOrderABSRequestMessage"/>
+<wsdl:output message="client:CreateSalesOrderABSResponseMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="CreateSalesOrderABSBinding" type="client:CreateSalesOrderABS">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="process">
+<soap:operation style="document" soapAction="process"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="createsalesorderabs_client_ep">
+<wsdl:port name="CreateSalesOrderABS_pt" binding="client:CreateSalesOrderABSBinding">
+<soap:address location="http://example.org"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

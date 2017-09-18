@@ -1,0 +1,444 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Mar 17 06:03:33 CDT 2016
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NSNE_CastBatch_L2_EBS_ABF" targetNamespace="http://nucor.eia.com/NSNE_CastBatch_L2_EBS_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://nucor.eia.com/NSNE_CastBatch_L2_EBS_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_CastBatch_L2_EBS_ABF/DB_Polling_HeatSchedule"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_CastBatch_L2_EBS_ABF/DB_Get_Heat_ID"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_CastBatch_L2_EBS_ABF/DB_Cast_Batch_View"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_CastBatch_L2_EBS_ABF/DB_EBS_Cast_Heat"
+         xmlns:ns5="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_CastBatch_L2_EBS_ABF/DB_Update_HeatSchedule"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_Heat_ID"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Polling_HeatSchedule"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Cast_Batch_View"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_EBS_Cast_Heat"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_HeatSchedule"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_CastBatch_L2_EBS_ABF/DB_Polling_HeatSchedule"
+          location="../WSDLs/DB_Polling_HeatSchedule.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="DB_Polling_HeatSchedule" partnerLinkType="ns1:DB_Polling_HeatSchedule_plt"
+                 myRole="DB_Polling_HeatSchedule_role"/>
+    <partnerLink name="DB_Cast_Batch_View" partnerLinkType="ns3:DB_Cast_Batch_View_plt"
+                 partnerRole="DB_Cast_Batch_View_role"/>
+    <partnerLink name="DB_EBS_Cast_Heat" partnerLinkType="ns4:DB_EBS_Cast_Heat_plt"
+                 partnerRole="DB_EBS_Cast_Heat_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns5:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Update_HeatSchedule" partnerLinkType="ns6:DB_Update_HeatSchedule_plt"
+                 partnerRole="DB_Update_HeatSchedule_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="g_Invoke_DB_Cast_Batch_View_InputVariable"
+              messageType="ns3:DB_Cast_Batch_ViewSelect_inputParameters"/>
+    <variable name="g_Invoke_DB_Cast_Batch_View_OutputVariable"
+              messageType="ns3:vw_L2_Cast_Batch_HeaderCollection_msg"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns5:CommonLoggingRequestMessage"/>
+    <variable name="g_Invoke_DB_EBS_Cast_Heat_InputVariable" messageType="ns4:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Cast_Heat_OutputVariable" messageType="ns4:args_out_msg"/>
+    <variable name="g_Error" type="xsd:integer"/>
+    <variable name="g_Env" type="xsd:string"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+    <variable name="g_Receive_DB_Polling_HeatSchedule_InputVariable"
+              messageType="ns1:Cast_Heat_Trans_EventsCollection_msg"/>
+    <variable name="g_Invoke_DB_Update_HeatSchedule_InputVariable"
+              messageType="ns6:Cast_Heat_Trans_EventsCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="Assign_Update_HeatSchedule">
+          <copy>
+            <from>$g_Receive_DB_Polling_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns7:Cast_Heat_Trans_Events/ns7:CastHeatTransEventID</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:CastHeatTransEventID</to>
+          </copy>
+          <copy>
+            <from>concat($g_Env,  'CastError')</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedStatus</to>
+          </copy>
+          <copy>
+            <from>substring(ora:getFaultAsString(),1,2000)</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedMessage</to>
+          </copy>
+          <copy>
+            <from>xp20:current-dateTime()</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedTime</to>
+          </copy>
+        </assign>
+          <invoke name="Invoke_DB_Update_HeatSchedule" bpelx:invokeAsDetail="no" partnerLink="DB_Update_HeatSchedule"
+                  portType="ns6:DB_Update_HeatSchedule_ptt" operation="update"
+                  inputVariable="g_Invoke_DB_Update_HeatSchedule_InputVariable"/>
+        <scope name="Scope4">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="Assign_CommonLogging">
+              <copy>
+                <from>''</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+              </copy>
+              <copy>
+                <from>concat(ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                    portType="ns5:CommonLogging" operation="process"
+                    inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_DB_Polling_HeatSchedule" createInstance="yes" partnerLink="DB_Polling_HeatSchedule"
+             portType="ns1:DB_Polling_HeatSchedule_ptt" operation="receive"
+             variable="g_Receive_DB_Polling_HeatSchedule_InputVariable"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProjectName</to>
+      </copy>
+      <copy>
+        <from>'I111'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'OPMBatchTrx'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>33</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+      </copy>
+      <copy>
+        <from>concat(eia:getEIASystemProperty('SOA.ENVIRONMENT'),'.')</from>
+        <to>$g_Env</to>
+      </copy>
+      <copy>
+        <from>0</from>
+        <to>$g_Error</to>
+      </copy>
+    </assign>
+    <assign name="Assign_FlowInstance">
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionId))</from>
+        <to>$setTitleVar</to>
+      </copy>
+    </assign>
+    <scope name="Scope1">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+              portType="ns5:CommonLogging" operation="process"
+              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+        <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+        <bpelx:toProperties>
+          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+        </bpelx:toProperties>
+      </invoke>
+    </scope>
+    <assign name="Assign_Heat_ID">
+      <copy>
+        <from>$g_Receive_DB_Polling_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns7:Cast_Heat_Trans_Events/ns7:CastHeatID</from>
+        <to>$g_Invoke_DB_Cast_Batch_View_InputVariable.DB_Cast_Batch_ViewSelect_inputParameters/ns9:HeatID</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_Cast_Batch_View" partnerLink="DB_Cast_Batch_View"
+            portType="ns3:DB_Cast_Batch_View_ptt" operation="DB_Cast_Batch_ViewSelect"
+            inputVariable="g_Invoke_DB_Cast_Batch_View_InputVariable"
+            outputVariable="g_Invoke_DB_Cast_Batch_View_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Transformation_Cast_EBS">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Cast_EBS.xsl", $g_Invoke_CommonLogging_process_InputVariable.CommonLogging, "g_Invoke_DB_Cast_Batch_View_OutputVariable.vw_L2_Cast_Batch_HeaderCollection", $g_Invoke_DB_Cast_Batch_View_OutputVariable.vw_L2_Cast_Batch_HeaderCollection)</from>
+        <to variable="g_Invoke_DB_EBS_Cast_Heat_InputVariable" part="InputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_EBS_Cast_Heat" partnerLink="DB_EBS_Cast_Heat"
+            portType="ns4:DB_EBS_Cast_Heat_ptt" operation="DB_EBS_Cast_Heat"
+            inputVariable="g_Invoke_DB_EBS_Cast_Heat_InputVariable"
+            outputVariable="g_Invoke_DB_EBS_Cast_Heat_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Assign_Check_Error">
+      <copy>
+        <from>count($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS="Error"])</from>
+        <to>$g_Error</to>
+      </copy>
+    </assign>
+    <if name="If_Check_Status">
+      <documentation>
+        <![CDATA[Success]]>
+      </documentation>
+      <condition>$g_Error = 0</condition>
+      <sequence name="Sequence_Success">
+      <assign name="Assign_Update_HeatSchedule">
+          <copy>
+            <from>$g_Receive_DB_Polling_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns7:Cast_Heat_Trans_Events/ns7:CastHeatTransEventID</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:CastHeatTransEventID</to>
+          </copy>
+          <copy>
+            <from>'Cast batch processed successfully'</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedMessage</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:Cast_Event_Msg</to>
+          </copy>
+          <copy>
+            <from>concat($g_Env,  'QualityNew')</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedStatus</to>
+          </copy>
+          <copy>
+            <from>xp20:current-dateTime()</from>
+            <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedTime</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Update_HeatSchedule" partnerLink="DB_Update_HeatSchedule"
+                portType="ns6:DB_Update_HeatSchedule_ptt" operation="update"
+                inputVariable="g_Invoke_DB_Update_HeatSchedule_InputVariable" bpelx:invokeAsDetail="no"/>
+        <scope name="Scope2">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="Assign_CommonLogging">
+              <copy>
+                <from>'BMG-002'</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                    operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+        
+      </sequence>
+      <elseif>
+        <documentation>
+          <![CDATA[PartialHeatProcessed]]>
+        </documentation>
+        <condition>count($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS="Success"]) &gt; 0</condition><sequence name="Sequence_Error"
+                                                                                                                                                                           xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <assign name="Assign_Update_HeatSchedule" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>$g_Receive_DB_Polling_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns7:Cast_Heat_Trans_Events/ns7:CastHeatTransEventID</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:CastHeatTransEventID</to>
+            </copy>
+            <copy>
+              <from>substring(oraext:create-delimited-string($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS !='Success']/ns10:COMMENTS,','),1,2000)</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:Cast_Event_Msg</to>
+            </copy>
+            <copy>
+              <from>substring(oraext:create-delimited-string($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS !='Success']/ns10:COMMENTS,','),1,2000)</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedMessage</to>
+            </copy>
+            <copy>
+              <from>concat($g_Env,  'QualityNew')</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedStatus</to>
+            </copy>
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedTime</to>
+            </copy>
+          </assign>
+      <invoke name="Invoke_DB_Update_HeatSchedule" bpelx:invokeAsDetail="no" partnerLink="DB_Update_HeatSchedule"
+              portType="ns6:DB_Update_HeatSchedule_ptt" operation="update"
+              inputVariable="g_Invoke_DB_Update_HeatSchedule_InputVariable"
+              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>
+      <scope name="Scope3">
+         <faultHandlers>
+            <catchAll>
+               <empty name="DoNothing"/>
+            </catchAll>
+         </faultHandlers>
+         <sequence>
+            <assign name="Assign_CommonLogging">
+               <copy>
+                  <from>''</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+               </copy>
+               <copy>
+                  <from>concat(ora:getFlowId(),':',  substring(oraext:create-delimited-string($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS !='Success']/ns10:COMMENTS,','),1,2000))</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+               </copy>
+               <copy>
+                  <from>4</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+               </copy>
+               <copy>
+                  <from>2</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+               </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                    portType="ns5:CommonLogging" operation="process"
+                    inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </scope>
+   </sequence></elseif>
+      <else>
+        <documentation>
+          <![CDATA[Error]]>
+        </documentation>
+        <sequence name="Sequence_Error"><assign name="Assign_Update_HeatSchedule"
+                                                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>$g_Receive_DB_Polling_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns7:Cast_Heat_Trans_Events/ns7:CastHeatTransEventID</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:CastHeatTransEventID</to>
+            </copy>
+            <copy>
+              <from>substring(oraext:create-delimited-string($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS !='Success']/ns10:COMMENTS,','),1,2000)</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:Cast_Event_Msg</to>
+            </copy>
+            <copy>
+              <from>substring(oraext:create-delimited-string($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS !='Success']/ns10:COMMENTS,','),1,2000)</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedMessage</to>
+            </copy>
+            <copy>
+              <from>concat($g_Env,  'CastError')</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedStatus</to>
+            </copy>
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$g_Invoke_DB_Update_HeatSchedule_InputVariable.Cast_Heat_Trans_EventsCollection/ns11:Cast_Heat_Trans_Events/ns11:ProcessedTime</to>
+            </copy>
+          </assign><invoke name="Invoke_DB_Update_HeatSchedule" bpelx:invokeAsDetail="no" partnerLink="DB_Update_HeatSchedule"
+                  portType="ns6:DB_Update_HeatSchedule_ptt" operation="update"
+                  inputVariable="g_Invoke_DB_Update_HeatSchedule_InputVariable"/>
+          <scope name="ScopeCommon">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+                     <assign name="Assign_CommonLogging">
+                <copy>
+                  <from>''</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat(ora:getFlowId(),':',  substring(oraext:create-delimited-string($g_Invoke_DB_EBS_Cast_Heat_OutputVariable.OutputParameters/ns10:P_RES_OUT/ns10:P_RES_OUT_ITEM[ns10:STATUS !='Success']/ns10:COMMENTS,','),1,2000))</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns5:CommonLogging" operation="process"
+                      inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          
+        </sequence>
+      </else>
+    </if>
+  </sequence>
+</process>

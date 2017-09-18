@@ -1,0 +1,202 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd"
+            xmlns:tns="TestResults" targetNamespace="TestResults" elementFormDefault="qualified"
+            attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars" nxsd:encoding="US-ASCII">
+  <xsd:element name="TestResults">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="MillCertHeaderRecord" nxsd:style="array"  minOccurs="1" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="BillOfLadingNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="RollDate" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="SalesOfficeNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="5" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="CustomerPONumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="Size" type="xsd:string" nxsd:style="fixedLength" nxsd:length="25" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="SalesDivision" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="NumericSize" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="NumericSizeDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+              <xsd:element name="FlatSize" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2"  nxsd:padStyle="head" nxsd:paddedBy="0"/>
+              <xsd:element name="FlatSizeDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4"  nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+              <xsd:element name="OSP" type="xsd:string" nxsd:style="array" nxsd:length="3" nxsd:cellSeparatedBy="${eol}" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+              <xsd:element name="MillCertGradeSpecInstruc" nxsd:style="array" nxsd:cellSeparatedBy="${eol}" minOccurs="1">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1"  nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="Grade1Certification" type="xsd:string" nxsd:style="fixedLength" nxsd:length="25" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="Grade2Certification" type="xsd:string" nxsd:style="fixedLength" nxsd:length="25" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:length="21"
+                                 nxsd:padStyle="head" nxsd:paddedBy=" "/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              
+              
+              <xsd:element name="MillCertPhysicalProperties" nxsd:style="array" minOccurs="1">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="ProductCode" type="xsd:string" nxsd:style="fixedLength" nxsd:length="6" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="ProductShape" type="xsd:string" nxsd:style="fixedLength" nxsd:length="6" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="YieldPSI" type="xsd:string" nxsd:style="fixedLength" nxsd:length="6" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="TensilePSI" type="xsd:string" nxsd:style="fixedLength" nxsd:length="6" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="Elogation8" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0" />
+                    <xsd:element name="Elogation8Decimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0" />
+                    <xsd:element name="Elogation2" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="Elogation2Decimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="ReductionArea" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="ReductionAreaDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="BernellHardTest" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="RockwellBHardTest" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="RockwellCHardTest" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="BendTestP" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="DIValue" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="DIValueDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesThin" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesThinDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesHard" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesHardDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaThin" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaThinDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaHard" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaHardDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesThin" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesThinDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesHard" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesHardDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXTH" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXTHDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXHD" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXHDDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    
+                    <xsd:element name="InclusionSulfitesThinA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesThinDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesHardA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSulfitesHardDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaThinA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaThinDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaHardA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionAluminaHardDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesThinA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesThinDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesHardA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionSilicatesHardDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXTHA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXTHDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXHDA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="InclusionGlobularOXHDDecimalA" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    
+                    <xsd:element name="ReductionRatio" type="xsd:string" nxsd:style="fixedLength" nxsd:length="4" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="ReductionRatioDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                    <xsd:element name="E81C" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="E81R" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="E81S" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="Filler" type="xsd:string" nxsd:style="fixedLength" nxsd:length="5" nxsd:padStyle="head"
+                                 nxsd:paddedBy=" "/>
+                    <xsd:element name="cellSeperator" type="xsd:string" nxsd:style="array" nxsd:length="1"
+                                 nxsd:cellSeparatedBy="${eol}"/>                   
+                    
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="MillCertChemicalAnalysis" minOccurs="0" maxOccurs="unbounded" nxsd:style="array">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <!--xsd:element name="Sets6" type="xsd:string" nxsd:style="fixedLength" nxsd:length="60"/-->
+                          <xsd:element name="Set1Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="Set1Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="Set1ValueDecimal" type="xsd:string" nxsd:style="fixedLength" nxsd:length="5" nxsd:padStyle="tail" nxsd:paddedBy="0"/>
+                          <!--xsd:element name="Set2Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="50" nxsd:padStyle="tail" nxsd:paddedBy=" "/-->
+                          <!--xsd:element name="Set2Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="Set3Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="Set3Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="Set4Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="Set4Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="Set5Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="Set5Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="Set6Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="Set6Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="8" nxsd:padStyle="head" nxsd:paddedBy="0"/-->
+                          <xsd:element name="Filler4" type="xsd:string" nxsd:style="fixedLength" nxsd:length="61"
+                                       nxsd:padStyle="head" nxsd:paddedBy=" "/>
+                          <xsd:element name="cellSeperator" type="xsd:string" nxsd:style="array" nxsd:length="1"
+                                       nxsd:cellSeparatedBy="${eol}"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    
+              <xsd:element name="MillCertHardenabilityBand" minOccurs="0" maxOccurs="unbounded" nxsd:style="array">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="Set1Code" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <xsd:element name="Set1Value" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                    <!--xsd:element name="Sets17" type="xsd:string" nxsd:style="fixedLength" nxsd:length="64" nxsd:padStyle="tail" nxsd:paddedBy=" "/-->
+                    <xsd:element name="Filler5" type="xsd:string" nxsd:style="fixedLength" nxsd:length="67"
+                                 nxsd:padStyle="head" nxsd:paddedBy=" "/>
+                    <xsd:element name="cellSeperator" type="xsd:string" nxsd:style="array" nxsd:length="1"
+                                 nxsd:cellSeparatedBy="${eol}"/>
+                    
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="MillCertCommentRecords" minOccurs="0" maxOccurs="unbounded" nxsd:style="array">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                          <xsd:element name="Comments" type="xsd:string" nxsd:style="fixedLength" nxsd:length="60" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                          <xsd:element name="Filler6" type="xsd:string" nxsd:style="fixedLength" nxsd:length="11"
+                                       nxsd:padStyle="head" nxsd:paddedBy=" "/>
+                          <xsd:element name="cellSeperator" type="xsd:string" nxsd:style="array" nxsd:length="1"
+                                       nxsd:cellSeparatedBy="${eol}"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+              <xsd:element name="MillCertGrainPerASTM" minOccurs="0" maxOccurs="unbounded" nxsd:style="array"
+                     nxsd:cellSeparatedBy="${eol}">
+                  <xsd:complexType>
+                    <xsd:sequence>
+                      <xsd:element name="ReheatLot" type="xsd:string" nxsd:style="fixedLength" nxsd:length="15" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                      <xsd:element name="HeatSequenceNumber" type="xsd:string" nxsd:style="fixedLength" nxsd:length="3" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                      <xsd:element name="RecordType" type="xsd:string" nxsd:style="fixedLength" nxsd:length="1" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                      <xsd:element name="AGS" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                      <xsd:element name="FGS" type="xsd:string" nxsd:style="fixedLength" nxsd:length="2" nxsd:padStyle="head" nxsd:paddedBy="0"/>
+                      <xsd:element name="GrainSizeText" type="xsd:string" nxsd:style="fixedLength" nxsd:length="60" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                      <xsd:element name="Filler7" type="xsd:string" nxsd:style="fixedLength" nxsd:length="7" nxsd:padStyle="tail" nxsd:paddedBy=" "/>
+                    </xsd:sequence>
+                  </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+       
+        
+              
+        
+        
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation>
+    <xsd:appinfo>NXSDSAMPLE=/C:/Users/akshat.paharia/Desktop/I137.txt</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+  <xsd:annotation>
+    <xsd:appinfo>NXSDSAMPLE=/C:/Users/akshat.paharia/Desktop/I137.txt</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

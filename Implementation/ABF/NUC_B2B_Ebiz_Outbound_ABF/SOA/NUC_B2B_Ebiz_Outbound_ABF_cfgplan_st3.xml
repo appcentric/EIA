@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_B2B_Ebiz_Outbound_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="B2B_EbizOutboundThread">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://oracle.com/sca/soapservice/SMG-nuc/NUC_B2B_Ebiz_Outbound_ABF/B2B_EbizOutboundThread#wsdl.endpoint(B2B_EbizOutboundThread/execute_pt)</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>NEVER</replace>
+            </property>
+         </binding>
+      </service>
+      <service name="B2B_EbizOutboundThread"/>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="NUC_B2B_Ebiz_Outbound_ABFImpl">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+      </component>
+      <reference name="SFTP_ListFilesInSourceDirectory"/>
+      <reference name="SFTP_SyncReadFileFromSource"/>
+      <reference name="SFTP_PutFileIntoTarget"/>
+      <reference name="SFTP_SyncDelete"/>
+      <reference name="CommonLogging"/>
+      <reference name="SFTP_SyncReadOpaque">
+         <binding type="jca"/>
+      </reference>
+      <reference name="SFTP_SyncReadFileFromSource">
+         <binding type="jca"/>
+      </reference>
+      <reference name="SFTP_PutFileIntoTarget">
+         <binding type="jca"/>
+      </reference>
+      <reference name="SFTP_SyncDelete">
+         <binding type="jca"/>
+      </reference>
+      <reference name="CommonLogging">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for file/ftp adapter: 
+	<jca:property name="PhysicalDirectory"><replace>c:\temp</replace></jca:property>
+	<jca:property name="DeleteFile"><replace>true</replace></jca:property>
+	<jca:property name="PollingFrequency"><replace>3</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/SFTP_PutFileIntoTarget_ftp.jca|Adapters/SFTP_SyncDelete_ftp.jca|Adapters/SFTP_SyncReadFileFromSource_ftp.jca|Adapters/SFTP_SyncReadOpaque_ftp.jca|WSDLs/B2B_EbizOutboundThread.wsdl|WSDLs/B2B_EbizOutboundThreadWrapper.wsdl|WSDLs/SFTP_PutFileIntoTarget.wsdl|WSDLs/SFTP_SyncDelete.wsdl|WSDLs/SFTP_SyncReadFileFromSource.wsdl|WSDLs/SFTP_SyncReadOpaque.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

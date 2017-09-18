@@ -1,0 +1,13 @@
+<adapter-config name="getDeliverAttribute" adapter="db" wsdlLocation="../partnerWsdls/getDeliverAttribute.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="ebsapps" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="getDeliverAttribute_ptt" operation="getDeliverAttribute">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="PackageName" value="XXNUC_WSH_GET_ITEM_SEGMENT_PKG"/>
+      <property name="ProcedureName" value="GET_WSH_NEW_DELVRY_ATTRIBS"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="SchemaName" value="APPS"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

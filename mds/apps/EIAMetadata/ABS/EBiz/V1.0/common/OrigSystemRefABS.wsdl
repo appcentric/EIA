@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0"
+            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:core="http://xmlns.eia.com/EO/Common/1.0"
+             xmlns:osram="http://xmlns.eia.com/AO/EBiz/common/OrigSystemRefAM/1.0">
+
+  <wsdl:types>
+  <xsd:schema>
+    <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/OrigSystemRefAM/1.0" schemaLocation="../../../../AO/EBiz/common/V1.0/OrigSystemRefAM.xsd"/>
+    <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="../../../../EO/common/Common.xsd"/>
+ </xsd:schema>
+ </wsdl:types>
+
+
+<wsdl:message name="CreateOSRSyncRequestMessageType">
+    <wsdl:part name="CreateOSRSyncRequestMessage" element="osram:CreateOSRSyncRequestMessage"/>
+</wsdl:message>
+ 
+<wsdl:message name="CreateOSRSyncResponseMessageType">
+    <wsdl:part name="CreateOSRSyncResponseMessage" element="osram:CreateOSRSyncResponseMessage"/>
+  </wsdl:message>
+  
+  <wsdl:message name="UpdateOSRSyncRequestMessageType">
+    <wsdl:part name="UpdateOSRSyncRequestMessage" element="osram:UpdateOSRSyncRequestMessage"/>
+  </wsdl:message>
+
+  <wsdl:message name="UpdateOSRSyncResponseMessageType">
+    <wsdl:part name="UpdateOSRSyncResponseMessage" element="osram:UpdateOSRSyncResponseMessage"/>
+  </wsdl:message>
+
+  <wsdl:message name="QueryOSRSyncRequestMessageType">
+    <wsdl:part name="QueryOSRSyncRequestMessage" element="osram:QueryOSRSyncRequestMessage"/>
+  </wsdl:message>
+
+  <wsdl:message name="QueryOSRSyncResponseMessageType">
+    <wsdl:part name="QueryOSRSyncResponseMessage" element="osram:QueryOSRSyncResponseMessage"/>
+  </wsdl:message>
+
+  <wsdl:message name="EIAFaultMsgType">
+     <wsdl:part name="Fault" element="core:Fault"/>
+  </wsdl:message>
+
+  <wsdl:portType name="SyncPortType">
+   
+   <wsdl:operation name="CreateOSR_Sync">
+     <wsdl:input message="tns:CreateOSRSyncRequestMessageType"/>
+     <wsdl:output message="tns:CreateOSRSyncResponseMessageType"/>
+     <wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+   </wsdl:operation>
+   
+   <wsdl:operation name="QueryOSRByExample_Sync">
+   <wsdl:input message="tns:QueryOSRSyncRequestMessageType"/>
+   <wsdl:output message="tns:QueryOSRSyncResponseMessageType"/>
+   <wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+   </wsdl:operation>
+   
+   <wsdl:operation name="UpdateOSR_Sync">
+   <wsdl:input message="tns:UpdateOSRSyncRequestMessageType"/>
+   <wsdl:output message="tns:UpdateOSRSyncResponseMessageType"/>
+   <wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+  </wsdl:operation>
+
+   
+  </wsdl:portType>
+
+  <wsdl:binding name="SyncPort" type="tns:SyncPortType">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CreateOSR_Sync">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0/CreateOSR_Sync"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="CreateOSRSyncRequestMessage"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" parts="CreateOSRSyncResponseMessage"/>
+      </wsdl:output>
+      <wsdl:fault name="EIAFault">
+        <soap:fault name="EIAFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    
+    
+        <wsdl:operation name="QueryOSRByExample_Sync">
+          <soap:operation style="document"
+                          soapAction="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0/QueryOSRByExample_Sync"/>
+          <wsdl:input>
+            <soap:body use="literal" parts="QueryOSRSyncRequestMessage"/>
+          </wsdl:input>
+          <wsdl:output>
+            <soap:body use="literal" parts="QueryOSRSyncResponseMessage"/>
+          </wsdl:output>
+          <wsdl:fault name="EIAFault">
+            <soap:fault name="EIAFault" use="literal"/>
+          </wsdl:fault>
+        </wsdl:operation>
+        
+        <wsdl:operation name="UpdateOSR_Sync">
+          <soap:operation style="document"
+                          soapAction="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0/UpdateOSR_Sync"/>
+          <wsdl:input>
+            <soap:body use="literal" parts="UpdateOSRSyncRequestMessage"/>
+          </wsdl:input>
+          <wsdl:output>
+            <soap:body use="literal"
+                       parts="UpdateOSRSyncResponseMessage"/>
+          </wsdl:output>
+          <wsdl:fault name="EIAFault">
+            <soap:fault name="EIAFault" use="literal"/>
+          </wsdl:fault>
+        </wsdl:operation>
+
+
+    
+    </wsdl:binding>
+  
+   <wsdl:service name="OrigSystemRefABS">
+    <wsdl:port name="SyncPort" binding="tns:SyncPort">
+      <soap:address location="http://www.example.com"/>
+    </wsdl:port>
+   </wsdl:service>
+  
+</wsdl:definitions>

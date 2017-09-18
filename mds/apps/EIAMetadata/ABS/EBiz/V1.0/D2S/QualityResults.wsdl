@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="QualityResults"
+     targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+     xmlns:ns1="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/QualityResultsAM.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="QualityResultsRequestMessage">
+        <wsdl:part name="payload" element="ns1:QualityResultsAddRq"/>
+    </wsdl:message>
+    <wsdl:message name="QualityResultsResponseMessage">
+        <wsdl:part name="payload" element="ns1:QualityResultsAddRs"/>
+    </wsdl:message>
+    <wsdl:message name="QueryQAResultsByBolNoRequestMessageType">
+        <wsdl:part name="QueryQAResultsByBolNoRequestMessage" element="ns1:QueryQAResultsByBolNoRq"/>
+    </wsdl:message>
+    <wsdl:message name="QueryQAResultsByBolNoResponseMessageType">
+        <wsdl:part name="QueryQAResultsByBolNoResponseMessage" element="ns1:QueryQAResultsByBolNoRs"/>
+    </wsdl:message>
+    <wsdl:message name="QualityResultsUpdateRequestMessage">
+        <wsdl:part name="QualityResultsUpdateRequest" element="ns1:QualityResultsUpdateRq"/>
+    </wsdl:message>
+    <wsdl:message name="QualityResultsUpdateResponseMessage">
+        <wsdl:part name="QualityResultsUpdateResponse" element="ns1:QualityResultsUpdateRs"/>
+    </wsdl:message>
+    <wsdl:portType name="QualityResults">
+        <wsdl:operation name="Create">
+            <wsdl:input message="client:QualityResultsRequestMessage"/>
+            <wsdl:output message="client:QualityResultsResponseMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="QueryByBolNo">
+            <wsdl:input message="client:QueryQAResultsByBolNoRequestMessageType"/>
+            <wsdl:output message="client:QueryQAResultsByBolNoResponseMessageType"/>
+        </wsdl:operation>
+        <wsdl:operation name="upsertSample">
+            <wsdl:input message="client:QualityResultsUpdateRequestMessage"/>
+            <wsdl:output message="client:QualityResultsUpdateResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="QualityResultsBinding" type="client:QualityResults">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Create">
+            <soap:operation style="document" soapAction="Create"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="QueryByBolNo">
+            <soap:operation style="document" soapAction="QueryByBolNo"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="upsertSample">
+            <soap:operation style="document" soapAction="upsertSample"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="qualityresults_client_ep">
+        <wsdl:port name="QualityResults_pt" binding="client:QualityResultsBinding">
+            <soap:address location="www.examle.org"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

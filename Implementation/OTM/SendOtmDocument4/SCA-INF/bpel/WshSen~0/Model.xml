@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="WshSendOtmDocument" targetNamespace="http://xmlns.oracle.com/WshSendOtmDocument" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/WshSendOtmDocument" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:xpath20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer/" xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:task="http://xmlns.oracle.com/bpel/workflow/task" xmlns:taskservice="http://xmlns.oracle.com/bpel/workflow/taskService" xmlns:wfcommon="http://xmlns.oracle.com/bpel/workflow/common" xmlns:wf="http://schemas.oracle.com/bpel/extension/workflow" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:ns1="http://xmlns.oracle.com/apps/otm" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler" id="BpPrc0">
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[WshSendOtmDocument.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <bpelx:exec import="com.oracle.soa.rest.RestInvocation" id="BxExe0"/>               
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="wshsendotmdocument_client" partnerLinkType="client:WshSendOtmDocument" myRole="WshSendOtmDocumentProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:WshSendOtmDocumentRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:WshSendOtmDocumentResponseMessage"/>
+    <variable name="Variable_OTMTransmission" element="ns1:Transmission"/>
+    <variable name="Variable_OTMTransmissionAck" element="ns1:TransmissionAck"/>
+    <variable name="Variable_OTMURL" type="xsd:string"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main" id="BpSeq0">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in WshSendOtmDocument.wsdl) -->
+    <receive name="receiveInput" partnerLink="wshsendotmdocument_client" portType="client:WshSendOtmDocument" operation="process" variable="inputVariable" createInstance="yes" id="BpRcv0"/>
+
+    <!-- Generate reply to synchronous request -->
+    <assign name="Assign_Input" id="BpAss0">
+      <copy>
+        <from variable="inputVariable" part="payload" query="/ns1:Transmission"/>
+        <to variable="Variable_OTMTransmission" query="/ns1:Transmission"/>
+      </copy>
+      <copy>
+        <from expression="eia:getEIAServiceProperty(&quot;WshSendOtmDocument&quot;,&quot;OTMServerURL&quot;)"/>
+        <to variable="Variable_OTMURL"/>
+      </copy>
+    </assign>
+    <bpelx:exec name="Java_Embedding_InvokeOTM" version="1.5" language="java" id="BxExe1">
+      <![CDATA[// create a new rest invoker stub     
+RestInvocation invocation = new RestInvocation();      
+      
+org.w3c.dom.Element callOtm_process_InputVariable = (org.w3c.dom.Element)getVariableData("Variable_OTMTransmission");          
+// get the result el - so we can derive the namespace needed     
+org.w3c.dom.Element callOtm_process_OutputVariable = (org.w3c.dom.Element)getVariableData("Variable_OTMTransmissionAck");          
+String otmURL = (String) getVariableData("Variable_OTMURL") ;  
+try      
+{     
+    callOtm_process_OutputVariable = invocation.invoke      
+        (callOtm_process_InputVariable, "POST", otmURL, null,     
+         callOtm_process_OutputVariable.getNamespaceURI());     
+    setVariableData("Variable_OTMTransmissionAck", callOtm_process_OutputVariable);        
+} finally      
+{     
+    addAuditTrailEntry(invocation.getAuditAsString());     
+}]]>
+    </bpelx:exec>
+    <assign name="Assign_Output" id="BpAss1">
+      <copy>
+        <from variable="Variable_OTMTransmissionAck" query="/ns1:TransmissionAck"/>
+        <to variable="outputVariable" part="payload" query="/ns1:TransmissionAck"/>
+      </copy>
+    </assign>
+    <reply name="replyOutput" partnerLink="wshsendotmdocument_client" portType="client:WshSendOtmDocument" operation="process" variable="outputVariable" id="BpRpl0"/>
+  </sequence>
+</process><!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Dec 30 12:35:08 EST 2009
+  Author:  ckakunje
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->

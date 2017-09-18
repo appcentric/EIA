@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0"
+targetNamespace="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0" 
+elementFormDefault="qualified" attributeFormDefault="unqualified"
+            version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:commonao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+            xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+            xmlns:categoryao="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0">
+ <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/UomAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"/>
+ 
+ 
+              
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"/>
+ 
+              
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/WhoAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"/>
+
+<xsd:element name="BasicCategory" type="categoryao:BasicCategoryType"/>
+
+<xsd:element name="Category" type="categoryao:CategoryType"/>
+
+<xsd:complexType name="BasicCategoryType">
+<xsd:sequence>
+ <xsd:element name="Identifier" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="Category" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="Description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="CategoryType">
+<xsd:sequence>
+ <xsd:element name="BasicCategory" type="categoryao:BasicCategoryType" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="SegmentKFF" type="commonao:SegmentKFFType" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="EnabledFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="DisableDate" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="StructureId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/> 
+ <xsd:element name="StartDateActive" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="EndDateActive" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="WhoColumns" type="whoao:WhoColumnsType" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="DFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/> 
+</xsd:sequence>
+</xsd:complexType>
+
+
+</xsd:schema>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_GLPayroll_SAP_EBS_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="glpayroll_sap_ebs_abf_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://nucor.eia.com/GLPayroll_SAP_EBS_ABF#wsdl.endpoint(glpayroll_sap_ebs_abf_client_ep/GLPayroll_SAP_EBS_ABF_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <service name="glpayroll_sap_ebs_abf_client"/>
+      <property name="compositeID">
+         <replace>b6338def-1c83-41ac-aea2-deef7ea7517c</replace>
+      </property>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="GLPayroll_SAP_EBS_ABF">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+         <property name="partnerLink.APPS_GL_Interface.idempotent">
+            <replace>false</replace>
+         </property>
+      </component>
+      <reference name="SAP_FI_Posting_Service"/>
+      <reference name="DB_xxnuc_gl_sap_payroll_pkg"/>
+      <reference name="APPS_GL_Interface"/>
+      <reference name="CommonLoggin_PL"/>
+      <reference name="SAP_FI_Posting_Service">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>www.Nucor.com#wsdl.endpoint(SapData/SapDataSoap)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>WSDLs/NucorSAPData.asmx.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+         <binding type="ws">
+            <attribute name="port">
+               <replace>www.Nucor.com#wsdl.endpoint(SapData/SapDataSoap12)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>WSDLs/NucorSAPData.asmx.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DB_xxnuc_gl_sap_payroll_pkg">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="APPS_GL_Interface">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="CommonLoggin_PL">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://nucor.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>http://brmkea250.bar.nucorsteel.local:7015/soa-infra/services/nxg/CommonLogging/CommonLogging_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/APPS_GL_Interface_apps.jca|Adapters/DB_xxnuc_gl_sap_payroll_pkg_db.jca|Schemas/APPS_GL_Interface_table.xsd|Schemas/DB_xxnuc_gl_sap_payroll_pkg_sp.xsd|Schemas/ProcessPayroll.xsd|WSDLs/APPS_GL_Interface.wsdl|WSDLs/DB_xxnuc_gl_sap_payroll_pkg.wsdl|WSDLs/GLPayroll_SAP_EBS_ABF.wsdl|WSDLs/NucorSAPData.asmx.wsdl|WSDLs/NucorSAPData.asmxWrapper.wsdl">
+      <searchReplace>
+         <search>https://ws4.nucornet.com/SAPService/NucorSAPData.asmx</search>
+         <replace>https://ws4.nucornet.com/SAPService/NucorSAPData.asmx</replace>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--$Header$-->
+<composite xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:ui="http://xmlns.oracle.com/soa/designer/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xs="http://www.w3.org/2001/XMLSchema" label="2011-12-28_01-47-59_509" mode="active" name="EIAAsyncErrorHandlingBPELProcess" revision="1.0" state="on">
+   <import importType="wsdl" location="oramds:/apps/EIAMetadata/Infrastracture/wsdls/EIAAsyncErrorHandlingBPELProcessV1.wsdl" namespace="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"/>
+   <import importType="wsdl" location="oramds:/soa/shared/workflow/NotificationService.wsdl" namespace="http://xmlns.oracle.com/ias/pcbpel/NotificationService"/>
+   <service name="processFault_ep" ui:wsdlLocation="oramds:/apps/EIAMetadata/Infrastracture/wsdls/EIAAsyncErrorHandlingBPELProcessV1.wsdl">
+      <interface.wsdl interface="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0#wsdl.interface(EIAAsyncErrorHandlingBPELProcess)"/>
+      <binding.ws port="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0#wsdl.endpoint(processFault_ep/EIAAsyncErrorHandlingBPELProcess_pt)"/>
+   </service>
+   <property name="originalProductVersion" type="xs:string" many="false">11.0.0.0.0</property>
+   <property name="productVersion" type="xs:string" many="false">12.1.3.0.0</property>
+   <property name="compositeID" type="xs:string" many="false">50afd4c1-3f58-44c9-9972-e866a15130a8</property>
+   <component name="EIAAsyncErrorHandlingBPELProcess">
+      <implementation.bpel src="EIAAsyncErrorHandlingBPELProcess.bpel"/>
+      <componentType xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns:ui="http://xmlns.oracle.com/soa/designer/">
+         <service name="processFault"
+                  ui:wsdlLocation="oramds:/apps/EIAMetadata/Infrastracture/wsdls/EIAAsyncErrorHandlingBPELProcessV1.wsdl">
+            <interface.wsdl interface="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0#wsdl.interface(EIAAsyncErrorHandlingBPELProcess)"/>
+         </service>
+         <reference name="NotificationService_1" ui:wsdlLocation="oramds:/soa/shared/workflow/NotificationService.wsdl">
+            <interface.wsdl interface="http://xmlns.oracle.com/ias/pcbpel/NotificationService#wsdl.interface(NotificationService)"/>
+         </reference>
+      </componentType>
+      <property name="bpel.config.transaction" type="xs:string" many="false">requiresNew</property>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string"
+              many="false">sync</property>      
+   </component>
+   <reference name="NotificationService_1" ui:wsdlLocation="oramds:/soa/shared/workflow/NotificationService.wsdl">
+      <interface.wsdl interface="http://xmlns.oracle.com/ias/pcbpel/NotificationService#wsdl.interface(NotificationService)"/>
+      <binding.wsif location="NotificationService.wsdl" port="http://xmlns.oracle.com/ias/pcbpel/NotificationService#wsdl.endpoint(NotificationService/JavaPort)"/>
+   </reference>
+   <wire>
+      <source.uri>processFault_ep</source.uri>
+      <target.uri>EIAAsyncErrorHandlingBPELProcess/processFault</target.uri>
+   </wire>
+   <wire>
+      <source.uri>EIAAsyncErrorHandlingBPELProcess/NotificationService_1</source.uri>
+      <target.uri>Email_NotificationService</target.uri>
+   </wire>
+   <wire>
+      <source.uri>EIAAsyncErrorHandlingBPELProcess/NotificationService_1</source.uri>
+      <target.uri>NotificationService_1</target.uri>
+   </wire>
+</composite>

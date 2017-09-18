@@ -1,0 +1,189 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Sep 03 10:08:53 CDT 2013
+  Author:  vivek
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ConsumeJMSBAMMessage"
+               targetNamespace="http://xmlns.oracle.com/NucorSOAMacBranches/EIA_B2B_JMS/ConsumeJMSBAMMessage"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/NucorSOAMacBranches/EIA_B2B_JMS/ConsumeJMSBAMMessage"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/NucorSOAMacBranches/EIA_B2B_JMS/JMS_BAMQueue"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns2="http://xmlns.eia.com/AO/B2B/Instance/V1.0"
+         xmlns:ns3="http://xmlns.oracle.com/ias/pcbpel/NotificationService"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ui="http://xmlns.oracle.com/soa/designer">
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/NucorSOAMacBranches/EIA_B2B_JMS/JMS_BAMQueue"
+          location="JMS_BAMQueue.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <import location="oracle.xml.parser.v2.XMLElement" importType="http://schemas.oracle.com/bpel/extension/java"/>
+ <import location="java.lang.String" importType="http://schemas.oracle.com/bpel/extension/java"/>
+    <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/AO/B2B/Instance/V1.0"
+          location="xsd/BAMB2B.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="JMS_BAMQueue" partnerLinkType="ns1:Consume_Message_plt"
+                 myRole="Consume_Message_role"/>
+    <partnerLink name="NotificationService1"
+                 partnerLinkType="ns3:NotificationServiceLink"
+                 partnerRole="NotificationServiceProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="JMS_ConsumeMessage" messageType="ns1:Consume_Message_msg"/>
+    <variable name="getState" type="xsd:string"/>
+    <variable name="localVar" element="ns2:row"/>
+    <variable name="appMessageProp" type="xsd:string"/>
+    <variable name="getUrl" type="xsd:string"/>
+    <variable name="getFileName" type="xsd:string"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive_JMS" createInstance="yes" partnerLink="JMS_BAMQueue"
+             portType="ns1:Consume_Message_ptt" operation="Consume_Message"
+             variable="JMS_ConsumeMessage"/>
+    <assign name="Xform_JMS_ConsumeMessage_To_localVar">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_JMS_ConsumeMessage_To_localVar.xsl", $JMS_ConsumeMessage.body)</from>
+        <to variable="localVar"/>
+      </copy>
+    </assign>
+    <if name="If1">
+      <documentation>
+        <![CDATA[CheckFabricEcid]]>
+      </documentation>
+      <condition>$localVar/ns2:fabric_ecid != ''</condition>
+      <assign name="set_appMessageProp">
+        <copy>
+          <from>normalize-space(substring-after($localVar/ns2:transportheaders,"filename="))</from>
+          <to>$getFileName</to>
+        </copy>
+        <copy>
+          <from>substring-before($getFileName," ")</from>
+          <to>$getFileName</to>
+        </copy>
+        <copy>
+          <from>oraext:query-database(concat("select to_char(app_message_props) app_message_props from b2b_app_message where fabric_ecid='",string($localVar/ns2:fabric_ecid),"'"),false(),false(),"jdbc/SOALocalTxDataSource")</from>
+          <to>$appMessageProp</to>
+        </copy>
+        <copy>
+          <from>substring-after($appMessageProp,"Endpoint=")</from>
+          <to>$appMessageProp</to>
+        </copy>
+        <copy>
+          <from>substring-before($appMessageProp,",")</from>
+          <to>$appMessageProp</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[setDefaultFabricEcid]]>
+        </documentation>
+        <assign name="set_appMessageProp"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <copy>
+            <from>normalize-space(substring-after($localVar/ns2:transportheaders,"filename="))</from>
+            <to>$getFileName</to>
+          </copy>
+          <copy>
+            <from>substring-before($getFileName," ")</from>
+            <to>$getFileName</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$appMessageProp</to>
+          </copy>
+        </assign></else>
+    </if>
+    <scope name="Email1">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:email"/>
+        <bpelx:general>
+          <bpelx:property name="userLabel">
+            <![CDATA[Send_Email_Notification]]>
+          </bpelx:property>
+        </bpelx:general>
+      </bpelx:annotation>
+      <variables>
+        <variable name="varNotificationReq"
+                  messageType="ns3:EmailNotificationRequest"/>
+        <variable name="varNotificationResponse"
+                  messageType="ns3:ArrayOfResponse"/>
+        <variable name="NotificationServiceFaultVariable"
+                  messageType="ns3:NotificationServiceErrorMessage"/>
+      </variables>
+      <sequence name="Sequence1">
+        <assign name="EmailParamsAssign">
+          <copy>
+            <from>string('Default')</from>
+            <to>$varNotificationReq.EmailPayload/ns3:FromAccountName</to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to>$varNotificationReq.EmailPayload/ns3:FromUserName</to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to>$varNotificationReq.EmailPayload/ns3:Bcc</to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to>$varNotificationReq.EmailPayload/ns3:Cc</to>
+          </copy>
+          <copy>
+            <from>string('')</from>
+            <to>$varNotificationReq.EmailPayload/ns3:ReplyToAddress</to>
+          </copy>
+          <copy>
+            <from>concat('B2B Message Id ',$localVar/ns2:b2bMessageId,' completed in state ',$localVar/ns2:state)</from>
+            <to>$varNotificationReq.EmailPayload/ns3:Subject</to>
+          </copy>
+          <copy>
+            <from>eia:getEIAModuleProperty('B2B_NOTIFY_EVENT',string($localVar/ns2:agreementId))</from>
+            <to>$varNotificationReq.EmailPayload/ns3:To</to>
+          </copy>
+          <copy>
+            <from>concat(string('Hello B2BUser, The following B2B message in completed in status '),$localVar/ns2:state,string('. &lt;BR&gt;Please find the details of the Instance.&lt;BR&gt;&lt;BR&gt;&lt;table border="1" bordercolor="#000000" style="background-color:#CCFFFF" cellpadding="3" cellspacing="3" width="800"&gt;&lt;tr&gt;&lt;td&gt;Message Id &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:b2bMessageId,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Endpoint &lt;/td&gt;&lt;td&gt;'),$appMessageProp,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;File Name &lt;/td&gt;&lt;td&gt;'),$getFileName,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Sender Name &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:senderName,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Receiver Name &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:receiverName,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;State &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:state,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Message Date Time &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:messageDateTime,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Direction &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:direction,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Error Code &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:errorCode,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Error Text &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:errorText,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Error Description &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:errorDescription,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Document Type &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:documenttype,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Agreement Id &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:agreementId,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Exchange Protocol &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:exchangeProtocol,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;URL &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:url,string('&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Transport Headers &lt;/td&gt;&lt;td&gt;'),$localVar/ns2:transportheaders,string('&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;'))</from>
+            <to>$varNotificationReq.EmailPayload/ns3:Content/ns3:ContentBody</to>
+          </copy>
+          <copy>
+            <from>string('text/html; charset=UTF-8')</from>
+            <to>$varNotificationReq.EmailPayload/ns3:Content/ns3:MimeType</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeNotificationService"
+                portType="ns3:NotificationService"
+                partnerLink="NotificationService1"
+                inputVariable="varNotificationReq"
+                outputVariable="varNotificationResponse"
+                operation="sendEmailNotification"/>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

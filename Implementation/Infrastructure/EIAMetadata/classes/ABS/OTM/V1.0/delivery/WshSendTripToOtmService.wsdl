@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions
+     name="WshSendTripToOtmService"
+     targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTripToOtmService"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:txn="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTripToOtmService"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <!--documentation>
+        <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/otm/WshSendTripToOtmService!1.0/WshSendTripToOtmService.wsdl</abstractWSDL>
+    </documentation-->
+    <plnk:partnerLinkType name="WshSendTripToOtmService">
+        <plnk:role name="WshSendTripToOtmServiceProvider">
+            <plnk:portType name="client:WshSendTripToOtmService"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <types>
+        <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTripToOtmService"
+             xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+                 schemaLocation="../../../../AO/OTM/common/V1.0/WshOtmGlobalOutbound.xsd"/>
+            <element name="WshSendTripToOtmServiceProcessRequest">
+                <complexType>
+                    <sequence>
+                        <element name="input" type="txn:tOutboundInput"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="WshSendTripToOtmServiceProcessResponse">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="txn:tOutboundOutput"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <message name="WshSendTripToOtmServiceRequestMessage">
+        <part name="payload" element="client:WshSendTripToOtmServiceProcessRequest"/>
+    </message>
+    <message name="WshSendTripToOtmServiceResponseMessage">
+        <part name="payload" element="client:WshSendTripToOtmServiceProcessResponse"/>
+    </message>
+    <message name="WshSendTripToOtmServiceFaultMessage">
+        <part name="payload" type="xsd:string"/>
+    </message>
+    <portType name="WshSendTripToOtmService">
+        <operation name="process">
+            <input message="client:WshSendTripToOtmServiceRequestMessage"/>
+            <output message="client:WshSendTripToOtmServiceResponseMessage"/>
+            <fault name="faultError" message="client:WshSendTripToOtmServiceFaultMessage"/>
+        </operation>
+    </portType>
+    <binding name="WshSendTripToOtmServiceBinding" type="client:WshSendTripToOtmService">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="faultError">
+                <soap:fault name="faultError" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+    <service name="WshSendTripToOtmService">
+        <port name="WshSendTripToOtmService" binding="client:WshSendTripToOtmServiceBinding">
+            <soap:address location="http://example.org"/>
+        </port>
+    </service>
+</definitions>

@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Billet_Trx" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Billet_Trx" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ApiBilletTransCollection" type="ApiBilletTransCollection"/>
+   <xs:complexType name="ApiBilletTransCollection">
+      <xs:sequence>
+         <xs:element name="ApiBilletTrans" type="ApiBilletTrans" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiBilletTrans">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="processed" type="string1" minOccurs="0"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="apiBilletTransDtlsCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="ApiBilletTransDtls" type="ApiBilletTransDtls" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiBilletTransDtls">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="processed" type="string1" minOccurs="0"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string2000" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

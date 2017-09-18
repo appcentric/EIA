@@ -1,0 +1,13 @@
+<adapter-config name="OA_LaunchAutoInvoiceAPI" adapter="db" wsdlLocation="../WSDLs/OA_LaunchAutoInvoiceAPI.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBS_CRP3" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="OA_LaunchAutoInvoiceAPI_ptt" operation="OA_LaunchAutoInvoiceAPI">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="PackageName" value="XXNUC_AP_APXIIMPT_DJJ_PKG"/>
+      <property name="ProcedureName" value="IMPORT_INVOICES"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="SchemaName" value="APPS"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

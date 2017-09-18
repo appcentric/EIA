@@ -1,0 +1,1249 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Dec 15 04:21:09 CST 2015
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="QualityResults"
+               targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0"
+         xmlns:ns2="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns1="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/apps/112/NUC_EBizQualityResults_ABS/EBS_Call_XNUC_GMD_TSTRSLT_PKG"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns5="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBS_Call_XNUC_GMD_TSTRSLT_PKG"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns8="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_EBizQualityResults_ABS/DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor_ABF/NUC_EBizQualityResults_ABS/EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG">
+         
+           <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+     <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/apps/112/NUC_EBizQualityResults_ABS/EBS_Call_XNUC_GMD_TSTRSLT_PKG"
+          location="../WSDLs/EBS_Call_XNUC_GMD_TSTRSLT_PKG.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="EBS_Call_XNUC_GMD_TSTRSLT_PKG" partnerLinkType="ns4:EBS_Call_XNUC_GMD_TSTRSLT_PKG_plt"
+                 partnerRole="EBS_Call_XNUC_GMD_TSTRSLT_PKG_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns5:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="qualityresults_client_ep" partnerLinkType="client:qualityresults_client_ep"
+                 myRole="QualityResults"/>
+    <partnerLink name="DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG" partnerLinkType="ns9:DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_plt"
+                 partnerRole="DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_role"/>
+    <partnerLink name="EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG"
+                 partnerLinkType="ns12:EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_plt"
+                 partnerRole="EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="Create_QR_Input_Var" messageType="client:QualityResultsRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="Create_QR_Output_Var" messageType="client:QualityResultsResponseMessage"/>
+    <variable name="InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable" messageType="ns4:args_in_msg"/>
+    <variable name="InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_EBS_OutputVariable" messageType="ns4:args_out_msg"/>
+    <variable name="countGMDResultSets" type="xsd:integer"/>
+    <variable name="counter" type="xsd:integer"/>
+    <variable name="GMDResultSet" messageType="client:QualityResultsRequestMessage"/>
+    <variable name="g_Operation" type="xsd:string"/>
+    <variable name="QueryByBolNo_InputVariable" messageType="client:QueryQAResultsByBolNoRequestMessageType"/>
+    <variable name="QueryByBolNo_OutputVariable" messageType="client:QueryQAResultsByBolNoResponseMessageType"/>
+    <variable name="Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_InputVariable" messageType="ns9:args_in_msg"/>
+    <variable name="Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_OutputVariable" messageType="ns9:args_out_msg"/>
+    <variable name="Upsert_QR_Input_Var" messageType="client:QualityResultsUpdateRequestMessage"/>
+    <variable name="Upsert_QR_Output_Var" messageType="client:QualityResultsUpdateResponseMessage"/>
+    <variable name="InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_InputVariable" messageType="ns12:args_in_msg"/>
+    <variable name="InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_OutputVariable" messageType="ns12:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence7">
+        <if name="IfOperation">
+          <documentation>
+            <![CDATA[Create]]>
+          </documentation>
+          <condition>$g_Operation = 'Create'</condition>
+          <scope name="ErrorLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <variables>
+              <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+            </variables>
+            <!--<invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+              inputVariable="LogVar" bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>-->
+            <sequence name="Sequence5">
+              <assign name="Assign_Reply">
+                <copy>
+                  <from>'Error'</from>
+                  <to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+                </copy>
+                <copy>
+                  <from>'SUCCESS'</from>
+                  <to>$Create_QR_Output_Var.payload/ns2:HeaderRs/ns2:Status/ns2:Status</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq</from>
+                  <to>$Create_QR_Output_Var.payload/ns2:HeaderRs/ns2:RequestDetails</to>
+                </copy>
+                <copy>
+                  <from>ora:getFaultAsString()</from>
+                  <to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+                </copy>
+              </assign>
+              <reply name="replyOutput" partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+                     operation="Create" variable="Create_QR_Output_Var"/>
+              <assign name="AssignLogVar">
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$LogVar.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:Source</from>
+                  <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:Target</from>
+                  <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$LogVar.CommonLogging/ns5:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="InvokeErrorLog" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                      inputVariable="LogVar" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <elseif>
+            <documentation>
+              <![CDATA[QueryByBolNo]]>
+            </documentation>
+            <condition>$g_Operation = 'QueryByBolNo'</condition>
+            <scope name="Scope2">
+              <variables>
+                <variable name="Invoke_ErrorLog_process_InputVariable" messageType="ns5:CommonLoggingRequestMessage"/>
+              </variables>
+              <sequence name="Sequence9">
+                <assign name="Assign_Response">
+                  <copy>
+                    <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq</from>
+                    <to>$QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns2:HeaderRs/ns2:RequestDetails</to>
+                  </copy>
+                  <copy>
+                    <from>'ERROR'</from>
+                    <to>$QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns2:HeaderRs/ns2:Status/ns2:Status</to>
+                  </copy>
+                  <copy>
+                    <from>'E'</from>
+                    <to>$QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns1:OperationResult/ns11:Stats</to>
+                  </copy>
+                  <copy>
+                    <from>ora:getFaultAsString()</from>
+                    <to>$QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns1:OperationResult/ns11:Errors/ns11:OperationResultError</to>
+                  </copy>
+                </assign>
+                <reply name="Reply_QueryByBolNoCatchAll" variable="QueryByBolNo_OutputVariable"
+                       partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+                       operation="QueryByBolNo"/>
+                <assign name="Assign_CommonLogging">
+                  <copy>
+                    <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:TransactionId</to>
+                  </copy>
+                  <copy>
+                    <from>'NextGen'</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:ProjectName</to>
+                  </copy>
+                  <copy>
+                    <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:ComponentID</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:ComponentId</to>
+                  </copy>
+                  <copy>
+                    <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:TransactionName</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:TransactionName</to>
+                  </copy>
+                  <copy>
+                    <from>ora:getCompositeName()</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:ProcessName</to>
+                  </copy>
+                  <copy>
+                    <from>1</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:LoggingSystem</to>
+                  </copy>
+                  <copy>
+                    <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:Source</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:SourceSystem</to>
+                  </copy>
+                  <copy>
+                    <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:Target</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:TargetSystem</to>
+                  </copy>
+                  <copy>
+                    <from>4</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:LogType</to>
+                  </copy>
+                  <copy>
+                    <from>concat('FlowId:',ora:getFlowId(),':',$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns3:GmdResultsPub/ns3:GmdResultPub/ns3:BolNo,'::',ora:getFaultAsString())</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+                  </copy>
+                  <copy>
+                    <from>'SOA'</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:CreatedBy</to>
+                  </copy>
+                  <copy>
+                    <from>'SOA'</from>
+                    <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns5:UpdatedBy</to>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_ErrorLog" partnerLink="CommonLogging"
+                        portType="ns5:CommonLogging" operation="process"
+                        inputVariable="Invoke_ErrorLog_process_InputVariable" bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+          </elseif>
+          <elseif>
+            <documentation>
+              <![CDATA[Upser]]>
+            </documentation>
+            <condition>$g_Operation = 'Upsert'</condition><scope name="UpsertErrorLog"
+                                                                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <variables>
+         <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+      </variables>
+      <!--<invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+              inputVariable="LogVar" bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>-->
+      
+   <sequence name="UpdateSequence" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                <assign name="Assign_Reply">
+                  <copy>
+                    <from>'Error'</from>
+                    <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+                  </copy>
+                  <copy>
+                    <from>'SUCCESS'</from>
+                    <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns2:HeaderRs/ns2:Status/ns2:Status</to>
+                  </copy>
+                  <copy>
+                    <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq</from>
+                    <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns2:HeaderRs/ns2:RequestDetails</to>
+                  </copy>
+                  <copy>
+                    <from>ora:getFaultAsString()</from>
+                    <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+                  </copy>
+                </assign>
+                <reply name="replyOutput" partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+                       operation="upsertSample" variable="Upsert_QR_Output_Var"/>
+                <assign name="AssignLogVar">
+                  <copy>
+                    <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:ComponentID</from>
+                    <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+                  </copy>
+                  <copy>
+                    <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:TransactionName</from>
+                    <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+                  </copy>
+                  <copy>
+                    <from>'NextGen'</from>
+                    <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+                  </copy>
+                  <copy>
+                    <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                    <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+                  </copy>
+                  <copy>
+                    <from>ora:getCompositeName()</from>
+                    <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+                  </copy>
+                  <copy>
+                    <from>1</from>
+                    <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+                  </copy>
+                  <copy>
+                    <from>4</from>
+                    <to>$LogVar.CommonLogging/ns5:LogType</to>
+                  </copy>
+                  <copy>
+                    <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:Source</from>
+                    <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+                  </copy>
+                  <copy>
+                    <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:Target</from>
+                    <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+                  </copy>
+                  <copy>
+                    <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                    <to>$LogVar.CommonLogging/ns5:MessageDescription</to>
+                  </copy>
+                  <copy>
+                    <from>'SOA'</from>
+                    <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+                  </copy>
+                  <copy>
+                    <from>'SOA'</from>
+                    <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+                  </copy>
+                </assign>
+                <invoke name="InvokeErrorLog" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                        operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no"
+                        xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence></scope></elseif>
+          <else>
+            <documentation>
+              <![CDATA[NoOperation]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in QualityResults.wsdl) -->
+    <!--<receive name="receiveInput" partnerLink="qualityresults_client" portType="client:QualityResults" operation="process" variable="Create_QR_Input_Var" createInstance="yes"/>-->
+    <pick name="Pick_QualityResults" createInstance="yes">
+      <onMessage variable="Create_QR_Input_Var" partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+                 operation="Create">
+        <sequence name="Main">
+          <scope name="StartLog">
+            <variables>
+              <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+          
+            <!--<invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                    operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no"/>-->
+            <sequence name="Sequence4">
+              <assign name="AssignLogVar">
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:Source</from>
+                  <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:Target</from>
+                  <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$LogVar.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="InvokeStartLog" partnerLink="CommonLogging"
+                      portType="ns5:CommonLogging" operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                    </invoke>
+            </sequence>
+          </scope>
+          <assign name="AssignCountGMDResultSets">
+            <copy>
+              <from>count($Create_QR_Input_Var.payload/ns3:GmdResultsPub/ns3:GmdResultPub)</from>
+              <to>$countGMDResultSets</to>
+            </copy>
+            <copy>
+              <from>$Create_QR_Input_Var.payload</from>
+              <to>$GMDResultSet.payload</to>
+            </copy>
+            <copy>
+              <from>'Create'</from>
+              <to>$g_Operation</to>
+            </copy>
+          </assign><assign name="AssignCounter" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>1</from>
+              <to>$counter</to>
+            </copy>
+          </assign><scope name="Scope1">
+            <variables>
+              <variable name="params" element="ns8:parameters"/>
+              <variable name="LotNum" type="xsd:string"/>
+              <variable name="tempOutputVar" messageType="client:QualityResultsResponseMessage"/>
+            </variables>
+            <while name="WhileGMDResults">
+              <condition>$counter &lt;=$countGMDResultSets</condition>
+              <sequence name="Sequence6">
+                <if name="If_Check_For_Lot">
+                  <documentation>
+                    <![CDATA[LotNumberPreset]]>
+                  </documentation>
+                  <condition>$GMDResultSet.payload/ns3:GmdResultsPub/ns3:GmdResultPub[$counter]/ns3:LotNo and ($GMDResultSet.payload/ns3:GmdResultsPub/ns3:GmdResultPub[$counter]/ns3:LotNo !='')</condition>
+                  <sequence>
+                    <assign name="AssignParams">
+                      <copy>
+                        <from>$GMDResultSet.payload/ns3:GmdResultsPub/ns3:GmdResultPub[$counter]/ns3:LotNo</from>
+                        <to>$params/ns8:item/ns8:value</to>
+                      </copy>
+                      <copy>
+                        <from>'countGMD'</from>
+                        <to>$params/ns8:item/ns8:name</to>
+                      </copy>
+                      <copy>
+                        <from>'NA'</from>
+                        <to>$params/ns8:item/ns8:msg</to>
+                      </copy>
+                    </assign>
+                    <assign name="GetSingleGMDNode">
+                      <bpelx:annotation>
+                        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                      </bpelx:annotation>
+                      <copy>
+                        <from>ora:doXSLTransformForDoc("../Transformations/GetSingleGMDNode.xsl", $GMDResultSet.payload, "params", $params)</from>
+                        <to variable="Create_QR_Input_Var" part="payload"/>
+                      </copy>
+                    </assign>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[LotNumberNotPresent]]>
+                    </documentation>
+                    <empty name="WithoutLotNumber"/>
+                  </else>
+                </if>
+               <!-- <assign name="AssignGMDNodes">
+                  <copy>
+                    <from>$Create_QR_Input_Var.payload[ns3:GmdResultsPub/ns3:GmdResultPub/ns3:LotNo = $LotNum]</from>
+                    <to>$Create_QR_Input_Var.payload</to>
+                  </copy>
+                </assign>-->
+                <assign name="XfromQrCDM_EBSXXNUCGMDTSTRSLT">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("../Transformations/XfromQrCDM_EBSXXNUCGMDTSTRSLT.xsl", $Create_QR_Input_Var.payload)</from>
+                    <to variable="InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable" part="InputParameters"/>
+                  </copy>
+                </assign>
+                <assign name="AssignResponsiblity">
+                  <copy>
+                    <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm','DIVISION',$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:MillName,'EBS_USER_NAME','SOAUSER')</from>
+                    <to>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable.InputParameters/ns7:P_APPS_INIT/ns7:USER_NAME</to>
+                  </copy>
+                  <copy>
+                    <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:MillName,'EBS_RESP_NAME','NSNE PO Superusers','EBS_FUNCTION_AREA','Quality')</from>
+                    <to>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable.InputParameters/ns7:P_APPS_INIT/ns7:RESPONSIBILITY_NAME</to>
+                  </copy>
+                  <copy>
+                    <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:MillName,'EBS_ORG_ID','80','EBS_FUNCTION_AREA','Quality')</from>
+                    <to>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable.InputParameters/ns7:P_APPS_INIT/ns7:ORG_ID</to>
+                  </copy>
+                </assign>
+                <invoke name="InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG" partnerLink="EBS_Call_XNUC_GMD_TSTRSLT_PKG"
+                        portType="ns4:EBS_Call_XNUC_GMD_TSTRSLT_PKG_ptt" operation="EBS_Call_XNUC_GMD_TSTRSLT_PKG"
+                        inputVariable="InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable"
+                        outputVariable="InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_EBS_OutputVariable"
+                        bpelx:invokeAsDetail="no"/>
+                <if name="If_Check_Counter">
+                  <documentation>
+                    <![CDATA[Counter =1]]>
+                  </documentation>
+                  <condition>$counter = 1</condition>
+                  <sequence>
+                    <assign name="Assign_Output">
+                      <copy>
+                        <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_EBS_OutputVariable.OutputParameters/ns7:P_O_STATUS</from>
+                        <to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+                      </copy>
+                      <copy>
+                        <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_EBS_OutputVariable.OutputParameters/ns7:P_O_MSG</from>
+                        <to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+                      </copy>
+                    </assign>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[Counter > 1]]>
+                    </documentation>
+                    <sequence>
+                      <assign name="AssignTempVar">
+                        <copy>
+                          <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_EBS_OutputVariable.OutputParameters/ns7:P_O_STATUS</from>
+                          <to>$tempOutputVar.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+                        </copy>
+                        <copy>
+                          <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_EBS_OutputVariable.OutputParameters/ns7:P_O_MSG</from>
+                          <to>$tempOutputVar.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+                        </copy>
+                      </assign>
+                      <assign name="AssignOutputVar">
+                        <extensionAssignOperation>
+                          <bpelx:append>
+                            <bpelx:from>$tempOutputVar.payload/ns3:QualityResultResponse/ns3:QualityResultResponse</bpelx:from>
+                            <bpelx:to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse</bpelx:to>
+                          </bpelx:append>
+                        </extensionAssignOperation>
+                      </assign>
+                    </sequence>
+                  </else>
+                </if>
+                <assign name="Assign_inc_counter">
+                  <copy>
+                    <from>$counter+1</from>
+                    <to>$counter</to>
+                  </copy>
+                </assign>
+              </sequence>
+            </while>
+          </scope>
+          <if name="If1">
+            <documentation>
+              <![CDATA[OutputIsEmpty]]>
+            </documentation>
+            <condition>count($Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status) =0</condition>
+            <assign name="Assign_Output_NoDataFound">
+              <copy>
+                <from>'E'</from>
+                <to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+              </copy>
+              <copy>
+                <from>'No Data Found from EBizQualityResults Call'</from>
+                <to>$Create_QR_Output_Var.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+              </copy>
+            </assign>
+          </if>
+          <reply name="replyOutput" partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+                 operation="Create" variable="Create_QR_Output_Var"/>
+          <scope name="EndLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <variables>
+              <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <!--<invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+              inputVariable="LogVar" bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>-->
+            <sequence name="Sequence3">
+              <assign name="AssignLogVar">
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:Source</from>
+                  <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$Create_QR_Input_Var.payload/ns2:HeaderRq/ns2:Target</from>
+                  <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$LogVar.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                      inputVariable="LogVar" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </onMessage>
+      <onMessage bpelx:name="QueryByBolNo" variable="QueryByBolNo_InputVariable" partnerLink="qualityresults_client_ep"
+                 portType="client:QualityResults" operation="QueryByBolNo">
+        <sequence name="Sequence8">
+          <scope name="Scope_StartLog">
+            <variables>
+              <variable name="Invoke_CommonLogging_process_InputVariable"
+                        messageType="ns5:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="Do_Nothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence10">
+              <assign name="Assign_StartLogging">
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:Source</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:Target</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                      portType="ns5:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Assign_BolNo">
+            <copy>
+              <from>'QueryByBolNo'</from>
+              <to>$g_Operation</to>
+            </copy>
+            <copy>
+              <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns3:GmdResultsPub/ns3:GmdResultPub/ns3:BolNo</from>
+              <to>$Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_InputVariable.InputParameters/ns10:P_BOL</to>
+            </copy>
+            <copy>
+              <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns3:GmdResultsPub/ns3:GmdResultPub/ns3:BolNo</from>
+              <to>$QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns3:GmdResultsPub/ns3:GmdResultPub/ns3:BolNo</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG"
+                  partnerLink="DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG"
+                  portType="ns9:DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_ptt" operation="DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG"
+                  inputVariable="Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_InputVariable"
+                  outputVariable="Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_OutputVariable" bpelx:invokeAsDetail="no"/>
+          <assign name="Xform_DbQueryByBolOutput_To_QueryByBolOutput">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/Xform_DbQueryByBolOutput_To_QueryByBolOutput.xsl", $QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage, "Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_OutputVariable.OutputParameters", $Invoke_DB_Call_XXNUC_WSH_BOL_GMD_RSLT_PKG_OutputVariable.OutputParameters)</from>
+              <to variable="QueryByBolNo_OutputVariable" part="QueryQAResultsByBolNoResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Reply_QueryByBolNo" variable="QueryByBolNo_OutputVariable"
+                 partnerLink="qualityresults_client_ep" portType="client:QualityResults" operation="QueryByBolNo"/>
+          <scope name="Scope_EndLog">
+            <variables>
+              <variable name="Invoke_CommonLogging_process_InputVariable"
+                        messageType="ns5:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence11">
+              <assign name="Assign_EndLogging">
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:Source</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns2:HeaderRq/ns2:Target</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns5:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_process_InputVariable">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </onMessage>
+      <onMessage variable="Upsert_QR_Input_Var" partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+                 operation="upsertSample"><sequence name="Main"
+                                                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <scope name="UpsertStartLog">
+         <variables>
+            <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+         </variables>
+         <faultHandlers>
+            <catchAll>
+               <empty name="DoNothing"/>
+            </catchAll>
+         </faultHandlers>
+         <!--<invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                    operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no"/>-->
+         <sequence name="Sequence4">
+            <assign name="AssignLogVar">
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+            <copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+                </copy><copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+               </copy><copy>
+                  <from>'NextGen'</from>
+                  <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+               </copy><copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+               </copy><copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+               </copy><copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+               </copy><copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:Source</from>
+                  <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+               </copy><copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:Target</from>
+                  <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+               </copy><copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LogType</to>
+               </copy><copy>
+                  <from>'BMG-003'</from>
+                  <to>$LogVar.CommonLogging/ns5:MessageCode</to>
+               </copy><copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+               </copy><copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+               </copy><copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+               </copy></assign>
+            <invoke name="InvokeStartLog" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                    inputVariable="LogVar" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+               <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </scope>
+      <assign name="AssignCountGMDResultSets">
+         
+         
+         
+      <copy>
+            <from>count($Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns3:GmdResultsPub/ns3:GmdResultPub)</from>
+            <to>$countGMDResultSets</to>
+         </copy><copy>
+            <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest</from>
+            <to>$GMDResultSet.payload</to>
+         </copy><copy>
+            <from>'Upsert'</from>
+            <to>$g_Operation</to>
+         </copy></assign>
+      <assign name="AssignCounter" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+         <copy>
+            <from>1</from>
+            <to>$counter</to>
+         </copy>
+      </assign>
+      <scope name="UpsertScope">
+         <variables>
+            <variable name="params" element="ns8:parameters"/>
+            <variable name="LotNum" type="xsd:string"/>
+            <variable name="tempOutputVar" messageType="client:QualityResultsResponseMessage"/>
+         </variables>
+         <while name="WhileGMDResults">
+            <condition>$counter &lt;=$countGMDResultSets</condition>
+            <sequence name="Sequence6">
+               <if name="If_Check_For_Lot">
+                  <documentation>
+                     <![CDATA[LotNumberPreset]]>
+                  </documentation>
+                  <condition>$GMDResultSet.payload/ns3:GmdResultsPub/ns3:GmdResultPub[$counter]/ns3:LotNo and ($GMDResultSet.payload/ns3:GmdResultsPub/ns3:GmdResultPub[$counter]/ns3:LotNo !='')</condition>
+                  <sequence>
+                     <assign name="AssignParams">
+                        <copy>
+                           <from>$GMDResultSet.payload/ns3:GmdResultsPub/ns3:GmdResultPub[$counter]/ns3:LotNo</from>
+                           <to>$params/ns8:item/ns8:value</to>
+                        </copy>
+                        <copy>
+                           <from>'countGMD'</from>
+                           <to>$params/ns8:item/ns8:name</to>
+                        </copy>
+                        <copy>
+                           <from>'NA'</from>
+                           <to>$params/ns8:item/ns8:msg</to>
+                        </copy>
+                     </assign>
+                     <assign name="GetSingleGMDNode">
+                        <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                           <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                           <from>ora:doXSLTransformForDoc("../Transformations/GetSingleGMDNodeUpsert.xsl", $GMDResultSet.payload,"params", $params)</from>
+                           <to variable="Upsert_QR_Input_Var" part="QualityResultsUpdateRequest"/>
+                        </copy>
+                     </assign>
+                  </sequence>
+                  <else>
+                     <documentation>
+                        <![CDATA[LotNumberNotPresent]]>
+                     </documentation>
+                     <empty name="WithoutLotNumber"/>
+                  </else>
+               </if>
+               <!-- <assign name="AssignGMDNodes">
+                  <copy>
+                    <from>$Create_QR_Input_Var.payload[ns3:GmdResultsPub/ns3:GmdResultPub/ns3:LotNo = $LotNum]</from>
+                    <to>$Create_QR_Input_Var.payload</to>
+                  </copy>
+                </assign>-->
+               <assign name="XfromQrCDM_EBSXXNUCGMDTSTRSLTUPSERT">
+                  <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                     <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                     <from>ora:doXSLTransformForDoc("../Transformations/XfromQrCDM_EBSXXNUCGMDTSTRSLT_UPSERT.xsl", $Upsert_QR_Input_Var.QualityResultsUpdateRequest)</from>
+                     <to variable="InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_InputVariable" part="InputParameters"/>
+                  </copy>
+               </assign>
+               <assign name="AssignResponsiblity">
+                  
+                  
+                  
+               <copy>
+                     <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm','DIVISION',$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:MillName,'EBS_USER_NAME','SOAUSER')</from>
+                     <to>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable.InputParameters/ns7:P_APPS_INIT/ns7:USER_NAME</to>
+                  </copy><copy>
+                     <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:MillName,'EBS_RESP_NAME','NSNE PO Superusers','EBS_FUNCTION_AREA','Quality')</from>
+                     <to>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable.InputParameters/ns7:P_APPS_INIT/ns7:RESPONSIBILITY_NAME</to>
+                  </copy><copy>
+                     <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:MillName,'EBS_ORG_ID','80','EBS_FUNCTION_AREA','Quality')</from>
+                     <to>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_PKG_InputVariable.InputParameters/ns7:P_APPS_INIT/ns7:ORG_ID</to>
+                  </copy></assign>
+               <invoke name="InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG"
+                       partnerLink="EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG"
+                       portType="ns12:EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_ptt"
+                       operation="EBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG"
+                       inputVariable="InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_InputVariable"
+                       outputVariable="InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_OutputVariable"
+                       xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no"/>
+               <if name="If_Check_Counter">
+                  <documentation>
+                     <![CDATA[Counter =1]]>
+                  </documentation>
+                  <condition>$counter = 1</condition>
+                  <assign name="Assign_Output">
+                    <copy>
+                      <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_OutputVariable.OutputParameters/ns13:P_O_PROCESS_FLAG</from>
+                      <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+                    </copy>
+                    <copy>
+                      <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_OutputVariable.OutputParameters/ns13:P_O_ERR_MSG</from>
+                      <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+                    </copy>
+                  </assign>
+                  <else>
+                     <documentation>
+                        <![CDATA[Counter > 1]]>
+                     </documentation>
+                     <sequence>
+                      <assign name="AssignTempVar">
+                        <copy>
+                          <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_OutputVariable.OutputParameters/ns13:P_O_PROCESS_FLAG</from>
+                          <to>$tempOutputVar.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+                        </copy>
+                        <copy>
+                          <from>$InvokeEBS_Call_XNUC_GMD_TSTRSLT_UPSERT_PKG_OutputVariable.OutputParameters/ns13:P_O_ERR_MSG</from>
+                          <to>$tempOutputVar.payload/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+                        </copy>
+                      </assign>
+                      <assign name="AssignOutputVar">
+                        <extensionAssignOperation>
+                          <bpelx:append xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                            <bpelx:from>$tempOutputVar.payload/ns3:QualityResultResponse/ns3:QualityResultResponse</bpelx:from>
+                            <bpelx:to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse</bpelx:to>
+                          </bpelx:append>
+                        </extensionAssignOperation>
+                      </assign>
+                     </sequence>
+                  </else>
+               </if>
+               <assign name="Assign_inc_counter">
+                  <copy>
+                     <from>$counter+1</from>
+                     <to>$counter</to>
+                  </copy>
+               </assign>
+            </sequence>
+         </while>
+      </scope>
+      <if name="If1">
+         <documentation>
+              <![CDATA[OutputIsEmpty]]>
+            </documentation>
+         <condition>count($Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status) =0</condition>
+         <assign name="Assign_Output_NoDataFound">
+              <copy>
+                <from>'E'</from>
+                <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:Status</to>
+              </copy>
+              <copy>
+                <from>'No Data Found from EBizQualityResults Call'</from>
+                <to>$Upsert_QR_Output_Var.QualityResultsUpdateResponse/ns3:QualityResultResponse/ns3:QualityResultResponse/ns3:ErrorMsg</to>
+              </copy>
+            </assign>
+      </if>
+      <reply name="replyOutput" partnerLink="qualityresults_client_ep" portType="client:QualityResults"
+             operation="upsertSample" variable="Upsert_QR_Output_Var"/>
+      <scope name="UpsertEndLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+         <variables>
+            <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+         </variables>
+         <faultHandlers>
+            <catchAll>
+               <empty name="DoNothing"/>
+            </catchAll>
+         </faultHandlers>
+         <!--<invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+              inputVariable="LogVar" bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>-->
+         <sequence name="Sequence3">
+            <assign name="AssignLogVar">
+                <copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:ComponentID</from>
+                  <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:TransactionName</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:TransactionIDREF</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:LogType</to>
+                </copy>
+                <copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:Source</from>
+                  <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$Upsert_QR_Input_Var.QualityResultsUpdateRequest/ns2:HeaderRq/ns2:Target</from>
+                  <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$LogVar.CommonLogging/ns5:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+                </copy>
+              </assign>
+            <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+                    inputVariable="LogVar" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+               <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </scope>
+   </sequence></onMessage>
+    </pick>
+    <!-- Generate reply to synchronous request --></sequence>
+</process>

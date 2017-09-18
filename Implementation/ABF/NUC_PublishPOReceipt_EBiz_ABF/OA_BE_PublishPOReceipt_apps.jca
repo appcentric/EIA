@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_BE_PublishPOReceipt" adapter="apps" wsdlLocation="OA_BE_PublishPOReceipt.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBSDEVP" UIOracleAppType="WFBES" UIWfEventName="xxnuc.oracle.apps.po.rcv.rcvtxn" adapterRef=""/>
+  <endpoint-activation portType="DEQUEUE_ptt" operation="DEQUEUE">
+    <activation-spec className="oracle.tip.adapter.apps.AppsWFBesQueueDequeueActivationSpec">
+      <property name="QueueName" value="WF_BPEL_Q"/>
+      <property name="DatabaseSchema" value="APPS"/>
+      <property name="Consumer" value="ORA_612kacq260pj8ga68gs30e9p61"/>
+      <property name="MessageSelectorRule" value="tab.user_data.event_name = 'xxnuc.oracle.apps.po.rcv.rcvtxn' AND tab.user_data.getvalueforparameter('GROUP') IS NULL"/>
+      <property name="AppsEventSchema" value="NO_SCHEMA"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

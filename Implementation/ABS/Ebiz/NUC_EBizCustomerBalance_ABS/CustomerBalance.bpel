@@ -1,0 +1,372 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jun 17 16:44:25 CDT 2013
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CustomerBalance"
+               targetNamespace="http://xmlns.eia.com/ABS/Ebiz/NUC_EBizCustomerBalance_ABS/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/Ebiz/NUC_EBizCustomerBalance_ABS/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/O2C/CustomerBalanceABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/O2C/CustomerAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.eia.com/AO/EBiz/O2C/CustomerBalanceAM/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/O2C/CustomerBalanceAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerBalanceSummary"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerByOrigRef"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerAging"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerTransactions">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/O2C/CustomerBalanceABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/O2C/CustomerBalanceABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0"
+          location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="CustomerBalanceABS"
+                 partnerLinkType="ns1:CustomerBalanceABS"
+                 myRole="SyncPortType"/>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcess"
+                 partnerLinkType="ns7:EIAAsyncErrorHandlingBPELProcess"
+                 partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="DB_QueryCustomerBalanceSummary"
+                 partnerLinkType="ns8:DB_QueryCustomerBalanceSummary_plt"
+                 partnerRole="DB_QueryCustomerBalanceSummary_role"/>
+    <partnerLink name="DB_QueryCustomerByOrigRef" partnerLinkType="ns9:DB_QueryCustomerByOrigRef_plt" partnerRole="DB_QueryCustomerByOrigRef_role"/>
+    <partnerLink name="DB_QueryCustomerAging"
+                 partnerLinkType="ns10:DB_QueryCustomerAging_plt"
+                 partnerRole="DB_QueryCustomerAging_role"/>
+    <partnerLink name="DB_QueryCustomerTransactions"
+                 partnerLinkType="ns11:DB_QueryCustomerTransactions_plt"
+                 partnerRole="DB_QueryCustomerTransactions_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="QueryListOfCustomersBalance_SyncReqMsg"
+              messageType="ns1:queryListOfCustomersBalanceRequestMessageType"/>
+    <variable name="QueryListOfCustomersBalance_SyncRespMsg"
+              messageType="ns1:queryListOfCustomersBalanceResponseMessageType"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns2:ProcessHeader"/>
+    <variable name="EIAFaultMsg" messageType="ns1:EIAFaultMsgType"/>
+    <variable name="gbl_operation" type="xsd:string"/>
+    <variable name="gbl_title" type="xsd:string"/>
+    <variable name="DB_QueryCustomerBalanceSummary_ReqMsg"
+              messageType="ns8:HzCustAccountsAll_msg"/>
+    
+    <variable name="DB_QueryCustomerBalanceSummary_RespMsg"
+              messageType="ns8:HzCustAccountsAllCollection_msg"/>
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg"
+              messageType="ns7:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="DB_QueryBySystemOrigRef_ReqMsg" messageType="ns9:XxnucCustOrigSysRefsV_msg"/>
+    <variable name="DB_QueryBySystemOrigRef_RespMsg" messageType="ns9:XxnucCustOrigSysRefsVCollection_msg"/>
+    <variable name="QueryCustomerAging_ReqMsg"
+              messageType="ns10:DB_QueryCustomerAgingInput_msg"/>
+    <variable name="QueryCustomerAging_RespMsg"
+              messageType="ns10:DB_QueryCustomerAgingOutputCollection_msg"/>
+    <variable name="QueryCustomerTransactions_ReqMsg"
+              messageType="ns11:DB_QueryCustomerTransactionsInput_msg"/>
+    <variable name="QueryCustomerTransactions_RespMsg"
+              messageType="ns11:DB_QueryCustomerTransactionsOutputCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"
+           faultMessageType="ns1:EIAFaultMsgType">
+      <sequence name="Sequence2">
+        <assign name="Xform_EIAFaultMsg_EIAAysncErrorHandlingBPELProcessReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/Xform_EIAFaultMsg_EIAAysncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                part="FaultMessage"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcessRequestMessage"
+                partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                portType="ns7:EIAAsyncErrorHandlingBPELProcess"
+                operation="processFault"
+                inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <reply name="Reply_QueryListOfCustomersBalance_Sync"
+               variable="QueryListOfCustomersBalance_SyncRespMsg"
+               partnerLink="CustomerBalanceABS" portType="ns1:SyncPortType"
+               operation="QueryListOfCustomersBalance_Sync"/>
+        <rethrow name="Rethrow"/>
+      </sequence>
+    </catch>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick_Operation" createInstance="yes">
+      <onMessage variable="QueryListOfCustomersBalance_SyncReqMsg"
+                 partnerLink="CustomerBalanceABS" portType="ns1:SyncPortType"
+                 operation="QueryListOfCustomersBalance_Sync"><sequence name="Sequence1">
+         <assign name="setEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+          </assign><if name="ValidateParameters"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <documentation>
+              <![CDATA[CustomerNameorNumber]]>
+            </documentation>
+      <condition>($QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:CustomerInfo/ns6:CustomerNumber/text() != "" or $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:CustomerInfo/ns6:CustomerName/text() != "" )</condition>
+            <sequence>
+              <assign name="Xform_ListOfCustomerBalanceReqMsg_DBQueryCustomerBalanceReqMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_ListOfCustomerBalanceReqMsg_DBQueryCustomerBalanceReqMsg.xsl", $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage)</from>
+                  <to variable="DB_QueryCustomerBalanceSummary_ReqMsg"
+                      part="HzCustAccountsAll"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DB_QueryCustomerBalanceSummary"
+                      partnerLink="DB_QueryCustomerBalanceSummary"
+                      portType="ns8:DB_QueryCustomerBalanceSummary_ptt"
+                      operation="queryByExample"
+                      inputVariable="DB_QueryCustomerBalanceSummary_ReqMsg"
+                      bpelx:invokeAsDetail="no"
+                      outputVariable="DB_QueryCustomerBalanceSummary_RespMsg"/>
+              <if name="If_show_aging">
+                <documentation>
+                  <![CDATA[Aging]]>
+                </documentation>
+                <condition>$QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:AgingParams/ns5:ShowAging ='Y'</condition>
+                <sequence>
+                  <assign name="setDBQueryCustomerAging">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"/>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("xsl/setDBQueryCustomerAging.xsl", $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage, "DB_QueryCustomerBalanceSummary_RespMsg.HzCustAccountsAllCollection", $DB_QueryCustomerBalanceSummary_RespMsg.HzCustAccountsAllCollection)</from>
+                      <to variable="QueryCustomerAging_ReqMsg"
+                          part="DB_QueryCustomerAgingInput_msg"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_DB_QueryCustomerAging"
+                          partnerLink="DB_QueryCustomerAging"
+                          portType="ns10:DB_QueryCustomerAging_ptt"
+                          operation="DB_QueryCustomerAging"
+                          inputVariable="QueryCustomerAging_ReqMsg"
+                          bpelx:invokeAsDetail="no"
+                          outputVariable="QueryCustomerAging_RespMsg"/>
+                </sequence>
+      
+              </if>
+              <if name="If_show_transactions">
+                <documentation>
+                  <![CDATA[Transactions]]>
+                </documentation>
+                <condition>$QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:TransactionParams/ns5:ShowTransactions='Y'</condition>
+                <sequence>
+                  <assign name="setDBQueryCustomerTransaction">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"/>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("xsl/setDBQueryCustomerTransaction.xsl", $DB_QueryCustomerBalanceSummary_RespMsg.HzCustAccountsAllCollection, "QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage", $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage)</from>
+                      <to variable="QueryCustomerTransactions_ReqMsg"
+                          part="DB_QueryCustomerTransactionsInput_msg"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_DB_QueryCustomerTransactions"
+                          partnerLink="DB_QueryCustomerTransactions"
+                          portType="ns11:DB_QueryCustomerTransactions_ptt"
+                          operation="DB_QueryCustomerTransactions"
+                          inputVariable="QueryCustomerTransactions_ReqMsg"
+                          bpelx:invokeAsDetail="no"
+                          outputVariable="QueryCustomerTransactions_RespMsg"/>
+                </sequence>
+  
+              </if>
+              <assign name="Xform_DBQueryCustomerBalanceSummary_QueryCustBalanceRespMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_DBQueryCustomerBalanceSummary_QueryCustBalanceRespMsg.xsl", $DB_QueryCustomerBalanceSummary_RespMsg.HzCustAccountsAllCollection, "QueryCustomerAging_RespMsg.DB_QueryCustomerAgingOutputCollection", $QueryCustomerAging_RespMsg.DB_QueryCustomerAgingOutputCollection, "QueryCustomerTransactions_RespMsg.DB_QueryCustomerTransactionsOutputCollection", $QueryCustomerTransactions_RespMsg.DB_QueryCustomerTransactionsOutputCollection)</from>
+                  <to variable="QueryListOfCustomersBalance_SyncRespMsg"
+                      part="queryListOfCustomersBalanceResponseMessage"/>
+                </copy>
+              </assign>
+            </sequence>
+            <elseif>
+              <documentation>
+                <![CDATA[QueryByOrigSystemRef]]>
+              </documentation>
+              <condition>($QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:CustomerInfo/ns6:OrigSystemReference/text() != ''  and $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:CustomerInfo/ns6:OrigSystem/text() !='')</condition>
+              <sequence name="Sequence3">
+                <assign name="Xform_QueryCustomerBal_SyncReqMsg_To_DB_QueryCustomerBySysOrigRef">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"/>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_QueryCustomer_SyncReqMsg_To_DB_QueryCustomerBySysOrigRef.xsl", $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage)</from>
+                    <to variable="DB_QueryBySystemOrigRef_ReqMsg" part="XxnucCustOrigSysRefsV"/>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_DB_QueryBySystemOrigRef" bpelx:invokeAsDetail="no" partnerLink="DB_QueryCustomerByOrigRef" portType="ns9:DB_QueryCustomerByOrigRef_ptt" operation="queryByExample"
+                        inputVariable="DB_QueryBySystemOrigRef_ReqMsg" outputVariable="DB_QueryBySystemOrigRef_RespMsg"/>
+                <if name="If_show_aging">
+                  <documentation>
+                    <![CDATA[Aging]]>
+                  </documentation>
+                  <condition>$QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:AgingParams/ns5:ShowAging='Y'</condition>
+                  <sequence>
+                    <assign name="setDBQueryCustomerAging"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                        <bpelx:pattern patternName="bpelx:transformation"/>
+                      </bpelx:annotation>
+                      <copy>
+                        <from>ora:doXSLTransformForDoc("xsl/setDBQueryCustomerAging_OSR.xsl", $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage, "DB_QueryBySystemOrigRef_RespMsg.XxnucCustOrigSysRefsVCollection", $DB_QueryBySystemOrigRef_RespMsg.XxnucCustOrigSysRefsVCollection)</from>
+                        <to variable="QueryCustomerAging_ReqMsg"
+                            part="DB_QueryCustomerAgingInput_msg"/>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_DB_QueryCustomerAging"
+                            partnerLink="DB_QueryCustomerAging"
+                            portType="ns10:DB_QueryCustomerAging_ptt"
+                            operation="DB_QueryCustomerAging"
+                            inputVariable="QueryCustomerAging_ReqMsg"
+                            bpelx:invokeAsDetail="no"
+                            outputVariable="QueryCustomerAging_RespMsg"
+                            xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                  </sequence>
+                </if>
+                <if name="If_show_transactions">
+                  <documentation>
+                    <![CDATA[Transactions]]>
+                  </documentation>
+                  <condition>$QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage/ns3:TransactionParams/ns5:ShowTransactions='Y'</condition>
+                  <sequence>
+                    <assign name="setDBQueryCustomerTransaction"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                        <bpelx:pattern patternName="bpelx:transformation"/>
+                      </bpelx:annotation>
+                      <copy>
+                        <from>ora:doXSLTransformForDoc("xsl/setDBQueryCustomerTransaction_OSR.xsl", $QueryListOfCustomersBalance_SyncReqMsg.queryListOfCustomersBalanceRequestMessage, "DB_QueryBySystemOrigRef_RespMsg.XxnucCustOrigSysRefsVCollection", $DB_QueryBySystemOrigRef_RespMsg.XxnucCustOrigSysRefsVCollection)</from>
+                        <to variable="QueryCustomerTransactions_ReqMsg"
+                            part="DB_QueryCustomerTransactionsInput_msg"/>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_DB_QueryCustomerTransactions"
+                            partnerLink="DB_QueryCustomerTransactions"
+                            portType="ns11:DB_QueryCustomerTransactions_ptt"
+                            operation="DB_QueryCustomerTransactions"
+                            inputVariable="QueryCustomerTransactions_ReqMsg"
+                            bpelx:invokeAsDetail="no"
+                            outputVariable="QueryCustomerTransactions_RespMsg"
+                            xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                  </sequence>
+                </if>
+                <assign name="Xform_DBQueryCustomerBySysOrigRef_Resp_To_QueryByCustomerBal_SynResp">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"/>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_DBQueryCustomerBySysOrigRef_Resp_To_QueryByCustomerBal_SynResp.xsl", $DB_QueryBySystemOrigRef_RespMsg.XxnucCustOrigSysRefsVCollection, "QueryCustomerAging_RespMsg.DB_QueryCustomerAgingOutputCollection", $QueryCustomerAging_RespMsg.DB_QueryCustomerAgingOutputCollection, "QueryCustomerTransactions_RespMsg.DB_QueryCustomerTransactionsOutputCollection", $QueryCustomerTransactions_RespMsg.DB_QueryCustomerTransactionsOutputCollection)</from>
+                    <to variable="QueryListOfCustomersBalance_SyncRespMsg"
+                        part="queryListOfCustomersBalanceResponseMessage"/>
+                  </copy>
+                </assign>
+              </sequence>
+            </elseif>
+            <else>
+              <sequence>
+                <assign name="Xform_EHM_EIAFaultMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"/>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="EIAFaultMsg" part="Fault"/>
+                  </copy>
+                </assign>
+                <assign name="setEIAFaultMsg">
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Text</to>
+                  </copy>
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Stack</to>
+                  </copy>
+                  <copy>
+                    <from>"1.0"</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Severity</to>
+                  </copy>
+                  <copy>
+                    <from>"INVALID_QUERY_PARAMS"</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Code</to>
+                  </copy>
+                </assign>
+                <throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault"
+                       faultVariable="EIAFaultMsg"/>
+              </sequence>
+            </else>
+   </if>
+          <reply name="Reply_QueryListOfCustomersBalance_Sync"
+                   variable="QueryListOfCustomersBalance_SyncRespMsg"
+                   partnerLink="CustomerBalanceABS" portType="ns1:SyncPortType"
+                   operation="QueryListOfCustomersBalance_Sync"/></sequence></onMessage>
+    </pick>
+  </sequence>
+</process>

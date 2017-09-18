@@ -1,0 +1,85 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Mar 13 22:52:04 CDT 2017
+  Author:  brianlowe
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELUtility_LoadDB"
+               targetNamespace="http://xmlns.oracle.com/SMG_SOA_PS/UtilityXREF_LoadDB/BPELUtility_LoadDB"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SMG_SOA_PS/UtilityXREF_LoadDB/BPELUtility_LoadDB"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/SMG_SOA_PS/UtilityXREF_LoadDB/DB_XREF_Polling"
+         xmlns:ns2="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_XREF_Polling"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/SMG_SOA_PS/UtilityXREF_LoadDB/DB_UpdateProcStatus"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_UpdateProcStatus"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/SMG_SOA_PS/UtilityXREF_LoadDB/DB_XREF_Polling"
+          location="../WSDLs/DB_XREF_Polling.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="DB_XREF_Polling" partnerLinkType="ns1:DB_XREF_Polling_plt" myRole="DB_XREF_Polling_role"/>
+    <partnerLink name="WS_UtilityXREF" partnerLinkType="ns2:UtilityXREF" partnerRole="UtilityXREFProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_XREFRecord_receive_ReqMsg" messageType="ns1:XxnucXrefDataStgCollection_msg"/>
+    <!--variable name="Invoke_UtilityXREF_ReqMsg" messageType="ns2:UtilityXREFQueryRequestMessage"/-->
+    <variable name="XREFutility_process_ReqMsg" messageType="ns2:UtilityXREFRequestMessage"/>
+    <variable name="xrefError" type="xsd:boolean"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="Assign_Error">
+          <copy>
+            <from>true()</from>
+            <to>$xrefError</to>
+          </copy>
+        </assign>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_XREFRecord" createInstance="yes" partnerLink="DB_XREF_Polling"
+             portType="ns1:DB_XREF_Polling_ptt" operation="receive" variable="Receive_XREFRecord_receive_ReqMsg">
+      <bpelx:conversationId>$Receive_XREFRecord_receive_ReqMsg.XxnucXrefDataStgCollection/ns3:XxnucXrefDataStg/ns3:id</bpelx:conversationId>
+    </receive>
+    <assign name="Xform_XREFReceive_XREFUtilityReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Xform_XREFReceive_XREFUtilityReqMsg.xsl", $Receive_XREFRecord_receive_ReqMsg.XxnucXrefDataStgCollection)</from>
+        <to variable="XREFutility_process_ReqMsg" part="payload"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_XREFutility" bpelx:invokeAsDetail="no" partnerLink="WS_UtilityXREF"
+            portType="ns2:UtilityXREF" operation="process" inputVariable="XREFutility_process_ReqMsg"/>
+  </sequence>
+</process>

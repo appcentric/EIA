@@ -1,0 +1,54 @@
+<div class="topbar clearfix">
+    <div class="topbar-left">            
+        <div class="logo"></div>
+    </div>
+
+    <div class="topbar-right">
+        <a *ngIf="auth.authenticated()" id="menu-button" href="#" (click)="app.onMenuButtonClick($event)">
+            <i></i>
+        </a>
+        
+        <a id="topbar-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
+            <i class="material-icons">menu</i>
+        </a>
+        <ul class="topbar-items animated fadeInDown" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
+            <li #profile class="profile-item" *ngIf="app.profileMode==='top'||app.isHorizontal()"
+                [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
+                <!--if a user is authenticated get the user's profile picture and name-->
+                <a *ngIf="auth.authenticated() && auth.userProfile" href="#" (click)="app.onTopbarItemClick($event,profile)">                            
+                    <img [src]="auth.userProfile.picture" alt="Profile Picture" class="profile-image">
+                    <span class="topbar-item-name">{{auth.userProfile.user_metadata.name}}</span>
+                </a>
+                <ul class="ultima-menu animated fadeInDown">
+                    <li *ngIf="auth.authenticated()" role="menuitem">
+                        <a [routerLink]="['/profile']">
+                            <img class="material-icons" [src]="auth.userProfile.picture" />
+                            <span>{{auth.userProfile.user_metadata.name}}</span>
+                        </a>
+                    </li>
+                    <li *ngIf="auth.authenticated()" role="menuitem">
+                        <a [routerLink]="['/profile']">
+                            <i class="material-icons">person</i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li *ngIf="auth.authenticated()" role="menuitem">
+                        <a (click)="auth.logout()">
+                            <i class="material-icons">power_settings_new</i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+                <a *ngIf="!auth.authenticated()" (click)="auth.login()">                            
+                    <i class="topbar-icon material-icons">person</i>
+                    <span class="topbar-item-name">Login</span>
+                </a>
+            <li>
+                <a [routerLink]="['/help']">
+                    <i class="topbar-icon material-icons">help</i>
+                    <span class="topbar-item-name">Help</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

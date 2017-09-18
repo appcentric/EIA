@@ -1,0 +1,44 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="QualityData_QMOS_EBS"
+     targetNamespace="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+     xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE"
+    >
+    <plnk:partnerLinkType name="QualityData_QMOS_EBS">
+        <plnk:role name="QualityData_QMOS_EBSProvider" portType="client:QualityData_QMOS_EBS"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+             xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE">
+            <import namespace="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+                 schemaLocation="../Schemas/QualityData_QMOS_EBS.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+             xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+             xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE">
+            <xsd:import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_READ_UDPATE"
+                 schemaLocation="../Schemas/DB_QMOS_READ_UDPATE_table.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="QualityData_QMOS_EBSRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="QualityData_QMOS_EBS">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:QualityData_QMOS_EBSRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

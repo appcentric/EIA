@@ -1,0 +1,103 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Oct 30 18:03:40 PDT 2014
+  Author:  vivek
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBizPOReceiptSummaryImpl"
+               targetNamespace="http://xmlns.eia.com/ABS/NUC_EBizPOReceiptSummary/EBizPOReceiptSummaryImpl/V1_00"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/NUC_EBizPOReceiptSummary/EBizPOReceiptSummaryImpl/V1_00"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/NUC_EBizPOReceipt_ABS/POReceiptSummary/V1_00"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizPOReceipt_ABS/DB_QueryPOReceiptSummary"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_EBizPOReceipt_ABS/DB_QueryReceiptsByPO">
+
+    <!--import namespace="http://xmlns.eia.com/ABS/NUC_EBizPOReceiptSummary/EBizPOReceiptSummaryImpl/V1_00" location="EBizPOReceiptSummaryImpl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/-->
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <import namespace="http://xmlns.eia.com/ABS/NUC_EBizPOReceipt_ABS/POReceiptSummary/V1_00"
+          location="POReceiptSummary.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="POReceiptSummary" partnerLinkType="ns1:POReceiptSummary"
+                 myRole="POReceiptSummaryProvider"/>
+    <partnerLink name="DB_QueryPOReceiptSummary"
+                 partnerLinkType="ns2:DB_QueryPOReceiptSummary_plt"
+                 partnerRole="DB_QueryPOReceiptSummary_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="POReceiptSummaryReq_Msg" messageType="ns1:requestMessage"/>
+    <variable name="POReceiptSummaryResp_Msg" messageType="ns1:replyMessage"/>
+    <variable name="DB_QueryPOReceiptSummary_ReqMsg"
+              messageType="ns2:DB_QueryPOReceiptSummaryInput_msg"/>
+    <variable name="DB_QueryPOReceiptSummary_RespMsg"
+              messageType="ns2:DB_QueryPOReceiptSummaryOutputCollection_msg"/>
+  </variables>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in EBizPOReceiptSummaryImpl.wsdl) -->
+    <receive name="receiveInput" partnerLink="POReceiptSummary"
+             portType="ns1:getPOReceiptSummary" operation="process"
+             variable="POReceiptSummaryReq_Msg" createInstance="yes"/>
+    <assign name="Xform_POReceiptSummaryReqMsg_DBQueryPOReceiptSummaryReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_POReceiptSummaryReqMsg_DBQueryPOReceiptSummaryReqMsg.xsl", $POReceiptSummaryReq_Msg.parameters)</from>
+        <to variable="DB_QueryPOReceiptSummary_ReqMsg"
+            part="DB_QueryPOReceiptSummaryInput_msg"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_QueryPOReceiptSummary" bpelx:invokeAsDetail="no"
+            partnerLink="DB_QueryPOReceiptSummary"
+            portType="ns2:DB_QueryPOReceiptSummary_ptt"
+            operation="DB_QueryPOReceiptSummary"
+            inputVariable="DB_QueryPOReceiptSummary_ReqMsg"
+            outputVariable="DB_QueryPOReceiptSummary_RespMsg"/>
+    <assign name="Xform_DBQueryPOReceiptSummaryRespMsg_POReceiptSummaryRespMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_DBQueryPOReceiptSummaryRespMsg_POReceiptSummaryRespMsg.xsl", $DB_QueryPOReceiptSummary_RespMsg.DB_QueryPOReceiptSummaryOutputCollection)</from>
+        <to variable="POReceiptSummaryResp_Msg" part="parameters"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="POReceiptSummary"
+           portType="ns1:getPOReceiptSummary" operation="process"
+           variable="POReceiptSummaryResp_Msg"/>
+  </sequence>
+</process>

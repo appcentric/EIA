@@ -1,0 +1,299 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Dec 11 03:39:03 CST 2015
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="UpdateLogEntry"
+         targetNamespace="http:/xmlns.eia.com/Implementation/ABF/NUC_UpdateLogEntry_EBS_CP_ABF/UpdateLogEntry/1.0"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http:/xmlns.eia.com/Implementation/ABF/NUC_UpdateLogEntry_EBS_CP_ABF/UpdateLogEntry/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/i102/NUC_UpdateLogEntry_EBS_CP_ABF/DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/i102/NUC_UpdateLogEntry_EBS_CP_ABF/DB_PureSQL_Log_Entry"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/DB_PureSQL_Log_Entry"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG"
+         xmlns:ns5="http://xmlns.eia.com/CommonLogging" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/i102/NUC_UpdateLogEntry_EBS_CP_ABF/DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG"
+          location="../WSDLs/DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG"
+                 partnerLinkType="ns1:DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG_plt"
+                 myRole="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG_role"/>
+    <partnerLink name="DB_PureSQL_Log_Entry" partnerLinkType="ns2:DB_PureSQL_Log_Entry_plt"
+                 partnerRole="DB_PureSQL_Log_Entry_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns5:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ReceiveFlag_Variable" messageType="ns1:XxnucWshCpFreinvHdrStgCollection_msg"/>
+    <variable name="InvokeDB_PureSQL_Log_Entry_InputVariable" messageType="ns2:DB_PureSQL_Log_EntryInput_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="ScopeErrorLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <variables>
+         <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence1">
+         <assign name="AssignLogVar">
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I102'</from>
+              <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+            </copy>
+            <copy>
+              <from>'CPFreightCostInvRate'</from>
+              <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>5</from>
+              <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$LogVar.CommonLogging/ns5:LogType</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+              <to>$LogVar.CommonLogging/ns5:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="InvokeErrorLog" partnerLink="CommonLogging"
+                  portType="ns5:CommonLogging" operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no">
+                   <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      <!--<invoke name="Invoke_Error_Log" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+              inputVariable="LogVar" bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>-->
+   </scope>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="ReceiveFlag" createInstance="yes" partnerLink="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG"
+             portType="ns1:DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG_ptt" operation="receive"
+             variable="ReceiveFlag_Variable"/>
+    <scope name="ScopeStartLog">
+      <variables>
+        <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+      </variables>
+     <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="AssignLogVar">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($LogVar.CommonLogging/ns5:TransactionId))</from>
+            <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I102'</from>
+            <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'CPFreightCostInvRate'</from>
+            <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns5:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$LogVar.CommonLogging/ns5:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeStartLog" partnerLink="CommonLogging"
+                portType="ns5:CommonLogging" operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+      </sequence>
+      <!--<invoke name="Invoke_Start_Log" partnerLink="CommonLogging" portType="ns5:CommonLogging" operation="process"
+              inputVariable="LogVar" bpelx:invokeAsDetail="no"/>-->
+    </scope>
+    <assign name="AssignLogEntryId">
+      <copy>
+        <from>$ReceiveFlag_Variable.XxnucWshCpFreinvHdrStgCollection/ns4:XxnucWshCpFreinvHdrStg/ns4:logEntryId</from>
+        <to>$InvokeDB_PureSQL_Log_Entry_InputVariable.DB_PureSQL_Log_EntryInput_msg/ns3:logEntryId</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeDB_PureSQL_Log_Entry" partnerLink="DB_PureSQL_Log_Entry" portType="ns2:DB_PureSQL_Log_Entry_ptt"
+            operation="DB_PureSQL_Log_Entry" inputVariable="InvokeDB_PureSQL_Log_Entry_InputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <scope name="ScopeEndLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <variables>
+         <variable name="LogVar" messageType="ns5:CommonLoggingRequestMessage"/>
+      </variables><faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+         <assign name="AssignLogVar">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+         <copy>
+               <from>ora:getComponentInstanceId()</from>
+               <to>$LogVar.CommonLogging/ns5:TransactionId</to>
+            </copy><copy>
+               <from>'NextGen'</from>
+               <to>$LogVar.CommonLogging/ns5:ProjectName</to>
+            </copy><copy>
+               <from>'I102'</from>
+               <to>$LogVar.CommonLogging/ns5:ComponentId</to>
+            </copy><copy>
+               <from>'CPFreightCostInvRate'</from>
+               <to>$LogVar.CommonLogging/ns5:TransactionName</to>
+            </copy><copy>
+               <from>ora:getCompositeName()</from>
+               <to>$LogVar.CommonLogging/ns5:ProcessName</to>
+            </copy><copy>
+               <from>1</from>
+               <to>$LogVar.CommonLogging/ns5:LoggingSystem</to>
+            </copy><copy>
+               <from>2</from>
+               <to>$LogVar.CommonLogging/ns5:SourceSystem</to>
+            </copy><copy>
+               <from>5</from>
+               <to>$LogVar.CommonLogging/ns5:TargetSystem</to>
+            </copy><copy>
+               <from>1</from>
+               <to>$LogVar.CommonLogging/ns5:LogType</to>
+            </copy><copy>
+               <from>'BMG-013'</from>
+               <to>$LogVar.CommonLogging/ns5:MessageCode</to>
+            </copy><copy>
+            <from>$ReceiveFlag_Variable.XxnucWshCpFreinvHdrStgCollection/ns4:XxnucWshCpFreinvHdrStg/ns4:logEntryId</from>
+            <to>$LogVar.CommonLogging/ns5:MessageDescription</to>
+          </copy><copy>
+               <from>2</from>
+               <to>$LogVar.CommonLogging/ns5:TransactionStatus</to>
+            </copy><copy>
+               <from>'SOA'</from>
+               <to>$LogVar.CommonLogging/ns5:CreatedBy</to>
+            </copy><copy>
+               <from>'SOA'</from>
+               <to>$LogVar.CommonLogging/ns5:UpdatedBy</to>
+            </copy></assign>
+        <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns5:CommonLogging"
+                operation="process" inputVariable="LogVar" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+      </sequence>
+   </scope>
+  </sequence>
+</process>

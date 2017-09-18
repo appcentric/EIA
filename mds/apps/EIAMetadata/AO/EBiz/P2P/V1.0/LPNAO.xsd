@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/LpnAO/1.0" xmlns="http://xmlns.eia.com/AO/EBiz/P2P/LotAO/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:lpnao="http://xmlns.eia.com/AO/EBiz/P2P/LpnAO/1.0">
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+<xsd:element name="CreateLpnReq">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="TransactionID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="LpnDetails" type="lpnao:LpnTableType" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateLpnResp">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="LpnStatus" type="lpnao:LpnStatusTableType" minOccurs="0" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:complexType name="LpnStatusTableType">
+<xsd:sequence>
+<xsd:element name="LpnStatusItem" type="lpnao:LpnStatusItemObjType" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LpnStatusItemObjType">
+<xsd:sequence>
+<xsd:element name="BUNDLE_NUM" type="common:C40" minOccurs="0" nillable="true"/>
+<xsd:element name="LPN_NUMBER" type="common:C80" minOccurs="0" nillable="true"/>
+<xsd:element name="STATUS" type="common:C10" minOccurs="0" nillable="true"/>
+<xsd:element name="MESSAGE" type="common:C4000" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LpnTableType">
+<xsd:sequence>
+<xsd:element name="P_I_LPN_ITEM" type="lpnao:LpnObjType" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LpnObjType">
+<xsd:sequence>
+<xsd:element name="INVENTORY_ITEM_ID" type="xsd:decimal" minOccurs="0" nillable="true"/>
+<xsd:element name="ITEM_NUMBER" type="common:C50" minOccurs="0" nillable="true"/>
+<xsd:element name="ITEM_DESC" type="common:C320" minOccurs="0" nillable="true"/>
+<xsd:element name="ORGANIZATION_ID" type="xsd:decimal" minOccurs="0" nillable="true"/>
+<xsd:element name="ORGANIZATION_CODE" type="common:C3" minOccurs="0" nillable="true"/>
+<xsd:element name="LPN_PREFIX" type="common:C80" minOccurs="0" nillable="true"/>
+<xsd:element name="LPN_SUFFIX" type="xsd:dateTime" minOccurs="0" nillable="true"/>
+<xsd:element name="QUANTITY" type="xsd:decimal" minOccurs="0" nillable="true"/>
+<xsd:element name="LOT_NUMBER" type="common:C80" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE_CATEGORY" type="common:C30" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE1" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE2" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE3" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE4" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE5" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE6" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE7" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE8" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE9" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE10" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE11" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE12" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE13" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE14" type="common:C150" minOccurs="0" nillable="true"/>
+<xsd:element name="ATTRIBUTE15" type="common:C150" minOccurs="0" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

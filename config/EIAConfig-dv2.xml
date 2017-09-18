@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EIAConfiguration xmlns="http://xmlns.eia.com/config/1.0"	version="1.0">
+	<SystemConfig>
+		<!-- System configuration properties -->
+		<Property name="TRACING.ENABLED">false</Property>
+		<Property name="SYSTEM.ADMIN.EMAIL">sps_interfaces@nucor.com</Property>
+		<Property name="SOA.ENVIRONMENT">DV2</Property>
+
+
+		<ModuleConfiguration moduleName="ErrorHandler">
+			<Property name="LOGGER.TRACE">nuctrace</Property>
+			<Property name="LOGGER.ERROR">nucerror</Property>
+			<Property name="LOGGER.TRACE_LEVEL">ALL</Property>
+			<Property name="LOGGER.TRACE_FILE_NAME">/u01/Oracle/Middleware12c/EIA/logs</Property>
+			<Property name="LOGGER.TRACE_FILE_SIZE_MAX">100000</Property>
+			<Property name="LOGGER.TRACE_FILE_NUM">3</Property>
+			<Property name="ERROR.METHOD">DB_TABLE</Property>
+			<Property name="ERROR.DB_DSNAME">jdbc/mds/MDS_LocalTxDataSource</Property>
+			<Property name="ERROR.DB_ERROR_TABLE">ERROR_MESSAGES</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/common/EIAAsyncErrorHandlingBPELProcess/processFault_ep</Property>
+		</ModuleConfiguration>
+
+		<!--ModuleConfiguration moduleName="CommonLogging">
+		<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/common/EIAAsyncErrorHandlingBPELProcess/processFault_ep</Property>
+		</ModuleConfiguration-->
+
+		<ModuleConfiguration moduleName="B2B_NOTIFY_EVENT">
+			<Property name="PuttheAgreementName">sps_interfaces@nucor.com</Property>
+			<Property name="PutAnotherAgreementName">sps_interfaces@nucor.com</Property>
+		</ModuleConfiguration>
+
+	<ServiceConfiguration serviceName="CommonLogging">
+		<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/common/CommonLogging/CommonLogging_ep</Property>
+		<Property name="LOGGING.ENABLED">true</Property>
+	</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizAPInvoice_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizAPInvoice_ABS/InvoiceABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizARInvoice_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizARInvoice_ABS/ARInvoice_ABS_ep</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizCustomer_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizCustomer_ABS/CustomerABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EbizPurchaseOrder_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EbizPurchaseOrder_ABS/PurchaseOrderABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizPurchaseRequisition_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizPurchaseRequisition_ABS/PurchaseRequisitionABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EbizSupplier_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizSupplier_ABS/SupplierABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizCustomerBalance_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizCustomerBalance_ABS/CustomerBalanceABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizGLJE_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizGLJE_ABS/JournalABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizPayment_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizPayment_ABS/PaymentABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizPOReceipt_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizPOReceipt_ABS/ReceiptABS</Property>
+		</ServiceConfiguration>
+
+
+		<ServiceConfiguration serviceName="NUC_EBiz_SAP_GLJE_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Payroll</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBiz_SAP_GLJE_ABF/ProcessPayroll</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_PublishPayment_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Payroll</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_PublishPayment_EBiz_ABF/Manual_PublishPayment_ABF</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizOrigSystemRef_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizOrigSystemRef_ABS/OrigSystemRefABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_PublishCustomerEBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="EBS_USER_NAME">SOAUSER</Property>
+			<Property name="EBS_RESP_NAME">NUC Customer Data Librarian Interface User</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EbizCreateSalesOrder_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EbizCreateSalesOrder_ABS/createsalesorderabs_client_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizQASamples_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizQASamples_ABS/QAsamples_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizQualitySpec_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizQualitySpec_ABS/QualitySpecABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizRequestDelivery_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizRequestDelivery_ABS/Nuc_EBizRequestDelivery_ABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizBatchJobs_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizBatchJobs_ABS/batchjobs_client_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizProductStructure_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizProductStructure_ABS/EbizProductStructure</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="WshSendDlvyToOtmService">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/otm/WshSendDlvyToOtmService/client</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="WshSendLocRefDataToOtm">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/otm/WshSendLocRefDataToOtm/client</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="WshSendOtmDocument">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/otm/WshSendOtmDocument/client</Property>
+			<Property name="OTMServerURL">http://rzslca267.rz.nucorsteel.local:7778/GC3/glog.integration.servlet.WMServlet</Property>
+			<Property name="Username">SMG.INTEGRATION</Property>
+			<Property name="Password">Nuc0rxyz</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="WshSendTripToOtmService">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/otm/WshSendTripToOtmService/client</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="WshSendItemRefDataToOtm">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/otm/WshSendItemRefDataToOtm/client</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizInventory_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizInventory_ABS/EbizInventory_ABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizLot_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizLot_ABS/ebizlotabs_client_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizLPN_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizLPN_ABS/EBizLPNABS_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizQualityResults_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizQualityResults_ABS/qualityresults_client_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_POReceipt_DJJ_EBiz_ABF">
+			<Property name="MidReceiveTimeOut">PT15M</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_ASNQualityResults_Suppliers_EBS_ABF">
+			<Property name="MidReceiveTimeOut">PT15M</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_SubscribeEBizPO_JMS_DJJ_ABF">
+			<Property name="rest.binding.http.IP">1.1.1.1</Property>
+			<Property name="rest.binding.http.Ocp-Apim-Subscription-Key">93729043ae0749ada351362d0df99d46</Property>
+			<Property name="rest.binding.requestURI">https://testapimexternalapi.azure-api.net/DJJBrokerageExternalAPIConsumer/api/v1/Consumer/ScaleConnect/CustomerContract</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_SubscribeEBizPOReceipt_JMS_DJJ_ABF">
+			<Property name="rest.binding.http.IP">1.1.1.1</Property>
+			<Property name="rest.binding.http.Ocp-Apim-Subscription-Key">93729043ae0749ada351362d0df99d46</Property>
+			<Property name="rest.binding.requestURI">https://testapimexternalapi.azure-api.net/DJJBrokerageExternalAPIConsumer/api/v1/Consumer/ScaleConnect/CustomerShippingNotice</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizBundles_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizBundles_ABS/BundlesABS_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizSubmitRequest_ABS">
+			<Property name="endpointURI">http://rzsoadv2.rz.nucorsteel.local/soa-infra/services/nuc/NUC_EBizSubmitRequest_ABS/EBizSubmitRequestABS</Property>
+		</ServiceConfiguration>
+	</SystemConfig>
+</EIAConfiguration>

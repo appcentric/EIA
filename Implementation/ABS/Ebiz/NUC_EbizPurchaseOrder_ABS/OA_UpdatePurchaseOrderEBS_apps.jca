@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_UpdatePurchaseOrderEBS" adapter="apps" wsdlLocation="OA_UpdatePurchaseOrderEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs_nonxa" UIConnectionName="ebsapps" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_UpdatePurchaseOrderEBS_ptt" operation="OA_UpdatePurchaseOrderEBS">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:PO_CHANGE_API1_S:UPDATE_PO"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="PO_CHANGE_API1_S"/>
+      <property name="ProcedureName" value="UPDATE_PO"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,11 @@
+<adapter-config name="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId" adapter="db" wsdlLocation="../WSDLs/DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_Utah_Dev" location="eis/DB/nsutqmos"/>
+  <endpoint-interaction portType="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_ptt" operation="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="Update API_PROD_CONFIRM_MATERIAL SET PROCESSED = #status WHERE ID_HEADER = #idHeader"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_CreateJournal_Sync" adapter="apps" wsdlLocation="OA_CreateJournal_Sync.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBS_DB" UIOracleAppType="DBOBJECT" UIOracleAppObjList="GL.GL_INTERFACE" adapterRef=""/>
+  <endpoint-interaction portType="OA_CreateJournal_Sync_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsTableWriteInteractionSpec">
+      <property name="DescriptorName" value="OA_CreateJournal_Sync.GlInterface"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="OA_CreateJournal_Sync-or-mappings.xml"/>
+      <property name="DetectOmissions" value="true"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

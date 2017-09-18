@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAM/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:obj="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAO/1.0" xmlns:msg="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAM/1.0" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" elementFormDefault="qualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite Process Manufacturing for Results</Definition>
+<Description>This schema defines the objects to create or extract Results
+                   in Oracle AP.</Description>
+<Author>Manish Gujar</Author>
+<VersionDate>10-11-2015</VersionDate>
+<VersionDescription>Review and standardization</VersionDescription>
+<ModificationHistory>10-11-2015 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+<xsd:import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAO/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/QualitySpecsAO.xsd"/>
+<xsd:element name="QualitySpecsAddRq" type="msg:QualitySpecsAddRq"/>
+<xsd:element name="QualitySpecsAddRs" type="msg:QualitySpecsAddRs"/>
+<xsd:element name="QueryQualitySpecsAddRq" type="msg:QueryQualitySpecsAddRq"/>
+<xsd:element name="QueryQualitySpecsAddRs" type="msg:QueryQualitySpecsAddRs"/>
+<xsd:complexType name="QualitySpecsAddRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element minOccurs="1" maxOccurs="unbounded" ref="obj:QualitySpecsDetails"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QualitySpecsAddRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element minOccurs="0" maxOccurs="unbounded" ref="obj:QualitySpecsResponse"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QueryQualitySpecsAddRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="RequestID" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QueryQualitySpecsAddRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element minOccurs="1" maxOccurs="unbounded" ref="obj:QualitySpecsDetails"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,306 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jul 22 15:50:23 CDT 2013
+  Author:  Lucyuser
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="PublishSupplier"
+         targetNamespace="http://xmlns.oracle.com/NucorSOA/NUC_PublishSupplier_EBiz_ABF/PublishSupplier"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/NucorSOA/NUC_PublishSupplier_EBiz_ABF/PublishSupplier"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishSupplier_EBiz_ABF/OA_Receive_Supplier_Event"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishSupplier_EBiz_ABF/OA_GetSupplier_Details"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_GetSupplier_Details"
+         xmlns:ns4="http://xmlns.oracle.com/xdb/APPS/OA_Receive_Supplier_Event"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishSupplier_EBiz_ABF/OA_GetOrganizationInfo"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_GetOrganizationInfo"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/jms/NucorSOA/NUC_PublishSupplier_EBiz_ABF/JMS_PublishSupplier"
+         xmlns:ns8="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns9="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:ns14="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+         xmlns:ns13="http://xmlns.eia.com/AO/EBiz/P2P/OrganizationAO/1.0"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+         xmlns:ns15="http://xmlns.eia.com/ABS/EBiz/OrganizationABS/1.0"
+         xmlns:ns16="http://xmlns.eia.com/AO/EBiz/P2P/OrganizationAM/1.0"
+         xmlns:ns17="http://oracle.com/sca/soapservice/NucorSOA/NUC_PublishSupplier_EBiz_ABF/WS_ReceiveSupplierId"
+         xmlns:ns18="http://xmlns.eia.com/ABS/EBiz/PublishSupplierABF/1.0"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishSupplier_EBiz_ABF/OA_Receive_SupplierPublish_Event"
+         xmlns:ns20="http://xmlns.oracle.com/xdb/APPS/OA_Receive_SupplierPublish_Event"
+         xmlns:ns21="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_PublishSupplier_EBiz_ABF/DB_Get_PartyID"
+         xmlns:ns22="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_PartyID"
+         xmlns:ns23="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishSupplier_EBiz_ABF/OA_Get_Supplier_BO"
+         xmlns:ns24="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_Get_Supplier_BO"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0"
+          location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcess"
+                 partnerLinkType="ns8:EIAAsyncErrorHandlingBPELProcess"
+                 partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="WS_ReceiveSupplierId1"
+                 partnerLinkType="ns18:WS_ReceiveSupplierId1"
+                 myRole="PublishSupplier_SyncPort"/>
+    <partnerLink name="OA_Receive_SupplierPublish_Event"
+                 partnerLinkType="ns19:DEQUEUE_plt" myRole="DEQUEUE_role"/>
+    <partnerLink name="DB_Get_PartyID" partnerLinkType="ns21:DB_Get_PartyID_plt"
+                 partnerRole="DB_Get_PartyID_role"/>
+    <partnerLink name="OA_Get_Supplier_BO"
+                 partnerLinkType="ns23:OA_Get_Supplier_BO_plt"
+                 partnerRole="OA_Get_Supplier_BO_role"/>
+    <partnerLink name="JMS_PublishSupplier"
+                 partnerLinkType="ns7:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="EIAFaultMsg" element="ns9:Fault"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns9:ProcessHeader"/>
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg"
+              messageType="ns8:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="WS_PublishSupplier_ReqMsg"
+              messageType="ns18:requestMessage"/>
+    <variable name="OA_ReceiveEvent_ReqMsg" messageType="ns19:WF_EVENT_T_msg"/>
+    <variable name="DB_GetPartyId_ReqMsg"
+              messageType="ns21:DB_Get_PartyIDSelect_inputParameters"/>
+    <variable name="DB_GetPartyId_RespMsg"
+              messageType="ns21:PosSuppPubHistoryVCollection_msg"/>
+    <variable name="OA_Get_Supplier_BO_ReqMsg" messageType="ns23:args_in_msg"/>
+    <variable name="OA_Get_Supplier_BO_RespMsg"
+              messageType="ns23:args_out_msg"/>
+    <variable name="JMS_Produce_ReqMsg" messageType="ns7:Produce_Message_msg"/>
+    <variable name="CompositeTitle" type="xsd:string"/>
+    <variable name="gl_title" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence2">
+        <assign name="InitializeEIAFaultMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/SetEIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+            <to variable="EIAFaultMsg"/>
+          </copy>
+        </assign>
+        <assign name="SetEIAFaultMsg">
+          <copy>
+            <from>ora:getFaultName()</from>
+            <to>$EIAFaultMsg/ns9:FaultMessage/ns9:Code</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg/ns9:FaultMessage/ns9:Text</to>
+          </copy>
+          <copy>
+            <from>"1.0"</from>
+            <to>$EIAFaultMsg/ns9:FaultMessage/ns9:Severity</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg/ns9:FaultMessage/ns9:Stack</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultMessage/ns9:Code</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultMessage/ns9:Code</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultMessage/ns9:Text</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultMessage/ns9:Text</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultMessage/ns9:Severity</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultMessage/ns9:Severity</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultMessage/ns9:Stack</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultMessage/ns9:Stack</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:ReportingDateTime</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:ReportingDateTime</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:CorrectiveAction</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:CorrectiveAction</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultingService/ns9:ID</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultingService/ns9:ID</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultingService/ns9:Process</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultingService/ns9:Process</to>
+          </copy>
+          <copy>
+            <from>$EIAFaultMsg/ns9:FaultingService/ns9:InstanceID</from>
+            <to>$EIAAsyncErrorHandlingBPELProcessReqMsg.FaultMessage/ns9:FaultingService/ns9:InstanceID</to>
+          </copy>
+        </assign>
+        <assign name="Xform_EIAFaultMsg_ErrorHandlingReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/Xform_EIAFaultMsg_ErrorHandlingReqMsg.xsl", $EIAFaultMsg)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                part="FaultMessage"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                portType="ns8:EIAAsyncErrorHandlingBPELProcess"
+                operation="processFault"
+                inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty('ErrorHandler','endpointURI')</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <rethrow name="Rethrow"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="OA_ReceiveEvent_ReqMsg"
+                 partnerLink="OA_Receive_SupplierPublish_Event"
+                 portType="ns19:DEQUEUE_ptt" operation="DEQUEUE">
+        <sequence name="Sequence1">
+          <assign name="Assign_OA_GetSupplierDetails_ReqMsg">
+            <copy>
+              <from>$OA_ReceiveEvent_ReqMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME='PUBLICATION_EVENT_ID']/VALUE</from>
+              <to>$DB_GetPartyId_ReqMsg.DB_Get_PartyIDSelect_inputParameters/ns22:PublicationEventId</to>
+            </copy>
+          </assign>
+        </sequence>
+      </onMessage>
+      <onMessage variable="WS_PublishSupplier_ReqMsg"
+                 partnerLink="WS_ReceiveSupplierId1"
+                 portType="ns18:PublishSupplier_SyncPort"
+                 operation="PublishSupplier">
+        <sequence name="Sequence3">
+          <assign name="Assign_OA_GetSupplierDetails_ReqMsg">
+            <copy>
+              <from>$WS_PublishSupplier_ReqMsg.payload</from>
+              <to>$DB_GetPartyId_ReqMsg.DB_Get_PartyIDSelect_inputParameters/ns22:PublicationEventId</to>
+            </copy>
+          </assign>
+          <!--
+          <assign name="Assign_WS_GetSupplierDetails_ReqMsg">
+            <copy>
+              <from>$WS_PublishSupplier_ReqMsg.payload</from>
+              <to>$OA_GetSupplier_Details_ReqMsg.InputParameters/ns3:I_VENDOR_ID</to>
+            </copy>
+          </assign>-->
+        </sequence>
+      </onMessage>
+    </pick>
+    <assign name="SetCompositeInfo">
+      <copy>
+        <from>concat('Publication Event Id : ',$DB_GetPartyId_ReqMsg.DB_Get_PartyIDSelect_inputParameters/ns22:PublicationEventId)</from>
+        <to>$gl_title</to>
+      </copy>
+      <copy>
+        <from>ora:setCompositeInstanceTitle($gl_title)</from>
+        <to>$CompositeTitle</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DB_GetPartyId" inputVariable="DB_GetPartyId_ReqMsg"
+            outputVariable="DB_GetPartyId_RespMsg" partnerLink="DB_Get_PartyID"
+            portType="ns21:DB_Get_PartyID_ptt" operation="DB_Get_PartyIDSelect"
+            bpelx:invokeAsDetail="no"/>
+    <!--
+    <invoke name="Invoke_OA_GetSupplierInfo" bpelx:invokeAsDetail="no" partnerLink="OA_GetSupplier_Details" portType="ns2:OA_GetSupplier_Details_ptt"
+            operation="OA_GetSupplier_Details" inputVariable="OA_GetSupplier_Details_ReqMsg" outputVariable="OA_GetSupplier_Details_RespMsg"/>
+    <assign name="Assign_WS_GetOrgDetails_ReqMsg">
+      <copy>
+        <from>$OA_GetSupplier_Details_RespMsg.OutputParameters/ns3:O_SUPPLIER_INFO/ns3:SUPP_REC/ns3:PARTY_ID</from>
+        <to>$WS_GetOrganizationInfo_ReqMsg.payload/ns16:OrganizationInfo/ns13:OrganizationId</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_WS_GetOrganizationInfo" partnerLink="WS_GetOrganizationInfo" portType="ns15:SyncPortType" operation="GetOranizationInfo"
+            inputVariable="WS_GetOrganizationInfo_ReqMsg" outputVariable="WS_GetOrganizationInfo_RespMsg" bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizOrganization_ABS","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="Xform_WS_GetSupplierInfo_To_JMS_Produce_ReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_WS_GetSupplierInfo_To_JMS_Produce_ReqMsg.xsl", $OA_GetSupplier_Details_RespMsg.OutputParameters, "WS_GetOrganizationInfo_RespMsg.payload", $WS_GetOrganizationInfo_RespMsg.payload)</from>
+        <to variable="JMS_Produce_ReqMsg" part="body"/>
+      </copy>
+    </assign>-->
+    <forEach parallel="no" counterName="SupplierCount" name="ForEachSupplier">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($DB_GetPartyId_RespMsg.PosSuppPubHistoryVCollection/ns22:PosSuppPubHistoryV)</finalCounterValue>
+      <scope name="Scope1">
+        <sequence>
+          <assign name="Assign_DB_GetPartyId_To_OA_Get_Supplier_BO_Req">
+            <copy>
+              <from>$DB_GetPartyId_RespMsg.PosSuppPubHistoryVCollection/ns22:PosSuppPubHistoryV[$SupplierCount]/ns22:partyId</from>
+              <to>$OA_Get_Supplier_BO_ReqMsg.InputParameters/ns24:P_PARTY_ID</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_Get_Supplier_BO" bpelx:invokeAsDetail="no"
+                  partnerLink="OA_Get_Supplier_BO"
+                  portType="ns23:OA_Get_Supplier_BO_ptt"
+                  operation="OA_Get_Supplier_BO"
+                  inputVariable="OA_Get_Supplier_BO_ReqMsg"
+                  outputVariable="OA_Get_Supplier_BO_RespMsg"/>
+          <assign name="Xform_OA_Get_Supplier_BO_To_JMS_Produce_Topic">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_Get_Supplier_BO_To_JMS_Produce_Topic.xsl", $OA_Get_Supplier_BO_RespMsg.OutputParameters)</from>
+              <to variable="JMS_Produce_ReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_JMS_Produce_Topic"
+                  partnerLink="JMS_PublishSupplier"
+                  portType="ns7:Produce_Message_ptt" operation="Produce_Message"
+                  inputVariable="JMS_Produce_ReqMsg" bpelx:invokeAsDetail="no">
+            <!--
+      <bpelx:toProperties>
+        <bpelx:toProperty name="jca.jms.JMSProperty.OrgName">dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_OPERATING_UNIT_MAP.dvm","ORG_ID",$JMS_Produce_ReqMsg.body/ns10:ListOfSupplierSites/ns11:SupplierSite[1]/ns11:BasicSupplierSite/ns11:OrgId,"ORG_NAME","")</bpelx:toProperty>
+      </bpelx:toProperties>
+      -->
+          </invoke>
+        </sequence>
+      </scope>
+    </forEach>
+  </sequence>
+</process>

@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EIADeployComposite">
+  <property environment="env"/>
+
+	<fail message="Please set the EIA_HOME as environment variable">
+			<condition>
+			   <not>
+				   <isset property="env.EIA_HOME" />
+			  </not>
+			</condition>
+	</fail>
+
+	<fail message="Please set the JAVA_HOME as environment variable">
+			<condition>
+			   <not>
+				   <isset property="env.JAVA_HOME" />
+			  </not>
+			</condition>
+	</fail>
+
+	<fail message="Please set the ANT_HOME as environment variable">
+			<condition>
+			   <not>
+				   <isset property="env.ANT_HOME" />
+			  </not>
+			</condition>
+	</fail>
+
+	<tstamp>
+	  <format property="deploy.timestamp"
+			  pattern="yyyy-MM-DD-hhmmss.SSS"
+			  locale="en,US"/>
+	 </tstamp>
+
+	<condition property="target.env" value="soad">
+	   <not>
+		    <isset property="target.env"/>
+	   </not>
+	</condition>
+
+    <!--echo>Deploy Time Stamp ${deploy.timestamp}</echo-->
+
+    <echo>EIA Home ${env.EIA_HOME} Target Environment ${target.env}</echo>
+ 
+	<property name="ant-contib.jar" location="..."/>
+
+
+	<property file="${env.EIA_HOME}/config/EIAbuild-${target.env}.properties"/>
+	<!--property name="deploy.dir" value="${compositeDir}/deploy"/-->
+	<property name="java.home" value="${env.JAVA_HOME}"/>
+	<property name="eia.home" value="${env.EIA_HOME}"/>    
+    <!--property name="deploy.plan" value="${deployPlan}"/-->
+
+		<!--condition property="deploy.plan" value="${default.plan}">
+		      <not> <isset property="deployPlan"/> </not>
+		</condition>
+		<condition property="deploy.plan" value="${deployPlan}">
+		      <isset property="deployPlan"/>
+		</condition-->
+
+
+
+		<condition property="deploy.dir" value="${deployDir}">
+		    <isset property="deployDir"/>
+		</condition>
+
+		<condition property="deploy.dir" value="${deployBaseDir}/${compositeName}">
+		   <not>
+			  <isset property="deploy.dir"/>
+           </not>  
+		</condition>
+
+
+   
+
+	<target name="adfconfig">
+
+	 	<property name="adfconfigbasedir" value="${env.EIA_HOME}/config/.adf/META-INF"/>
+		<delete dir="${compositeDir}/../.adf/META-INF" />
+		<delete dir="${compositeDir}/../.adf" />
+		<mkdir dir="${compositeDir}/../.adf" />
+		<mkdir dir="${compositeDir}/../.adf/META-INF" />
+		<copy todir="${compositeDir}/../.adf/META-INF">
+		 <fileset dir="${adfconfigbasedir}">
+		  <include name="adf-config.xml"/>
+		 </fileset>
+		</copy>
+		<replace dir="${compositeDir}/../.adf/META-INF" token="$mds-userid$" value="${mds.userid}">
+			<include name="adf-config.xml"/>
+		</replace> 
+		<replace dir="${compositeDir}/../.adf/META-INF" token="$mds-password$" value="${mds.password}">
+			<include name="adf-config.xml"/>
+		</replace> 
+		<replace dir="${compositeDir}/../.adf/META-INF" token="$mds-url$" value="${mds.url}">
+			<include name="adf-config.xml"/>
+		</replace> 
+		<replace dir="${compositeDir}/../.adf/META-INF" token="$mds-partition$" value="${mds.partition}">
+			<include name="adf-config.xml"/>
+		</replace>
+	 </target>
+
+
+   <target name="clean">
+     <delete dir="${tmp.output.dir}/soa_temp${deploy.timestamp}" />
+   </target>
+
+   <target name="init">
+    <tstamp/>
+    <mkdir dir="${deploy.dir}"/>
+   </target>
+
+	<target name="compile-package" depends="init,adfconfig">
+
+       <echo>Compiling ${compositeName}. SAR Output Directory ${deploy.dir}</echo>
+	   <property name="sarFile" value="${deploy.dir}/sca_${compositeName}.jar"/>
+		<ant antfile="${oracle.home}/bin/ant-sca-package.xml" target="package" inheritall="false" output="${tmp.output.dir}/soa_deploy${deploy.timestamp}.log">
+			<property name="oracle.home" value="${oracle.home}"/>
+			<property name="compositeDir" value="${compositeDir}"/>
+			<property name="java.home.passed" value="${java.home}"/>
+			<property name="scac.application.home" value="${compositeDir}/.."/>
+			<!--property name="adfconfigbasedir" value="${env.EIA_HOME}/config/.adf"/-->
+			<property name="scac.displayLevel" value="3"/>
+			<property name="compositeName" value="${compositeName}"/><!-- revision of the composite -->
+			<property name="revision" value="${revision}"/>
+			<property name="deploy.composite.name" value="${sarFile}"/>
+		</ant>
+	</target>
+
+  <target name="extract-sar-plan" if="deployPlan">
+		<!--condition property="configplan" value="${deployPlan}">
+		   <and> 
+		      <not> <isset property="configplan"/> </not>
+			  <isset property="deployPlan"/>
+           </and>  
+		</condition>
+		<condition property="configplan" value="${default.plan}">
+		   <not>
+			  <isset property="configplan"/>
+           </not>  
+		</condition>
+        <echo>Deployment Plan ${configplan}</echo-->
+		<!--ant antfile="${oracle.home}/bin/ant-sca-compile.xml" target="extractplan" inheritall="false">
+			<property name="scac.sar" value="${sarFile}"/>
+			<property name="scac.plan" value="${configplan}"/>
+		</ant-->
+	    <antcall target="clean"/>
+		<mkdir dir="${tmp.output.dir}/soa_temp${deploy.timestamp}" />
+		<unjar src="${sarFile}" dest="${tmp.output.dir}/soa_temp${deploy.timestamp}"/>
+		<property name="configplan" value="${tmp.output.dir}/soa_temp${deploy.timestamp}/${deployPlan}"/>
+		<ant antfile="${oracle.home}/bin/ant-sca-compile.xml" target="attachplan" inheritall="false" output="${tmp.output.dir}/soa_deploy${deploy.timestamp}.log">
+			<property name="scac.sar" value="${sarFile}"/>
+			<property name="scac.plan" value="${tmp.output.dir}/soa_temp${deploy.timestamp}/${deployPlan}"/>
+		</ant>
+        <echo>Deployment Plan ${configplan}</echo>
+  </target>
+
+  <target name="deploy-package" depends="extract-sar-plan">
+		
+		<condition property="configplan" value="${deployPlan}">
+		   <and> 
+		      <not> <isset property="configplan"/> </not>
+			  <isset property="deployPlan"/>
+           </and>  
+		</condition>
+		<condition property="configplan" value="${default.plan}">
+		   <not>
+			  <isset property="configplan"/>
+           </not>  
+		</condition>
+		
+		<condition property="partition" value="${soa.partition}">
+			<not>
+				<isset property="partition"/>
+			</not>
+		</condition>
+
+
+		<echo>Deployment Plan ${configplan}</echo>
+		<echo>Deploying to http://${managed.server.host}:${managed.server.port}/soa-infra/deployer</echo>
+		<ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" target="deploy" inheritall="false" output="${tmp.output.dir}/soa_deploy${deploy.timestamp}.log">
+			<property name="user" value="${server.user}"/>
+			<property name="password" value="${server.password}"/><!-- create the url for deployment -->
+			<property name="serverURL" value="http://${managed.server.host}:${managed.server.port}/soa-infra/deployer"/>
+			<property name="sarLocation" value="${sarFile}"/>
+			<property name="overwrite" value="${overwrite}"/>
+             <property name="forceDefault" value="${forceDefault}"/>
+		     <property name="configplan" value="${configplan}"/>
+		</ant>
+		<antcall target="clean"/>
+	</target>
+
+	<target name="deploy" depends="compile-package,extract-sar-plan">
+		<condition property="configplan" value="${deployPlan}">
+		   <and> 
+		      <not> <isset property="configplan"/> </not>
+			  <isset property="deployPlan"/>
+           </and>  
+		</condition>
+		<condition property="configplan" value="${default.plan}">
+		   <not>
+			  <isset property="configplan"/>
+           </not>  
+		</condition>
+
+		<condition property="partition" value="${soa.partition}">
+			<not>
+				<isset property="partition"/>
+			</not>
+		</condition>
+		<echo>Deployment Plan ${configplan}</echo>
+		<echo>Deploying to http://${managed.server.host}:${managed.server.port}/soa-infra/deployer</echo>
+		<ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" target="deploy" inheritall="false" output="${tmp.output.dir}/soa_deploy${deploy.timestamp}.log">
+			<property name="user" value="${server.user}"/>
+			<property name="password" value="${server.password}"/><!-- create the url for deployment -->
+			<property name="serverURL" value="http://${managed.server.host}:${managed.server.port}/soa-infra/deployer"/>
+			<property name="sarLocation" value="${deploy.dir}/sca_${compositeName}.jar"/>
+			<!--property name="sarLocation" value="${deploy.dir}/sca_${compositeName}_rev${revision}.jar"/-->
+			<property name="overwrite" value="${overwrite}"/>
+             <property name="forceDefault" value="${forceDefault}"/>
+			<property name="configplan" value="${configplan}"/>
+		</ant>
+		<antcall target="clean"/>
+	</target>
+
+   <target name="buildMDS">
+        <echo>Build MDS application</echo>
+
+        <echo>remove and create local MDS temp</echo>
+
+        <property name="mds.deploy.dir" value="${deployMDSBaseDir}"/>
+
+        <!--delete dir="${mds.deploy.dir}"/-->
+        <mkdir dir="${mds.deploy.dir}"/>
+
+    	<condition property="mds.file.dir" value="EIAMetadata">
+			<not>
+				   <isset property="mdsPath" />
+			</not>
+		</condition>
+	
+
+
+    	<!--condition property ="mds.file" value="**">
+			   <not>
+				   <isset property="mdsFile" />
+			  </not>
+		</condition-->
+       
+
+		<echo>Creating MDS zip....</echo>
+
+        <echo>create zip from file MDS store</echo>
+		    <zip destfile="${mds.deploy.dir}/EIAMetadata.jar" compress="false"> 
+    		  <fileset dir="${env.EIA_HOME}" includes="${mds.file.dir}/**">
+			   <exclude name="**/EIAConfig.xml"/>
+			  </fileset>
+    		</zip>
+
+        <echo>create zip with MDS jar</echo>
+		    <zip destfile="${mds.deploy.dir}/EIAMetadata.zip" compress="false"> 
+    		  <fileset dir="${mds.deploy.dir}" includes="*.jar"/>
+    		</zip>
+
+        <delete file="${mds.deploy.dir}/EIAMetadata.jar" />
+    </target>
+  
+   <target name="buildMDSFile">
+        <echo>Build MDS application</echo>
+
+        <echo>remove and create local MDS temp</echo>
+
+        <property name="mds.deploy.dir" value="${deployMDSBaseDir}"/>
+
+        <!--delete dir="${mds.deploy.dir}"/-->
+        <mkdir dir="${mds.deploy.dir}"/>
+
+    	<condition property="mds.file.dir" value="EIAMetadata">
+			<not>
+				   <isset property="mdsPath" />
+			</not>
+		</condition>
+	
+    	<condition property ="mds.file" value="**">
+			   <not>
+				   <isset property="mdsFile" />
+			  </not>
+		</condition>
+       
+
+		<echo>Creating MDS zip....</echo>
+
+        <echo>create zip from file MDS store</echo>
+		    <zip destfile="${mds.deploy.dir}/${mds.file}.jar" compress="false"> 
+    		  <fileset dir="${env.EIA_HOME}" includes="${mds.file.dir}/${mds.file}"/>
+    		</zip>
+
+        <echo>create zip with MDS jar</echo>
+		    <zip destfile="${mds.deploy.dir}/${mds.file}.zip" compress="false"> 
+    		  <fileset dir="${mds.deploy.dir}" includes="${mds.file}.jar"/>
+    		</zip>
+
+        <delete file="${mds.deploy.dir}/${mds.file}.jar" />
+    </target>
+
+    <target name="deployMDSFile">
+        <echo>deploy MDS File</echo>
+        <property name="mds.deploy.dir" value="${deployMDSBaseDir}"/>
+
+        
+    	<condition property ="mds.file" value="none">
+			   <not>
+				   <isset property="mdsFile" />
+			  </not>
+		</condition>
+
+        <echo>deploy on http://${managed.server.host}:${managed.server.port}/soa-infra/deployer with user ${server.user}</echo>
+        <echo>deploy sarFile ${mds.deploy.dir}/${mds.file}.zip</echo>
+
+        <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="deploy" output="${tmp.output.dir}/soa_deploy${deploy.timestamp}.log">
+             <property name="wl_home" value="${wl_home}"/>
+             <property name="oracle.home" value="${oracle.home}"/>
+             <property name="serverURL" value="http://${managed.server.host}:${managed.server.port}/soa-infra/deployer"/>
+             <property name="user" value="${server.user}"/>
+             <property name="password" value="${server.password}"/>
+             <property name="overwrite" value="${overwrite}"/>
+             <property name="forceDefault" value="${forceDefault}"/>
+             <property name="sarLocation" value="${mds.deploy.dir}/${mds.file}.zip"/>
+        </ant>	
+
+    </target>
+
+<target name="deployMDS">
+        <echo>deploy MDS app</echo>
+        <property name="mds.deploy.dir" value="${deployMDSBaseDir}"/>
+        <echo>deploy on http://${managed.server.host}:${managed.server.port}/soa-infra/deployer with user ${server.user}</echo>
+        <echo>deploy sarFile ${mds.deploy.dir}/EIAMetadata.zip</echo>
+
+        <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="deploy" output="${tmp.output.dir}/soa_deploy${deploy.timestamp}.log">
+             <property name="wl_home" value="${wl_home}"/>
+             <property name="oracle.home" value="${oracle.home}"/>
+			 <property name="common.components.home" value="${common.components.home}"/>
+             <property name="serverURL" value="http://${managed.server.host}:${managed.server.port}/soa-infra/deployer"/>
+             <property name="user" value="${server.user}"/>
+             <property name="password" value="${server.password}"/>
+             <property name="overwrite" value="${overwrite}"/>
+             <property name="forceDefault" value="${forceDefault}"/>
+             <property name="sarLocation" value="${mds.deploy.dir}/EIAMetadata.zip"/>
+        </ant>	
+
+    </target>
+
+    <target name="undeployMDS">
+        <echo>undeploy MDS application</echo>
+
+    	<condition property="mds.file.dir" value="EIAMetadata">
+			<not>
+				   <isset property="$mdsPath" />
+			</not>
+		</condition>
+
+
+         <echo>undeploy MDS app folder apps ${mds.file.dir} </echo>
+         <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="removeSharedData">
+
+			 <property name="wl_home" value="${wl_home}"/>
+             <property name="oracle.home" value="${oracle.home}"/>
+             <property name="serverURL" value="http://${managed.server.host}:${managed.server.port}/soa-infra/deployer"/>
+             <property name="user" value="${server.user}"/>
+             <property name="password" value="${server.password}"/>
+             <property name="folderName" value="${mds.file.dir}"/>
+         </ant>	
+    </target>
+
+  <target name="exportMDS">
+        <tstamp>
+          <format property="start.timestamp" pattern="yyyy-MM-dd_HHmm" />
+        </tstamp>
+        
+        <property name="mds.deploy.dir" value="${deployMDSBaseDir}"/>
+        
+        <echo>
+        ================================================================================
+            EXPORT MDS: ${mds.deploy.dir}/EIAMetadata.zip
+        ================================================================================
+        </echo>
+        <ant antfile="${oracle.home}/bin/ant-sca-deploy.xml" inheritAll="false" target="exportSharedData">
+          <property name="serverURL"        value="http://${managed.server.host}:${managed.server.port}/soa-infra/deployer"/>
+          <property name="jarFile"          value="${mds.deploy.dir}/EIAMetadata.zip"/>
+          <property name="pattern"          value="**"/>
+          <property name="user"             value="${server.user}"/>
+          <property name="password"         value="${server.password}"/>
+        </ant>
+       
+   </target>
+   
+    <target name="extractMDS" depends="exportMDS">
+        <echo>
+        ================================================================================
+            Unzipping ${mds.deploy.dir}/EIAMetadata.zip to ${env.EIA_HOME}
+        ================================================================================
+        </echo>
+        <delete dir="${env.EIA_HOME}/EIAMetadata"/>
+        <unzip src="${mds.deploy.dir}/EIAMetadata.zip" dest="${env.EIA_HOME}"/>
+        <!--delete file="${mds.deploy.dir}/EIAMetadata.zip" /-->
+   </target>
+      
+   <path id="JDBCClasspath">
+        <pathelement location="${common.components.home}/modules/oracle.jdbc_12.1.0/ojdbc6.jar"/>
+    </path>
+        
+  <target name="recordSOACompositeDeployment">
+   <property name="CompositeName" value="${CompositeName}"/>
+   <property name="CompositeDir" value="${CompositeDir}"/>
+   <property name="CompositeRevision" value="${CompositeRevision}"/>
+   <property name="SVNReleaseBranch" value="${SVNReleaseBranch}"/>
+   <property name="Version" value="${Version}"/>
+   <property name="partition" value="${partition}"/>
+   <property name="TARGET_ENV" value="${TARGET_ENV}"/>
+   <property name="MetadataVersion" value="${MetadataVersion}"/>
+   <property name="ConfigVersion" value="${ConfigVersion}"/>
+   <property name="ReleaseIdentifier" value="${ReleaseIdentifier}"/>
+
+		<sql
+		driver="oracle.jdbc.OracleDriver"
+		url="${mds.url}"
+		userid="${mds.userid}"
+		password="${mds.password}"
+        classpathref="JDBCClasspath"
+        keepformat="yes">
+<![CDATA[
+        merge into xxnuc_soa_deployment_logs dl
+using (Select 
+  '${ReleaseIdentifier}' release_identifier
+  ,'${SVNReleaseBranch}' release_branch
+  ,'${CompositeName}' composite_name
+  ,'${CompositeDir}' composite_dir
+  ,'${CompositeRevision}' composite_version
+  ,'${partition}' composite_partition
+  ,'${Version}' revision
+  ,'${TARGET_ENV}' environment
+  ,'${MetadataVersion}' Metadata_revision
+  ,'${ConfigVersion}' Config_revision
+  ,sysdate creation_tstamp
+  ,sysdate update_tstamp
+                from dual) d
+ON (d.composite_name=dl.composite_name 
+   and d.composite_dir = dl.composite_dir
+   and d.composite_partition = dl.composite_partition
+   and d.composite_version = dl.composite_Version
+   and d.environment = dl.environment
+)
+WHEN MATCHED THEN
+ update set revision = d.revision
+     ,update_tstamp = d.update_tstamp
+     ,metadata_revision = d.metadata_revision
+     ,config_revision = d.config_revision
+     ,release_identifier = d.release_identifier
+     ,release_branch = d.release_branch 
+WHEN NOT MATCHED THEN     
+insert (dl.release_identifier
+       		 ,dl.release_branch
+       		 ,dl.composite_name
+       		 ,dl.composite_dir
+       		 ,dl.composite_version
+       		 ,dl.composite_partition
+       		 ,dl.revision
+       		 ,dl.environment
+       		 ,dl.metadata_revision
+       		 ,dl.config_revision
+       		 ,dl.creation_tstamp
+       		 ,dl.update_tstamp)
+      		values
+       		 (
+       		 d.release_identifier
+       		 ,d.release_branch
+       		 ,d.composite_name
+       		 ,d.composite_dir
+       		 ,d.composite_version
+       		 ,d.composite_partition
+       		 ,d.revision
+       		 ,d.environment
+       		 ,d.metadata_revision
+       		 ,d.config_revision
+       		 ,d.creation_tstamp
+       		 ,d.update_tstamp
+                );
+        ]]>		</sql>
+    
+  </target>
+      
+          
+	<target name ="help-deploy-package">
+          <echo message=" ================================================================================"/>
+          <echo message="Usage : deploy-package"/>
+          <echo message="    ant -f ${ant.file} deploy-package -DsarFile=sarFile -Drevision=revision -DdeployPlan=deployPlan"/>
+          <echo message="       sarFile - sarFile with complete location"/>
+          <echo message="       revision - the revision ID of the composite"/>
+          <echo message="       deployPlan - configplan to be used for deployment"/>
+          <echo message="    example:"/>
+          <echo message="         ant -f ${ant.file} deploy-package -DsarFile=/tmp/Packs/HelloWorld/sca_HelloWorld.jar -Drevision=1.0 -DdeployPlan=WI_CfgPlan_DEV.xml "/>
+          <echo message="================================================================================"/>
+	</target>
+
+	<target name="help-compile-package">
+			  <echo message=" ================================================================================"/>
+			  <echo message="Usage : compile-package"/>
+			  <echo message="    ant -f ${ant.file} compile-package -DcompositeDir=compositeDir -DcompositeName=compositeName -DdeployDir=deployDir"/>
+			  <echo message="       compositeDir - the absolute path of the directory that holds composite.xml"/>
+			  <echo message="       compositeName - the name of the composite"/>
+			  <echo message="       deployDir - Directory to which SAR file has to be written"/>
+			  <echo message="    example:"/>
+			  <echo message="         ant -f ${ant.file} compile-package -DcompositeDir=/tmp/HelloWorldApp/HelloWorld -DcompositeName=HelloWorld -DdeployDir=/tmp/Packs/HelloWorld"/>
+			  <echo message="================================================================================"/>
+	</target>
+
+	<target name="help-buildMDS">
+		<echo message=" ================================================================================"/>
+          <echo message="Usage : buildMDS"/>
+          <echo message="    ant -f ${ant.file} deployMDS -Dmds.file.dir=path -Dmds.file=file"/>
+          <echo message="       path (Optional) - the absolute path for the MDS Repository E.g. EIAMetadata/EO/common . Default value is EIAMetadata"/>
+          <echo message="       file (Optional)- the file that needs to be loaded. E.g. Common.xsd  "/>
+          <echo message="    example:"/>
+          <echo message="         ant -f ${ant.file} buildMDS -Dmds.file.dir=EIAMetadata/EO/common -Dmds.file=Common.xsd "/>
+          <echo message="   The above command will load the EIAMetadata/EO/common/Common.xsd into the SOA MDS"/>
+          <echo message="================================================================================"/>
+	</target>
+
+	<target name="help-deployMDS">
+		<echo message=" ================================================================================"/>
+          <echo message="Usage : deployMDS"/>
+          <echo message="    ant -f ${ant.file} deployMDS -Dmds.file.dir=path -Dmds.file=file"/>
+          <echo message="       file (Optional)- the file that needs to be loaded. E.g. Common.xsd "/>
+          <echo message="    example:"/>
+          <echo message="         ant -f ${ant.file} deployMDS -Dmds.file.dir=EIAMetadata/EO/common -Dmds.file=Common.xsd "/>
+          <echo message="   The above command will load the EIAMetadata/EO/common/Common.xsd into the SOA MDS"/>
+          <echo message="================================================================================"/>
+	</target>
+
+	<target name="help-undeployMDS">
+		<echo message=" ================================================================================"/>
+          <echo message="Usage : undeployMDS"/>
+          <echo message="    ant -f ${ant.file} undeployMDS -Dmds.file.dir=path"/>
+          <echo message="       path (Optional) - the absolute path for the MDS Repository E.g. EIAMetadata/EO/common . Default value is EIAMetadata"/>
+          <echo message="    example:"/>
+          <echo message="         ant -f ${ant.file} undeployMDS -Dmds.file.dir=EIAMetadata/EO/common"/>
+          <echo message="   The above command will remove the folder and its contents EIAMetadata/EO/common/Common.xsd from SOA MDS"/>
+          <echo message="         ant -f ${ant.file} undeployMDS"/>
+          <echo message="   The above command will remove the entire contents withing EIAMetadata from SOA MDS"/>
+          <echo message="================================================================================"/>
+
+	</target>
+
+    <target name="help-deploy">
+	          <echo message=" ================================================================================"/>
+          <echo message="Usage : deploy"/>
+          <echo message="    ant -f ${ant.file} deploy -DcompositeDir=compositeDir -DcompositeName=compositeName -Drevision=revision -DdeployPlan=deployPlan"/>
+          <echo message="       compositeDir - the absolute path of the directory that holds composite.xml"/>
+          <echo message="       compositeName - the name of the composite"/>
+          <echo message="       revision - the revision ID of the composite"/>
+          <echo message="       deployPlan - configplan to be used for deployment"/>
+          <echo message="    example:"/>
+          <echo message="         ant -f ${ant.file} deploy -DcompositeDir=/tmp/HelloWorldApp/HelloWorld -DcompositeName=HelloWorld -Drevision=1.0 -DdeployPlan=WI_DEV.xml "/>
+          <echo message="================================================================================"/>
+	</target>
+    <target name="help" depends="help-deploy-package,help-compile-package,help-deployMDS,help-undeployMDS,help-deploy" />
+
+</project>

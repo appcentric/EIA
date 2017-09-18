@@ -1,0 +1,13 @@
+<adapter-config name="Invoke_DB_EBS_Process" adapter="db" wsdlLocation="../WSDLs/Invoke_DB_EBS_Process.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSAPPSDB" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="Invoke_DB_EBS_Process_ptt" operation="Invoke_DB_EBS_Process">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_GMD_QMOS_QRSLT_PKG"/>
+      <property name="ProcedureName" value="CREATE_SAMPLE"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

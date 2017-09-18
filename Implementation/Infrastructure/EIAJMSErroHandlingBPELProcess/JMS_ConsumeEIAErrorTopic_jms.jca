@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="JMS_ConsumeEIAErrorTopic" adapter="jms" wsdlLocation="JMS_ConsumeEIAErrorTopic.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/jms/EIAErrorTopic" UIJmsProvider="WLSJMS" UIConnectionName="d_soadomain"/>
+  <endpoint-activation portType="Consume_Message_ptt" operation="Consume_Message">
+    <activation-spec className="oracle.tip.adapter.jms.inbound.JmsConsumeActivationSpec">
+      <property name="PayloadType" value="TextMessage"/>
+      <property name="UseMessageListener" value="false"/>
+      <property name="DestinationName" value="jms/EIAErrorTopic"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

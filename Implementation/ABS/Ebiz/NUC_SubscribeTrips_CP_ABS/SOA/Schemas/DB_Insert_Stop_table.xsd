@@ -1,0 +1,98 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Stop" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Stop" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="StopCollection" type="StopCollection"/>
+   <xs:complexType name="StopCollection">
+      <xs:sequence>
+         <xs:element name="Stop" type="Stop" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Stop">
+      <xs:sequence>
+         <xs:element name="operationId" type="xs:decimal"/>
+         <xs:element name="sequenceNumber" type="xs:decimal"/>
+         <xs:element name="isPickup" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="specialInstructions" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="earlyStopDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="earlyStopTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lateStopDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lateStopTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="stopDuration" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="codAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyType" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="bolNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="shipperOrderNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="shipperPoNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="locationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="addrBookName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="addrCompanyName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="addrLine1" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="addrLine2" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="addrLine3" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="addrCity" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="addrStateProvince" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="addrPostalCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="addrCountryCode" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="addrContactFirstName" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="addrContactLastName" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="addrContactPhone" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="addrContactEmail" type="string256" minOccurs="0" nillable="true"/>
+         <xs:element name="addrTaxId" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="rateBaseName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="ratingDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="pointName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="pointType" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="distance" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="addrCustomerNumber" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="requireCustomerAppointment" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="preferredDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="requiredDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="customLookup1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="customLookup2" type="string50" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string255">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="255"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string75">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="75"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string256">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="256"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

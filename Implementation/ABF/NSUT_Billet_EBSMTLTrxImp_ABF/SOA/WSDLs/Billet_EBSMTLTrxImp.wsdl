@@ -1,0 +1,29 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Billet_EBSMTLTrxImp"
+     targetNamespace="http://nucor.eia.com/Billet_EBSMTLTrxImp"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://nucor.eia.com/Billet_EBSMTLTrxImp"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="Billet_EBSMTLTrxImp">
+        <plnk:role name="Billet_EBSMTLTrxImpProvider" portType="client:Billet_EBSMTLTrxImp"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://nucor.eia.com/Billet_EBSMTLTrxImp" schemaLocation="../Schemas/Billet_EBSMTLTrxImp.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Billet_EBSMTLTrxImpRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="Billet_EBSMTLTrxImp">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:Billet_EBSMTLTrxImpRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

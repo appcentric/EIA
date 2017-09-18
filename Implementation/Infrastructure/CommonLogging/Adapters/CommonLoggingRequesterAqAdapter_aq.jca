@@ -1,0 +1,13 @@
+<adapter-config name="CommonLoggingRequesterAqAdapter" adapter="aq" wsdlLocation="../CommonLoggingRequesterAqAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/AQ/ebs_audit" UIConnectionName="Vision_DEV"/>
+  <endpoint-activation portType="Dequeue_ptt" operation="Dequeue">
+    <activation-spec className="oracle.tip.adapter.aq.inbound.AQDequeueActivationSpec">
+      <property name="Consumer" value="AUDIT_LOG"/>
+      <!--<property name="SchemaValidation" value="true"/>-->
+      <property name="QueueName" value="XXNUC_COMM_AUDIT_LOG_Q"/>
+      <property name="DatabaseSchema" value="APPS"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

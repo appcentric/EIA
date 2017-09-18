@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_APInvoice_DJJ_EBiz_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="DJJGetAPInvoiceV1_ep">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/ABF/NUC_APInvoice_DJJ_EBiz_ABF/DJJGetAPInvoiceV1_ep#wsdl.endpoint(DJJGetAPInvoiceV1_ep/execute_pt)</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>NEVER</replace>
+            </property>
+         </binding>
+      </service>
+      <service name="DJJGetAPInvoiceV1_ep"/>
+      <property name="compositeID">
+         <replace>bc596441-0f97-412e-b15b-6582e536dedf</replace>
+      </property>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="DJJGetAPInvoiceV1Impl">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+      </component>
+      <reference name="DJJGetInvoiceV1"/>
+      <reference name="InvoiceABS"/>
+      <reference name="CommonLogging"/>
+      <reference name="Invoke_RequestDeliveryABS"/>
+      <reference name="DJJAcknowledge_ep"/>
+      <reference name="DB_GetPODetails"/>
+      <reference name="DJJGetInvoiceV1">
+         <binding type="rest"/>
+      </reference>
+      <reference name="InvoiceABS">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0#wsdl.endpoint(InvoiceABS/SyncPort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/InvoiceABS.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="CommonLogging">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="Invoke_RequestDeliveryABS">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0#wsdl.endpoint(DeliveryABS/SyncPort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/common/DeliveryABS.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DJJAcknowledge_ep">
+         <binding type="rest"/>
+      </reference>
+      <reference name="DB_GetPODetails">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_GetPODetails_db.jca|Schemas/AcknowledgeAO.xsd|Schemas/DB_GetPODetails_sp.xsd|Schemas/DB_GetProfileCostFactorId_sp.xsd|Schemas/InvoiceAO.xsd|WSDLs/DB_GetPODetails.wsdl|WSDLs/DB_GetProfileCostFactorId.wsdl|WSDLs/DeliveryABSWrapper.wsdl|WSDLs/DJJAcknowledge_ep.wsdl|WSDLs/DJJGetAPInvoiceV1_ep.wsdl|WSDLs/DJJGetAPInvoiceV1_epWrapper.wsdl|WSDLs/DJJGetInvoiceV1.wsdl|WSDLs/InvoiceABSWrapper.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

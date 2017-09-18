@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_Emp_SAP_EBiz_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="nuc_reduceddemographicsemp_sap_ebiz_abf_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF#wsdl.endpoint(nuc_reduceddemographicsemp_sap_ebiz_abf_client_ep/NUC_Emp_SAP_EBiz_ABF_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <property name="productVersion">
+         <replace>11.1.1.7.0</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="NUC_Emp_SAP_EBiz_ABF">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+      </component>
+      <reference name="WS_Demographics">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://tempuri.org/#wsdl.endpoint(Demographic/WSHttpBinding_IDemo)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/SAP/V1.0/demographics.wsdl</replace>
+            </attribute>
+            <property name="oracle.webservices.auth.password">
+               <replace>27Dark+Stars</replace>
+            </property>
+            <property name="oracle.webservices.auth.username">
+               <replace>nucornet.com\WebSvc_Abbr_NYS</replace>
+            </property>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DB_DeleteSapSpsData">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_InsertHrEmployee">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_InsertSapSpsEmployee">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_SelectUpdateEmpRecs">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_MergeSpsEmp">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="OA_EmpDataLoad">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="DB_DeleteSapSpsData.wsdl|DB_DeleteSapSpsData_db.jca|DB_InsertHrEmployee.wsdl|DB_InsertHrEmployee_db.jca|DB_InsertSapSpsEmployee.wsdl|DB_InsertSapSpsEmployee_db.jca|DB_MergeSpsEmp.wsdl|DB_MergeSpsEmp_db.jca|DB_SelectUpdateEmpRecs.wsdl|DB_SelectUpdateEmpRecs_db.jca|demographicsWrapper.wsdl|NUC_Emp_SAP_EBiz_ABF.wsdl|OA_EmpDataLoad.wsdl|OA_EmpDataLoad_apps.jca|xsd/DB_DeleteSapSpsData.xsd|xsd/DB_InsertHrEmployee_table.xsd|xsd/DB_InsertSapSpsEmployee_table.xsd|xsd/DB_MergeSpsEmp_table.xsd|xsd/DB_SelectUpdateEmpRecs_table.xsd|xsd/NUC_Emp_SAP_EBiz_ABF.xsd|xsd/NuePay_ReducedEmpDemo.xsd|xsd/OA_EmpDataLoad_sp.xsd">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

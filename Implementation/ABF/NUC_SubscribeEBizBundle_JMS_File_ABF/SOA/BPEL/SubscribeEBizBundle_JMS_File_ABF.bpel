@@ -1,0 +1,511 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Apr 27 09:24:32 CDT 2016
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SubscribeEBizBundle_JMS_File_ABF"
+               targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_SubscribeEBizBundle_JMS_File_ABF/SubscribeEBizBundle_JMS_File_ABF"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/Implementation/ABF/NUC_SubscribeEBizBundle_JMS_File_ABF/SubscribeEBizBundle_JMS_File_ABF"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_SubscribeEBizBundle_JMS_File_ABF/JMSConsumeBundle"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/ftp/DV1Application/NUC_SubscribeEBizBundle_JMS_File_ABF/FTP_WriteBundles"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns3="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns5="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns4="http://nucor.eia.com/AO/Ebiz/L2C/BundleAM/1.0"
+         xmlns:ns7="http://nucor.eia.com/AO/Ebiz/L2C/BundleAO/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns8="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns9="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_SubscribeEBizBundle_JMS_File_ABF/JMSConsumeBundle"
+          location="../WSDLs/JMSConsumeBundle.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMSConsumeBundle" partnerLinkType="ns1:Consume_Message_plt" myRole="Consume_Message_role"/>
+    <partnerLink name="FTP_WriteBundles" partnerLinkType="ns2:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_JMSConsumeBundle_Consume_Message_InputVariable" messageType="ns1:Consume_Message_msg"/>
+    <variable name="Invoke_FTP_WriteBundles_Put_InputVariable" messageType="ns2:Put_msg"/>
+    <variable name="gFileName" type="xsd:string"/>
+    <variable name="gRaiseError" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="Scope_CatchAllLogging">
+        <variables>
+          <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+        </variables>
+        <faultHandlers>
+          <catchAll>
+            <empty name="DoNothing"/>
+          </catchAll>
+        </faultHandlers>
+        <sequence name="Sequence2">
+          <assign name="Assign_CatchAllLogging">
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:ComponentID</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionName</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>37</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+            </copy>
+            <copy>
+              <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                  portType="ns3:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_JMSConsumeBundle" createInstance="yes" partnerLink="JMSConsumeBundle"
+             portType="ns1:Consume_Message_ptt" operation="Consume_Message"
+             variable="Receive_JMSConsumeBundle_Consume_Message_InputVariable"/>
+    <scope name="Scope_StartLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_StartLogging">
+          <copy>
+            <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:ComponentID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionName</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>37</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+          <copy>
+            <from>'false'</from>
+            <to>$gRaiseError</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <forEach parallel="no" counterName="BolDetailIdx" name="ForEachBolDetail">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail)</finalCounterValue>
+      <scope name="Scope1">
+        <variables>
+          <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+        </variables>
+        <if name="IfParentLotNull">
+          <documentation>
+            <![CDATA[Yes]]>
+          </documentation>
+          <condition>not(($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:ParentLot and $Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:ParentLot != '') and(($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:NumericSize and $Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:NumericSize != '') or ($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:FlatSize and $Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:FlatSize != '')))</condition>
+          <sequence name="Sequence6">
+            <assign name="Assign_BolDetailLineError">
+              <copy>
+                <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionIDREF</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+              </copy>
+              <copy>
+                <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:ComponentID</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+              </copy>
+              <copy>
+                <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionName</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>37</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+              </copy>
+              <copy>
+                <from>'BMG-178'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+              </copy>
+              <copy>
+                <from>concat($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:BolNumber,',',$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:OrderNumber,',',$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:OrderLine,',',$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:ListOfBolDetails/ns7:BolDetail[$BolDetailIdx]/ns7:DelDetID)</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+              </copy>
+              <copy>
+                <from>'true'</from>
+                <to>$gRaiseError</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns3:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+      </scope>
+    </forEach>
+    <if name="IfRaiseError">
+      <documentation>
+        <![CDATA[true]]>
+      </documentation>
+      <condition>$gRaiseError = 'true'</condition>
+      <scope name="Scope_EndLoggingError">
+        <variables>
+          <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+        </variables>
+        <sequence name="Sequence5">
+          <assign name="Assign_EndloggingError">
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:ComponentID</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionName</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>37</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-013'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+            </copy>
+            <copy>
+              <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:BolNumber</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                  portType="ns3:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+      <else>
+        <documentation>
+          <![CDATA[false]]>
+        </documentation>
+        <sequence>
+          <assign name="Xform_JMSBundleInput_To_FileWriteInput">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/Xform_JMSBundleInput_To_FileWriteInput.xsl", $Receive_JMSConsumeBundle_Consume_Message_InputVariable.body)</from>
+              <to variable="Invoke_FTP_WriteBundles_Put_InputVariable" part="body"/>
+            </copy>
+          </assign>
+          <if name="If_Mill_NSNE_">
+            <documentation>
+              <![CDATA[NSNE]]>
+            </documentation>
+            <condition>contains(xp20:upper-case($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:BundleMill),'NSNE')</condition>
+            <assign name="Assign_NSNE_FileName">
+              <copy>
+                <from>'cbn_'</from>
+                <to>$gFileName</to>
+              </copy>
+            </assign>
+            <else>
+              <documentation>
+                <![CDATA[NCFWI]]>
+              </documentation>
+              <assign name="Assign_NCFWI_FileName">
+                <copy>
+                  <from>'cbnw'</from>
+                  <to>$gFileName</to>
+                </copy>
+              </assign>
+            </else>
+          </if>
+          <invoke name="Invoke_FTP_WriteBundles" partnerLink="FTP_WriteBundles" portType="ns2:Put_ptt" operation="Put"
+                  inputVariable="Invoke_FTP_WriteBundles_Put_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.FileName">concat($gFileName,substring-after($Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns4:ListOfBundles/ns7:Bundle/ns7:BolNumber,'-'),'.txt')</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <scope name="Scope_EndLogging">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns3:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence3">
+              <assign name="Assign_EndLogging">
+                <copy>
+                  <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionIDREF</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:ComponentID</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Receive_JMSConsumeBundle_Consume_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionName</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>37</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                      operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </else>
+    </if>
+  </sequence>
+</process>

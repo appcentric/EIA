@@ -1,0 +1,23 @@
+<adapter-config name="DB_InsertJDAPlanInvAsgmts" adapter="db" wsdlLocation="../WSDLs/DB_InsertJDAPlanInvAsgmts.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="SMGDEV1" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_InsertJDAPlanInvAsgmts_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_InsertJDAPlanInvAsgmts.XxnucGmeJdaTrnInvStg"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="DB_InsertJDAPlanInvAsgmts-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+  <endpoint-interaction portType="DB_InsertJDAPlanInvAsgmts_ptt" operation="delete">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_InsertJDAPlanInvAsgmts.XxnucGmeJdaTrnInvStg"/>
+      <property name="DmlType" value="delete"/>
+      <property name="MappingsMetaDataURL" value="DB_InsertJDAPlanInvAsgmts-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,450 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jun 26 15:25:35 CDT 2013
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SupplierABSImpl"
+               targetNamespace="http://xmlns.eia.com/ABS/EBiz/P2P/SupplierABSImpl/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/EBiz/P2P/SupplierABSImpl/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/SupplierABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EBizSupplier_ABS/DB_QuerySupplierEBS"
+          xmlns:ns3="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns4="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns5="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EBizSupplier_ABS/DB_QuerySupplierSitesEBS"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAM/1.0"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QuerySupplierSitesEBS"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QuerySupplierEBS"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizSupplier_ABS/DB_QuerySupplierEBS"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/SupplierABS/1.0" location="SupplierABSWrapper.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="SupplierABS" partnerLinkType="ns1:SupplierABS"
+                 myRole="SyncPortType"/>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcess"
+                 partnerLinkType="ns4:EIAAsyncErrorHandlingBPELProcess"
+                 partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="DB_QuerySupplierSitesEBS"
+                 partnerLinkType="ns6:DB_QuerySupplierSitesEBS_plt"
+                 partnerRole="DB_QuerySupplierSitesEBS_role"/>
+    <partnerLink name="DB_QuerySupplierEBS"
+                 partnerLinkType="ns12:DB_QuerySupplierEBS_plt"
+                 partnerRole="DB_QuerySupplierEBS_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="gbl_operation" type="xsd:string"/>
+    <variable name="gbl_title" type="xsd:string"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns3:ProcessHeader"/>
+    <variable name="EIAFaultMsg" messageType="ns1:EIAFaultMsgType"/>
+    <variable name="QueryByOrigSystemRef_SyncReqMsg"
+              messageType="ns1:QueryByOrigSystemRef_BasicSupplierRequestMessageType"/>
+    <variable name="QueryByOrigSystemRef_SyncRespMsg"
+              messageType="ns1:QueryByOrigSystemRef_BasicSupplierResponseMessageType"/>
+ 
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg"
+              messageType="ns4:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="QueryByOrigSystemRef_SupplierSitesSync_ReqMsg"
+              messageType="ns1:QueryByOrigSystemRef_BasicSupplierSiteRequestMessageType"/>
+    <variable name="DB_QuerySupplierSitesEBS_ReqMsg"
+              messageType="ns6:XxnucSupSiteOrigSysRefsV_msg"/>
+    <variable name="DB_QuerySupplierSitesEBS_RespMsg"
+              messageType="ns6:XxnucSupSiteOrigSysRefsVCollection_msg"/>
+    <variable name="QueryByOrigSystemRef_SupplierSitesSync_RespMsg"
+              messageType="ns1:QueryByOrigSystemRef_BasicSupplierSiteResponseMessageType"/>
+    <variable name="DB_QuerySupplierEBS_ReqMsg"
+              messageType="ns12:XxnucSupOrigSysRefsV_msg"/>
+    <variable name="DB_QuerySupplierEBS_RespMsg"
+              messageType="ns12:XxnucSupOrigSysRefsVCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"
+           faultMessageType="ns1:EIAFaultMsgType">
+      <sequence name="Sequence1"><!--assign name="Xform_EHM_EIAFaultMsg"
+                                         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_To_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+         <to variable="EIAFaultMsg" part="Fault"/>
+      </copy>
+   </assign--><assign name="Xform_EAIFaultMsg_To_EIAAsyncErrorHandlingBpelProcessReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/Xform_EAIFaultMsg_To_EIAAsyncErrorHandlingBpelProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>
+            <![CDATA[Operatoin_QueryByOrigSystemRef_Sync]]>
+          </documentation>
+          <condition>$gbl_operation="QueryByOrigSystemRef_Sync"</condition>
+          <sequence>
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                    partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                    portType="ns4:EIAAsyncErrorHandlingBPELProcess"
+                    operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_QueryByOrigSystemRef_Sync" variable="EIAFaultMsg"
+                   partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                   operation="QueryByOrigSystemRef_Sync"
+                   faultName="ns1:EIAFault"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Operatoin_QueryByOrigSystemRef_SupplierSitesSync]]>
+            </documentation><sequence name="Sequence9"><invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                                                                                     partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                                                                                     portType="ns4:EIAAsyncErrorHandlingBPELProcess"
+                                                                                     operation="processFault"
+                                                                                     inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                                                                                     bpelx:invokeAsDetail="no"
+                                                                                     xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                                                                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:toProperties>
+         <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke>
+              <reply name="Reply_QueryByOrigSystemRef_SupplierSitesSync" faultName="ns1:EIAFault"
+                     variable="EIAFaultMsg" partnerLink="SupplierABS"
+                     portType="ns1:SyncPortType"
+                     operation="QueryByOrigSystemRef_SupplierSiteSync"/>
+            </sequence></else>
+        </if>
+        <rethrow name="Rethrow1"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence2"><assign name="setEIAFaultMsg">
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/setEIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage</to>
+          </copy>
+        </assign>
+        <assign name="Xform_EAIFaultMsg_To_EIAAsyncErrorHandlingBpelProcessReqMsg"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("xsl/Xform_EAIFaultMsg_To_EIAAsyncErrorHandlingBpelProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+         <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+             part="FaultMessage"/>
+      </copy>
+   </assign>
+        <if name="On_Operation">
+          <documentation>
+            <![CDATA[Operatoin_QueryByOrigSystemRef_Sync]]>
+          </documentation>
+          <condition>$gbl_operation="QueryByOrigSystemRef_Sync"</condition>
+          <sequence>
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                    partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                    portType="ns4:EIAAsyncErrorHandlingBPELProcess"
+                    operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")  </bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_QueryByOrigSystem_Sync" variable="EIAFaultMsg"
+                   partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                   operation="QueryByOrigSystemRef_Sync"
+                   faultName="ns1:EIAFault"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Operatoin_QueryByOrigSystemRef_SupplierSitesSync]]>
+            </documentation><sequence name="Sequence10"><invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                                                                                      partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                                                                                      portType="ns4:EIAAsyncErrorHandlingBPELProcess"
+                                                                                      operation="processFault"
+                                                                                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                                                                                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                                                                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                                                                                      bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+         <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")  </bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke><reply name="Reply_QueryByOrigSystemRef_SupplierSitesSync"
+                   faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                   partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                   operation="QueryByOrigSystemRef_SupplierSiteSync"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></else>
+        </if>
+        <rethrow name="Rethrow1"
+                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="QueryByOrigSystemRef_SyncReqMsg"
+                 partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                 operation="QueryByOrigSystemRef_Sync">
+        <sequence name="QueryByOrigSystemRef_Sync">
+          <assign name="SetEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="SetCompositeInformation">
+            <copy>
+              <from>"QueryByOrigSystemRef_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Query Supplier ABS  ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <if name="ValidateParameters">
+            <documentation>
+              <![CDATA[QueryByOrigSystemRef]]>
+            </documentation>
+            <condition>($QueryByOrigSystemRef_SyncReqMsg.payload/ns7:SupplierOrigSystemInfo/ns8:OrigSystem/text() !="" and $QueryByOrigSystemRef_SyncReqMsg.payload/ns7:SupplierOrigSystemInfo/ns8:OrigSystemReference/text() !="")</condition>
+            <sequence>
+              <assign name="Xform_QueryByOrigSystemRef_SyncReqMsg_To_DB_QuerySupplierEBS_ReqMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_QueryByOrigSystemRef_SyncReqMsg_To_DB_QuerySupplierEBS_ReqMsg.xsl", $QueryByOrigSystemRef_SyncReqMsg.payload)</from>
+                  <to variable="DB_QuerySupplierEBS_ReqMsg"
+                      part="XxnucSupOrigSysRefsV"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DB_QuerySuplliersEBS"
+                      partnerLink="DB_QuerySupplierEBS"
+                      portType="ns12:DB_QuerySupplierEBS_ptt"
+                      operation="queryByExample"
+                      inputVariable="DB_QuerySupplierEBS_ReqMsg"
+                      outputVariable="DB_QuerySupplierEBS_RespMsg"
+                      bpelx:invokeAsDetail="no"/>
+              <assign name="Xform_DB_QuerySupplierEBS_RespMsg_To_QueryByOrigSystemRef_SyncRespMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_DB_QuerySupplierEBS_RespMsg_To_QueryByOrigSystemRef_SyncRespMsg.xsl", $DB_QuerySupplierEBS_RespMsg.XxnucSupOrigSysRefsVCollection)</from>
+                  <to variable="QueryByOrigSystemRef_SyncRespMsg"
+                      part="payload"/>
+                </copy>
+              </assign>
+            </sequence>
+            <else>
+              <sequence name="Sequence5">
+                <assign name="Xform_EHM_EIAFaultMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"/>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_To_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="EIAFaultMsg" part="Fault"/>
+                  </copy>
+                </assign>
+                <assign name="setEIAFaultMsg">
+                  <copy>
+                    <from>"INVALID_QUERY_PARAMS"</from>
+                    <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Code</to>
+                  </copy>
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Stack</to>
+                  </copy>
+                  <copy>
+                    <from>"1.0"</from>
+                    <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Severity</to>
+                  </copy>
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Text</to>
+                  </copy>
+                </assign>
+                <throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault"
+                       faultVariable="EIAFaultMsg"/>
+              </sequence>
+            </else>
+          </if>
+          <reply name="Reply_QueryByOrigSystemRef_SyncRespMsg"
+                 variable="QueryByOrigSystemRef_SyncRespMsg"
+                 partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                 operation="QueryByOrigSystemRef_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                 operation="QueryByOrigSystemRef_SupplierSiteSync"
+                 variable="QueryByOrigSystemRef_SupplierSitesSync_ReqMsg"><sequence name="QueryByOrigSystemRef_SupplierSiteSync">
+          <assign name="SetEHM"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>xp20:current-dateTime()</from>
+         <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+      </copy>
+      <copy>
+         <from>ora:getCompositeName()</from>
+         <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+      </copy>
+      <copy>
+         <from>ora:getComponentInstanceId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+      </copy>
+      <copy>
+         <from>ora:getProcessVersion()</from>
+         <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+      </copy>
+      <copy>
+         <from>ora:getProcessId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+      </copy>
+   </assign>
+          <assign name="SetCompositeInformation"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from>"QueryByOrigSystemRef_SupplierSiteSync"</from>
+         <to>$gbl_operation</to>
+      </copy><copy>
+         <from>ora:setCompositeInstanceTitle(concat("Query Supplier ABS  ",$gbl_operation))</from>
+         <to>$gbl_title</to>
+      </copy></assign>
+          <if name="ValidateParameters">
+            <documentation>
+              <![CDATA[QueryByOrigSystemRef_SupplierSites]]>
+            </documentation>
+            <condition>($QueryByOrigSystemRef_SupplierSitesSync_ReqMsg.payload/ns7:SupplierSiteOrigSystemInfo/ns11:OrigSystem !="" and $QueryByOrigSystemRef_SupplierSitesSync_ReqMsg.payload/ns7:SupplierSiteOrigSystemInfo/ns11:OrigSystemReference != "")</condition>
+            <sequence>
+              <assign name="Xform_QueryByOrigSystemRef_SupplierSitesSync_ReqMsg_To_DB_QuerySupplierSitesEBS_ReqMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_QueryByOrigSystemRef_SupplierSitesSync_ReqMsg_To_DB_QuerySupplierSitesEBS_ReqMsg.xsl", $QueryByOrigSystemRef_SupplierSitesSync_ReqMsg.payload)</from>
+                  <to variable="DB_QuerySupplierSitesEBS_ReqMsg"
+                      part="XxnucSupSiteOrigSysRefsV"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DB_QuerySupplierSitesEBS"
+                      bpelx:invokeAsDetail="no"
+                      partnerLink="DB_QuerySupplierSitesEBS"
+                      portType="ns6:DB_QuerySupplierSitesEBS_ptt"
+                      operation="queryByExample"
+                      inputVariable="DB_QuerySupplierSitesEBS_ReqMsg"
+                      outputVariable="DB_QuerySupplierSitesEBS_RespMsg"/>
+              <assign name="Xform_DB_QuerySupplierSitesEBS_RespMsg_To_QueryByOrigSystemRef_SupplierSitesSync_RespMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_DB_QuerySupplierSitesEBS_RespMsg_To_QueryByOrigSystemRef_SupplierSitesSync_RespMsg.xsl", $DB_QuerySupplierSitesEBS_RespMsg.XxnucSupSiteOrigSysRefsVCollection)</from>
+                  <to variable="QueryByOrigSystemRef_SupplierSitesSync_RespMsg"
+                      part="payload"/>
+                </copy>
+              </assign>
+            </sequence>
+            <else>
+              <sequence name="Sequence8">
+                <assign name="Xform_EHM_EIAFaultMsg"
+                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_To_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+         <to variable="EIAFaultMsg" part="Fault"/>
+      </copy>
+   </assign><assign name="setEIAFaultMsg"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>"INVALID_QUERY_PARAMS"</from>
+         <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Code</to>
+      </copy>
+      <copy>
+         <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+         <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Stack</to>
+      </copy>
+      <copy>
+         <from>"1.0"</from>
+         <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Severity</to>
+      </copy>
+      <copy>
+         <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+         <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Text</to>
+      </copy>
+   </assign><throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault"
+                   faultVariable="EIAFaultMsg"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence>
+            </else>
+          </if>
+          <reply name="Reply_QueryByOrigSystemRef_SupplierSitesSync"
+                 variable="QueryByOrigSystemRef_SupplierSitesSync_RespMsg"
+                 partnerLink="SupplierABS" portType="ns1:SyncPortType"
+                 operation="QueryByOrigSystemRef_SupplierSiteSync"/>
+        </sequence></onMessage>
+    </pick>
+  </sequence>
+</process>

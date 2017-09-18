@@ -1,0 +1,336 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sun Nov 29 12:20:40 CST 2015
+  Author:  jyoti.kukreja
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_ReceiveARFreight_OTM_Ebiz_ABF"
+         targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_Ebiz_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/Implementation/ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_Ebiz_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/CommonLogging" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns2="http://xmlns.eia.com/Implementation/ABF/pcbpel/adapter/db/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/DB_InsertARFreightEBS"
+         xmlns:ns3="http://schemas.oracle.com/service/bpel/common">
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true"
+          namespace="http://xmlns.eia.com/Implementation/ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_EBiz_ABF/NUC_ReceiveARFreight_OTM_Ebiz_ABF"
+          location="../WSDLs/NUC_ReceiveARFreight_OTM_Ebiz_ABF.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="nuc_receivearfreight_otm_ebiz_abf_client"
+                 partnerLinkType="client:NUC_ReceiveARFreight_OTM_Ebiz_ABF"
+                 myRole="NUC_ReceiveARFreight_OTM_Ebiz_ABFProvider"/>
+    <partnerLink name="CommonLoggingPL" partnerLinkType="ns1:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_InsertARFreightEBS" partnerLinkType="ns2:DB_InsertARFreightEBS_plt"
+                 partnerRole="DB_InsertARFreightEBS_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:NUC_ReceiveARFreight_OTM_Ebiz_ABFRequestMessage"/>
+    <variable name="Invoke_DB_InsertARFreightEBS_insert_InputVariable"
+              messageType="ns2:XxnucOtmArFreightRatesStgCollection_msg"/>
+    <variable name="TransactionId" element="ns3:parameters"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="Scope4" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+        <variables>
+          <variable name="Invoke_Error_Common_Logging_process_InputVariable"
+                    messageType="ns1:CommonLoggingRequestMessage"/>
+        </variables>
+        <sequence name="Common_Logging_ForError">
+          <assign name="Assign_Error_Common_Logging">
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I133'</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+            </copy>
+            <copy>
+              <from>'ARFreight'</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>31</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:LogType</to>
+            </copy>
+            <copy>
+              <from>concat('FlowId: ',ora:getFlowId(),' Error ',ora:getFaultAsString())</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_Error_Common_Logging_process_InputVariable.CommonLogging/ns1:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Error_Common_Logging" partnerLink="CommonLoggingPL" portType="ns1:CommonLogging"
+                  operation="process" inputVariable="Invoke_Error_Common_Logging_process_InputVariable"
+                  xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in NUC_ReceiveARFreight_OTM_Ebiz_ABF.wsdl) -->
+    <receive name="receiveInput" partnerLink="nuc_receivearfreight_otm_ebiz_abf_client"
+             portType="client:NUC_ReceiveARFreight_OTM_Ebiz_ABF" operation="process" variable="inputVariable"
+             createInstance="yes"/>
+    <scope name="Scope_Common_Logging_Start">
+      <variables>
+        <variable name="Invoke_Start_CommonLogging_process_InputVariable"
+                  messageType="ns1:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Common_Logging_ForStartProcess">
+        <assign name="Assign_Start_CommonLogging">
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string(ora:getComponentInstanceId()))</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeInstanceId()</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I133'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+          </copy>
+          <copy>
+            <from>'ARFreight'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns1:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_Start_CommonLogging" partnerLink="CommonLoggingPL" portType="ns1:CommonLogging"
+                operation="process" inputVariable="Invoke_Start_CommonLogging_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <scope name="Scope_Transform_Insert_to_STG">
+      <sequence name="Sequence_InsertDataToEBS">
+        <assign name="Assign_TransactionId">
+          <copy>
+            <from>'TransactionId'</from>
+            <to>$TransactionId/ns3:item/ns3:name</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeInstanceId()</from>
+            <to>$TransactionId/ns3:item/ns3:value</to>
+          </copy>
+        </assign>
+        <assign name="Transform_InputVariable_To_DBInsertInputVariable">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transform_OTMARFreight_To_EBizSTG.xsl", $inputVariable.payload, "TransactionId", $TransactionId)</from>
+            <to variable="Invoke_DB_InsertARFreightEBS_insert_InputVariable"
+                part="XxnucOtmArFreightRatesStgCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_InsertARFreightEBS" partnerLink="DB_InsertARFreightEBS"
+                portType="ns2:DB_InsertARFreightEBS_ptt" operation="insert"
+                inputVariable="Invoke_DB_InsertARFreightEBS_insert_InputVariable" bpelx:invokeAsDetail="no"/>
+      </sequence>
+    </scope>
+    <scope name="Scope_Common_Logging_End">
+      <variables>
+        <variable name="Invoke_End_Common_Logging_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Common_Logging_EndProcess">
+        <assign name="Assign_End_Common_Logging">
+          <copy>
+            <from>ora:getCompositeInstanceId()</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I133'</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'ARFreight'</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_End_Common_Logging_process_InputVariable.CommonLogging/ns1:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_End_Common_Logging" partnerLink="CommonLoggingPL" portType="ns1:CommonLogging"
+                operation="process" inputVariable="Invoke_End_Common_Logging_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

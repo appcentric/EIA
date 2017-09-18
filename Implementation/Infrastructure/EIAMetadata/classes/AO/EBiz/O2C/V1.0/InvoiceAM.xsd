@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:invam="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceABM/1.0"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceABM/1.0" elementFormDefault="qualified"
+            xmlns:oao="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceAO/1.0"
+            xmlns:oam="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceAM/1.0"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+            xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0">
+  <xsd:import schemaLocation="../../../../AO/EBiz/O2C/V1.0/InvoiceAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceAO/1.0"/>
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+  <xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0"
+              schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+  
+  <xsd:element name="QueryBasicInvoiceRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="header:HeaderRq"/>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+        <xsd:element name="BasicInvoice" minOccurs="0" nillable="true" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="oao:BasicInvoiceType">
+                <xsd:attribute name="numRows" type="xsd:integer" use="optional" default="10"/>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="QueryBasicInvoiceResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="header:HeaderRs"/>
+        <xsd:element name="OperationResult" type="res:OperationResultType" maxOccurs="1" minOccurs="0" nillable="true"/>
+        <xsd:element name="ListOfBasicInvoices" minOccurs="0" nillable="true" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="oao:BasicInvoiceType">
+                <xsd:sequence>
+                  <xsd:element name="ListOfBasicInvoiceLines" type="oao:BasicInvoiceLineType"/>
+                </xsd:sequence>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

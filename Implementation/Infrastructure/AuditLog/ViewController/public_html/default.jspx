@@ -1,0 +1,1558 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <f:view>
+    <!--   xmlns:h="http://java.sun.com/jsf/html"  -->
+    <af:document id="d1" title="Common Logging and Notification Framework">
+      <af:messages id="m1"/>
+      <af:form id="f1">
+        <af:panelSplitter id="ps1" orientation="vertical" splitterPosition="63" disabled="true">
+          <f:facet name="first">
+            <af:panelSplitter id="ps11" splitterPosition="125" positionedFromEnd="true" styleClass="AFStretchWidth"
+                              collapsed="false" disabled="true">
+              <f:facet name="first">
+                <af:panelGroupLayout halign="center" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" id="pgl1"
+                                     styleClass="AFStretchWidth">
+                  <af:image source="/logo.png" shortDesc="CapGemini" id="i1"
+                            inlineStyle="width:240px; height:50px; text-align:left;"/>
+                  <af:spacer id="sp1" height="2" width="200"/>
+                  <af:outputText value="Common Logging and Notification" id="ot23" inlineStyle="font-size:medium;"/>
+                </af:panelGroupLayout>
+              </f:facet>
+              <f:facet name="second">
+                <af:panelGroupLayout halign="center" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" id="pgl13"
+                                     layout="vertical">
+                  <af:panelGroupLayout halign="center" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" id="pgl11"
+                                       layout="horizontal">
+                    <af:activeOutputText value="#{'Welcome '}#{securityContext.userName}" id="aot1"/>
+                  </af:panelGroupLayout>
+                  <af:panelGroupLayout halign="center" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" id="pgl27"
+                                       layout="horizontal">
+                    <af:goButton id="gb2"
+                                 destination="#{'/adfAuthentication?logout=true&amp;end_url=/faces/default.jspx'}"
+                                 inlineStyle="font-size:xx-small;" text="Logout"/>
+                    <af:goButton id="gb1" destination="default.jspx" inlineStyle="font-size:xx-small;" text="Refresh"/>
+                  </af:panelGroupLayout>
+                </af:panelGroupLayout>
+              </f:facet>
+            </af:panelSplitter>
+          </f:facet>
+          <f:facet name="second">
+            <af:panelTabbed id="pt1">
+              <af:showDetailItem text="Common Logging" id="sdi1" inlineStyle="width:inherit;">
+                <af:panelSplitter id="ps2" orientation="vertical" styleClass="AFStretchWidth" splitterPosition="250"
+                                  inlineStyle="height:500px;">
+                  <f:facet name="first">
+                    <af:panelAccordion id="pa1">
+                      <af:showDetailItem id="sdi4" inlineStyle="width:inherit; height:250px;" text="Audit Log">
+                        <af:panelGroupLayout id="pgl26" layout="scroll" inlineStyle="width:inherit;">
+                          <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar">
+                              <af:toolbar id="t7">
+                                <af:selectOneChoice value="#{bindings.AuditLogTableSizeLOV.inputValue}" label="Size"
+                                                    required="#{bindings.AuditLogTableSizeLOV.hints.mandatory}"
+                                                    shortDesc="#{bindings.AuditLogTableSizeLOV.hints.tooltip}"
+                                                    id="soc1">
+                                  <f:selectItems value="#{bindings.AuditLogTableSizeLOV.items}" id="si1"/>
+                                </af:selectOneChoice>
+                                <af:commandButton text="Resize" id="cb10">
+                                  <af:setPropertyListener from="#{bindings.AuditLogTableSizeValue.inputValue}"
+                                                          type="action"
+                                                          to="#{bindings.AuditLogView2Iterator.rangeSize}"/>
+                                </af:commandButton>
+                                <af:spacer id="sp3" height="2" width="50"/>
+                                <af:inputDate value="#{bindings.pStartDate.inputValue}" label="From"
+                                              required="#{bindings.pStartDate.hints.mandatory}"
+                                              shortDesc="#{bindings.pStartDate.hints.tooltip}" id="id8">
+                                  <f:validator binding="#{bindings.pStartDate.validator}"/>
+                                  <af:convertDateTime pattern="#{bindings.pStartDate.format}" type="both"/>
+                                </af:inputDate>
+                                <af:inputDate value="#{bindings.pEndDate.inputValue}" label="To"
+                                              required="#{bindings.pEndDate.hints.mandatory}"
+                                              shortDesc="#{bindings.pEndDate.hints.tooltip}" id="id9">
+                                  <f:validator binding="#{bindings.pEndDate.validator}"/>
+                                  <af:convertDateTime pattern="#{bindings.pEndDate.format}" type="both"/>
+                                </af:inputDate>
+                                <af:commandButton actionListener="#{bindings.ExecuteWithParams.execute}" text="Search"
+                                                  disabled="#{!bindings.ExecuteWithParams.enabled}" id="cb68"/>
+                              </af:toolbar>
+                            </f:facet>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{bindings.AuditLogView2.collectionModel}" var="row"
+                                       width="1203"
+                                      rows="#{bindings.AuditLogView2.rangeSize}"
+                                      emptyText="#{bindings.AuditLogView2.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      fetchSize="#{bindings.AuditLogView2.rangeSize}" rowBandingInterval="0"
+                                      filterModel="#{bindings.AuditLogView2Query.queryDescriptor}"
+                                      queryListener="#{bindings.AuditLogView2Query.processQuery}" filterVisible="true"
+                                      varStatus="vs"
+                                      selectedRowKeys="#{bindings.AuditLogView2.collectionModel.selectedRow}"
+                                      selectionListener="#{bindings.AuditLogView2.collectionModel.makeCurrent}"
+                                      rowSelection="single" id="t2" scrollPolicy="page" inlineStyle="width:inherit;"
+                                      autoHeightRows="0" partialTriggers="">
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.LogId.name}" filterable="true"
+                                         sortable="true" headerText="#{bindings.AuditLogView2.hints.LogId.label}"
+                                         id="c11" width="101">
+                                <af:outputText value="#{row.LogId}" id="ot13"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.TransactionId.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.TransactionId.label}" id="c15"
+                                         width="99">
+                                <af:outputText value="#{row.TransactionId}" id="ot17"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.TransactionName.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.TransactionName.label}" id="c13"
+                                         width="200">
+                                <af:outputText value="#{row.TransactionName}" id="ot14"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.SourceSystem.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.SourceSystem.label}" id="c16"
+                                         width="100">
+                                <af:outputText value="#{row.SourceSystem}" id="ot9"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.TargetSystem.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.TargetSystem.label}" id="c17"
+                                         width="100">
+                                <af:outputText value="#{row.TargetSystem}" id="ot12"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.TransactionStatus.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.TransactionStatus.label}" id="c12"
+                                         width="100">
+                                <af:outputText value="#{row.TransactionStatus}" id="ot10"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.CreatedTime.name}"
+                                         filterable="false" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.CreatedTime.label}" id="c10"
+                                         width="150">
+                                <f:facet name="filter">
+                                  <af:inputDate value="#{vs.filterCriteria.CreatedTime}" id="id3"/>
+                                </f:facet>
+                                <af:outputText value="#{row.CreatedTime}" id="ot16">
+                                  <af:convertDateTime pattern="#{bindings.AuditLogView2.hints.CreatedTime.format}"/>
+                                </af:outputText>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.UpdatedTime.name}"
+                                         filterable="false" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.UpdatedTime.label}" id="c9"
+                                         width="150">
+                                <f:facet name="filter">
+                                  <af:inputDate value="#{vs.filterCriteria.UpdatedTime}" id="id2"/>
+                                </f:facet>
+                                <af:outputText value="#{row.UpdatedTime}" id="ot15">
+                                  <af:convertDateTime pattern="#{bindings.AuditLogView2.hints.UpdatedTime.format}"/>
+                                </af:outputText>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditLogView2.hints.ProjectName.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditLogView2.hints.ProjectName.label}" id="c14"
+                                         width="150">
+                                <af:outputText value="#{row.ProjectName}" id="ot11"/>
+                              </af:column>
+                            </af:table>
+                          </af:panelCollection>
+                        </af:panelGroupLayout>
+                      </af:showDetailItem>
+                    </af:panelAccordion>
+                  </f:facet>
+                  <f:facet name="second">
+                    <af:panelAccordion id="pa2">
+                      <af:showDetailItem text="Audit Step Log" id="sdi5" inlineStyle="width:inherit;">
+                        <af:panelGroupLayout id="pgl2" inlineStyle="width:inherit;" layout="scroll">
+                          <af:panelCollection id="pc2" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar">
+                              <af:toolbar id="t5">
+                                <af:selectOneChoice value="#{bindings.AuditStepLogTableSizeLOV.inputValue}" label="Size"
+                                                    required="#{bindings.AuditStepLogTableSizeLOV.hints.mandatory}"
+                                                    shortDesc="#{bindings.AuditStepLogTableSizeLOV.hints.tooltip}"
+                                                    id="soc2">
+                                  <f:selectItems value="#{bindings.AuditStepLogTableSizeLOV.items}" id="si2"/>
+                                </af:selectOneChoice>
+                                <af:commandButton text="Resize" id="cb16">
+                                  <af:setPropertyListener from="#{bindings.AuditStepLogTableSizeValue.inputValue}"
+                                                          type="action"
+                                                          to="#{bindings.AuditStepLogView2Iterator.rangeSize}"/>
+                                </af:commandButton>
+                              </af:toolbar>
+                            </f:facet>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{bindings.AuditStepLogView2.collectionModel}" var="row"
+                                      rows="#{bindings.AuditStepLogView2.rangeSize}"
+                                      emptyText="#{bindings.AuditStepLogView2.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      fetchSize="#{bindings.AuditStepLogView2.rangeSize}" rowBandingInterval="0"
+                                      filterModel="#{bindings.AuditStepLogView2Query.queryDescriptor}"
+                                      queryListener="#{bindings.AuditStepLogView2Query.processQuery}"
+                                      filterVisible="true" varStatus="vs"
+                                      selectedRowKeys="#{bindings.AuditStepLogView2.collectionModel.selectedRow}"
+                                      selectionListener="#{bindings.AuditStepLogView2.collectionModel.makeCurrent}"
+                                      rowSelection="single" id="t1" inlineStyle="width:inherit;" autoHeightRows="0"
+                                      scrollPolicy="page" partialTriggers=":::pc1:t2">
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.LogId.name}" sortable="false"
+                                         headerText="#{bindings.AuditStepLogView2.hints.LogId.label}" id="c18"
+                                         filterable="false" width="100">
+                                <af:outputText value="#{row.LogId}" id="ot111"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.StepLogId.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.StepLogId.label}" id="c6"
+                                         width="100">
+                                <af:outputText value="#{row.StepLogId}" id="ot2"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.ComponentId.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.ComponentId.label}" id="c2"
+                                         width="100">
+                                <af:outputText value="#{row.ComponentId}" id="ot6"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.MessageSourceSystem.name}"
+                                         filterable="true" sortable="true" headerText="LoggingSystem" id="c8"
+                                         width="100">
+                                <af:outputText value="#{row.MessageSourceSystem}" id="ot1"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.ProcessName.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.ProcessName.label}" id="c4"
+                                         width="150">
+                                <af:outputText value="#{row.ProcessName}" id="ot4"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.LogType.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.LogType.label}" id="c1"
+                                         width="100">
+                                <af:outputText value="#{row.LogType}" id="ot3"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.MessageCode.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.MessageCode.label}" id="c5"
+                                         width="100">
+                                <af:outputText value="#{row.MessageCode}" id="ot5"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.MessageDescription.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.MessageDescription.label}"
+                                         id="c7" width="300">
+                                <af:outputText value="#{row.MessageDescription}" id="ot8"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.AuditStepLogView2.hints.CreatedTime.name}"
+                                         filterable="false" sortable="true"
+                                         headerText="#{bindings.AuditStepLogView2.hints.CreatedTime.label}" id="c3"
+                                         width="150">
+                                <f:facet name="filter">
+                                  <af:inputDate value="#{vs.filterCriteria.CreatedTime}" id="id1"/>
+                                </f:facet>
+                                <af:outputText value="#{row.CreatedTime}" id="ot7">
+                                  <af:convertDateTime pattern="#{bindings.AuditStepLogView2.hints.CreatedTime.format}"
+                                                      type="both"/>
+                                </af:outputText>
+                              </af:column>
+                            </af:table>
+                          </af:panelCollection>
+                        </af:panelGroupLayout>
+                      </af:showDetailItem>
+                    </af:panelAccordion>
+                  </f:facet>
+                </af:panelSplitter>
+              </af:showDetailItem>
+              <af:showDetailItem text="Notification" id="sdi2" styleClass="AFStretchWidth">
+                <af:panelTabbed id="pt2" styleClass="AFStretchWidth" inlineStyle="height:520px;">
+                  <af:showDetailItem text="Email Subscriptions" id="sdi6" inlineStyle="width:inherit;">
+                    <af:panelSplitter id="ps3" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                      splitterPosition="180">
+                      <f:facet name="first">
+                        <af:panelGroupLayout id="pgl3" layout="scroll">
+                          <af:panelCollection id="pc3" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar"/>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{bindings.EmailNotificationView1.collectionModel}" var="row"
+                                      rows="#{bindings.EmailNotificationView1.rangeSize}"
+                                      emptyText="#{bindings.EmailNotificationView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      fetchSize="10" rowBandingInterval="0"
+                                      filterModel="#{bindings.EmailNotificationView1Query.queryDescriptor}"
+                                      queryListener="#{bindings.EmailNotificationView1Query.processQuery}"
+                                      filterVisible="true" varStatus="vs"
+                                      selectedRowKeys="#{bindings.EmailNotificationView1.collectionModel.selectedRow}"
+                                      selectionListener="#{bindings.EmailNotificationView1.collectionModel.makeCurrent}"
+                                      rowSelection="single" id="t10"
+                                      partialTriggers=":::cb34 :::cb4 :::cb20 :::cb33 :::cb15 :::cb36 :::cb35 :::pgl2202 :::pgl1302 :::cb78 :::cb79 :::cb80"
+                                      autoHeightRows="0" scrollPolicy="page">
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.TransactionName.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.TransactionName.label}"
+                                         id="c33">
+                                <af:outputText value="#{row.TransactionName}" id="ot32"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.EmailGroup.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.EmailGroup.label}"
+                                         id="c32">
+                                <af:outputText value="#{row.EmailGroup}" id="ot31"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.NotifictionType.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.NotifictionType.label}"
+                                         id="c29">
+                                <af:outputText value="#{row.NotifictionType}" id="ot33"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.Notification.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.Notification.label}"
+                                         id="c31">
+                                <af:outputText value="#{row.Notification}" id="ot29"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.ErrorNotification.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.ErrorNotification.label}"
+                                         id="c35">
+                                <af:outputText value="#{row.ErrorNotification}" id="ot30"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.WarningNotification.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.WarningNotification.label}"
+                                         id="c34">
+                                <af:outputText value="#{row.WarningNotification}" id="ot34"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailNotificationView1.hints.CompletedNotification.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailNotificationView1.hints.CompletedNotification.label}"
+                                         id="c30">
+                                <af:outputText value="#{row.CompletedNotification}" id="ot35"/>
+                              </af:column>
+                            </af:table>
+                          </af:panelCollection>
+                        </af:panelGroupLayout>
+                      </f:facet>
+                      <f:facet name="second">
+                        <af:panelAccordion id="pa5">
+                          <af:showDetailItem text="Update" id="sdi16">
+                            <!--</af:panelBox>-->
+                            <af:panelFormLayout id="pfl8">
+                              <af:selectOneChoice value="#{bindings.TransactionName1.inputValue}"
+                                                  label="#{bindings.TransactionName1.label}"
+                                                  required="#{bindings.TransactionName1.hints.mandatory}"
+                                                  shortDesc="#{bindings.TransactionName1.hints.tooltip}" id="soc5">
+                                <f:selectItems value="#{bindings.TransactionName1.items}" id="si6"/>
+                              </af:selectOneChoice>
+                              <af:selectOneChoice value="#{bindings.EmailGroup.inputValue}"
+                                                  label="#{bindings.EmailGroup.label}"
+                                                  required="#{bindings.EmailGroup.hints.mandatory}"
+                                                  shortDesc="#{bindings.EmailGroup.hints.tooltip}" id="soc8">
+                                <f:selectItems value="#{bindings.EmailGroup.items}" id="si11"/>
+                              </af:selectOneChoice>
+                              <af:selectOneChoice value="#{bindings.NotifictionType.inputValue}"
+                                                  label="#{bindings.NotifictionType.label}"
+                                                  required="#{bindings.NotifictionType.hints.mandatory}"
+                                                  shortDesc="#{bindings.NotifictionType.hints.tooltip}" id="soc9">
+                                <f:selectItems value="#{bindings.NotifictionType.items}" id="si8"/>
+                              </af:selectOneChoice>
+                              <af:selectOneChoice value="#{bindings.Notification2.inputValue}"
+                                                  label="#{bindings.Notification2.label}"
+                                                  required="#{bindings.Notification2.hints.mandatory}"
+                                                  shortDesc="#{bindings.Notification2.hints.tooltip}" id="soc6">
+                                <f:selectItems value="#{bindings.Notification2.items}" id="si10"/>
+                              </af:selectOneChoice>
+                              <af:selectOneChoice value="#{bindings.ErrorNotification.inputValue}"
+                                                  label="#{bindings.ErrorNotification.label}"
+                                                  required="#{bindings.ErrorNotification.hints.mandatory}"
+                                                  shortDesc="#{bindings.ErrorNotification.hints.tooltip}" id="soc11">
+                                <f:selectItems value="#{bindings.ErrorNotification.items}" id="si5"/>
+                              </af:selectOneChoice>
+                              <af:selectOneChoice value="#{bindings.WarningNotification.inputValue}"
+                                                  label="#{bindings.WarningNotification.label}"
+                                                  required="#{bindings.WarningNotification.hints.mandatory}"
+                                                  shortDesc="#{bindings.WarningNotification.hints.tooltip}" id="soc10">
+                                <f:selectItems value="#{bindings.WarningNotification.items}" id="si9"/>
+                              </af:selectOneChoice>
+                              <af:selectOneChoice value="#{bindings.CompletedNotification.inputValue}"
+                                                  label="#{bindings.CompletedNotification.label}"
+                                                  required="#{bindings.CompletedNotification.hints.mandatory}"
+                                                  shortDesc="#{bindings.CompletedNotification.hints.tooltip}" id="soc7">
+                                <f:selectItems value="#{bindings.CompletedNotification.items}" id="si7"/>
+                              </af:selectOneChoice>
+                              <f:facet name="footer">
+                                <af:panelGroupLayout layout="vertical" id="pgl24">
+                                  <af:panelGroupLayout layout="horizontal" id="pgl15">
+                                    <af:commandButton actionListener="#{bindings.First6.execute}" text="First"
+                                                      disabled="#{!bindings.First6.enabled}" partialSubmit="true"
+                                                      id="cb34"/>
+                                    <af:commandButton actionListener="#{bindings.Previous6.execute}" text="Previous"
+                                                      disabled="#{!bindings.Previous6.enabled}" partialSubmit="true"
+                                                      id="cb4"/>
+                                    <af:commandButton actionListener="#{bindings.Next6.execute}" text="Next"
+                                                      disabled="#{!bindings.Next6.enabled}" partialSubmit="true"
+                                                      id="cb20"/>
+                                    <af:commandButton actionListener="#{bindings.Last6.execute}" text="Last"
+                                                      disabled="#{!bindings.Last6.enabled}" partialSubmit="true"
+                                                      id="cb33"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl1501">
+                                    <!--
+                                    <af:commandButton actionListener="#{bindings.Create.execute}" text="Create"
+                                                      disabled="#{!bindings.Create.enabled}" id="cb35"/>-->
+                                    <af:commandButton actionListener="#{bindings.Create.execute}" text="New"
+                                                      disabled="#{!bindings.Delete.enabled}" id="cb35"/>
+                                    <af:commandButton text="Submit" id="cb15" disabled="#{!bindings.Delete.enabled}"/>
+                                    <af:commandButton actionListener="#{bindings.Delete.execute}" text="Delete"
+                                                      disabled="#{!bindings.Delete.enabled}" id="cb36"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl1502">
+                                    <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                      disabled="#{!bindings.Commit.enabled}" id="cb37"/>
+                                    <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                      disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                      id="cb39">
+                                      <af:resetActionListener/>
+                                    </af:commandButton>
+                                  </af:panelGroupLayout>
+                                </af:panelGroupLayout>
+                              </f:facet>
+                            </af:panelFormLayout>
+                          </af:showDetailItem>
+                        </af:panelAccordion>
+                      </f:facet>
+                    </af:panelSplitter>
+                  </af:showDetailItem>
+                  <af:showDetailItem text="Transaction Setup" id="sdi7">
+                    <af:panelSplitter id="ps6" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                      splitterPosition="199" positionedFromEnd="true">
+                      <f:facet name="first">
+                        <af:panelGroupLayout id="pgl16" layout="scroll">
+                          <af:panelCollection id="pc6" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar"/>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{bindings.TransactionNotificationView1.collectionModel}" var="row"
+                                      rows="#{bindings.TransactionNotificationView1.rangeSize}"
+                                      emptyText="#{bindings.TransactionNotificationView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      fetchSize="10" rowBandingInterval="0"
+                                      filterModel="#{bindings.TransactionNotificationView1Query.queryDescriptor}"
+                                      queryListener="#{bindings.TransactionNotificationView1Query.processQuery}"
+                                      filterVisible="true" varStatus="vs"
+                                      selectedRowKeys="#{bindings.TransactionNotificationView1.collectionModel.selectedRow}"
+                                      selectionListener="#{bindings.TransactionNotificationView1.collectionModel.makeCurrent}"
+                                      rowSelection="single" id="t9" scrollPolicy="page" autoHeightRows="0"
+                                      partialTriggers=":::cb25 :::cb26 :::cb28 :::cb27 :::cb46 :::cb40 :::cb41 :::cb42">
+                              <af:column sortProperty="#{bindings.TransactionNotificationView1.hints.TransactionName.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.TransactionNotificationView1.hints.TransactionName.label}"
+                                         id="c27">
+                                <af:outputText value="#{row.TransactionName}" id="ot25"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.TransactionNotificationView1.hints.Notification.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.TransactionNotificationView1.hints.Notification.label}"
+                                         id="c28">
+                                <af:outputText value="#{row.Notification}" id="ot28"/>
+                              </af:column>
+                            </af:table>
+                          </af:panelCollection>
+                        </af:panelGroupLayout>
+                      </f:facet>
+                      <f:facet name="second">
+                        <af:panelAccordion id="pa4">
+                          <af:showDetailItem text="Update" id="sdi15">
+                            <af:panelFormLayout id="pfl6">
+                              <af:inputText value="#{bindings.TransactionName.inputValue}"
+                                            label="#{bindings.TransactionName.hints.label}"
+                                            required="#{bindings.TransactionName.hints.mandatory}"
+                                            columns="#{bindings.TransactionName.hints.displayWidth}"
+                                            maximumLength="#{bindings.TransactionName.hints.precision}"
+                                            shortDesc="#{bindings.TransactionName.hints.tooltip}" id="it11">
+                                <f:validator binding="#{bindings.TransactionName.validator}"/>
+                              </af:inputText>
+                              <af:selectOneChoice value="#{bindings.Notification.inputValue}"
+                                                  label="#{bindings.Notification.label}"
+                                                  required="#{bindings.Notification.hints.mandatory}"
+                                                  shortDesc="#{bindings.Notification.hints.tooltip}" id="soc3">
+                                <f:selectItems value="#{bindings.Notification.items}" id="si3"/>
+                              </af:selectOneChoice>
+                              <f:facet name="footer">
+                                <af:panelGroupLayout layout="vertical" id="pgl23">
+                                  <af:panelGroupLayout layout="horizontal" id="pgl22">
+                                    <af:commandButton actionListener="#{bindings.First4.execute}" text="First"
+                                                      disabled="#{!bindings.First4.enabled}" partialSubmit="true"
+                                                      id="cb27"/>
+                                    <af:commandButton actionListener="#{bindings.Previous4.execute}" text="Previous"
+                                                      disabled="#{!bindings.Previous4.enabled}" partialSubmit="true"
+                                                      id="cb28"/>
+                                    <af:commandButton actionListener="#{bindings.Next4.execute}" text="Next"
+                                                      disabled="#{!bindings.Next4.enabled}" partialSubmit="true"
+                                                      id="cb26"/>
+                                    <af:commandButton actionListener="#{bindings.Last4.execute}" text="Last"
+                                                      disabled="#{!bindings.Last4.enabled}" partialSubmit="true"
+                                                      id="cb40"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl2201">
+                                    <af:commandButton actionListener="#{bindings.Create1.execute}" text="New"
+                                                      disabled="#{!bindings.Delete1.enabled}" id="cb41"/>
+                                    <af:commandButton text="Submit" id="cb25" disabled="#{!bindings.Delete1.enabled}"/>
+                                    <!--  <af:commandButton actionListener="#{bindings.Create1.execute}" text="Create"
+                                                      disabled="#{!bindings.Create1.enabled}" id="cb41"/>-->
+                                    <af:commandButton actionListener="#{bindings.Delete1.execute}" text="Delete"
+                                                      disabled="#{!bindings.Delete1.enabled}" id="cb42"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl2202">
+                                    <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                      disabled="#{!bindings.Commit.enabled}" id="cb43"/>
+                                    <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                      disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                      id="cb44">
+                                      <af:resetActionListener/>
+                                    </af:commandButton>
+                                  </af:panelGroupLayout>
+                                </af:panelGroupLayout>
+                              </f:facet>
+                            </af:panelFormLayout>
+                          </af:showDetailItem>
+                        </af:panelAccordion>
+                      </f:facet>
+                    </af:panelSplitter>
+                  </af:showDetailItem>
+                  <af:showDetailItem text="User Group Mapping" id="sdi8" styleClass="AFStretchWidth">
+                    <af:panelSplitter id="ps7" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                      splitterPosition="220" positionedFromEnd="true">
+                      <f:facet name="first">
+                        <af:panelGroupLayout id="pgl001" layout="scroll">
+                          <af:panelCollection id="pc7" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar"/>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{bindings.EmailGroupView1.collectionModel}" var="row"
+                                      rows="#{bindings.EmailGroupView1.rangeSize}"
+                                      emptyText="#{bindings.EmailGroupView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      fetchSize="10" rowBandingInterval="0"
+                                      filterModel="#{bindings.EmailGroupView1Query.queryDescriptor}"
+                                      queryListener="#{bindings.EmailGroupView1Query.processQuery}" filterVisible="true"
+                                      varStatus="vs"
+                                      selectedRowKeys="#{bindings.EmailGroupView1.collectionModel.selectedRow}"
+                                      selectionListener="#{bindings.EmailGroupView1.collectionModel.makeCurrent}"
+                                      rowSelection="single" id="t11"
+                                      partialTriggers=":::cb36 :::cb35 :::cb32 :::cb29 :::cb30 :::cb31 :::cb24 :::cb38 :::cb45"
+                                      scrollPolicy="page" autoHeightRows="0">
+                              <af:column sortProperty="#{bindings.EmailGroupView1.hints.Groupname.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailGroupView1.hints.Groupname.label}" id="c38"
+                                         width="105">
+                                <af:outputText value="#{row.Groupname}" id="ot36"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailGroupView1.hints.EmailId.name}" filterable="true"
+                                         sortable="true" headerText="#{bindings.EmailGroupView1.hints.EmailId.label}"
+                                         id="c37" width="203">
+                                <af:outputText value="#{row.EmailId}" id="ot38"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.EmailGroupView1.hints.Notification.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.EmailGroupView1.hints.Notification.label}" id="c36"
+                                         width="107">
+                                <af:outputText value="#{row.Notification}" id="ot37"/>
+                              </af:column>
+                            </af:table>
+                          </af:panelCollection>
+                        </af:panelGroupLayout>
+                      </f:facet>
+                      <f:facet name="second">
+                        <af:panelAccordion id="pa6">
+                          <af:showDetailItem text="Update" id="sdi17">
+                            <!--<af:panelFormLayout id="pfl7">
+                              <af:inputText value="#{bindings.Groupname.inputValue}"
+                                            label="#{bindings.Groupname.hints.label}"
+                                            required="#{bindings.Groupname.hints.mandatory}"
+                                            columns="#{bindings.Groupname.hints.displayWidth}"
+                                            maximumLength="#{bindings.Groupname.hints.precision}"
+                                            shortDesc="#{bindings.Groupname.hints.tooltip}" id="it13">
+                                <f:validator binding="#{bindings.Groupname.validator}"/>
+                              </af:inputText>
+                              <af:inputText value="#{bindings.EmailId.inputValue}"
+                                            label="#{bindings.EmailId.hints.label}"
+                                            required="#{bindings.EmailId.hints.mandatory}"
+                                            columns="#{bindings.EmailId.hints.displayWidth}"
+                                            maximumLength="#{bindings.EmailId.hints.precision}"
+                                            shortDesc="#{bindings.EmailId.hints.tooltip}" id="it14">
+                                <f:validator binding="#{bindings.EmailId.validator}"/>
+                              </af:inputText>
+                              <af:selectOneChoice value="#{bindings.Notification1.inputValue}"
+                                                  label="#{bindings.Notification1.label}"
+                                                  required="#{bindings.Notification1.hints.mandatory}"
+                                                  shortDesc="#{bindings.Notification1.hints.tooltip}" id="soc4">
+                                <f:selectItems value="#{bindings.Notification1.items}" id="si4"/>
+                              </af:selectOneChoice>
+                              <f:facet name="footer">
+                                <af:panelGroupLayout layout="vertical" id="pgl14">
+                                  <af:panelGroupLayout layout="horizontal" id="pgl28">
+                                    <af:commandButton actionListener="#{bindings.First5.execute}" text="First"
+                                                      disabled="#{!bindings.First5.enabled}" partialSubmit="true"
+                                                      id="cb31"/>
+                                    <af:commandButton actionListener="#{bindings.Previous5.execute}" text="Previous"
+                                                      disabled="#{!bindings.Previous5.enabled}" partialSubmit="true"
+                                                      id="cb30"/>
+                                    <af:commandButton actionListener="#{bindings.Next5.execute}" text="Next"
+                                                      disabled="#{!bindings.Next5.enabled}" partialSubmit="true"
+                                                      id="cb32"/>
+                                    <af:commandButton actionListener="#{bindings.Last5.execute}" text="Last"
+                                                      disabled="#{!bindings.Last5.enabled}" partialSubmit="true"
+                                                      id="cb24"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl1301">
+                                    <af:commandButton text="Submit" id="cb29" disabled="#{!bindings.Delete2.enabled}"/>
+                                    <af:commandButton actionListener="#{bindings.Create2.execute}" text="Create"
+                                                      disabled="#{!bindings.Delete2.enabled}" id="cb38"/>
+                                     <af:commandButton actionListener="#{bindings.Delete2.execute}" text="Delete"
+                                                      disabled="#{!bindings.Delete2.enabled}" id="cb45"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl1302">
+                                    <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                      disabled="#{!bindings.Commit.enabled}" id="cb46"/>
+                                    <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Rollback"
+                                                      disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                      id="cb47">
+                                      <af:resetActionListener/>
+                                    </af:commandButton>
+                                  </af:panelGroupLayout>
+                                </af:panelGroupLayout>
+                              </f:facet>
+                            </af:panelFormLayout>
+                          </af:showDetailItem>-->
+                            <af:panelFormLayout id="pfl7">
+                              <af:selectOneChoice value="#{bindings.Groupname.inputValue}"
+                                                  label="#{bindings.Groupname.label}"
+                                                  required="#{bindings.Groupname.hints.mandatory}"
+                                                  shortDesc="#{bindings.Groupname.hints.tooltip}" id="soc14">
+                                <f:selectItems value="#{bindings.Groupname.items}" id="si4"/>
+                              </af:selectOneChoice>
+                              <af:inputText value="#{bindings.EmailId.inputValue}"
+                                            label="#{bindings.EmailId.hints.label}"
+                                            required="#{bindings.EmailId.hints.mandatory}"
+                                            columns="#{bindings.EmailId.hints.displayWidth}"
+                                            maximumLength="#{bindings.EmailId.hints.precision}"
+                                            shortDesc="#{bindings.EmailId.hints.tooltip}" id="it2">
+                                <f:validator binding="#{bindings.EmailId.validator}"/>
+                              </af:inputText>
+                              <af:selectOneChoice value="#{bindings.Notification1.inputValue}"
+                                                  label="#{bindings.Notification1.label}"
+                                                  required="#{bindings.Notification1.hints.mandatory}"
+                                                  shortDesc="#{bindings.Notification1.hints.tooltip}" id="soc4">
+                                <f:selectItems value="#{bindings.Notification1.items}" id="si14"/>
+                              </af:selectOneChoice>
+                              <f:facet name="footer">
+                                <af:panelGroupLayout layout="vertical" id="pgl14">
+                                  <af:panelGroupLayout layout="horizontal" id="pgl28">
+                                    <af:commandButton actionListener="#{bindings.First5.execute}" text="First"
+                                                      disabled="#{!bindings.First5.enabled}" partialSubmit="true"
+                                                      id="cb32"/>
+                                    <af:commandButton actionListener="#{bindings.Previous5.execute}" text="Previous"
+                                                      disabled="#{!bindings.Previous5.enabled}" partialSubmit="true"
+                                                      id="cb24"/>
+                                    <af:commandButton actionListener="#{bindings.Next5.execute}" text="Next"
+                                                      disabled="#{!bindings.Next5.enabled}" partialSubmit="true"
+                                                      id="cb31"/>
+                                    <af:commandButton actionListener="#{bindings.Last5.execute}" text="Last"
+                                                      disabled="#{!bindings.Last5.enabled}" partialSubmit="true"
+                                                      id="cb29"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl1301">
+                                    <af:commandButton actionListener="#{bindings.Create2.execute}" text="New"
+                                                      disabled="#{!bindings.Delete2.enabled}" id="cb38"/>
+                                    <af:commandButton text="Submit" id="cb30" disabled="#{!bindings.Delete2.enabled}"/>
+                                    <af:commandButton actionListener="#{bindings.Delete2.execute}" text="Delete"
+                                                      disabled="#{!bindings.Delete2.enabled}" id="cb45"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl1302">
+                                    <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                      disabled="#{!bindings.Commit.enabled}" id="cb46"/>
+                                    <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                      disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                      id="cb47">
+                                      <af:resetActionListener/>
+                                    </af:commandButton>
+                                  </af:panelGroupLayout>
+                                </af:panelGroupLayout>
+                              </f:facet>
+                            </af:panelFormLayout>
+                          </af:showDetailItem>
+                        </af:panelAccordion>
+                      </f:facet>
+                    </af:panelSplitter>
+                  </af:showDetailItem>
+                  <af:showDetailItem text="Group Setup" id="sdi9" styleClass="AFStretchWidth">
+                    <af:panelSplitter id="ps8" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                      splitterPosition="189" positionedFromEnd="true">
+                      <f:facet name="first">
+                        <af:panelGroupLayout id="pgl012" layout="scroll">
+                          <af:panelCollection id="pc17" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar"/>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{bindings.GroupSettingView1.collectionModel}" var="row"
+                                      rows="#{bindings.GroupSettingView1.rangeSize}"
+                                      emptyText="#{bindings.GroupSettingView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      fetchSize="#{bindings.GroupSettingView1.rangeSize}" rowBandingInterval="0"
+                                      filterModel="#{bindings.GroupSettingView1Query.queryDescriptor}"
+                                      queryListener="#{bindings.GroupSettingView1Query.processQuery}"
+                                      filterVisible="true" varStatus="vs"
+                                      selectedRowKeys="#{bindings.GroupSettingView1.collectionModel.selectedRow}"
+                                      selectionListener="#{bindings.GroupSettingView1.collectionModel.makeCurrent}"
+                                      rowSelection="single" id="t12"
+                                      partialTriggers=":::cb72 :::cb70 :::cb73 :::cb69 :::cb8 :::cb9">
+                              <af:column sortProperty="#{bindings.GroupSettingView1.hints.Groupname.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.GroupSettingView1.hints.Groupname.label}" id="c40"
+                                         width="150">
+                                <af:outputText value="#{row.Groupname}" id="ot40"/>
+                              </af:column>
+                              <af:column sortProperty="#{bindings.GroupSettingView1.hints.Description.name}"
+                                         filterable="true" sortable="true"
+                                         headerText="#{bindings.GroupSettingView1.hints.Description.label}" id="c39"
+                                         width="650">
+                                <af:outputText value="#{row.Description}" id="ot39"/>
+                              </af:column>
+                            </af:table>
+                          </af:panelCollection>
+                        </af:panelGroupLayout>
+                      </f:facet>
+                      <f:facet name="second">
+                        <af:panelAccordion id="pa116">
+                          <af:showDetailItem text="Update" id="sdi117">
+                            <af:panelFormLayout id="pfl10">
+                              <af:inputText value="#{bindings.Groupname1.inputValue}" label="Name"
+                                            required="#{bindings.Groupname1.hints.mandatory}"
+                                            columns="#{bindings.Groupname1.hints.displayWidth}"
+                                            maximumLength="#{bindings.Groupname1.hints.precision}"
+                                            shortDesc="#{bindings.Groupname1.hints.tooltip}" id="it3">
+                                <f:validator binding="#{bindings.Groupname1.validator}"/>
+                              </af:inputText>
+                              <af:inputText value="#{bindings.Description.inputValue}" label="Description"
+                                            required="#{bindings.Description.hints.mandatory}"
+                                            columns="#{bindings.Description.hints.displayWidth}"
+                                            maximumLength="#{bindings.Description.hints.precision}"
+                                            shortDesc="#{bindings.Description.hints.tooltip}" id="it4">
+                                <f:validator binding="#{bindings.Description.validator}"/>
+                              </af:inputText>
+                              <f:facet name="footer">
+                                <af:panelGroupLayout layout="vertical" id="pgl29">
+                                  <af:panelGroupLayout layout="horizontal" id="pgl30">
+                                    <af:commandButton actionListener="#{bindings.First7.execute}" text="First"
+                                                      disabled="#{!bindings.First7.enabled}" partialSubmit="true"
+                                                      id="cb72"/>
+                                    <af:commandButton actionListener="#{bindings.Previous7.execute}" text="Previous"
+                                                      disabled="#{!bindings.Previous7.enabled}" partialSubmit="true"
+                                                      id="cb70"/>
+                                    <af:commandButton actionListener="#{bindings.Next7.execute}" text="Next"
+                                                      disabled="#{!bindings.Next7.enabled}" partialSubmit="true"
+                                                      id="cb73"/>
+                                    <af:commandButton actionListener="#{bindings.Last7.execute}" text="Last"
+                                                      disabled="#{!bindings.Last7.enabled}" partialSubmit="true"
+                                                      id="cb69"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl130">
+                                    <af:commandButton actionListener="#{bindings.Create7.execute}" text="New"
+                                                      disabled="#{!bindings.Delete7.enabled}" id="cb8"/>
+                                    <af:commandButton text="Submit" id="cb71" disabled="#{!bindings.Delete7.enabled}"/>
+                                    <af:commandButton actionListener="#{bindings.Delete7.execute}" text="Delete"
+                                                      disabled="#{!bindings.Delete7.enabled}" id="cb9"/>
+                                  </af:panelGroupLayout>
+                                  <af:panelGroupLayout layout="horizontal" id="pgl230">
+                                    <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                      disabled="#{!bindings.Commit.enabled}" id="cb12"/>
+                                    <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                      disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                      id="cb13">
+                                      <af:resetActionListener/>
+                                    </af:commandButton>
+                                  </af:panelGroupLayout>
+                                </af:panelGroupLayout>
+                              </f:facet>
+                            </af:panelFormLayout>
+                          </af:showDetailItem>
+                        </af:panelAccordion>
+                      </f:facet>
+                    </af:panelSplitter>
+                  </af:showDetailItem>
+                </af:panelTabbed>
+              </af:showDetailItem>
+              <af:showDetailItem text="Settings" id="sdi3" styleClass="AFStretchWidth">
+                <af:showDetailItem text="showDetailItem 2" id="sdi25"/>
+                <af:panelGroupLayout id="pgl7" inlineStyle="width:inherit;">
+                  <af:panelTabbed id="pt3" inlineStyle="width:inherit; height:615px;">
+                    <af:showDetailItem text="Common Properties" id="sdi13">
+                      <af:panelSplitter id="ps5" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                        splitterPosition="172">
+                        <f:facet name="first">
+                          <af:panelGroupLayout id="pgl25" layout="scroll">
+                            <af:panelCollection id="pc10" inlineStyle="width:inherit;">
+                              <f:facet name="menus"/>
+                              <f:facet name="toolbar"/>
+                              <f:facet name="statusbar"/>
+                              <af:table value="#{bindings.GlobalSettingView1.collectionModel}" var="row"
+                                        rows="#{bindings.GlobalSettingView1.rangeSize}"
+                                        emptyText="#{bindings.GlobalSettingView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                        fetchSize="#{bindings.GlobalSettingView1.rangeSize}" rowBandingInterval="0"
+                                        filterModel="#{bindings.GlobalSettingView1Query.queryDescriptor}"
+                                        queryListener="#{bindings.GlobalSettingView1Query.processQuery}"
+                                        filterVisible="true" varStatus="vs"
+                                        selectedRowKeys="#{bindings.GlobalSettingView1.collectionModel.selectedRow}"
+                                        selectionListener="#{bindings.GlobalSettingView1.collectionModel.makeCurrent}"
+                                        rowSelection="single" id="t8"
+                                        partialTriggers=":::cb3 :::cb6 :::cb7 :::cb5 :::cb76 :::cb77">
+                                <af:column sortProperty="#{bindings.GlobalSettingView1.hints.Attributename.name}"
+                                           filterable="true" sortable="true"
+                                           headerText="#{bindings.GlobalSettingView1.hints.Attributename.label}"
+                                           id="c24">
+                                  <af:outputText value="#{row.Attributename}" id="ot24"/>
+                                </af:column>
+                                <af:column sortProperty="#{bindings.GlobalSettingView1.hints.VAttributevalue1.name}"
+                                           filterable="true" sortable="true" headerText="Value" id="c23">
+                                  <af:outputText value="#{row.VAttributevalue1}" id="ot22"/>
+                                </af:column>
+                              </af:table>
+                            </af:panelCollection>
+                          </af:panelGroupLayout>
+                        </f:facet>
+                        <f:facet name="second">
+                          <af:panelAccordion id="pa9" inlineStyle="width:inherit;">
+                            <af:showDetailItem text="Update" id="sdi20">
+                              <!---  <af:panelFormLayout id="pfl3">
+                                <af:inputText value="#{bindings.Attributename.inputValue}"
+                                              label="#{bindings.Attributename.hints.label}"
+                                              required="#{bindings.Attributename.hints.mandatory}"
+                                              columns="#{bindings.Attributename.hints.displayWidth}"
+                                              maximumLength="#{bindings.Attributename.hints.precision}"
+                                              shortDesc="#{bindings.Attributename.hints.tooltip}" id="it2">
+                                  <f:validator binding="#{bindings.Attributename.validator}"/>
+                                </af:inputText>
+                                <af:inputText value="#{bindings.VAttributevalue1.inputValue}" label="Value"
+                                              required="#{bindings.VAttributevalue1.hints.mandatory}"
+                                              columns="#{bindings.VAttributevalue1.hints.displayWidth}"
+                                              maximumLength="#{bindings.VAttributevalue1.hints.precision}"
+                                              shortDesc="#{bindings.VAttributevalue1.hints.tooltip}" id="it4">
+                                  <f:validator binding="#{bindings.VAttributevalue1.validator}"/>
+                                </af:inputText>
+                                <f:facet name="footer">
+                                  <af:panelGroupLayout layout="vertical" id="pgl4">
+                                    <af:panelGroupLayout layout="horizontal" id="pgl5">
+                                      <af:commandButton actionListener="#{bindings.First.execute}" text="First"
+                                                        disabled="#{!bindings.First.enabled}" partialSubmit="true"
+                                                        id="cb2"/>
+                                      <af:commandButton actionListener="#{bindings.Previous.execute}" text="Previous"
+                                                        disabled="#{!bindings.Previous.enabled}" partialSubmit="true"
+                                                        id="cb6"/>
+                                      <af:commandButton actionListener="#{bindings.Next.execute}" text="Next"
+                                                        disabled="#{!bindings.Next.enabled}" partialSubmit="true"
+                                                        id="cb3"/>
+                                      <af:commandButton actionListener="#{bindings.Last.execute}" text="Last"
+                                                        disabled="#{!bindings.Last.enabled}" partialSubmit="true"
+                                                        id="cb5"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl5a">
+                                    
+                                      <af:commandButton actionListener="#{bindings.Create3.execute}" text="Create"
+                                                        disabled="#{!bindings.Delete3.enabled}" id="cb12"/>
+                                      <af:commandButton actionListener="#{bindings.Delete3.execute}" text="Delete"
+                                                        disabled="#{!bindings.Delete3.enabled}" id="cb13"/>
+                                      <af:commandButton text="Submit" id="cb7" disabled="#{!bindings.Delete3.enabled}"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl5b">
+                                      <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                        disabled="#{!bindings.Commit.enabled}" id="cb8"/>
+                                      <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Rollback"
+                                                        disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                        id="cb9">
+                                        <af:resetActionListener/>
+                                      </af:commandButton>
+                                    </af:panelGroupLayout>
+                                  </af:panelGroupLayout>
+                                </f:facet>
+                              </af:panelFormLayout>-->
+                              <af:panelFormLayout id="pfl3">
+                                <af:inputText value="#{bindings.Attributename.inputValue}" label="Attribute Name"
+                                              required="#{bindings.Attributename.hints.mandatory}"
+                                              columns="#{bindings.Attributename.hints.displayWidth}"
+                                              maximumLength="#{bindings.Attributename.hints.precision}"
+                                              shortDesc="#{bindings.Attributename.hints.tooltip}" id="it1">
+                                  <f:validator binding="#{bindings.Attributename.validator}"/>
+                                </af:inputText>
+                                <af:selectOneChoice value="#{bindings.VAttributevalue11.inputValue}" label="Value"
+                                                    required="#{bindings.VAttributevalue11.hints.mandatory}"
+                                                    shortDesc="#{bindings.VAttributevalue11.hints.tooltip}" id="soc13">
+                                  <f:selectItems value="#{bindings.VAttributevalue11.items}" id="si13"/>
+                                </af:selectOneChoice>
+                                <f:facet name="footer">
+                                  <af:panelGroupLayout layout="vertical" id="pgl4">
+                                    <af:panelGroupLayout layout="horizontal" id="pgl5">
+                                      <af:commandButton actionListener="#{bindings.First.execute}" text="First"
+                                                        disabled="#{!bindings.First.enabled}" partialSubmit="true"
+                                                        id="cb3"/>
+                                      <af:commandButton actionListener="#{bindings.Previous.execute}" text="Previous"
+                                                        disabled="#{!bindings.Previous.enabled}" partialSubmit="true"
+                                                        id="cb6"/>
+                                      <af:commandButton actionListener="#{bindings.Next.execute}" text="Next"
+                                                        disabled="#{!bindings.Next.enabled}" partialSubmit="true"
+                                                        id="cb7"/>
+                                      <af:commandButton actionListener="#{bindings.Last.execute}" text="Last"
+                                                        disabled="#{!bindings.Last.enabled}" partialSubmit="true"
+                                                        id="cb5"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl115">
+                                      <af:commandButton actionListener="#{bindings.Create3.execute}" text="New"
+                                                        disabled="#{!bindings.Delete3.enabled}" id="cb76"/>
+                                      <af:commandButton text="Submit" id="cb2" disabled="#{!bindings.Delete3.enabled}"/>
+                                      <af:commandButton actionListener="#{bindings.Delete3.execute}" text="Delete"
+                                                        disabled="#{!bindings.Delete3.enabled}" id="cb77"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl225">
+                                      <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                        disabled="#{!bindings.Commit.enabled}" id="cb74"/>
+                                      <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                        disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                        id="cb75">
+                                        <af:resetActionListener/>
+                                      </af:commandButton>
+                                    </af:panelGroupLayout>
+                                  </af:panelGroupLayout>
+                                </f:facet>
+                              </af:panelFormLayout>
+                            </af:showDetailItem>
+                          </af:panelAccordion>
+                        </f:facet>
+                      </af:panelSplitter>
+                    </af:showDetailItem>
+                    <af:showDetailItem text="Purge Audit Log" id="sdi14" disabled="#{not (bindings.Delete1.enabled)}">
+                      <af:panelSplitter id="ps10" inlineStyle="width:inherit; height:366.0px;" splitterPosition="166"
+                                        orientation="vertical" disabled="true">
+                        <f:facet name="first">
+                          <af:panelAccordion id="pa11" inlineStyle="height:inherit; width:inherit;">
+                            <af:showDetailItem text="Advance Purge" id="sdi22"
+                                               inlineStyle="height:inherit; width:inherit;">
+                              <!--      <af:panelFormLayout id="pfl1">
+                                <af:inputDate value="#{bindings.StartTime.inputValue}" label="Start Time"
+                                              required="#{bindings.StartTime.hints.mandatory}"
+                                              shortDesc="#{bindings.StartTime.hints.tooltip}" id="id5">
+                                  <f:validator binding="#{bindings.StartTime.validator}"/>
+                                  <af:convertDateTime pattern="#{bindings.StartTime.format}" type="both"/>
+                                </af:inputDate>
+                                <af:inputDate value="#{bindings.EndTime.inputValue}" label="End Time"
+                                              required="#{bindings.EndTime.hints.mandatory}"
+                                              shortDesc="#{bindings.EndTime.hints.tooltip}" id="id4">
+                                  <f:validator binding="#{bindings.EndTime.validator}"/>
+                                  <af:convertDateTime pattern="#{bindings.EndTime.format}" type="both"/>
+                                </af:inputDate>
+                                <af:inputText value="#{bindings.TransactionStatus.inputValue}" label="Status"
+                                              required="#{bindings.TransactionStatus.hints.mandatory}"
+                                              columns="#{bindings.TransactionStatus.hints.displayWidth}"
+                                              maximumLength="#{bindings.TransactionStatus.hints.precision}"
+                                              shortDesc="#{bindings.TransactionStatus.hints.tooltip}" id="it3">
+                                  <f:validator binding="#{bindings.TransactionStatus.validator}"/>
+                                  <af:convertNumber groupingUsed="false"
+                                                    pattern="#{bindings.TransactionStatus.format}"/>
+                                </af:inputText>
+                                <af:commandButton actionListener="#{bindings.callStoreprocedurePurgeScript.execute}"
+                                                  text="Purge"
+                                                  disabled="#{!bindings.callStoreprocedurePurgeScript.enabled}"
+                                                  id="cb1"/>
+                          </af:panelFormLayout>-->
+                              <af:panelFormLayout id="pfl1" inlineStyle="height:inherit; width:inherit;">
+                                <af:inputDate value="#{bindings.StartTime1.inputValue}" label="Start Time"
+                                              required="#{bindings.StartTime1.hints.mandatory}"
+                                              shortDesc="#{bindings.StartTime1.hints.tooltip}" id="id5"
+                                              showRequired="true">
+                                  <f:validator binding="#{bindings.StartTime1.validator}"/>
+                                  <af:convertDateTime pattern="#{bindings.StartTime1.format}" type="both"/>
+                                </af:inputDate>
+                                <af:inputDate value="#{bindings.EndTime1.inputValue}" label="End Time"
+                                              required="#{bindings.EndTime1.hints.mandatory}"
+                                              shortDesc="#{bindings.EndTime1.hints.tooltip}" id="id4"
+                                              showRequired="true">
+                                  <f:validator binding="#{bindings.EndTime1.validator}"/>
+                                  <af:convertDateTime pattern="#{bindings.EndTime1.format}" type="both"/>
+                                </af:inputDate>
+                                <!--   <af:inputText value="#{bindings.TransactionStatus1.inputValue}"
+                                              label="Transaction Status"
+                                              required="#{bindings.TransactionStatus1.hints.mandatory}"
+                                              columns="#{bindings.TransactionStatus1.hints.displayWidth}"
+                                              maximumLength="#{bindings.TransactionStatus1.hints.precision}"
+                                              shortDesc="#{bindings.TransactionStatus1.hints.tooltip}" id="it3">
+                                  <f:validator binding="#{bindings.TransactionStatus1.validator}"/>
+                                  <af:convertNumber groupingUsed="false"
+                                                    pattern="#{bindings.TransactionStatus1.format}"/>
+                                </af:inputText>-->
+                                <af:selectOneChoice value="#{bindings.TransactionStatusLOV1.inputValue}"
+                                                    label="Transaction Status"
+                                                    required="#{bindings.TransactionStatusLOV1.hints.mandatory}"
+                                                    shortDesc="#{bindings.TransactionStatusLOV1.hints.tooltip}"
+                                                    id="soc12">
+                                  <f:selectItems value="#{bindings.TransactionStatusLOV1.items}" id="si12"/>
+                                </af:selectOneChoice>
+                                <af:commandButton actionListener="#{bindings.PurgeTimeStatus.execute}" text="Purge"
+                                                  disabled="#{!bindings.PurgeTimeStatus.enabled}" id="cb1">
+                                  <af:setPropertyListener from="#{bindings.TransactionStatusLOV1Code.inputValue}"
+                                                          type="action" to="#{bindings.TransactionStatus1.inputValue}"/>
+                                </af:commandButton>
+                                <af:panelLabelAndMessage label="Result" id="plam1">
+                                  <af:outputFormatted value="#{bindings.return1.inputValue}" id="of1"/>
+                                </af:panelLabelAndMessage>
+                              </af:panelFormLayout>
+                            </af:showDetailItem>
+                          </af:panelAccordion>
+                        </f:facet>
+                        <f:facet name="second">
+                          <af:panelAccordion id="pa10" inlineStyle="width:inherit; height:150px;">
+                            <af:showDetailItem text="Quick Purge" id="sdi21"
+                                               inlineStyle="width:inherit; height:inherit;">
+                              <!--  <af:panelFormLayout id="pfl2">
+                                <af:inputNumberSlider value="#{bindings.Days.inputValue}" label="Days to Purge"
+                                                      required="#{bindings.Days.hints.mandatory}"
+                                                      shortDesc="#{bindings.Days.hints.tooltip}" id="it12" minimum="1"
+                                                      minimumIncrement="1" minorIncrement="1">
+                                  <f:validator binding="#{bindings.Days.validator}"/>
+                                  <af:convertNumber groupingUsed="false" pattern="#{bindings.Days.format}"/>
+                                </af:inputNumberSlider>
+                                <af:commandButton actionListener="#{bindings.callStoreprocedurePurgeScript.execute}"
+                                                  text="Purge"
+                                                  disabled="#{!bindings.callStoreprocedurePurgeScript.enabled}"
+                                                  id="cb11"/>
+                              </af:panelFormLayout>-->
+                              <af:panelFormLayout id="pfl2" inlineStyle="height:150pt;">
+                                <af:inputNumberSpinbox value="#{bindings.Days1.inputValue}"
+                                                       label="Purge records older than follwoing Day(1..100):"
+                                                       required="#{bindings.Days1.hints.mandatory}"
+                                                       shortDesc="#{bindings.Days1.hints.tooltip}" id="it12" minimum="1"
+                                                       maximum="100">
+                                  <f:validator binding="#{bindings.Days1.validator}"/>
+                                  <af:convertNumber groupingUsed="false" pattern="#{bindings.Days1.format}"/>
+                                </af:inputNumberSpinbox>
+                                <af:commandButton actionListener="#{bindings.PurgeDays.execute}" text="Purge"
+                                                  disabled="#{!bindings.PurgeDays.enabled}" id="cb11"/>
+                                <af:panelLabelAndMessage label="Result" id="plam2">
+                                  <af:outputFormatted value="#{bindings.return2.inputValue}" id="of2"/>
+                                </af:panelLabelAndMessage>
+                              </af:panelFormLayout>
+                            </af:showDetailItem>
+                          </af:panelAccordion>
+                        </f:facet>
+                      </af:panelSplitter>
+                      <!--   <af:panelLabelAndMessage label="Result :" id="plam1">
+                        <af:outputFormatted value="#{bindings.return.inputValue}" id="of1"/>
+                      </af:panelLabelAndMessage>-->
+                    </af:showDetailItem>
+                    <af:showDetailItem text="Integrating Systems" id="sdi119">
+                      <af:panelSplitter id="ps4" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                        splitterPosition="300">
+                        <f:facet name="first">
+                          <af:panelGroupLayout id="pgl8" inlineStyle="width:inherit;" layout="scroll">
+                            <af:panelCollection id="pc4" inlineStyle="width:inherit;">
+                              <f:facet name="menus"/>
+                              <f:facet name="toolbar"/>
+                              <f:facet name="statusbar"/>
+                              <af:table value="#{bindings.IntegratingSystemView1.collectionModel}" var="row"
+                                        rows="#{bindings.IntegratingSystemView1.rangeSize}"
+                                        emptyText="#{bindings.IntegratingSystemView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                        fetchSize="10" rowBandingInterval="0"
+                                        filterModel="#{bindings.IntegratingSystemView1Query.queryDescriptor}"
+                                        queryListener="#{bindings.IntegratingSystemView1Query.processQuery}"
+                                        filterVisible="true" varStatus="vs"
+                                        selectedRowKeys="#{bindings.IntegratingSystemView1.collectionModel.selectedRow}"
+                                        selectionListener="#{bindings.IntegratingSystemView1.collectionModel.makeCurrent}"
+                                        rowSelection="single" id="t4"
+                                        partialTriggers=":::cb9 :::cb8 :::cb7 :::cb6 :::cb50 :::cb51 :::cb21 :::cb17 :::cb19 :::cb18 :::cb22 :::cb23"
+                                        autoHeightRows="0" scrollPolicy="page">
+                                <af:column sortProperty="#{bindings.IntegratingSystemView1.hints.Code.name}"
+                                           filterable="true" sortable="true" headerText="System Code" id="c25"
+                                           width="100">
+                                  <af:outputText value="#{row.Code}" id="ot27">
+                                    <af:convertNumber groupingUsed="false"
+                                                      pattern="#{bindings.IntegratingSystemView1.hints.Code.format}"/>
+                                  </af:outputText>
+                                </af:column>
+                                <af:column sortProperty="#{bindings.IntegratingSystemView1.hints.Meaning.name}"
+                                           filterable="true" sortable="true" headerText="System Name" id="c26"
+                                           width="300">
+                                  <af:outputText value="#{row.Meaning}" id="ot26"/>
+                                </af:column>
+                              </af:table>
+                            </af:panelCollection>
+                          </af:panelGroupLayout>
+                        </f:facet>
+                        <f:facet name="second">
+                          <af:panelGroupLayout id="pgl9" inlineStyle="width:inherit;">
+                            <af:panelAccordion id="pa3" inlineStyle="width:inherit;">
+                              <af:showDetailItem text="Update" id="sdi10" inlineStyle="width:inherit;">
+                                <af:panelFormLayout id="pfl4">
+                                  <af:inputText value="#{bindings.Code.inputValue}" label="#{bindings.Code.hints.label}"
+                                                required="#{bindings.Code.hints.mandatory}"
+                                                columns="#{bindings.Code.hints.displayWidth}"
+                                                maximumLength="#{bindings.Code.hints.precision}"
+                                                shortDesc="#{bindings.Code.hints.tooltip}" id="it6">
+                                    <f:validator binding="#{bindings.Code.validator}"/>
+                                    <af:convertNumber groupingUsed="false" pattern="#{bindings.Code.format}"/>
+                                  </af:inputText>
+                                  <af:inputText value="#{bindings.Meaning.inputValue}"
+                                                label="#{bindings.Meaning.hints.label}"
+                                                required="#{bindings.Meaning.hints.mandatory}"
+                                                columns="#{bindings.Meaning.hints.displayWidth}"
+                                                maximumLength="#{bindings.Meaning.hints.precision}"
+                                                shortDesc="#{bindings.Meaning.hints.tooltip}" id="it5">
+                                    <f:validator binding="#{bindings.Meaning.validator}"/>
+                                  </af:inputText>
+                                  <f:facet name="footer">
+                                    <af:panelGroupLayout layout="vertical" id="pgl10">
+                                      <af:panelGroupLayout layout="horizontal" id="pgl12">
+                                        <af:commandButton actionListener="#{bindings.First1.execute}" text="First"
+                                                          disabled="#{!bindings.First1.enabled}" partialSubmit="true"
+                                                          id="cb21"/>
+                                        <af:commandButton actionListener="#{bindings.Previous1.execute}" text="Previous"
+                                                          disabled="#{!bindings.Previous1.enabled}" partialSubmit="true"
+                                                          id="cb17"/>
+                                        <af:commandButton actionListener="#{bindings.Next1.execute}" text="Next"
+                                                          disabled="#{!bindings.Next1.enabled}" partialSubmit="true"
+                                                          id="cb19"/>
+                                        <af:commandButton actionListener="#{bindings.Last1.execute}" text="Last"
+                                                          disabled="#{!bindings.Last1.enabled}" partialSubmit="true"
+                                                          id="cb18"/>
+                                      </af:panelGroupLayout>
+                                      <af:panelGroupLayout layout="horizontal" id="pgl12a">
+                                        <!-- <af:commandButton actionListener="#{bindings.Create4.execute}" text="Create"
+                                                          disabled="#{!bindings.Create4.enabled}" id="cb22"/>-->
+                                        <af:commandButton actionListener="#{bindings.Create4.execute}" text="New"
+                                                          disabled="#{!bindings.Delete4.enabled}" id="cb22"/>
+                                        <af:commandButton text="Submit" id="cb14"
+                                                          disabled="#{!bindings.Delete4.enabled}"/>
+                                        <af:commandButton actionListener="#{bindings.Delete4.execute}" text="Delete"
+                                                          disabled="#{!bindings.Delete4.enabled}" id="cb23"/>
+                                      </af:panelGroupLayout>
+                                      <af:panelGroupLayout layout="horizontal" id="pgl12b">
+                                        <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                          disabled="#{!bindings.Commit.enabled}" id="cb48"/>
+                                        <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                          disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                          id="cb49">
+                                          <af:resetActionListener/>
+                                        </af:commandButton>
+                                      </af:panelGroupLayout>
+                                    </af:panelGroupLayout>
+                                  </f:facet>
+                                </af:panelFormLayout>
+                              </af:showDetailItem>
+                            </af:panelAccordion>
+                          </af:panelGroupLayout>
+                        </f:facet>
+                      </af:panelSplitter>
+                    </af:showDetailItem>
+                    <af:showDetailItem text="Transaction Status" id="sdi12">
+                      <af:panelSplitter id="ps18" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                        splitterPosition="250">
+                        <f:facet name="first">
+                          <af:panelGroupLayout id="pgl6" inlineStyle="width:inherit;" layout="scroll">
+                            <af:panelCollection id="pc8" inlineStyle="width:inherit;">
+                              <f:facet name="menus"/>
+                              <f:facet name="toolbar"/>
+                              <f:facet name="statusbar"/>
+                              <af:table value="#{bindings.AuditStatusView1.collectionModel}" var="row"
+                                        rows="#{bindings.AuditStatusView1.rangeSize}"
+                                        emptyText="#{bindings.AuditStatusView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                        fetchSize="10" rowBandingInterval="0"
+                                        filterModel="#{bindings.AuditStatusView1Query.queryDescriptor}"
+                                        queryListener="#{bindings.AuditStatusView1Query.processQuery}"
+                                        filterVisible="true" varStatus="vs"
+                                        selectedRowKeys="#{bindings.AuditStatusView1.collectionModel.selectedRow}"
+                                        selectionListener="#{bindings.AuditStatusView1.collectionModel.makeCurrent}"
+                                        rowSelection="single" id="t3"
+                                        partialTriggers=":::cb5 :::cb12 :::cb2 :::cb3 :::cb61 :::cb62 :::cb52 :::cb51 :::cb54 :::cb53 :::cb57 :::cb58"
+                                        scrollPolicy="page" autoHeightRows="0">
+                                <af:column sortProperty="#{bindings.AuditStatusView1.hints.Code.name}" filterable="true"
+                                           sortable="true" headerText="#{bindings.AuditStatusView1.hints.Code.label}"
+                                           id="c19" width="100">
+                                  <af:outputText value="#{row.Code}" id="ot19">
+                                    <af:convertNumber groupingUsed="false"
+                                                      pattern="#{bindings.AuditStatusView1.hints.Code.format}"/>
+                                  </af:outputText>
+                                </af:column>
+                                <af:column sortProperty="#{bindings.AuditStatusView1.hints.Meaning.name}"
+                                           filterable="true" sortable="true"
+                                           headerText="#{bindings.AuditStatusView1.hints.Meaning.label}" id="c20"
+                                           width="300">
+                                  <af:outputText value="#{row.Meaning}" id="ot18"/>
+                                </af:column>
+                              </af:table>
+                            </af:panelCollection>
+                          </af:panelGroupLayout>
+                        </f:facet>
+                        <f:facet name="second">
+                          <af:panelAccordion id="pa7">
+                            <af:showDetailItem text="Update" id="sdi11">
+                              <af:panelFormLayout id="pfl5">
+                                <af:inputText value="#{bindings.Code1.inputValue}" label="#{bindings.Code1.hints.label}"
+                                              required="#{bindings.Code1.hints.mandatory}"
+                                              columns="#{bindings.Code1.hints.displayWidth}"
+                                              maximumLength="#{bindings.Code1.hints.precision}"
+                                              shortDesc="#{bindings.Code1.hints.tooltip}" id="it7">
+                                  <f:validator binding="#{bindings.Code1.validator}"/>
+                                  <af:convertNumber groupingUsed="false" pattern="#{bindings.Code1.format}"/>
+                                </af:inputText>
+                                <af:inputText value="#{bindings.Meaning1.inputValue}"
+                                              label="#{bindings.Meaning1.hints.label}"
+                                              required="#{bindings.Meaning1.hints.mandatory}"
+                                              columns="#{bindings.Meaning1.hints.displayWidth}"
+                                              maximumLength="#{bindings.Meaning1.hints.precision}"
+                                              shortDesc="#{bindings.Meaning1.hints.tooltip}" id="it8">
+                                  <f:validator binding="#{bindings.Meaning1.validator}"/>
+                                </af:inputText>
+                                <f:facet name="footer">
+                                  <af:panelGroupLayout layout="vertical" id="pgl19">
+                                    <af:panelGroupLayout layout="horizontal" id="pgl18">
+                                      <af:commandButton actionListener="#{bindings.First2.execute}" text="First"
+                                                        disabled="#{!bindings.First2.enabled}" partialSubmit="true"
+                                                        id="cb52"/>
+                                      <af:commandButton actionListener="#{bindings.Previous2.execute}" text="Previous"
+                                                        disabled="#{!bindings.Previous2.enabled}" partialSubmit="true"
+                                                        id="cb51"/>
+                                      <af:commandButton actionListener="#{bindings.Next2.execute}" text="Next"
+                                                        disabled="#{!bindings.Next2.enabled}" partialSubmit="true"
+                                                        id="cb54"/>
+                                      <af:commandButton actionListener="#{bindings.Last2.execute}" text="Last"
+                                                        disabled="#{!bindings.Last2.enabled}" partialSubmit="true"
+                                                        id="cb53"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl18a">
+                                      <af:commandButton actionListener="#{bindings.Create5.execute}" text="New"
+                                                        disabled="#{!bindings.Delete5.enabled}" id="cb57"/>
+                                      <!--
+                                                             <af:commandButton actionListener="#{bindings.Create5.execute}" text="Create"
+                                                        disabled="#{!bindings.Create5.enabled}" id="cb57"/>-->
+                                      <af:commandButton text="Submit" id="cb50"
+                                                        disabled="#{!bindings.Delete5.enabled}"/>
+                                      <af:commandButton actionListener="#{bindings.Delete5.execute}" text="Delete"
+                                                        disabled="#{!bindings.Delete5.enabled}" id="cb58"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl18b">
+                                      <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                        disabled="#{!bindings.Commit.enabled}" id="cb55"/>
+                                      <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                        disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                        id="cb56">
+                                        <af:resetActionListener/>
+                                      </af:commandButton>
+                                    </af:panelGroupLayout>
+                                  </af:panelGroupLayout>
+                                </f:facet>
+                              </af:panelFormLayout>
+                            </af:showDetailItem>
+                          </af:panelAccordion>
+                        </f:facet>
+                      </af:panelSplitter>
+                    </af:showDetailItem>
+                    <af:showDetailItem text="Log Types" id="sdi18">
+                      <af:panelSplitter id="ps9" inlineStyle="width:inherit; height:499.0px;" orientation="vertical"
+                                        splitterPosition="280">
+                        <f:facet name="first">
+                          <af:panelGroupLayout id="pgl17" inlineStyle="width:inherit; height:inherit;" layout="scroll">
+                            <af:panelCollection id="pc9" inlineStyle="width:inherit;">
+                              <f:facet name="menus"/>
+                              <f:facet name="toolbar"/>
+                              <f:facet name="statusbar"/>
+                              <af:table value="#{bindings.AuditLogtypeView1.collectionModel}" var="row"
+                                        rows="#{bindings.AuditLogtypeView1.rangeSize}"
+                                        emptyText="#{bindings.AuditLogtypeView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                        fetchSize="10" rowBandingInterval="0"
+                                        filterModel="#{bindings.AuditLogtypeView1Query.queryDescriptor}"
+                                        queryListener="#{bindings.AuditLogtypeView1Query.processQuery}"
+                                        filterVisible="true" varStatus="vs"
+                                        selectedRowKeys="#{bindings.AuditLogtypeView1.collectionModel.selectedRow}"
+                                        selectionListener="#{bindings.AuditLogtypeView1.collectionModel.makeCurrent}"
+                                        rowSelection="single" id="t6"
+                                        partialTriggers=":::cb18 :::cb13 :::cb14 :::cb17 :::cb59 :::cb60 :::cb61 :::cb63 :::cb64 :::cb65"
+                                        autoHeightRows="0" scrollPolicy="page">
+                                <af:column sortProperty="#{bindings.AuditLogtypeView1.hints.Code.name}"
+                                           filterable="true" sortable="true"
+                                           headerText="#{bindings.AuditLogtypeView1.hints.Code.label}" id="c22"
+                                           width="100">
+                                  <af:outputText value="#{row.Code}" id="ot21">
+                                    <af:convertNumber groupingUsed="false"
+                                                      pattern="#{bindings.AuditLogtypeView1.hints.Code.format}"/>
+                                  </af:outputText>
+                                </af:column>
+                                <af:column sortProperty="#{bindings.AuditLogtypeView1.hints.Meaning.name}"
+                                           filterable="true" sortable="true"
+                                           headerText="#{bindings.AuditLogtypeView1.hints.Meaning.label}" id="c21"
+                                           width="300">
+                                  <af:outputText value="#{row.Meaning}" id="ot20"/>
+                                </af:column>
+                              </af:table>
+                            </af:panelCollection>
+                          </af:panelGroupLayout>
+                        </f:facet>
+                        <f:facet name="second">
+                          <af:panelAccordion id="pa8">
+                            <af:showDetailItem text="Update" id="sdi19">
+                              <af:panelFormLayout id="pfl9">
+                                <af:inputText value="#{bindings.Code2.inputValue}" label="#{bindings.Code2.hints.label}"
+                                              required="#{bindings.Code2.hints.mandatory}"
+                                              columns="#{bindings.Code2.hints.displayWidth}"
+                                              maximumLength="#{bindings.Code2.hints.precision}"
+                                              shortDesc="#{bindings.Code2.hints.tooltip}" id="it10">
+                                  <f:validator binding="#{bindings.Code2.validator}"/>
+                                  <af:convertNumber groupingUsed="false" pattern="#{bindings.Code2.format}"/>
+                                </af:inputText>
+                                <af:inputText value="#{bindings.Meaning2.inputValue}"
+                                              label="#{bindings.Meaning2.hints.label}"
+                                              required="#{bindings.Meaning2.hints.mandatory}"
+                                              columns="#{bindings.Meaning2.hints.displayWidth}"
+                                              maximumLength="#{bindings.Meaning2.hints.precision}"
+                                              shortDesc="#{bindings.Meaning2.hints.tooltip}" id="it9">
+                                  <f:validator binding="#{bindings.Meaning2.validator}"/>
+                                </af:inputText>
+                                <f:facet name="footer">
+                                  <af:panelGroupLayout layout="vertical" id="pgl21">
+                                    <af:panelGroupLayout layout="horizontal" id="pgl20">
+                                      <af:commandButton actionListener="#{bindings.First3.execute}" text="First"
+                                                        disabled="#{!bindings.First3.enabled}" partialSubmit="true"
+                                                        id="cb60"/>
+                                      <af:commandButton actionListener="#{bindings.Previous3.execute}" text="Previous"
+                                                        disabled="#{!bindings.Previous3.enabled}" partialSubmit="true"
+                                                        id="cb59"/>
+                                      <af:commandButton actionListener="#{bindings.Next3.execute}" text="Next"
+                                                        disabled="#{!bindings.Next3.enabled}" partialSubmit="true"
+                                                        id="cb61"/>
+                                      <af:commandButton actionListener="#{bindings.Last3.execute}" text="Last"
+                                                        disabled="#{!bindings.Last3.enabled}" partialSubmit="true"
+                                                        id="cb63"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl20a">
+                                      <af:commandButton actionListener="#{bindings.Create6.execute}" text="New"
+                                                        disabled="#{!bindings.Delete6.enabled}" id="cb65"/>
+                                      <!--
+                                                         <af:commandButton actionListener="#{bindings.Create6.execute}" text="Create"
+                                                        disabled="#{!bindings.Create6.enabled}" id="cb65"/>
+                                                        -->
+                                      <af:commandButton text="Submit" id="cb62"
+                                                        disabled="#{!bindings.Delete6.enabled}"/>
+                                      <af:commandButton actionListener="#{bindings.Delete6.execute}" text="Delete"
+                                                        disabled="#{!bindings.Delete6.enabled}" id="cb64"/>
+                                    </af:panelGroupLayout>
+                                    <af:panelGroupLayout layout="horizontal" id="pgl20b">
+                                      <af:commandButton actionListener="#{bindings.Commit.execute}" text="Commit"
+                                                        disabled="#{!bindings.Commit.enabled}" id="cb66"/>
+                                      <af:commandButton actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                                        disabled="#{!bindings.Rollback.enabled}" immediate="true"
+                                                        id="cb67">
+                                        <af:resetActionListener/>
+                                      </af:commandButton>
+                                    </af:panelGroupLayout>
+                                  </af:panelGroupLayout>
+                                </f:facet>
+                              </af:panelFormLayout>
+                            </af:showDetailItem>
+                          </af:panelAccordion>
+                        </f:facet>
+                      </af:panelSplitter>
+                      <af:showDetailItem text="showDetailItem 1" id="sdi23"/>
+                    </af:showDetailItem>
+                    <af:showDetailItem text="BusinessMessages" id="sdi24" styleClass="AFStretchWidth">
+                      <af:showDetailItem text="showDetailItem 3" id="sdi26"/>
+                      <af:panelGroupLayout id="pgl34">
+                        <af:table value="#{bindings.XxnucCommMsgs1View11.collectionModel}" var="row"
+                                  rows="#{bindings.XxnucCommMsgs1View11.rangeSize}"
+                                  emptyText="#{bindings.XxnucCommMsgs1View11.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                  rowBandingInterval="0"
+                                  selectedRowKeys="#{bindings.XxnucCommMsgs1View11.collectionModel.selectedRow}"
+                                  selectionListener="#{bindings.XxnucCommMsgs1View11.collectionModel.makeCurrent}"
+                                  rowSelection="single" fetchSize="#{bindings.XxnucCommMsgs1View11.rangeSize}"
+                                  filterModel="#{bindings.XxnucCommMsgs1View1Query.queryDescriptor}"
+                                  queryListener="#{bindings.XxnucCommMsgs1View1Query.processQuery}" filterVisible="true"
+                                  varStatus="vs" id="t14" partialTriggers="::b5 ::b3 ::b1 ::b4 ::b6 ::b7 ::b8 ::b9 ::b2"
+                                  width="900" styleClass="AFStretchWidth" inlineStyle="height:153px;"
+                                  allDetailsEnabled="true" columnStretching="multiple">
+                          <af:column sortProperty="#{bindings.XxnucCommMsgs1View11.hints.MessageCode.name}"
+                                     filterable="true" sortable="true"
+                                     headerText="#{bindings.XxnucCommMsgs1View11.hints.MessageCode.label}" id="c44"
+                                     width="100">
+                            
+                              <af:outputText value="#{row.MessageCode}"
+                                             shortDesc="#{bindings.XxnucCommMsgs1View11.hints.MessageCode.tooltip}"
+                                             id="ot41"/>
+                            
+                          </af:column>
+                          <af:column sortProperty="#{bindings.XxnucCommMsgs1View11.hints.MessageDescription.name}"
+                                     filterable="true" sortable="true"
+                                     headerText="#{bindings.XxnucCommMsgs1View11.hints.MessageDescription.label}"
+                                     id="c45" width="600">
+                            <af:outputText value="#{row.MessageDescription}"
+                                           shortDesc="#{bindings.XxnucCommMsgs1View11.hints.MessageDescription.tooltip}"
+                                           id="ot42" styleClass="AFStretchWidth"/>
+                          </af:column>
+                          <af:column sortProperty="#{bindings.XxnucCommMsgs1View11.hints.ComponentId.name}"
+                                     filterable="true" sortable="true"
+                                     headerText="#{bindings.XxnucCommMsgs1View11.hints.ComponentId.label}" id="c46"
+                                     width="98">
+                            <af:outputText value="#{row.ComponentId}"
+                                           shortDesc="#{bindings.XxnucCommMsgs1View11.hints.ComponentId.tooltip}"
+                                           id="ot43"/>
+                          </af:column>
+                        </af:table>
+                      </af:panelGroupLayout>
+                    
+<!-- name update required here -->
+        
+<af:panelFormLayout id="pfl11">
+                          <af:inputText value="#{bindings.MessageCode.inputValue}"
+                                        label="#{bindings.MessageCode.hints.label}"
+                                        required="#{bindings.MessageCode.hints.mandatory}"
+                                        columns="#{bindings.MessageCode.hints.displayWidth}"
+                                        maximumLength="#{bindings.MessageCode.hints.precision}"
+                                        shortDesc="#{bindings.MessageCode.hints.tooltip}" id="it13"
+                                        partialTriggers="t14">
+                            <f:validator binding="#{bindings.MessageCode.validator}"/>
+                          </af:inputText>
+                          <af:inputText value="#{bindings.MessageDescription.inputValue}"
+                                        label="#{bindings.MessageDescription.hints.label}"
+                                        required="#{bindings.MessageDescription.hints.mandatory}"
+                                        columns="#{bindings.MessageDescription.hints.displayWidth}"
+                                        maximumLength="#{bindings.MessageDescription.hints.precision}"
+                                        shortDesc="#{bindings.MessageDescription.hints.tooltip}" id="it14"
+                                        autoTab="false" partialTriggers="t14">
+                            <f:validator binding="#{bindings.MessageDescription.validator}"/>
+                          </af:inputText>
+                          <af:inputText value="#{bindings.ComponentId.inputValue}"
+                                        label="#{bindings.ComponentId.hints.label}"
+                                        required="#{bindings.ComponentId.hints.mandatory}"
+                                        columns="#{bindings.ComponentId.hints.displayWidth}"
+                                        maximumLength="#{bindings.ComponentId.hints.precision}"
+                                        shortDesc="#{bindings.ComponentId.hints.tooltip}" id="it15"
+                                        partialTriggers="t14">
+                            <f:validator binding="#{bindings.ComponentId.validator}"/>
+                          </af:inputText>
+                          <f:facet name="footer">
+                            <af:panelGroupLayout layout="vertical" id="pgl31">
+                              <af:panelGroupLayout layout="horizontal" id="pgl32">
+                                <af:button actionListener="#{bindings.First8.execute}" text="First"
+                                           disabled="#{!bindings.First8.enabled}" partialSubmit="true" id="b1"/>
+                                <af:button actionListener="#{bindings.Previous8.execute}" text="Previous"
+                                           disabled="#{!bindings.Previous8.enabled}" partialSubmit="true" id="b2"/>
+                                <af:button actionListener="#{bindings.Next8.execute}" text="Next"
+                                           disabled="#{!bindings.Next8.enabled}" partialSubmit="true" id="b3"/>
+                                <af:button actionListener="#{bindings.Last8.execute}" text="Last"
+                                           disabled="#{!bindings.Last8.enabled}" partialSubmit="true" id="b4"/>
+                              </af:panelGroupLayout>
+                            <af:group id="g1">
+                              <af:button actionListener="#{bindings.Create8.execute}" text="New"
+                                         disabled="#{!bindings.Create8.enabled}" id="b9"/>
+                                <af:button text="Submit" id="b5"/>
+                                <af:button actionListener="#{bindings.Delete8.execute}" text="Delete"
+                                       disabled="#{!bindings.Delete8.enabled}" id="b8"/>
+                            </af:group>
+                            <af:group>
+                                <af:button actionListener="#{bindings.Commit.execute}" text="Commit"
+                                           disabled="#{!bindings.Commit.enabled}" id="b6"/>
+                                <af:button actionListener="#{bindings.Rollback.execute}" text="Undo"
+                                           disabled="#{!bindings.Rollback.enabled}" immediate="true" id="b7">
+                              <af:resetActionListener/>
+                            </af:button>
+                            </af:group>
+                          </af:panelGroupLayout>
+                          </f:facet>
+                        </af:panelFormLayout>
+        
+                    </af:showDetailItem>
+                  </af:panelTabbed>
+                </af:panelGroupLayout>
+              </af:showDetailItem>
+              <!-- <af:showDetailItem text="showDetailItem 1" id="sdi23">
+                <af:panelSplitter id="ps12" orientation="vertical" inlineStyle="width:inherit;" splitterPosition="126">
+                  <f:facet name="first">
+                    <af:panelFormLayout id="pfl10">
+                      <af:inputDate value="#{bindings.pStartDate.inputValue}" label="#{bindings.pStartDate.hints.label}"
+                                    required="#{bindings.pStartDate.hints.mandatory}"
+                                    shortDesc="#{bindings.pStartDate.hints.tooltip}" id="id8">
+                        <f:validator binding="#{bindings.pStartDate.validator}"/>
+                        <af:convertDateTime pattern="#{bindings.pStartDate.format}"/>
+                      </af:inputDate>
+                      <af:inputDate value="#{bindings.pEndDate.inputValue}" label="#{bindings.pEndDate.hints.label}"
+                                    required="#{bindings.pEndDate.hints.mandatory}"
+                                    shortDesc="#{bindings.pEndDate.hints.tooltip}" id="id9">
+                        <f:validator binding="#{bindings.pEndDate.validator}"/>
+                        <af:convertDateTime pattern="#{bindings.pEndDate.format}"/>
+                      </af:inputDate>
+                      <af:commandButton actionListener="#{bindings.ExecuteWithParams.execute}" text="ExecuteWithParams"
+                                        disabled="#{!bindings.ExecuteWithParams.enabled}" id="cb68"/>
+                    </af:panelFormLayout>
+                  </f:facet>
+                  <f:facet name="second">
+                    <af:table value="#{bindings.AuditLogView21.collectionModel}" var="row"
+                              rows="#{bindings.AuditLogView21.rangeSize}"
+                              emptyText="#{bindings.AuditLogView21.viewable ? 'No data to display.' : 'Access Denied.'}"
+                              fetchSize="#{bindings.AuditLogView21.rangeSize}" rowBandingInterval="0"
+                              filterModel="#{bindings.AuditLogView2Query.queryDescriptor}"
+                              queryListener="#{bindings.AuditLogView2Query.processQuery}" filterVisible="true"
+                              varStatus="vs" selectedRowKeys="#{bindings.AuditLogView21.collectionModel.selectedRow}"
+                              selectionListener="#{bindings.AuditLogView21.collectionModel.makeCurrent}"
+                              rowSelection="single" id="t12" partialTriggers="::cb68">
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.LogId.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.LogId.label}" id="c47">
+                        <af:outputText value="#{row.LogId}" id="ot41"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.TransactionId.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.TransactionId.label}"
+                                 id="c42">
+                        <af:outputText value="#{row.TransactionId}" id="ot43"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.ProjectName.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.ProjectName.label}"
+                                 id="c44">
+                        <af:outputText value="#{row.ProjectName}" id="ot40"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.TransactionName.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.TransactionName.label}"
+                                 id="c46">
+                        <af:outputText value="#{row.TransactionName}" id="ot45"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.SourceSystem.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.SourceSystem.label}"
+                                 id="c40">
+                        <af:outputText value="#{row.SourceSystem}" id="ot47"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.TargetSystem.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.TargetSystem.label}"
+                                 id="c45">
+                        <af:outputText value="#{row.TargetSystem}" id="ot42"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.TransactionStatus.name}"
+                                 filterable="true" sortable="true"
+                                 headerText="#{bindings.AuditLogView21.hints.TransactionStatus.label}" id="c43">
+                        <af:outputText value="#{row.TransactionStatus}" id="ot39"/>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.CreatedTime.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.CreatedTime.label}"
+                                 id="c39">
+                        <f:facet name="filter">
+                          <af:inputDate value="#{vs.filterCriteria.CreatedTime}" id="id7"/>
+                        </f:facet>
+                        <af:outputText value="#{row.CreatedTime}" id="ot46">
+                          <af:convertDateTime pattern="#{bindings.AuditLogView21.hints.CreatedTime.format}"/>
+                        </af:outputText>
+                      </af:column>
+                      <af:column sortProperty="#{bindings.AuditLogView21.hints.UpdatedTime.name}" filterable="true"
+                                 sortable="true" headerText="#{bindings.AuditLogView21.hints.UpdatedTime.label}"
+                                 id="c41">
+                        <f:facet name="filter">
+                          <af:inputDate value="#{vs.filterCriteria.UpdatedTime}" id="id6"/>
+                        </f:facet>
+                        <af:outputText value="#{row.UpdatedTime}" id="ot44">
+                          <af:convertDateTime pattern="#{bindings.AuditLogView21.hints.UpdatedTime.format}"/>
+                        </af:outputText>
+                      </af:column>
+                    </af:table>
+                  </f:facet>
+                </af:panelSplitter>
+              </af:showDetailItem>-->
+            </af:panelTabbed>
+          </f:facet>
+        </af:panelSplitter>
+      </af:form>
+    </af:document>
+  </f:view>
+</jsp:root>

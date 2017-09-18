@@ -1,0 +1,357 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Feb 10 05:55:10 CST 2016
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="WorkOrder_EBizBatchJobs" targetNamespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://nucor.eia.com/WorkOrder_EBizBatchJobs"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_WorkOrder_EBizBatchJobs_ABF/DB_API_WorkOrder_Status"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_WorkOrder_EBizBatchJobs_ABF/DB_Update_API_WorkOrder_Status"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_WorkOrder_EBizBatchJobs_ABF/DB_Select_API_WorkOrder_Status"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_WorkOrder_EBizBatchJobs_ABF/DB_Proc_Update_Batch_Step"
+         xmlns:ns5="http://xmlns.eia.com/CommonLogging" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Select_API_WorkOrder_Status"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Proc_Update_Batch_Step"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_WorkOrder_Status"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_WorkOrder_Status"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_WorkOrder_EBizBatchJobs_ABF/DB_Update_API_WorkOrder_Sta">
+  <import ui:processWSDL="true" namespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs"
+          location="../WSDLs/WorkOrder_EBizBatchJobs.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="workorder_ebizbatchjobs_client" partnerLinkType="client:WorkOrder_EBizBatchJobs"
+                 myRole="WorkOrder_EBizBatchJobsProvider"/>
+    <partnerLink name="DB_Select_API_WorkOrder_Status" partnerLinkType="ns3:DB_Select_API_WorkOrder_Status_plt"
+                 partnerRole="DB_Select_API_WorkOrder_Status_role"/>
+    <partnerLink name="DB_Proc_Update_Batch_Step" partnerLinkType="ns4:DB_Proc_Update_Batch_Step_plt"
+                 partnerRole="DB_Proc_Update_Batch_Step_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns5:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Update_API_WorkOrder_Status" partnerLinkType="ns2:DB_Update_API_WorkOrder_Status_plt"
+                 partnerRole="DB_Update_API_WorkOrder_Status_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:WorkOrder_EBizBatchJobsRequestMessage"/>
+    <variable name="g_Invoke_DB_Select_API_WorkOrder_Status_InputVariable"
+              messageType="ns3:DB_Select_API_WorkOrder_StatusInput_msg"/>
+    <variable name="g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable"
+              messageType="ns3:DB_Select_API_WorkOrder_StatusOutputCollection_msg"/>
+    <variable name="g_Invoke_DB_Proc_Update_Batch_Step_InputVariable" messageType="ns4:args_in_msg"/>
+    <variable name="g_Invoke_DB_Proc_Update_Batch_Step_OutputVariable" messageType="ns4:args_out_msg"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns5:CommonLoggingRequestMessage"/>
+    <variable name="g_Resource" type="xsd:string"/>
+    <variable name="g_System" type="xsd:string"/>
+    <variable name="g_JNDI" type="xsd:string"/>
+    <variable name="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable"
+              messageType="ns2:ApiWorkOrderStatusCollection_msg"/>
+	<variable name="g_setTitleVar" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_CatchAll">
+        <assign name="Transformation_Update_Status_Error">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Status_Error.xsl", $g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable.DB_Select_API_WorkOrder_StatusOutputCollection)</from>
+            <to variable="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable" part="ApiWorkOrderStatusCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Update_API_WorkOrder_Status" partnerLink="DB_Update_API_WorkOrder_Status"
+                portType="ns2:DB_Update_API_WorkOrder_Status_ptt" operation="update"
+                inputVariable="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+          </copy>
+		  <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns5:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in WorkOrder_EBizBatchJobs.wsdl) -->
+    <receive name="receiveInput" partnerLink="workorder_ebizbatchjobs_client" portType="client:WorkOrder_EBizBatchJobs"
+             operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProjectName</to>
+      </copy>
+      <copy>
+        <from>'I111'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'OPMBatchTrx'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>21</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+            portType="ns5:CommonLogging" operation="process"
+            inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="Assign_Resource_System">
+      <copy>
+        <from>$inputVariable.payload/client:ResourceName</from>
+        <to>$g_Resource</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Resource,"SYSTEM","","ORG_CODE",ora:getPreference("orgCode"))</from>
+        <to>$g_System</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Resource,"JNDI","","ORG_CODE",ora:getPreference("orgCode"))</from>
+        <to>$g_JNDI</to>
+      </copy>
+	  <copy>
+        <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionId))</from>
+        <to>$g_setTitleVar</to>
+      </copy>
+    </assign>
+    <if name="If_Check_System">
+      <documentation>
+        <![CDATA[QMOS]]>
+      </documentation>
+      <condition>$g_System = 'QMOS'</condition>
+      <sequence name="Sequence_QMOS">
+        <assign name="Assign_rowNum">
+          <copy>
+            <from>ora:getPreference("rowNumValue")</from>
+            <to>$g_Invoke_DB_Select_API_WorkOrder_Status_InputVariable.DB_Select_API_WorkOrder_StatusInput_msg/ns6:rownumValue</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Select_WorkOrder_Status" bpelx:invokeAsDetail="no"
+                partnerLink="DB_Select_API_WorkOrder_Status" portType="ns3:DB_Select_API_WorkOrder_Status_ptt"
+                operation="DB_Select_API_WorkOrder_Status"
+                inputVariable="g_Invoke_DB_Select_API_WorkOrder_Status_InputVariable"
+                outputVariable="g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <if name="If_Check_For_RowNum">
+          <documentation>
+            <![CDATA[DoProcess]]>
+          </documentation>
+          <condition>count($g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable.DB_Select_API_WorkOrder_StatusOutputCollection/ns6:DB_Select_API_WorkOrder_StatusOutput) &gt; 0</condition>
+          <sequence name="Sequence_DoProcess">
+            <assign name="Transformation_Update_Status_Inprocess">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Status_Inprocess.xsl", $g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable.DB_Select_API_WorkOrder_StatusOutputCollection)</from>
+                <to variable="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable"
+                    part="ApiWorkOrderStatusCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_Update_API_WorkOrder_Status" partnerLink="DB_Update_API_WorkOrder_Status"
+                    portType="ns2:DB_Update_API_WorkOrder_Status_ptt" operation="update"
+                    inputVariable="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Transformation_Update_Batch_Step">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Batch_Step.xsl", $g_Invoke_CommonLogging_process_InputVariable.CommonLogging, "g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable.DB_Select_API_WorkOrder_StatusOutputCollection", $g_Invoke_DB_Select_API_WorkOrder_Status_OutputVariable.DB_Select_API_WorkOrder_StatusOutputCollection, "inputVariable.payload", $inputVariable.payload)</from>
+                <to variable="g_Invoke_DB_Proc_Update_Batch_Step_InputVariable" part="InputParameters"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_Proc_Update_Batch_Step" bpelx:invokeAsDetail="no"
+                    partnerLink="DB_Proc_Update_Batch_Step" portType="ns4:DB_Proc_Update_Batch_Step_ptt"
+                    operation="DB_Proc_Update_Batch_Step"
+                    inputVariable="g_Invoke_DB_Proc_Update_Batch_Step_InputVariable"
+                    outputVariable="g_Invoke_DB_Proc_Update_Batch_Step_OutputVariable">
+              <!--<bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>-->
+            </invoke>
+            <assign name="Transformation_Update_Status_End">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Status_End.xsl", $g_Invoke_DB_Proc_Update_Batch_Step_OutputVariable.OutputParameters)</from>
+                <to variable="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable"
+                    part="ApiWorkOrderStatusCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_Update_API_WorkOrder_Status" partnerLink="DB_Update_API_WorkOrder_Status"
+                    portType="ns2:DB_Update_API_WorkOrder_Status_ptt" operation="update"
+                    inputVariable="g_Invoke_DB_Update_API_WorkOrder_Status_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[NoRecordsForProcess]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                portType="ns5:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[OtherSystem]]>
+        </documentation>
+        <sequence name="Sequence_OtherSystem">
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>4</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-155'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageCode</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>concat($g_Resource,',','QMOS')</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns5:MessageDescription</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                  portType="ns5:CommonLogging" operation="process"
+                  inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </else>
+    </if>
+  </sequence>
+</process>

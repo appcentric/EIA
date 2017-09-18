@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAM/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:obj="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAO/1.0" xmlns:msg="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAM/1.0" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" elementFormDefault="qualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite Process Manufacturing for Results</Definition>
+<Description>This schema defines the objects to create or extract Results in Oracle AP.</Description>
+<Author>Manish Gujar</Author>
+<VersionDate>10-11-2015</VersionDate>
+<VersionDescription>Review and standardization</VersionDescription>
+<ModificationHistory>10-11-2015 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+<xsd:import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAO/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/InventoryTransactionAO.xsd"/>
+<xsd:element name="InventoryTransactionAddRq" type="msg:InventoryTransactionAddRq"/>
+<xsd:element name="InventoryTransactionAddRs" type="msg:InventoryTransactionAddRs"/>
+<xsd:element name="QueryInventoryTransactionAddRq" type="msg:QueryInventoryTransactionAddRq"/>
+<xsd:element name="QueryInventoryTransactionAddRs" type="msg:QueryInventoryTransactionAddRs"/>
+<xsd:complexType name="InventoryTransactionAddRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element minOccurs="1" maxOccurs="unbounded" ref="obj:InventoryTransactionDetails"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="InventoryTransactionAddRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element minOccurs="0" maxOccurs="unbounded" ref="obj:InventoryTransactionResponse"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QueryInventoryTransactionAddRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="RequestID" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QueryInventoryTransactionAddRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element minOccurs="1" maxOccurs="unbounded" ref="obj:InventoryTransactionDetails"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

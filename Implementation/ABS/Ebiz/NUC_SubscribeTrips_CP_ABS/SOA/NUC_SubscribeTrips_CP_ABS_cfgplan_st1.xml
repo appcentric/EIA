@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_SubscribeTrips_CP_ABS">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="JMS_SubscribeTrips">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="jca">
+            <property name="useRejectedMessageRecovery">
+               <replace>true</replace>
+            </property>
+         </binding>
+      </service>
+      <service name="JMS_SubscribeTrips"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>46769762-522b-49f9-8033-86129f79310c</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="CreateTrips">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+      </component>
+      <reference name="DB_SelectStatusFromOMSI"/>
+      <reference name="DB_Insert_OP_100_Op_Ship"/>
+      <reference name="DB_GetOMSI_SEQ"/>
+      <reference name="DB_Insert_Stop"/>
+      <reference name="DB_Insert_Commodity"/>
+      <reference name="DB_Insert_Door_Preference"/>
+      <reference name="DB_Update_Op_Ship"/>
+      <reference name="DB_Update_Stop"/>
+      <reference name="DB_Update_Commodity"/>
+      <reference name="DB_Update_Door_Preference"/>
+      <reference name="DB_Insert_Appointment_Logging"/>
+      <reference name="DB_Insert_Pick_Del_Confirmation"/>
+      <reference name="DB_SelectStatusFromOMSI">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Insert_OP_100_Op_Ship">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Insert_Stop">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_GetOMSI_SEQ">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Insert_Commodity">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Insert_Door_Preference">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_Op_Ship">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_Stop">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_Commodity">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_Door_Preference">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Insert_Appointment_Logging">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Insert_Pick_Del_Confirmation">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for JMS adapter: 
+	<jca:property name="DestinationName"><replace>jms/DemoSupplierTopic</replace></jca:property>
+	<jca:property name="TimeToLive"><replace>0</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_GetOMSI_SEQ_db.jca|Adapters/DB_Insert_Appointment_Logging_db.jca|Adapters/DB_Insert_Commodity_db.jca|Adapters/DB_Insert_Door_Preference_db.jca|Adapters/DB_Insert_OP_100_Op_Ship_db.jca|Adapters/DB_Insert_Pick_Del_Confirmation_db.jca|Adapters/DB_Insert_Stop_db.jca|Adapters/DB_SelectStatusFromOMSI_db.jca|Adapters/DB_Update_Commodity_db.jca|Adapters/DB_Update_Door_Preference_db.jca|Adapters/DB_Update_Op_Ship_db.jca|Adapters/DB_Update_Stop_db.jca|Adapters/JMS_SubscribeTrips_jms.jca|Schemas/DB_GetOMSI_SEQ.xsd|Schemas/DB_Insert_Appointment_Logging_table.xsd|Schemas/DB_Insert_Commodity_table.xsd|Schemas/DB_Insert_Door_Preference_table.xsd|Schemas/DB_Insert_OP_100_Op_Ship_table.xsd|Schemas/DB_Insert_Pick_Del_Confirmation_table.xsd|Schemas/DB_Insert_Stop_table.xsd|Schemas/DB_SelectStatusFromOMSI_table.xsd|Schemas/DB_Update_Commodity_table.xsd|Schemas/DB_Update_Door_Preference_table.xsd|Schemas/DB_Update_Op_Ship_table.xsd|Schemas/DB_Update_Stop_table.xsd|WSDLs/DB_GetOMSI_SEQ.wsdl|WSDLs/DB_Insert_Appointment_Logging.wsdl|WSDLs/DB_Insert_Commodity.wsdl|WSDLs/DB_Insert_Door_Preference.wsdl|WSDLs/DB_Insert_OP_100_Op_Ship.wsdl|WSDLs/DB_Insert_Pick_Del_Confirmation.wsdl|WSDLs/DB_Insert_Stop.wsdl|WSDLs/DB_SelectStatusFromOMSI.wsdl|WSDLs/DB_Update_Commodity.wsdl|WSDLs/DB_Update_Door_Preference.wsdl|WSDLs/DB_Update_Op_Ship.wsdl|WSDLs/DB_Update_Stop.wsdl|WSDLs/JMS_SubscribeTrips.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

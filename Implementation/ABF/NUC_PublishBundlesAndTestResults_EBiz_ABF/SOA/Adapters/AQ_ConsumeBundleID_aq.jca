@@ -1,0 +1,12 @@
+<adapter-config name="AQ_ConsumeBundleID" adapter="aq" wsdlLocation="../WSDLs/AQ_ConsumeBundleID.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/AQ/ebs" UIConnectionName="EBSDev"/>
+  <endpoint-activation portType="Dequeue_ptt" operation="Dequeue">
+    <activation-spec className="oracle.tip.adapter.aq.inbound.AQDequeueActivationSpec">
+      <property name="DequeueCondition" value="tab.user_data.TXN_NAME = 'Bundle_TestResults'"/>
+      <property name="SchemaValidation" value="false"/>
+      <property name="QueueName" value="XXNUC_COMM_OUTINTF_Q"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

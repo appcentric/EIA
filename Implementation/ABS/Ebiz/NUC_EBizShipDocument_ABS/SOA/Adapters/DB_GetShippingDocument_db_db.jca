@@ -1,0 +1,14 @@
+<adapter-config name="DB_GetShippingDocument_db" adapter="db" wsdlLocation="../WSDLs/DB_GetShippingDocument_db.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DEV_EBS" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_GetShippingDocument_db_ptt" operation="DB_GetShippingDocument_dbSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_GetShippingDocument_db.WshDocumentInstances"/>
+      <property name="QueryName" value="DB_GetShippingDocument_dbSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_GetShippingDocument_db-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/common/PayableBanksAO/1.0"
+            elementFormDefault="qualified" attributeFormDefault="unqualified"
+            version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:banksao="http://xmlns.eia.com/AO/EBiz/common/PayableBanksAO/1.0">
+            
+            
+  <xsd:element name="Bank" type="banksao:BankType"/>
+  <xsd:element name="BasicBank" type="banksao:BasicBankType"/>
+  
+  <xsd:complexType name="BasicBankType">
+    <xsd:sequence>
+      <xsd:element name="BankAccountNumber" type="xsd:string"/>
+      <xsd:element name="BankAccountName" type="xsd:string"/>
+      <xsd:element name="BankBranchName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BankType">
+        <xsd:sequence>
+          <xsd:element ref="banksao:BasicBank"  minOccurs="0"
+                       maxOccurs="1"/>
+
+          <xsd:element name="Accountholdername" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Accountholdernamealt" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Accounttype" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Agencylocationcode" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Allowmultiassignmentsflag" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Assetcodecombinationid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Avgfloatdays" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Bankaccountid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Bankaccountnamealt" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Bankaccounttype" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Bankbranchid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Bankchargesccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Bankerrorsccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Brfactorccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Brremittanceccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Brstdreceivablestrxid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Cashclearingccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Checkdigits" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contactareacode" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contactfirstname" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contactlastname" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contactmiddlename" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contactphone" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contactprefix" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Contacttitle" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Createdby" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Creationdate" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Currencycode" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Description" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Earnedccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Ediscreceivablestrxid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Eftrequesterid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Eftusernumber" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Factorccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Futuredatedpaymentccid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Gaincodecombinationid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Ibannumber" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Inactivedate" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Lastupdatedby" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Lastupdatedate" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Lastupdatelogin" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Losscodecombinationid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Maxcheckamount" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Maxoutlay" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Mincheckamount" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Multicurrencyflag" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Onesignaturemaxflag" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Onaccountccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Orgid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Payrollbankaccountid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Pooledflag" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Programapplicationid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Programid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Programupdatedate" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Receiptclearingccid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Receiptmulticurrencyflag" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Remittanceccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Requestid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Setofbooksid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Shorttermdepositccid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Unappliedccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Unearnedccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Unediscreceivablestrxid" type="xsd:string"
+                       minOccurs="0" maxOccurs="1" nillable="true"/>
+          <xsd:element name="Unidentifiedccid" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Validationnumber" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+          <xsd:element name="Zeroamountsallowed" type="xsd:string" minOccurs="0"
+                       maxOccurs="1" nillable="true"/>
+        </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,40 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="JMS_SubscribeTrips"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/jms/I028NewDesign/NUC_SubscribeTrips_CP_ABS/JMS_SubscribeTrips"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/jms/I028NewDesign/NUC_SubscribeTrips_CP_ABS/JMS_SubscribeTrips"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:pc="http://xmlns.oracle.com/pcbpel/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+     xmlns:imp1="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0"
+    >
+    <plt:partnerLinkType name="Consume_Message_plt">
+        <plt:role name="Consume_Message_role">
+            <plt:portType name="tns:Consume_Message_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/jms/I028NewDesign/NUC_SubscribeTrips_CP_ABS/JMS_SubscribeTrips"
+             xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:imp1="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0">
+            <import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/jms/I028NewDesign/NUC_SubscribeTrips_CP_ABS/JMS_SubscribeTrips"
+             xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:imp1="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0">
+            <import namespace="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/O2C/V1.0/TripsAM.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="Consume_Message_msg">
+        <wsdl:part name="body" element="imp1:TripsAddRq"/>
+    </wsdl:message>
+    <wsdl:portType name="Consume_Message_ptt">
+        <wsdl:operation name="Consume_Message">
+            <wsdl:input message="tns:Consume_Message_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

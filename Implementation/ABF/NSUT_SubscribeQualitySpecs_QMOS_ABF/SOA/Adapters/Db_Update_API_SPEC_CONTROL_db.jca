@@ -1,0 +1,11 @@
+<adapter-config name="Db_Update_API_SPEC_CONTROL" adapter="db" wsdlLocation="../WSDLs/Db_Update_API_SPEC_CONTROL.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_Utah_Dev" location="eis/DB/nsutqmos"/>
+  <endpoint-interaction portType="Db_Update_API_SPEC_CONTROL_ptt" operation="Db_Update_API_SPEC_CONTROL">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE API_SPEC_CONTROL SET SEND_DATE = #curdate,SEND_FLAG = #flag WHERE 1=1"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project default="RenameBPELProcessInJDeveloper11gR1">
+    <target name="RenameBPEL">
+        <echo>Workdir: ${PROJECT_DIR}</echo>
+        <echo>String replacement: ${FILENAME_NO_EXT} -> ${NEW_FILENAME}</echo>
+        <replace dir="${PROJECT_DIR}" token="${FILENAME_NO_EXT}" value="${NEW_FILENAME}">
+            <exclude name="**/.svn*"/>
+        </replace>
+        <echo>complete...</echo>
+        <echo>Renaming ${FILENAME_NO_EXT} -> ${NEW_FILENAME} in ${PROJECT_DIR}</echo>
+        <move todir="${PROJECT_DIR}">
+            <fileset dir="${PROJECT_DIR}">
+                <exclude name=".svn*"/>
+            </fileset>
+            <mapper type="glob" from="${FILENAME_NO_EXT}*" to="${NEW_FILENAME}*"/>
+        </move>
+        <echo>Renaming ${FILENAME_NO_EXT} -> ${NEW_FILENAME} in ${PROJECT_DIR}/xsd</echo>
+        <move todir="${PROJECT_DIR}/xsd">
+            <fileset dir="${PROJECT_DIR}/xsd">
+                <exclude name=".svn*"/>
+            </fileset>
+            <mapper type="glob" from="${FILENAME_NO_EXT}*" to="${NEW_FILENAME}*"/>
+        </move>
+        <echo>Renaming ${FILENAME_NO_EXT} -> ${NEW_FILENAME} in ${PROJECT_DIR}/xsl</echo>
+        <move todir="${PROJECT_DIR}/xsl">
+            <fileset dir="${PROJECT_DIR}/xsd">
+                <exclude name=".svn*"/>
+            </fileset>
+            <mapper type="glob" from="${FILENAME_NO_EXT}*" to="${NEW_FILENAME}*"/>
+        </move>
+        <echo>complete...</echo>
+     </target>
+</project>

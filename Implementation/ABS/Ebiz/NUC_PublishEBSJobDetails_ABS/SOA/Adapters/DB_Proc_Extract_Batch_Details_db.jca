@@ -1,0 +1,13 @@
+<adapter-config name="DB_Proc_Extract_Batch_Details" adapter="db" wsdlLocation="../WSDLs/DB_Proc_Extract_Batch_Details.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DEV_Apps_xxnuc" location="eis/DB/ebsapps" UIOverloadedProcedure="2"/>
+  <endpoint-interaction portType="DB_Proc_Extract_Batch_Details_ptt" operation="DB_Proc_Extract_Batch_Details">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_GME_EXTRACT_BD_PKG"/>
+      <property name="ProcedureName" value="EXTRACT_BATCH_PAYLOAD"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

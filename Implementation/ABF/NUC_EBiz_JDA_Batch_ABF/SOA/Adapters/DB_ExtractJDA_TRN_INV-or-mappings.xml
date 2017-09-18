@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_ExtractJDA_TRN_INV-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_ExtractJDA_TRN_INV.XxnucGmeJdaTrnInvStg</class>
+         <alias>XXNUC_GME_JDA_TRN_INV_STG</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_TRN_INV_STG" name="RECORD_ID" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_TRN_INV_STG" name="ORGANIZATION_ID" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_TRN_INV_STG" name="RESOURCE_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_ExtractJDA_TRN_INVSelect" xsi:type="read-all-query">
+                  <criteria operator="and" xsi:type="logic-expression">
+                     <left operator="equal" xsi:type="relation-expression">
+                        <left name="organizationId" xsi:type="query-key-expression">
+                           <base xsi:type="base-expression"/>
+                        </left>
+                        <right xsi:type="parameter-expression">
+                           <parameter name="vOrgId" xsi:type="column"/>
+                        </right>
+                     </left>
+                     <right operator="equal" xsi:type="relation-expression">
+                        <left name="resourceId" xsi:type="query-key-expression">
+                           <base xsi:type="base-expression"/>
+                        </left>
+                        <right xsi:type="parameter-expression">
+                           <parameter name="vResource" xsi:type="column"/>
+                        </right>
+                     </right>
+                  </criteria>
+                  <arguments>
+                     <argument name="vOrgId">
+                        <type>java.lang.String</type>
+                     </argument>
+                     <argument name="vResource">
+                        <type>java.lang.String</type>
+                     </argument>
+                  </arguments>
+                  <reference-class>DB_ExtractJDA_TRN_INV.XxnucGmeJdaTrnInvStg</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>recordId</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="RECORD_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>resourceId</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="RESOURCE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assignedPart</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="ASSIGNED_PART" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assignedQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="ASSIGNED_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assignedQuantityFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="ASSIGNED_QUANTITY_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assignedQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="ASSIGNED_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandOrMfgOrderId</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="DEMAND_OR_MFG_ORDER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandPst</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="DEMAND_PST" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandShipmentCode</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="DEMAND_SHIPMENT_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>formattedAssignedQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="FORMATTED_ASSIGNED_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>formattedPrePotencyAssign</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="FORMATTED_PRE_POTENCY_ASSIGN" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operationId</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="OPERATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partNumberType</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="PART_NUMBER_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partSource</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="PART_SOURCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prePotencyAssignedQty</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="PRE_POTENCY_ASSIGNED_QTY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>purchaseOrderId</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="PURCHASE_ORDER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>reservationLocked</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="RESERVATION_LOCKED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stepNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="STEP_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>supplyBoh</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="SUPPLY_BOH" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>supplyTimeNeeded</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="SUPPLY_TIME_NEEDED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timeAvailable</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="TIME_AVAILABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timeAvailableFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="TIME_AVAILABLE_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timeNeeded</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="TIME_NEEDED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timeNeededFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="TIME_NEEDED_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timePreviouslyReserved</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="TIME_PREVIOUSLY_RESERVED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorP</attribute-name>
+               <field table="XXNUC_GME_JDA_TRN_INV_STG" name="VENDOR_P" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_TRN_INV_STG"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

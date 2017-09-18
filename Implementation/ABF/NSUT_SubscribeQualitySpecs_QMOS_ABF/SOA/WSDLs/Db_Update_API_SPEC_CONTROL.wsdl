@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="Db_Update_API_SPEC_CONTROL"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_SubscribeQualitySpecs_QMOS_ABF/Db_Update_API_SPEC_CONTROL"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_SubscribeQualitySpecs_QMOS_ABF/Db_Update_API_SPEC_CONTROL"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/Db_Update_API_SPEC_CONTROL"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="Db_Update_API_SPEC_CONTROL_plt" >
+    <plt:role name="Db_Update_API_SPEC_CONTROL_role" >
+      <plt:portType name="tns:Db_Update_API_SPEC_CONTROL_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/Db_Update_API_SPEC_CONTROL" schemaLocation="../Schemas/Db_Update_API_SPEC_CONTROL.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Db_Update_API_SPEC_CONTROLInput_msg">
+        <wsdl:part name="Db_Update_API_SPEC_CONTROLInput_msg" element="db:Db_Update_API_SPEC_CONTROLInput"/>
+    </wsdl:message>
+    <wsdl:portType name="Db_Update_API_SPEC_CONTROL_ptt">
+        <wsdl:operation name="Db_Update_API_SPEC_CONTROL">
+            <wsdl:input message="tns:Db_Update_API_SPEC_CONTROLInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

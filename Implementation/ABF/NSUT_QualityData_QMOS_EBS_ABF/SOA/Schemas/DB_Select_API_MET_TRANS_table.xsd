@@ -1,0 +1,110 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Select_API_MET_TRANS" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Select_API_MET_TRANS" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ApiMetTransCollection" type="ApiMetTransCollection"/>
+   <xs:complexType name="ApiMetTransCollection">
+      <xs:sequence>
+         <xs:element name="ApiMetTrans" type="ApiMetTrans" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiMetTrans">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="heat" type="string15" minOccurs="0"/>
+         <xs:element name="reheat" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="sampleId" type="string20" minOccurs="0"/>
+         <xs:element name="partCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="shape" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="billetSize" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="grade" type="string15" minOccurs="0"/>
+         <xs:element name="testName" type="string15" minOccurs="0"/>
+         <xs:element name="testElement" type="string20" minOccurs="0"/>
+         <xs:element name="testResultText" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="testResultNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="testUnit" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="crew" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="shift" type="xs:int" minOccurs="0"/>
+         <xs:element name="userId" type="string15" minOccurs="0"/>
+         <xs:element name="userFirstName" type="string25" minOccurs="0"/>
+         <xs:element name="userLastName" type="string25" minOccurs="0"/>
+         <xs:element name="worOrderNo" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="processed" type="string1" minOccurs="0"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="invalidated" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="testResultBool" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="testDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="vCastLotVisibilityCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="VCastLotVisibility" type="VCastLotVisibility" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="vFgLotVisibilityCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="VFgLotVisibility" type="VFgLotVisibility" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="VCastLotVisibility">
+      <xs:sequence>
+         <xs:element name="reheat" type="string12" minOccurs="0" nillable="true"/>
+         <xs:element name="castLot" type="string12" nillable="true"/>
+         <xs:element name="fgLot" type="string12" minOccurs="0" nillable="true"/>
+         <xs:element name="jobNumber" type="xs:long" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="VFgLotVisibility">
+      <xs:sequence>
+         <xs:element name="heat" type="string10" minOccurs="0"/>
+         <xs:element name="castLot" type="string12" minOccurs="0" nillable="true"/>
+         <xs:element name="fgLot" type="string12" nillable="true"/>
+         <xs:element name="jobNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_Select_API_MET_TRANSSelect_rowNumInputParameters" type="DB_Select_API_MET_TRANSSelect_rowNum"/>
+   <xs:complexType name="DB_Select_API_MET_TRANSSelect_rowNum">
+      <xs:sequence>
+         <xs:element name="rowNum" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string12">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="12"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

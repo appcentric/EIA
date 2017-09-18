@@ -1,0 +1,15 @@
+<adapter-config name="DB_Insert_EBS_GRADE_CODES" adapter="db" wsdlLocation="../WSDLs/DB_Insert_EBS_GRADE_CODES.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="LTS_L2" location="eis/DB/nsneL2"/>
+  <endpoint-interaction portType="DB_Insert_EBS_GRADE_CODES_ptt" operation="merge">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_Insert_EBS_GRADE_CODES.EbsGradeCodes"/>
+      <property name="DmlType" value="merge"/>
+      <property name="MappingsMetaDataURL" value="DB_Insert_EBS_GRADE_CODES-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="OptimizeMerge" value="true"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

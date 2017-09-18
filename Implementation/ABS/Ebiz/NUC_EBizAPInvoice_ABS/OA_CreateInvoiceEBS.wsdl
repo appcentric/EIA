@@ -1,0 +1,21 @@
+<?binding.jca OA_CreateInvoiceEBS_apps.jca?>
+<wsdl:definitions name="OA_CreateInvoiceEBS" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Applications/NUC_EBizAPInvoice_ABS/OA_CreateInvoiceEBS" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Applications/NUC_EBizAPInvoice_ABS/OA_CreateInvoiceEBS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateInvoiceEBS">
+    <plt:partnerLinkType name="OA_CreateInvoiceEBS_plt">
+        <plt:role name="OA_CreateInvoiceEBS_role">
+            <plt:portType name="tns:OA_CreateInvoiceEBS_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateInvoiceEBS" schemaLocation="xsd/OA_CreateInvoiceEBS_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="ApInvoicesInterfaceCollection_msg">
+        <wsdl:part name="ApInvoicesInterfaceCollection" element="top:ApInvoicesInterfaceCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="OA_CreateInvoiceEBS_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:ApInvoicesInterfaceCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

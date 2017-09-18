@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_Heat_Batch_View"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_HeatBatch_L2_EBS_ABF/DB_Heat_Batch_View"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_HeatBatch_L2_EBS_ABF/DB_Heat_Batch_View"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Heat_Batch_View"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Heat_Batch_View_plt" >
+    <plt:role name="DB_Heat_Batch_View_role" >
+      <plt:portType name="tns:DB_Heat_Batch_View_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Heat_Batch_View" schemaLocation="../Schemas/DB_Heat_Batch_View_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_Heat_Batch_ViewSelect_inputParameters">
+        <wsdl:part name="DB_Heat_Batch_ViewSelect_inputParameters" element="top:DB_Heat_Batch_ViewSelect_HeatIDInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="vw_L2_Heat_Batch_UpdateCollection_msg">
+        <wsdl:part name="vw_L2_Heat_Batch_UpdateCollection" element="top:vw_L2_Heat_Batch_UpdateCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Heat_Batch_View_ptt">
+        <wsdl:operation name="DB_Heat_Batch_ViewSelect">
+            <wsdl:input message="tns:DB_Heat_Batch_ViewSelect_inputParameters"/>
+            <wsdl:output message="tns:vw_L2_Heat_Batch_UpdateCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

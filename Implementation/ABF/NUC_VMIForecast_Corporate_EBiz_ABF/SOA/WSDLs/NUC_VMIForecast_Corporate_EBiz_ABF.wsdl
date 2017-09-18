@@ -1,0 +1,40 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="NUC_VMIForecast_Corporate_EBiz_ABF"
+     targetNamespace="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+     xmlns:ns1="http://xmlns.eia.com/ABF/CustForecast_ABF/1.0/CustForecast"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns2="http://www.nucor.com/scmschemas/VMICustomerForecastLoad.xsd"
+    >
+    <plnk:partnerLinkType name="NUC_VMIForecast_Corporate_EBiz_ABF">
+        <plnk:role name="NUC_VMIForecast_Corporate_EBiz_ABFProvider" portType="client:NUC_VMIForecast_Corporate_EBiz_ABF"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+             xmlns:ns1="http://xmlns.eia.com/ABF/CustForecast_ABF/1.0/CustForecast" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns2="http://www.nucor.com/scmschemas/VMICustomerForecastLoad.xsd">
+            <import namespace="http://xmlns.eia.com/ABF/CustForecast_ABF/1.0/CustForecast" schemaLocation="../Schemas/Input_VMICustForeCast.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+             xmlns:ns1="http://xmlns.eia.com/ABF/CustForecast_ABF/1.0/CustForecast" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns2="http://www.nucor.com/scmschemas/VMICustomerForecastLoad.xsd">
+            <xsd:import namespace="http://www.nucor.com/scmschemas/VMICustomerForecastLoad.xsd" schemaLocation="oramds:/apps/EIAMetadata/AO/Corporate/O2C/Orders/V1.0/VMICustomerForeCast.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="NUC_VMIForecast_Corporate_EBiz_ABFRequestMessage">
+        <wsdl:part name="payload" element="ns1:Input"/>
+    </wsdl:message>
+    <wsdl:message name="NUC_VMIForecast_Corporate_EBiz_ABFResponseMessage">
+        <wsdl:part name="payload" element="ns1:Output"/>
+    </wsdl:message>
+    <wsdl:portType name="NUC_VMIForecast_Corporate_EBiz_ABF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:NUC_VMIForecast_Corporate_EBiz_ABFRequestMessage"/>
+            <wsdl:output message="client:NUC_VMIForecast_Corporate_EBiz_ABFResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

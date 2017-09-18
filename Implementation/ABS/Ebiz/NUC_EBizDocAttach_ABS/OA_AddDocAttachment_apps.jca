@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_AddDocAttachment" adapter="apps" wsdlLocation="OA_AddDocAttachment.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs_nonxa" UIConnectionName="EBSDEVP" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_AddDocAttachment_ptt" operation="OA_AddDocAttachment">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:XXNUC_FND_DOC_ATTACH_UTIL_PKG:ADD_TEXT_ATTACHMENT"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_FND_DOC_ATTACH_UTIL_PKG"/>
+      <property name="ProcedureName" value="ADD_TEXT_ATTACHMENT"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

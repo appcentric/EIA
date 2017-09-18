@@ -1,0 +1,12 @@
+<adapter-config name="SFTP_SyncDelete" adapter="ftp" wsdlLocation="../WSDLs/SFTP_SyncDelete.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/FtpAdapter"/>
+  <endpoint-interaction portType="SynchDelete_ptt" operation="SynchDelete">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPIoInteractionSpec">
+      <property name="TargetPhysicalDirectory" value="/data/SOA/ftpzone"/>
+      <property name="TargetFileName" value="filename"/>
+      <property name="Type" value="DELETE"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

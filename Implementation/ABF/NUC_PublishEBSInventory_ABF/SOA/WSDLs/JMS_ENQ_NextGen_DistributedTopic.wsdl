@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="JMS_ENQ_NextGen_DistributedTopic"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/jms/NextGen/NUC_PublishEBSInventory_ABF/JMS_ENQ_NextGen_DistributedTopic"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/jms/NextGen/NUC_PublishEBSInventory_ABF/JMS_ENQ_NextGen_DistributedTopic"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAM/1.0"
+    >
+  <plt:partnerLinkType name="Produce_Message_plt" >
+    <plt:role name="Produce_Message_role" >
+      <plt:portType name="tns:Produce_Message_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/InventoryTransactionAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/D2S/V1.0/InventoryTransactionAM.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Produce_Message_msg">
+        <wsdl:part name="body" element="imp1:InventoryTransactionAddRq"/>
+    </wsdl:message>
+    <wsdl:portType name="Produce_Message_ptt">
+        <wsdl:operation name="Produce_Message">
+            <wsdl:input message="tns:Produce_Message_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,72 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_LoadVMICustForeCast" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_LoadVMICustForeCast" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxnucDemVmifcstInboundStgCollection" type="XxnucDemVmifcstInboundStgCollection"/>
+   <xs:complexType name="XxnucDemVmifcstInboundStgCollection">
+      <xs:sequence>
+         <xs:element name="XxnucDemVmifcstInboundStg" type="XxnucDemVmifcstInboundStg" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucDemVmifcstInboundStg">
+      <xs:sequence>
+         <xs:element name="recordId" type="xs:decimal" nillable="true"/>
+         <xs:element name="siteUseId" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="ngcid" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="millPartId" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="partDescription" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="minQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="maxQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="inventory" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="onOrderTotal" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="forecast" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="totalQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="forecastPerDay" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="forecastPerWeek" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="organizationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="itemNumber" type="string40" minOccurs="0" nillable="true"/>
+         <xs:element name="dateReceived" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastFileSent" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="safetyStockQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="dmItemCode" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="dmSiteCode" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="dmOrgCode" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="dmItemSiteOrgChkFlag" type="string9" minOccurs="0" nillable="true"/>
+         <xs:element name="recordStatus" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string1000" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateLogin" type="xs:decimal" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string40">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="40"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string9">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="9"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1000"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

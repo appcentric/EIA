@@ -1,0 +1,13 @@
+<adapter-config name="SelectPayrollAP" adapter="Database Adapter" wsdlLocation="SelectPayrollAP.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="ebsapps" adapterRef=""/>
+  <endpoint-interaction portType="SelectPayrollAP_ptt" operation="SelectPayrollAP">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="Select 'Payment' DESCRIPTION, SEGMENT1, Sum(DEBIT_AMOUNT + CREDIT_AMOUNT) AMOUNT from xxnuc.XXNUC_SAP_PAYROLL_POST_DATA where SAP_GL = '0000231564' group by SEGMENT1  union  Select 'Fed Tax' DESCRIPTION, SEGMENT1, Sum(DEBIT_AMOUNT + CREDIT_AMOUNT) AMOUNT from xxnuc.XXNUC_SAP_PAYROLL_POST_DATA where SAP_GL = '0000231573' group by SEGMENT1  union  Select 'Social Security Tax' DESCRIPTION, SEGMENT1, Sum(DEBIT_AMOUNT + CREDIT_AMOUNT) AMOUNT from xxnuc.XXNUC_SAP_PAYROLL_POST_DATA where SAP_GL in ('0000231574','0000531836') group by SEGMENT1  union  Select 'Medicare Tax' DESCRIPTION, SEGMENT1, Sum(DEBIT_AMOUNT + CREDIT_AMOUNT) AMOUNT from xxnuc.XXNUC_SAP_PAYROLL_POST_DATA where SAP_GL in ('0000231576','0000531837') group by SEGMENT1"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

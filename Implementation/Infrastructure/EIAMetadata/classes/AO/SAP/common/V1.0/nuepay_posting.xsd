@@ -1,0 +1,240 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="PostingSet">
+        <xs:annotation>
+            <xs:documentation>Set of posting data for a single company code and posting date</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Posting" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="CompanyCode" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>SAP Company code designator which corresponds to an accounting unit which is typically a legally independent company.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="PostingDate" type="xs:date" use="required">
+                <xs:annotation>
+                    <xs:documentation>Date this set was posted</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Type" use="required">
+                <xs:annotation>
+                    <xs:documentation>Type can be &quot;Normal&quot; or &quot;Reversing&quot;</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Normal"/>
+                        <xs:enumeration value="Reversing"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="RunID" type="xs:nonNegativeInteger" use="required">
+                <xs:annotation>
+                    <xs:documentation>Integer assigned to each posting run</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Currency" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>ISO currency code</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="DataCreatedDateTime" type="xs:dateTime" use="required">
+                <xs:annotation>
+                    <xs:documentation>Date time when the most recent underlying data was created.  Note that not all of the underlying data in this package was created at the same time.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Envelope">
+        <xs:annotation>
+            <xs:documentation>Root node</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResponseManifest">
+                    <xs:annotation>
+                        <xs:documentation>Element containing errors, warnings, and advisements information.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Errors" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Container element to hold individual error elements.</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Error" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="ST_Error">
+                                                        <xs:attribute name="ID" type="xs:short" use="required">
+                                                            <xs:annotation>
+                                                                <xs:documentation>Element describing each individual error.</xs:documentation>
+                                                            </xs:annotation>
+                                                        </xs:attribute>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Warnings" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Container element to hold individual warning elements.</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Warning" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="ST_Warning">
+                                                        <xs:attribute name="ID" type="xs:short" use="required">
+                                                            <xs:annotation>
+                                                                <xs:documentation>Numeric identification of warning.</xs:documentation>
+                                                            </xs:annotation>
+                                                        </xs:attribute>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Advisements" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Contiainer element to hold individual advisement elements.</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Advisement" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="ST_Advisement">
+                                                        <xs:attribute name="ID" type="xs:short" use="required">
+                                                            <xs:annotation>
+                                                                <xs:documentation>Numeric identification of advisement</xs:documentation>
+                                                            </xs:annotation>
+                                                        </xs:attribute>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="PostingSet" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="MsgType" use="required">
+                <xs:annotation>
+                    <xs:documentation>Fixed string to specify message type - must contain exactly the following string:&quot;Payroll_Posting&quot;</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Payroll_Posting"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Ver" use="required">
+                <xs:annotation>
+                    <xs:documentation>Version number of the package schema in the form 1.0.0  Each element in this verson has the following meaning (Major Version).(Minor Version).(Build)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="\d+\.\d+\.\d+"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="CreatedDateTime" use="required">
+                <xs:annotation>
+                    <xs:documentation>The actual date and time when the package was created.  Use ISO 8601 time format.  If using local time ensure that TZ offset is correct.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:dateTime">
+                        <xs:minInclusive value="2009-01-01T00:00:00Z"/>
+                        <xs:maxInclusive value="2019-12-31T23:59:59Z"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="DivCode" use="required">
+                <xs:annotation>
+                    <xs:documentation>Numeric identifier identifying the Nucor business unit for which the data is submitted.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:nonNegativeInteger">
+                        <xs:minInclusive value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="ControlNum" use="required">
+                <xs:annotation>
+                    <xs:documentation>Unique identification number for this transmission in the form of a GUID.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="38"/>
+                        <xs:minLength value="30"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Environment" use="required">
+                <xs:annotation>
+                    <xs:documentation>D - Development Environment, Q - Quality Environment, P - Production environment</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="PostingStartDate" use="required">
+                <xs:annotation>
+                    <xs:documentation>Date time (in ISO 8601 format) makring the beginning (inclusive) if the posting period.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="PostingEndDate" use="required">
+                <xs:annotation>
+                    <xs:documentation>Date time (in ISO 8601 format) marking the end (inclusive) of the posting period.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Posting">
+        <xs:annotation>
+            <xs:documentation>Individual posting detail element</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="GL" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>GL Code</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Desc" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>GL Code Description</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="CostCenter" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Cost center identifier</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Accrual" type="xs:boolean" use="required">
+                <xs:annotation>
+                    <xs:documentation>Boolean indicating if this posting is an accrual or not</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="DebitAmount" type="xs:decimal" use="required"/>
+            <xs:attribute name="CreditAmount" type="xs:decimal" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="ST_Warning">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="ST_Advisement">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="ST_Error">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+</xs:schema>
+<!-- edited with XMLSpy v2011 (x64) (http://www.altova.com) by Scott Messenger (Nucor) -->

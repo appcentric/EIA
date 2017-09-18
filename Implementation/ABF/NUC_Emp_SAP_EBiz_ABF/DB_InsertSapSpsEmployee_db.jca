@@ -1,0 +1,14 @@
+<adapter-config name="DB_InsertSapSpsEmployee" adapter="db" wsdlLocation="DB_InsertSapSpsEmployee.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="DEV_Apps_xxnuc" adapterRef=""/>
+  <endpoint-interaction portType="DB_InsertSapSpsEmployee_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_InsertSapSpsEmployee.XxnucHrSapEmployeeStg"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="DB_InsertSapSpsEmployee-or-mappings.xml"/>
+      <property name="DetectOmissions" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

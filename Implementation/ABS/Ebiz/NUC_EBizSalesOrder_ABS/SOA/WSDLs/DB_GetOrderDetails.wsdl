@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_GetOrderDetails"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SMG-nuc/NUC_EBizSalesOrder_ABS/DB_GetOrderDetails"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/SMG-nuc/NUC_EBizSalesOrder_ABS/DB_GetOrderDetails"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetOrderDetails"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_GetOrderDetails_plt" >
+    <plt:role name="DB_GetOrderDetails_role" >
+      <plt:portType name="tns:DB_GetOrderDetails_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetOrderDetails" schemaLocation="../Schemas/DB_GetOrderDetails_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_GetOrderDetailsSelect_inputParameters">
+        <wsdl:part name="DB_GetOrderDetailsSelect_inputParameters" element="top:DB_GetOrderDetailsParameters"/>
+    </wsdl:message>
+    <wsdl:message name="OeOrderHeadersAllCollection_msg">
+        <wsdl:part name="OeOrderHeadersAllCollection" element="top:OeOrderHeadersAllCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_GetOrderDetails_ptt">
+        <wsdl:operation name="DB_GetOrderDetailsSelect">
+            <wsdl:input message="tns:DB_GetOrderDetailsSelect_inputParameters"/>
+            <wsdl:output message="tns:OeOrderHeadersAllCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

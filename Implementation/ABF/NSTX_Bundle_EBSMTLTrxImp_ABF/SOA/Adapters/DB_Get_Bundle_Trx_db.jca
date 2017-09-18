@@ -1,0 +1,14 @@
+<adapter-config name="DB_Get_Bundle_Trx" adapter="db" wsdlLocation="../WSDLs/DB_Get_Bundle_Trx.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_NSTX" location="eis/DB/nstxqmos"/>
+  <endpoint-interaction portType="DB_Get_Bundle_Trx_ptt" operation="DB_Get_Bundle_TrxSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_Get_Bundle_Trx.ApiBundleTrans"/>
+      <property name="QueryName" value="DB_Get_Bundle_TrxSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_Get_Bundle_Trx-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

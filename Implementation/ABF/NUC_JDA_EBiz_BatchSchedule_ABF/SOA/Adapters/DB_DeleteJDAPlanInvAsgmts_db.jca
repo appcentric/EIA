@@ -1,0 +1,11 @@
+<adapter-config name="DB_DeleteJDAPlanInvAsgmts" adapter="db" wsdlLocation="../WSDLs/DB_DeleteJDAPlanInvAsgmts.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="SMGDEV1" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_DeleteJDAPlanInvAsgmts_ptt" operation="DB_DeleteJDAPlanInvAsgmts">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="DELETE FROM XXNUC_GME_JDA_TRN_INV_STG WHERE ORGANIZATION_ID = #pOrgID AND RESOURCE_ID = #pResourceName"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

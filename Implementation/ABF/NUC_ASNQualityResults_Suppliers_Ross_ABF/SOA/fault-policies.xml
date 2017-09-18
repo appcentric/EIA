@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faultPolicies xmlns="http://schemas.oracle.com/bpel/faultpolicy">
+   <faultPolicy version="2.0.1" id="RejectedMessages">
+      <Conditions>
+         <faultName xmlns:rjm="http://schemas.oracle.com/sca/rejectedmessages" name="rjm:FTP_ReadASNSupplier_Ross">
+            <condition>
+               <action ref="ora-File"/>
+            </condition>
+         </faultName>
+      </Conditions>
+      <Actions>
+         <Action id="ora-File">
+            <fileAction>
+               <location>/data/SOA/ftpzone/dv1/ASN/Supplier/rejected</location>
+               <fileName>I109_%TIMESTAMP%.txt</fileName>
+            </fileAction>
+         </Action>
+      </Actions>
+   </faultPolicy>
+</faultPolicies>

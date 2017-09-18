@@ -1,0 +1,25 @@
+<?binding.jca DB_QueryCustomerTransactions_db.jca?>
+<wsdl:definitions name="DB_QueryCustomerTransactions" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerTransactions" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryCustomerTransactions" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerTransactions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="DB_QueryCustomerTransactions_plt">
+        <plt:role name="DB_QueryCustomerTransactions_role">
+            <plt:portType name="tns:DB_QueryCustomerTransactions_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryCustomerTransactions" schemaLocation="xsd/DB_QueryCustomerTransactions.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_QueryCustomerTransactionsInput_msg">
+        <wsdl:part name="DB_QueryCustomerTransactionsInput_msg" element="db:DB_QueryCustomerTransactionsInput"/>
+    </wsdl:message>
+    <wsdl:message name="DB_QueryCustomerTransactionsOutputCollection_msg">
+        <wsdl:part name="DB_QueryCustomerTransactionsOutputCollection" element="db:DB_QueryCustomerTransactionsOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QueryCustomerTransactions_ptt">
+        <wsdl:operation name="DB_QueryCustomerTransactions">
+            <wsdl:input message="tns:DB_QueryCustomerTransactionsInput_msg"/>
+            <wsdl:output message="tns:DB_QueryCustomerTransactionsOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,16 @@
+<adapter-config name="OA_MeterReadingEBS" adapter="Oracle Applications Adapter" wsdlLocation="OA_MeterReadingEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBSDEVR" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_MeterReadingEBS_ptt" operation="OA_MeterReadingEBS">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:XXNUC_EAM_METER_XFACT_UTIL_PKG:CREATE_METER"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_EAM_METER_XFACT_UTIL_PKG"/>
+      <property name="ProcedureName" value="CREATE_METER"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

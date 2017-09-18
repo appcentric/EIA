@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="WshSendTxnToOtmService">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="client">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTxnToOtmService#wsdl.endpoint(WshSendTxnToOtmService/WshSendTxnToOtmService)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <service name="client"/>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <reference name="getItemRefService"/>
+      <reference name="getDeliveryService"/>
+      <reference name="getUpdateTxnData"/>
+      <reference name="getRefLocationService"/>
+      <reference name="getTripService"/>
+      <reference name="updateRefLocationData"/>
+      <reference name="getAuthenticateTicket"/>
+      <reference name="WshSendOtmDocument"/>
+      <reference name="CommonLogging"/>
+      <reference name="updateRefLocationData">
+         <binding type="jca"/>
+      </reference>
+      <reference name="getUpdateTxnData">
+         <binding type="jca"/>
+      </reference>
+      <reference name="getTripService">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTripToOtmService#wsdl.endpoint(WshSendTripToOtmService/WshSendTripToOtmService)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/OTM/V1.0/delivery/WshSendTripToOtmService.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="getDeliveryService">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendDlvyToOtmService#wsdl.endpoint(WshSendDlvyToOtmService/WshSendDlvyToOtmService)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/OTM/V1.0/delivery/WshSendDlvyToOtmService.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="getItemRefService">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendItemRefDataToOtm#wsdl.endpoint(WshSendItemRefDataToOtm/WshSendItemRefDataToOtm)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/OTM/V1.0/delivery/WshSendItemRefDataToOtm.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="getAuthenticateTicket">
+         <binding type="jca"/>
+      </reference>
+      <reference name="getRefLocationService">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm#wsdl.endpoint(WshSendLocRefDataToOtm/WshSendLocRefDataToOtm)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/OTM/V1.0/delivery/WshSendLocRefDataToOtm.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="WshSendOtmDocument">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/WshSendOtmDocument#wsdl.endpoint(wshsendotmdocument_client_ep/WshSendOtmDocument_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/ABS/OTM/V1.0/delivery/WshSendOtmDocument.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="CommonLogging">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="AuthenticateTicket_db.jca|partnerWsdls/AuthenticateTicket.wsdl|partnerWsdls/ReferenceLocationData.wsdl|partnerWsdls/UpdateTxnData.wsdl|ReferenceLocationData_db.jca|UpdateTxnData_db.jca|WshSendTxnToOtmService.wsdl|xsd/APPS_WSH_OTM_OUTBOUND_UPDATE_ENTITY_INTF_STATUS.xsd|xsd/APPS_WSH_OTM_REF_DATA_GEN_PKG_VALIDATE_TKT.xsd|xsd/APPS_WSH_OTM_SYNC_REF_DATA_PKG_UPDATE_REF_DATA.xsd|xsd/GLogXML.xsd|xsd/WshOtmGlobalOutbound.xsd">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

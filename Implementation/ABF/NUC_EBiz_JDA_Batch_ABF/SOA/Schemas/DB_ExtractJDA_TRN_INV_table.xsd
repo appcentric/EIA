@@ -1,0 +1,67 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_INV" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_INV" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxnucGmeJdaTrnInvStgCollection" type="XxnucGmeJdaTrnInvStgCollection"/>
+   <xs:complexType name="XxnucGmeJdaTrnInvStgCollection">
+      <xs:sequence>
+         <xs:element name="XxnucGmeJdaTrnInvStg" type="XxnucGmeJdaTrnInvStg" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucGmeJdaTrnInvStg">
+      <xs:sequence>
+         <xs:element name="recordId" type="xs:decimal"/>
+         <xs:element name="organizationId" type="xs:decimal"/>
+         <xs:element name="resourceId" type="string16"/>
+         <xs:element name="assignedPart" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="assignedQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="assignedQuantityFormat" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="assignedQuantityUom" type="string18" minOccurs="0" nillable="true"/>
+         <xs:element name="demandOrMfgOrderId" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="demandPst" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="demandShipmentCode" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="formattedAssignedQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="formattedPrePotencyAssign" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="operationId" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="partNumberType" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="partSource" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="prePotencyAssignedQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="purchaseOrderId" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="reservationLocked" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="stepNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="supplyBoh" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="supplyTimeNeeded" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="timeAvailable" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="timeAvailableFormat" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="timeNeeded" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="timeNeededFormat" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="timePreviouslyReserved" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorP" type="string1" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_ExtractJDA_TRN_INVSelect_vOrgId_vResourceInputParameters" type="DB_ExtractJDA_TRN_INVSelect_vOrgId_vResource"/>
+   <xs:complexType name="DB_ExtractJDA_TRN_INVSelect_vOrgId_vResource">
+      <xs:sequence>
+         <xs:element name="vOrgId" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="vResource" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string16">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="16"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string18">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="18"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

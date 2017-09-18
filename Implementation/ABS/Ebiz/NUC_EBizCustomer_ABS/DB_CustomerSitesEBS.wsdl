@@ -1,0 +1,25 @@
+<?binding.jca DB_CustomerSitesEBS_db.jca?>
+<wsdl:definitions name="DB_CustomerSitesEBS" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_EBizCustomer_ABS/DB_CustomerSitesEBS" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_EBizCustomer_ABS/DB_CustomerSitesEBS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_CustomerSitesEBS">
+    <plt:partnerLinkType name="DB_CustomerSitesEBS_plt">
+        <plt:role name="DB_CustomerSitesEBS_role">
+            <plt:portType name="tns:DB_CustomerSitesEBS_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_CustomerSitesEBS" schemaLocation="xsd/DB_CustomerSitesEBS_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucSiteOrigSysRefsV_msg">
+        <wsdl:part name="XxnucSiteOrigSysRefsV" element="top:XxnucSiteOrigSysRefsV"/>
+    </wsdl:message>
+    <wsdl:message name="XxnucSiteOrigSysRefsVCollection_msg">
+        <wsdl:part name="XxnucSiteOrigSysRefsVCollection" element="top:XxnucSiteOrigSysRefsVCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_CustomerSitesEBS_ptt">
+        <wsdl:operation name="queryByExample">
+            <wsdl:input message="tns:XxnucSiteOrigSysRefsV_msg"/>
+            <wsdl:output message="tns:XxnucSiteOrigSysRefsVCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

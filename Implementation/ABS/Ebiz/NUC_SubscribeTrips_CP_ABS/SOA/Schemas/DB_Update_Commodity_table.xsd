@@ -1,0 +1,71 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Commodity" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Commodity" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="CommodityCollection" type="CommodityCollection"/>
+   <xs:complexType name="CommodityCollection">
+      <xs:sequence>
+         <xs:element name="Commodity" type="Commodity" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Commodity">
+      <xs:sequence>
+         <xs:element name="operationId" type="xs:decimal"/>
+         <xs:element name="sequenceNumber" type="xs:decimal"/>
+         <xs:element name="pickupStopSequenceNumber" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="deliveryStopSequenceNumber" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="quantity" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="ltlClass" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="packageTypeId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="nmfcCode" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardousClass" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="weight" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="weightUom" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="cube" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="cubeUom" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="productDescription" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="details" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="harmonizationCode" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="handlingUnitTypeId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="handlingUnitQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="length" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="width" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="height" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="stackFactor" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="poLineNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="serialNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="commodityKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="commodityKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="commodityKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="commodityKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="commodityKey5" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="itemNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="customerItemNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="upc" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardousUnCode" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardousPkgGroupCode" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="hazmatShipName" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="packageTypeCode" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="handlingUnitTypeCode" type="string50" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string255">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="255"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

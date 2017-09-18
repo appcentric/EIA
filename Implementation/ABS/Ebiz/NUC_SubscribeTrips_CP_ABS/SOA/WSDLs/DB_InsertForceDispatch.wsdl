@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_InsertForceDispatch"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_SubscribeTrips_CP_ABS/DB_InsertForceDispatch"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_SubscribeTrips_CP_ABS/DB_InsertForceDispatch"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_InsertForceDispatch"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_InsertForceDispatch_plt" >
+    <plt:role name="DB_InsertForceDispatch_role" >
+      <plt:portType name="tns:DB_InsertForceDispatch_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_InsertForceDispatch" schemaLocation="../Schemas/DB_InsertForceDispatch_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="OperationCollection_msg">
+        <wsdl:part name="OperationCollection" element="top:OperationCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_InsertForceDispatch_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:OperationCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

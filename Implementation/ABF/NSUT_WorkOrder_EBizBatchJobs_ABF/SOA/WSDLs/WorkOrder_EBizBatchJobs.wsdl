@@ -1,0 +1,29 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="WorkOrder_EBizBatchJobs"
+     targetNamespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://nucor.eia.com/WorkOrder_EBizBatchJobs"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="WorkOrder_EBizBatchJobs">
+        <plnk:role name="WorkOrder_EBizBatchJobsProvider" portType="client:WorkOrder_EBizBatchJobs"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs" schemaLocation="../Schemas/WorkOrder_EBizBatchJobs.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="WorkOrder_EBizBatchJobsRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="WorkOrder_EBizBatchJobs">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:WorkOrder_EBizBatchJobsRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

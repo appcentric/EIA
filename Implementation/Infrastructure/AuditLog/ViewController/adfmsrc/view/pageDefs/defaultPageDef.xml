@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.64.93" id="defaultPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables">
+      <variable Type="java.lang.String" Name="callStoreprocedurePurgeScript_return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.callStoreprocedurePurgeScript.result}"/>
+      <variable Type="java.util.Date" Name="callStoreprocedurePurgeScript_StartTime" IsQueriable="false"/>
+      <variable Type="java.util.Date" Name="callStoreprocedurePurgeScript_EndTime" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="callStoreprocedurePurgeScript_TransactionStatus" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="callStoreprocedurePurgeScript_Days" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="PurgeTimeStatus_return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.PurgeTimeStatus.result}"/>
+      <variable Type="java.util.Date" Name="PurgeTimeStatus_StartTime" IsQueriable="false"/>
+      <variable Type="java.util.Date" Name="PurgeTimeStatus_EndTime" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="PurgeTimeStatus_TransactionStatus" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="PurgeDays_return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.PurgeDays.result}"/>
+      <variable Type="java.lang.Integer" Name="PurgeDays_Days" IsQueriable="false"/>
+      <variableUsage DataControl="AppModuleDataControl" Binds="bStartDate" Name="setBindVars_bStartDate"
+                     IsQueriable="false"/>
+      <variableUsage DataControl="AppModuleDataControl" Binds="bEndDate" Name="setBindVars_bEndDate"
+                     IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="StartEndDateQuery_return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.StartEndDateQuery.result}"/>
+      <variable Type="java.util.Date" Name="StartEndDateQuery_bStartDate" IsQueriable="false"/>
+      <variable Type="java.util.Date" Name="StartEndDateQuery_bEndDate" IsQueriable="false"/>
+      <variableUsage DataControl="AppModuleDataControl" Binds="AuditLogView2.variablesMap.bStartDate"
+                     Name="ExecuteWithParams_bStartDate" IsQueriable="false"/>
+      <variableUsage DataControl="AppModuleDataControl" Binds="AuditLogView2.variablesMap.bEndDate"
+                     Name="ExecuteWithParams_bEndDate" IsQueriable="false"/>
+      <variableUsage DataControl="AppModuleDataControl" Binds="AuditLogView2.variablesMap.pStartDate"
+                     Name="ExecuteWithParams_pStartDate" IsQueriable="false"/>
+      <variableUsage DataControl="AppModuleDataControl" Binds="AuditLogView2.variablesMap.pEndDate"
+                     Name="ExecuteWithParams_pEndDate" IsQueriable="false"/>
+    </variableIterator>
+    <iterator Binds="AuditStepLogView2" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="AuditStepLogView2Iterator"/>
+    <searchRegion Binds="AuditStepLogView2Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="AuditStepLogView2Query"/>
+    <iterator Binds="AuditLogView2" RangeSize="25"
+              DataControl="AppModuleDataControl" id="AuditLogView2Iterator"/>
+    <searchRegion Binds="AuditLogView2Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="AuditLogView2Query"/>
+    <iterator Binds="IntegratingSystemView1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="IntegratingSystemView1Iterator" ChangeEventPolicy="ppr"/>
+    <searchRegion Binds="IntegratingSystemView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="IntegratingSystemView1Query"/>
+    <iterator Binds="TableSizeAuditStepLog" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="TableSizeAuditStepLogIterator"/>
+    <iterator Binds="TableSizeAuditLog" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="TableSizeAuditLogIterator"/>
+    <iterator Binds="AuditLogTableSizeLOV" RangeSize="25" DataControl="AppModuleDataControl"
+              id="AuditLogTableSizeLOVIterator"/>
+    <iterator Binds="AuditStepLogTableSizeLOV" RangeSize="25" DataControl="AppModuleDataControl"
+              id="AuditStepLogTableSizeLOVIterator"/>
+    <iterator Binds="AuditStatusView1" RangeSize="25" DataControl="AppModuleDataControl" id="AuditStatusView1Iterator"
+              ChangeEventPolicy="ppr"/>
+    <searchRegion Binds="AuditStatusView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="AuditStatusView1Query"/>
+    <iterator Binds="AuditLogtypeView1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="AuditLogtypeView1Iterator" ChangeEventPolicy="ppr"/>
+    <searchRegion Binds="AuditLogtypeView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="AuditLogtypeView1Query"/>
+    <iterator Binds="GlobalSettingView1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="GlobalSettingView1Iterator" ChangeEventPolicy="ppr"/>
+    <iterator Binds="TransactionNotificationView1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="TransactionNotificationView1Iterator" ChangeEventPolicy="ppr"/>
+    <searchRegion Binds="TransactionNotificationView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="TransactionNotificationView1Query"/>
+    <iterator Binds="EmailNotificationView1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="EmailNotificationView1Iterator" ChangeEventPolicy="ppr"/>
+    <iterator Binds="EmailGroupView1" RangeSize="25" DataControl="AppModuleDataControl" id="EmailGroupView1Iterator"
+              ChangeEventPolicy="ppr"/>
+    <searchRegion Binds="EmailGroupView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="EmailGroupView1Query"/>
+    <searchRegion Binds="EmailNotificationView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="EmailNotificationView1Query"/>
+    <iterator Binds="TransactionStatusLOV1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="TransactionStatusLOV1Iterator"/>
+    <iterator Binds="GroupSettingView1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="GroupSettingView1Iterator" ChangeEventPolicy="ppr"/>
+    <searchRegion Binds="GroupSettingView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="GroupSettingView1Query"/>
+    <searchRegion Binds="GlobalSettingView1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="GlobalSettingView1Query"/>
+    <iterator Binds="XxnucCommMsgs1View1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="XxnucCommMsgs1View1Iterator"/>
+    <searchRegion Binds="XxnucCommMsgs1View1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="XxnucCommMsgs1View1Query"/>
+  </executables>
+  <bindings>
+    <tree IterBinding="AuditStepLogView2Iterator" id="AuditStepLogView2">
+      <nodeDefinition DefName="model.AuditStepLogView"
+                      Name="AuditStepLogView20">
+        <AttrNames>
+          <Item Value="StepLogId"/>
+          <Item Value="ComponentId"/>
+          <Item Value="MessageSourceSystem"/>
+          <Item Value="ProcessName"/>
+          <Item Value="LogType"/>
+          <Item Value="MessageCode"/>
+          <Item Value="MessageDescription"/>
+          <Item Value="CreatedTime"/>
+          <Item Value="LogId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="AuditLogView2Iterator" id="AuditLogView2">
+      <nodeDefinition DefName="model.AuditLogView" Name="AuditLogView20">
+        <AttrNames>
+          <Item Value="LogId"/>
+          <Item Value="TransactionId"/>
+          <Item Value="TransactionName"/>
+          <Item Value="SourceSystem"/>
+          <Item Value="TargetSystem"/>
+          <Item Value="TransactionStatus"/>
+          <Item Value="CreatedTime"/>
+          <Item Value="UpdatedTime"/>
+          <Item Value="ProjectName"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="IntegratingSystemView1Iterator"
+          id="IntegratingSystemView1">
+      <nodeDefinition DefName="model.IntegratingSystemView"
+                      Name="IntegratingSystemView10">
+        <AttrNames>
+          <Item Value="Code"/>
+          <Item Value="Meaning"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="AppModuleDataControl"/>
+    <action id="Rollback" RequiresUpdateModel="false"
+            Action="rollbackTransaction" DataControl="AppModuleDataControl"/>
+  <!--  <list IterBinding="TableSizeAuditStepLogIterator" ListOperMode="navigation"
+          ListIter="TableSizeAuditStepLogIterator" id="TableSizeAuditStepLog"
+          DTSupportsMRU="true">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </list>
+    <list IterBinding="TableSizeAuditLogIterator" ListOperMode="navigation"
+          ListIter="TableSizeAuditLogIterator" id="TableSizeAuditLog"
+          DTSupportsMRU="true">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </list>
+    <attributeValues IterBinding="TableSizeAuditLogIterator" id="TableSizeAuditLogValue">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="TableSizeAuditStepLogIterator" id="TableSizeAuditStepLogValue">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </attributeValues>-->
+    <methodAction id="callStoreprocedurePurgeScript" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="callStoreprocedurePurgeScript" IsViewObjectMethod="false"
+                  DataControl="AppModuleDataControl" InstanceName="AppModuleDataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.callStoreprocedurePurgeScript_AppModuleDataControl_dataProvider_callStoreprocedurePurgeScript_result">
+      <NamedData NDName="StartTime" NDType="java.util.Date"
+                 NDValue="${bindings.callStoreprocedurePurgeScript_StartTime}"/>
+      <NamedData NDName="EndTime" NDType="java.util.Date" NDValue="${bindings.callStoreprocedurePurgeScript_EndTime}"/>
+      <NamedData NDName="TransactionStatus" NDType="java.lang.Integer"
+                 NDValue="${bindings.callStoreprocedurePurgeScript_TransactionStatus}"/>
+      <NamedData NDName="Days" NDType="java.lang.Integer" NDValue="${bindings.callStoreprocedurePurgeScript_Days}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="StartTime">
+      <AttrNames>
+        <Item Value="callStoreprocedurePurgeScript_StartTime"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="EndTime">
+      <AttrNames>
+        <Item Value="callStoreprocedurePurgeScript_EndTime"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="Days">
+      <AttrNames>
+        <Item Value="callStoreprocedurePurgeScript_Days"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="AuditLogTableSizeLOVIterator" ListOperMode="navigation" ListIter="AuditLogTableSizeLOVIterator"
+          id="AuditLogTableSizeLOV" DTSupportsMRU="true">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </list>
+    <attributeValues IterBinding="AuditLogTableSizeLOVIterator" id="AuditLogTableSizeValue">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="AuditStepLogTableSizeLOVIterator" ListOperMode="navigation"
+          ListIter="AuditStepLogTableSizeLOVIterator" id="AuditStepLogTableSizeLOV" DTSupportsMRU="true">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </list>
+    <attributeValues IterBinding="AuditStepLogTableSizeLOVIterator" id="AuditStepLogTableSizeValue">
+      <AttrNames>
+        <Item Value="Value"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="return">
+      <AttrNames>
+        <Item Value="callStoreprocedurePurgeScript_return"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="AuditStatusView1Iterator" id="AuditStatusView1">
+      <nodeDefinition DefName="model.AuditStatusView" Name="AuditStatusView10">
+        <AttrNames>
+          <Item Value="Code"/>
+          <Item Value="Meaning"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="AuditLogtypeView1Iterator" id="AuditLogtypeView1">
+      <nodeDefinition DefName="model.AuditLogtypeView" Name="AuditLogtypeView10">
+        <AttrNames>
+          <Item Value="Code"/>
+          <Item Value="Meaning"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="TransactionNotificationView1Iterator" id="TransactionNotificationView1">
+      <nodeDefinition DefName="model.TransactionNotificationView" Name="TransactionNotificationView10">
+        <AttrNames>
+          <Item Value="TransactionName"/>
+          <Item Value="Notification"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="TransactionNotificationView1Iterator" id="TransactionName">
+      <AttrNames>
+        <Item Value="TransactionName"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="TransactionNotificationView1Iterator" StaticList="false" Uses="LOV_Notification"
+          id="Notification" DTSupportsMRU="false"/>
+    <action IterBinding="TransactionNotificationView1Iterator" id="First4" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="TransactionNotificationView1Iterator" id="Previous4" RequiresUpdateModel="true"
+            Action="previous"/>
+    <action IterBinding="TransactionNotificationView1Iterator" id="Next4" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="TransactionNotificationView1Iterator" id="Last4" RequiresUpdateModel="true" Action="last"/>
+    <tree IterBinding="EmailGroupView1Iterator" id="EmailGroupView1">
+      <nodeDefinition DefName="model.EmailGroupView" Name="EmailGroupView10">
+        <AttrNames>
+          <Item Value="Groupname"/>
+          <Item Value="EmailId"/>
+          <Item Value="Notification"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="PurgeTimeStatus" RequiresUpdateModel="true" Action="invokeMethod" MethodName="PurgeTimeStatus"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="AppModuleDataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.PurgeTimeStatus_AppModuleDataControl_dataProvider_PurgeTimeStatus_result">
+      <NamedData NDName="StartTime" NDType="java.util.Date" NDValue="${bindings.PurgeTimeStatus_StartTime}"/>
+      <NamedData NDName="EndTime" NDType="java.util.Date" NDValue="${bindings.PurgeTimeStatus_EndTime}"/>
+      <NamedData NDName="TransactionStatus" NDType="java.lang.Integer"
+                 NDValue="${bindings.PurgeTimeStatus_TransactionStatus}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="StartTime1">
+      <AttrNames>
+        <Item Value="PurgeTimeStatus_StartTime"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="EndTime1">
+      <AttrNames>
+        <Item Value="PurgeTimeStatus_EndTime"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="TransactionStatus1">
+      <AttrNames>
+        <Item Value="PurgeTimeStatus_TransactionStatus"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="return1">
+      <AttrNames>
+        <Item Value="PurgeTimeStatus_return"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="PurgeDays" RequiresUpdateModel="true" Action="invokeMethod" MethodName="PurgeDays"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="AppModuleDataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.PurgeDays_AppModuleDataControl_dataProvider_PurgeDays_result">
+      <NamedData NDName="Days" NDType="java.lang.Integer" NDValue="${bindings.PurgeDays_Days}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="Days1">
+      <AttrNames>
+        <Item Value="PurgeDays_Days"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="return2">
+      <AttrNames>
+        <Item Value="PurgeDays_return"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="TransactionNotificationView1Iterator" id="Create1" RequiresUpdateModel="true"
+            Action="createRow"/>
+    <action IterBinding="TransactionNotificationView1Iterator" id="Delete1" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <action IterBinding="EmailGroupView1Iterator" id="Create2" RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="EmailGroupView1Iterator" id="Delete2" RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <tree IterBinding="EmailNotificationView1Iterator" id="EmailNotificationView1">
+      <nodeDefinition DefName="model.EmailNotificationView" Name="EmailNotificationView10">
+        <AttrNames>
+          <Item Value="TransactionName"/>
+          <Item Value="EmailGroup"/>
+          <Item Value="NotifictionType"/>
+          <Item Value="Notification"/>
+          <Item Value="ErrorNotification"/>
+          <Item Value="WarningNotification"/>
+          <Item Value="CompletedNotification"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_TransactionName"
+          id="TransactionName1" DTSupportsMRU="false"/>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_EmailGroup" id="EmailGroup"
+          DTSupportsMRU="false"/>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_NotifictionType"
+          id="NotifictionType" DTSupportsMRU="false"/>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_Notification" id="Notification2"
+          DTSupportsMRU="false"/>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_ErrorNotification"
+          id="ErrorNotification" DTSupportsMRU="false"/>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_WarningNotification"
+          id="WarningNotification" DTSupportsMRU="false"/>
+    <list IterBinding="EmailNotificationView1Iterator" StaticList="false" Uses="LOV_CompletedNotification"
+          id="CompletedNotification" DTSupportsMRU="false"/>
+    <action IterBinding="EmailNotificationView1Iterator" id="First6" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="EmailNotificationView1Iterator" id="Previous6" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="EmailNotificationView1Iterator" id="Next6" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="EmailNotificationView1Iterator" id="Last6" RequiresUpdateModel="true" Action="last"/>
+    <action IterBinding="EmailNotificationView1Iterator" id="Delete" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <attributeValues IterBinding="GlobalSettingView1Iterator" id="VAttributevalue1">
+      <AttrNames>
+        <Item Value="VAttributevalue1"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="GlobalSettingView1Iterator" id="Create3" RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="GlobalSettingView1Iterator" id="Delete3" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <attributeValues IterBinding="IntegratingSystemView1Iterator" id="Code">
+      <AttrNames>
+        <Item Value="Code"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="IntegratingSystemView1Iterator" id="Meaning">
+      <AttrNames>
+        <Item Value="Meaning"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="IntegratingSystemView1Iterator" id="First1" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="IntegratingSystemView1Iterator" id="Previous1" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="IntegratingSystemView1Iterator" id="Next1" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="IntegratingSystemView1Iterator" id="Last1" RequiresUpdateModel="true" Action="last"/>
+    <action IterBinding="IntegratingSystemView1Iterator" id="Create4" RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="IntegratingSystemView1Iterator" id="Delete4" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <attributeValues IterBinding="AuditStatusView1Iterator" id="Code1">
+      <AttrNames>
+        <Item Value="Code"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="AuditStatusView1Iterator" id="Meaning1">
+      <AttrNames>
+        <Item Value="Meaning"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="AuditStatusView1Iterator" id="First2" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="AuditStatusView1Iterator" id="Previous2" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="AuditStatusView1Iterator" id="Next2" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="AuditStatusView1Iterator" id="Last2" RequiresUpdateModel="true" Action="last"/>
+    <action IterBinding="AuditStatusView1Iterator" id="Create5" RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="AuditStatusView1Iterator" id="Delete5" RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <attributeValues IterBinding="AuditLogtypeView1Iterator" id="Code2">
+      <AttrNames>
+        <Item Value="Code"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="AuditLogtypeView1Iterator" id="Meaning2">
+      <AttrNames>
+        <Item Value="Meaning"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="AuditLogtypeView1Iterator" id="First3" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="AuditLogtypeView1Iterator" id="Previous3" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="AuditLogtypeView1Iterator" id="Next3" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="AuditLogtypeView1Iterator" id="Last3" RequiresUpdateModel="true" Action="last"/>
+    <action IterBinding="AuditLogtypeView1Iterator" id="Create6" RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="AuditLogtypeView1Iterator" id="Delete6" RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <list IterBinding="TransactionStatusLOV1Iterator" ListOperMode="navigation" ListIter="TransactionStatusLOV1Iterator"
+          id="TransactionStatusLOV1" DTSupportsMRU="true">
+      <AttrNames>
+        <Item Value="Code"/>
+        <Item Value="Meaning"/>
+      </AttrNames>
+    </list>
+    <attributeValues IterBinding="TransactionStatusLOV1Iterator" id="TransactionStatusLOV1Code">
+      <AttrNames>
+        <Item Value="Code"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="setBindVars" RequiresUpdateModel="true" Action="invokeMethod" MethodName="setBindVars"
+                  IsViewObjectMethod="true" DataControl="AppModuleDataControl"
+                  InstanceName="AppModuleDataControl.AuditLogView2">
+      <NamedData NDName="bStartDate" NDType="java.sql.Date" NDValue="${bindings.setBindVars_bStartDate}"/>
+      <NamedData NDName="bEndDate" NDType="java.sql.Date" NDValue="${bindings.setBindVars_bEndDate}"/>
+    </methodAction>
+    <tree IterBinding="AuditLogView2Iterator" id="AuditLogView21">
+      <nodeDefinition DefName="model.AuditLogView" Name="AuditLogView210">
+        <AttrNames>
+          <Item Value="LogId"/>
+          <Item Value="TransactionId"/>
+          <Item Value="ProjectName"/>
+          <Item Value="TransactionName"/>
+          <Item Value="SourceSystem"/>
+          <Item Value="TargetSystem"/>
+          <Item Value="TransactionStatus"/>
+          <Item Value="CreatedTime"/>
+          <Item Value="UpdatedTime"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="AuditLogView2Iterator" id="ExecuteWithParams" RequiresUpdateModel="true"
+            Action="executeWithParams">
+      <NamedData NDName="pStartDate" NDType="java.sql.Timestamp" NDValue="${bindings.ExecuteWithParams_pStartDate}"/>
+      <NamedData NDName="pEndDate" NDType="java.sql.Timestamp" NDValue="${bindings.ExecuteWithParams_pEndDate}"/>
+    </action>
+    <attributeValues IterBinding="variables" id="pStartDate">
+      <AttrNames>
+        <Item Value="ExecuteWithParams_pStartDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="pEndDate">
+      <AttrNames>
+        <Item Value="ExecuteWithParams_pEndDate"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="GroupSettingView1Iterator" id="Create7" RequiresUpdateModel="true" Action="createRow"/>
+    <action IterBinding="GroupSettingView1Iterator" id="Delete7" RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <list IterBinding="EmailGroupView1Iterator" StaticList="false" Uses="LOV_Groupname" id="Groupname"
+          DTSupportsMRU="false"/>
+    <attributeValues IterBinding="EmailGroupView1Iterator" id="EmailId">
+      <AttrNames>
+        <Item Value="EmailId"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="EmailGroupView1Iterator" StaticList="false" Uses="LOV_Notification" id="Notification1"
+          DTSupportsMRU="false"/>
+    <action IterBinding="EmailGroupView1Iterator" id="First5" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="EmailGroupView1Iterator" id="Previous5" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="EmailGroupView1Iterator" id="Next5" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="EmailGroupView1Iterator" id="Last5" RequiresUpdateModel="true" Action="last"/>
+    <tree IterBinding="GroupSettingView1Iterator" id="GroupSettingView1">
+      <nodeDefinition DefName="model.GroupSettingView" Name="GroupSettingView10">
+        <AttrNames>
+          <Item Value="Groupname"/>
+          <Item Value="Description"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="GroupSettingView1Iterator" id="Groupname1">
+      <AttrNames>
+        <Item Value="Groupname"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="GroupSettingView1Iterator" id="Description">
+      <AttrNames>
+        <Item Value="Description"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="GroupSettingView1Iterator" id="First7" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="GroupSettingView1Iterator" id="Previous7" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="GroupSettingView1Iterator" id="Next7" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="GroupSettingView1Iterator" id="Last7" RequiresUpdateModel="true" Action="last"/>
+    <tree IterBinding="GlobalSettingView1Iterator" id="GlobalSettingView1">
+      <nodeDefinition DefName="model.GlobalSettingView" Name="GlobalSettingView10">
+        <AttrNames>
+          <Item Value="Attributename"/>
+          <Item Value="VAttributevalue1"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="GlobalSettingView1Iterator" id="Attributename">
+      <AttrNames>
+        <Item Value="Attributename"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="GlobalSettingView1Iterator" StaticList="false" Uses="LOV_VAttributevalue1"
+          id="VAttributevalue11" DTSupportsMRU="false"/>
+    <action IterBinding="GlobalSettingView1Iterator" id="First" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="GlobalSettingView1Iterator" id="Previous" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="GlobalSettingView1Iterator" id="Next" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="GlobalSettingView1Iterator" id="Last" RequiresUpdateModel="true" Action="last"/>
+    <action IterBinding="EmailNotificationView1Iterator" id="Create" RequiresUpdateModel="true" Action="createRow"/>
+    <tree IterBinding="XxnucCommMsgs1View1Iterator" id="XxnucCommMsgs1View11">
+      <nodeDefinition DefName="model.XxnucCommMsgs1View" Name="XxnucCommMsgs1View110">
+        <AttrNames>
+          <Item Value="MessageCode"/>
+          <Item Value="MessageDescription"/>
+          <Item Value="ComponentId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="XxnucCommMsgs1View1Iterator" id="MessageCode">
+      <AttrNames>
+        <Item Value="MessageCode"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="XxnucCommMsgs1View1Iterator" id="MessageDescription">
+      <AttrNames>
+        <Item Value="MessageDescription"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="XxnucCommMsgs1View1Iterator" id="ComponentId">
+      <AttrNames>
+        <Item Value="ComponentId"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="XxnucCommMsgs1View1Iterator" id="First8" RequiresUpdateModel="true" Action="first"/>
+    <action IterBinding="XxnucCommMsgs1View1Iterator" id="Previous8" RequiresUpdateModel="true" Action="previous"/>
+    <action IterBinding="XxnucCommMsgs1View1Iterator" id="Next8" RequiresUpdateModel="true" Action="next"/>
+    <action IterBinding="XxnucCommMsgs1View1Iterator" id="Last8" RequiresUpdateModel="true" Action="last"/>
+    <action IterBinding="XxnucCommMsgs1View1Iterator" id="Delete8" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <action IterBinding="XxnucCommMsgs1View1Iterator" id="Create8" RequiresUpdateModel="true" Action="createRow"/>
+  </bindings>
+</pageDefinition>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="DBSelect_GradeID" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/I110/NSNE_SubscriberEBizJobDetails_JMS_L2_ABF/DBSelect_GradeID" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/I110/NSNE_SubscriberEBizJobDetails_JMS_L2_ABF/DBSelect_GradeID" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSelect_GradeID" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plt:partnerLinkType name="DBSelect_GradeID_plt">
+      <plt:role name="DBSelect_GradeID_role">
+         <plt:portType name="tns:DBSelect_GradeID_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSelect_GradeID" schemaLocation="../Schemas/DBSelect_GradeID_table.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="DBSelect_GradeIDSelect_inputParameters">
+      <wsdl:part name="DBSelect_GradeIDSelect_inputParameters" element="top:DBSelect_GradeIDSelect_nameInputParameters"/>
+   </wsdl:message>
+   <wsdl:message name="GradeCollection_msg">
+      <wsdl:part name="GradeCollection" element="top:GradeCollection"/>
+   </wsdl:message>
+   <wsdl:portType name="DBSelect_GradeID_ptt">
+      <wsdl:operation name="DBSelect_GradeIDSelect">
+         <wsdl:input message="tns:DBSelect_GradeIDSelect_inputParameters"/>
+         <wsdl:output message="tns:GradeCollection_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_EBiz_JDA_Batch_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <!--Add search and replace rules for the service properties-->
+      <service name="OA_ConsumeJDAEvent">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <property name="minimumDelayBetweenMessages">
+            <replace>1000</replace>
+         </property>
+         <property name="singleton">
+            <replace>true</replace>
+         </property>
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="jca">
+            <property name="jca.retry.count">
+               <replace>3</replace>
+            </property>
+            <property name="jca.retry.interval">
+               <replace>30</replace>
+            </property>
+            <property name="jca.retry.maxInterval">
+               <replace>180</replace>
+            </property>
+            <property name="useRejectedMessageRecovery">
+               <replace>true</replace>
+            </property>
+         </binding>
+      </service>
+      <service name="OA_ConsumeJDAEvent"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>f948c10f-fba7-4c87-b252-29ba23828652</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="OA_JDAEventImpl">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+         <property name="bpel.preference.moFileName">
+            <replace>Manufacturing_Order_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.partFileName">
+            <replace>Part_Number_Data.txt</replace>
+         </property>
+         <property name="bpel.preference.bomFileName">
+            <replace>Bill_Of_Material_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.routingFileName">
+            <replace>Routing_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.resourceFileName">
+            <replace>Resource_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.soFileName">
+            <replace>Demand_Order_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.mopFileName">
+            <replace>Mfg_Order_Pegging_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.onHandInvFileName">
+            <replace>Unassigned_Inventory_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.wipFileName">
+            <replace>Wip_Record.txt</replace>
+         </property>
+         <property name="bpel.preference.planInvAssignmentsTransitionFileName">
+            <replace>Plan_Inventory_Assignments_T.txt</replace>
+         </property>
+         <property name="bpel.preference.planResourcesTransitionFileName">
+            <replace>Plan_Resources_T.txt</replace>
+         </property>
+         <property name="bpel.preference.planTransitionFileName">
+            <replace>Plan_T.txt</replace>
+         </property>
+         <property name="bpel.preference.productionScheduleTransitionFileName">
+            <replace>Production_Schedule_T.txt</replace>
+         </property>
+      </component>
+      <reference name="DB_Extract_EBIZ_Batch_Details"/>
+      <reference name="FTP_WriteManufacturingOrder"/>
+      <reference name="FTP_WritePartNumberData"/>
+      <reference name="FTP_WriteBOMRecord"/>
+      <reference name="FTP_WriteRoutingRecord"/>
+      <reference name="FTP_WriteResourceRecord"/>
+      <reference name="FTP_WriteSalesOrderRecord"/>
+      <reference name="FTP_WriteMfgOrderPeggingRecord"/>
+      <reference name="FTP_WriteUnassignedInvRecord"/>
+      <reference name="FTP_WriteWIPRecord"/>
+      <reference name="FTP_WriteTriggerFile"/>
+      <reference name="FTP_CheckStartTriggerFile"/>
+      <reference name="FTP_WriteStartTriggerFile"/>
+      <reference name="FTP_WriteJDAPlanTransitionFile"/>
+      <reference name="FTP_WriteJDAPRodScheduleTransitionFile"/>
+      <reference name="FTP_WritePlanResourcesTransitionFile"/>
+      <reference name="FTP_WritePlanInvAssignmentsTransitionFile"/>
+      <reference name="DB_ExtractJDA_TRN_Plan"/>
+      <reference name="DB_ExtractJDA_TRN_Resource"/>
+      <reference name="DB_ExtractJDA_TRN_INV"/>
+      <reference name="DB_ExtractJDA_TRN_Schedule"/>
+      <reference name="CommonLogging"/>
+      <reference name="DB_Extract_EBIZ_Batch_Details">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteManufacturingOrder">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WritePartNumberData">
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteBOMRecord">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteRoutingRecord">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteResourceRecord">
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteSalesOrderRecord">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteMfgOrderPeggingRecord">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteUnassignedInvRecord">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteWIPRecord">
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteTriggerFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_CheckStartTriggerFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteStartTriggerFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteJDAPlanTransitionFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WriteJDAPRodScheduleTransitionFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WritePlanResourcesTransitionFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="FTP_WritePlanInvAssignmentsTransitionFile">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_ExtractJDA_TRN_Plan">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_ExtractJDA_TRN_Resource">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_ExtractJDA_TRN_INV">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_ExtractJDA_TRN_Schedule">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="WS_CommonLogging">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for file/ftp adapter: 
+	<jca:property name="PhysicalDirectory"><replace>c:\temp</replace></jca:property>
+	<jca:property name="DeleteFile"><replace>true</replace></jca:property>
+	<jca:property name="PollingFrequency"><replace>3</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_Extract_EBIZ_Batch_Details_db.jca|Adapters/DB_ExtractJDA_TRN_INV_db.jca|Adapters/DB_ExtractJDA_TRN_Plan_db.jca|Adapters/DB_ExtractJDA_TRN_Resource_db.jca|Adapters/DB_ExtractJDA_TRN_Schedule_db.jca|Adapters/fileReference_file.jca|Adapters/FTP_CheckStartTriggerFile_ftp.jca|Adapters/FTP_WriteBOMRecord_ftp.jca|Adapters/FTP_WriteJDAPlanTransitionFile_ftp.jca|Adapters/FTP_WriteJDAPRodScheduleTransitionFile_ftp.jca|Adapters/FTP_WriteManufacturingOrder_ftp.jca|Adapters/FTP_WriteMfgOrderPeggingRecord_ftp.jca|Adapters/FTP_WritePartNumberData_ftp.jca|Adapters/FTP_WritePlanInvAssignmentsTransitionFile_ftp.jca|Adapters/FTP_WritePlanResourcesTransitionFile_ftp.jca|Adapters/FTP_WriteResourceRecord_ftp.jca|Adapters/FTP_WriteRoutingRecord_ftp.jca|Adapters/FTP_WriteSalesOrderRecord_ftp.jca|Adapters/FTP_WriteStartTriggerFile_ftp.jca|Adapters/FTP_WriteTriggerFile_ftp.jca|Adapters/FTP_WriteUnassignedInvRecord_ftp.jca|Adapters/FTP_WriteWIPRecord_ftp.jca|Adapters/OA_ConsumeJDAEvent_apps.jca|Schemas/APPS_NE_WF_EVENT_T_OA_ConsumeJDAEvent.xsd|Schemas/BOMRecord.xsd|Schemas/DB_Extract_EBIZ_Batch_Details_table.xsd|Schemas/DB_ExtractJDA_TRN_INV_table.xsd|Schemas/DB_ExtractJDA_TRN_Plan_table.xsd|Schemas/DB_ExtractJDA_TRN_Resource_table.xsd|Schemas/DB_ExtractJDA_TRN_Schedule_table.xsd|Schemas/jda_plan_inv_assignments_transition.xsd|Schemas/jda_plan_resources_transition.xsd|Schemas/jda_plan_transition.xsd|Schemas/jda_prod_schedule_transition.xsd|Schemas/manufacturingOrderRecord.xsd|Schemas/MOP.xsd|Schemas/OnHandInv.xsd|Schemas/part_number_data.xsd|Schemas/Resource_Record.xsd|Schemas/RoutingRecord.xsd|Schemas/SalesOrder.xsd|Schemas/Start_Time_Record.xsd|Schemas/WIP.xsd|WSDLs/DB_Extract_EBIZ_Batch_Details.wsdl|WSDLs/DB_ExtractJDA_TRN_INV.wsdl|WSDLs/DB_ExtractJDA_TRN_Plan.wsdl|WSDLs/DB_ExtractJDA_TRN_Resource.wsdl|WSDLs/DB_ExtractJDA_TRN_Schedule.wsdl|WSDLs/fileReference.wsdl|WSDLs/FTP_CheckStartTriggerFile.wsdl|WSDLs/FTP_WriteBOMRecord.wsdl|WSDLs/FTP_WriteJDAPlanTransitionFile.wsdl|WSDLs/FTP_WriteJDAPRodScheduleTransitionFile.wsdl|WSDLs/FTP_WriteManufacturingOrder.wsdl|WSDLs/FTP_WriteMfgOrderPeggingRecord.wsdl|WSDLs/FTP_WritePartNumberData.wsdl|WSDLs/FTP_WritePlanInvAssignmentsTransitionFile.wsdl|WSDLs/FTP_WritePlanResourcesTransitionFile.wsdl|WSDLs/FTP_WriteResourceRecord.wsdl|WSDLs/FTP_WriteRoutingRecord.wsdl|WSDLs/FTP_WriteSalesOrderRecord.wsdl|WSDLs/FTP_WriteStartTriggerFile.wsdl|WSDLs/FTP_WriteTriggerFile.wsdl|WSDLs/FTP_WriteUnassignedInvRecord.wsdl|WSDLs/FTP_WriteWIPRecord.wsdl|WSDLs/OA_ConsumeJDAEvent.wsdl|WSDLs/RuntimeFault.wsdl|WSDLs/Write_JDA_Manufacturing_Order_Record.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

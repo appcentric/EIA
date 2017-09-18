@@ -1,0 +1,253 @@
+<!--  This contains the header with title of the page and loading symbol -->
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>Acknowledgements</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <p-dropdown [options]="APIendpoint" [(ngModel)]="selectedAPIendpoint" (onChange)="onChange()" ></p-dropdown>
+                        <p-inputSwitch onLabel="Yes" offLabel="No" [(ngModel)]="selectedShowAcknowledged" (onChange)="onChange()" ></p-inputSwitch>
+                        <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                        <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button pButton type="button" icon="ui-icon-update" label="Update" (click)="updateTable()" ></button>
+                        <button [disabled]="!acknowledgements" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <!-- Beginning of the datatable header. This contains the Export CSV button, details for the paginator, if the table has resizable, reorderable and expandable rows (expander='true')  
+            HAD TO REMOVE resizableColumns="true" for styleClass to work on Details-->
+            <load-bar [visible]="loading"></load-bar>
+            <p-dataTable #exportCSV #dt [value]="acknowledgements" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" [responsive]="true" sortField="DataChangePrimaryID" sortOrder="-1" selectionMode="single" (onRowSelect)="onRowSelect($event)" [(selection)]="selectedAcknowledgement">
+                <!-- expander looks at the template component of this page -->
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <p-column field="DataChangePrimaryID" header="ID / Number" [sortable]="true" [filter]="true" filterMatchMode="contains" styleClass="col-data"></p-column>
+                <!--<p-column field="ClientStatusID" header="Status ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>-->
+                <p-column field="ClientStatusID" header="Client Status ID" [sortable]="true" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-multiSelect [disabled]="!acknowledgements" [options]="statusID" [(ngModel)]="selectedClientStatusID" defaultLabel="All Client Status IDs" (onChange)="dt.filter($event.value=selectedClientStatusID,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+                    </ng-template>
+                </p-column>
+                <!--<p-column field="AcknowledgementStatusID" header="Acknowledgement Status ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>-->
+                <p-column field="AcknowledgementStatusID" header="Acknowledgement Status ID" [sortable]="true" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-multiSelect [disabled]="!acknowledgements" [options]="ackStatusID" [(ngModel)]="selectedAckStatusID" defaultLabel="All Ack Status IDs" (onChange)="dt.filter($event.value=selectedAckStatusID,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+                    </ng-template>
+                    <ng-template let-acknowledgement="rowData" pTemplate>
+                        {{acknowledgement.AcknowledgementStatusID}}
+                    </ng-template>        
+                </p-column>
+                <p-column field="BizType" header="Biz Type" [sortable]="true" [filter]="true" filterMatchMode="contains" styleClass="col-data"></p-column>
+                <p-column field="AcknowledgedDate" header="Acknowledged Date" [sortable]="true"  [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!acknowledgements" [(ngModel)]="dateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=dateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-acknowledgement="rowData" pTemplate>
+                        {{acknowledgement.AcknowledgedDate | date:'medium'}}
+                    </ng-template>        
+                </p-column>
+                <!--<p-column field="AcknowledgedDate" header="Acknowledged Date" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-acknowledgement="rowData" pTemplate>
+                        {{acknowledgement.AcknowledgedDate | date:'medium'}}
+                    </ng-template>
+                </p-column>-->
+                <p-column field="ClientComment" header="Client Comment" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SupplimentData" header="Supplimental Data" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <!-- <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column> -->
+            <!-- These columns are hidden so that they show up on the ExportCSV. They also have the filter so that they can be searched when multiple acknowledgements are shown-->
+                <p-column field="DataChangeTypeName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="APIUserID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ChangeVersionID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeChildTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="APICallBatchID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgementStatusID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgementStatusName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgementStatusDesc" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ClientStatusID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ErrorCount" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MaxErrorCount" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="WaitTimeInterval" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MaxTimeInterval" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <ng-template let-acknowledgement pTemplate="rowexpansion">
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <h2>Acknowledgement Details: {{acknowledgement.DataChangePrimaryID}}</h2>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-4">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Nucor Status ID: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.ClientStatusID}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Nucor Comment: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.ClientComment}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">DJJ Status ID: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.AcknowledgementStatusID}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">DJJ Status Name: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.AcknowledgementStatusName}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Material Amount: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.AcknowledgementStatusDesc}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-4">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Error Count: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.ErrorCount}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Max Error Count: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.MaxErrorCount}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Wait Time Interval: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.WaitTimeInterval}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Max Time Interval: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.MaxTimeInterval}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Acknowledged Date: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.AcknowledgedDate | date:'medium'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-4">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Shipments: </div>
+                                <div class="ui-g-8">
+                                    {{acknowledgement.SupplimentData}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">  
+                        <p-inplace closable="closable">
+                            <span pInplaceDisplay>
+                                CLICK FOR ALL DETAILS
+                            </span>
+                            <span pInplaceContent>
+                                <h1>Full Acknowledgement Details</h1>
+                                <li>Data Change ID: {{acknowledgement.DataChangeID}}</li>
+                                <li>API User ID: {{acknowledgement.APIUserID}}</li>
+                                <li>Biz Type: {{acknowledgement.BizType}}</li>
+                                <li>Data Change Primary ID: {{acknowledgement.DataChangePrimaryID}}</li>
+                                <li>Change Version ID: {{acknowledgement.ChangeVersionID}}</li>
+                                <li>Data Change Type ID: {{acknowledgement.DataChangeTypeID}}</li>
+                                <li>Data Change Type Name: {{acknowledgement.DataChangeTypeName}}</li>
+                                <li>Data Change Child Type ID: {{acknowledgement.DataChangeChildTypeID}}</li>
+                                <li>API Call Batch ID: {{acknowledgement.APICallBatchID}}</li>
+                                <li>Acknowledgement Status ID: {{acknowledgement.AcknowledgementStatusID}}</li>
+                                <li>Acknowledgement Status Name: {{acknowledgement.AcknowledgementStatusName}}</li>
+                                <li>Acknowledgement Status Desc: {{acknowledgement.AcknowledgementStatusDesc}}</li>
+                                <li>Invoice Status Name: {{acknowledgement.InvoiceStatusName}}</li>
+                                <li>Acknowledged Date: {{acknowledgement.AcknowledgedDate | date:'medium'}}</li>
+                                <li>Client Status ID: {{acknowledgement.ClientStatusID}}</li>
+                                <li>Error Count: {{acknowledgement.ErrorCount}}</li>
+                                <li>Client Comment: {{acknowledgement.ClientComment}}</li>
+                                <li>Max Error Count: {{acknowledgement.MaxErrorCount}}</li>
+                                <li>Wait Time Interval: {{acknowledgement.WaitTimeInterval}}</li>
+                                <li>Max Time Interval: {{acknowledgement.MaxTimeInterval}}</li>
+                                <li>Supplimental Data: {{acknowledgement.SupplimentData}}</li>
+                            </span>
+                        </p-inplace>
+                    </div>
+                </ng-template>
+            </p-dataTable>
+            <!--<p-dialog header="Acknowledge {{acknowledgement.DataChangeTypeName}} {{acknowledgement.DataChangePrimaryID}}" [resizable]="false" responsive="true" width="350" [(visible)]="displayDialog" [formGroup]="form" (ngSubmit)="modifyAcknowledgement(form.value)" (onAfterHide)="closeForm()">-->
+            <p-dialog header="Acknowledge {{acknowledgement.DataChangeTypeName}} {{acknowledgement.DataChangePrimaryID}}" [resizable]="false" responsive="true" width="350" [(visible)]="displayDialog" [formGroup]="form" (onAfterHide)="closeForm()">
+                <div class="ui-g form-group" *ngIf="acknowledgement">
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input pInputText disabled="true" id="DataChangePrimaryID" formControlName="DataChangePrimaryID" [(ngModel)]="acknowledgement.DataChangePrimaryID" name="DataChangePrimaryID">
+                            <label>Document ID</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input pInputText disabled="true" id="APIUserID" formControlName="APIUserID" [(ngModel)]="acknowledgement.APIUserID" name="APIUserID">
+                            <label>API User ID</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input pInputText disabled="true" id="ChangeVersionID" formControlName="ChangeVersionID" [(ngModel)]="acknowledgement.ChangeVersionID" name="ChangeVersionID">
+                            <label>Change Version ID</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input pInputText disabled="true" id="DataChangeTypeID" formControlName="DataChangeTypeID" [(ngModel)]="acknowledgement.DataChangeTypeID" name="DataChangeTypeID">
+                            <label>Data Change Type ID</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input pInputText disabled="true" id="DataChangeChildTypeID" formControlName="DataChangeChildTypeID" [(ngModel)]="acknowledgement.DataChangeChildTypeID" name="DataChangeChildTypeID">
+                            <label>Data Change Child Type ID</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <!--<span class="md-inputfield">
+                            <input pInputText id="ClientStatusID" formControlName="ClientStatusID" [(ngModel)]="acknowledgement.ClientStatusID" name="ClientStatusID">
+                            <label>Client Status ID</label>
+                        </span>-->
+                        <p-dropdown [options]="statusID" placeholder="Select a Status ID" formControlName="StatusID" [(ngModel)]="acknowledgedStatusID" defaultLabel="Status IDs" styleClass="ui-column-filter"></p-dropdown>   
+                    </div>
+                    <div class="ui-g-12">
+                        <!--<span class="md-inputfield">
+                            <input pInputText id="AcknowledgementStatusID" formControlName="AcknowledgementStatusID" [(ngModel)]="acknowledgement.AcknowledgementStatusID" name="AcknowledgementStatusID">
+                            <label>Acknowledgement Status ID</label>
+                        </span>-->
+                        <p-dropdown [options]="ackStatusID" placeholder="Select a Ack Status ID" formControlName="AcknowledgementStatusID" [(ngModel)]="acknowledgedAckStatusID" defaultLabel="Ack Status IDs" styleClass="ui-column-filter"></p-dropdown>
+                    </div>
+                    <div class="ui-g-12">
+                        <div>
+                            <h4>Comment</h4>
+                        </div>
+                        <textarea pInputTextarea rows="8" cols="30" id="Comment" formControlName="Comment" [(ngModel)]="acknowledgement.ClientComment" name="Comment"></textarea>
+                    </div>
+                    <footer>
+                        <button styleClass="flat" type="submit" pButton icon="ui-icon-thumb-up" [disabled]="!form.valid" (click)="modifyAcknowledgement(form.value)" label="Acknowledge"></button>
+                    </footer>                    
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+</div>

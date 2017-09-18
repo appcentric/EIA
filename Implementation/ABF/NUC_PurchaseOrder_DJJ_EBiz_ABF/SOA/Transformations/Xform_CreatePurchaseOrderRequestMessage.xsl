@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsl:stylesheet version="1.0"
+                xmlns:mhdr="http://www.oracle.com/XSL/Transform/java/oracle.tip.mediator.service.common.functions.MediatorExtnFunction"
+                xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+                xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+                xmlns:tns="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+                xmlns:socket="http://www.oracle.com/XSL/Transform/java/oracle.tip.adapter.socket.ProtocolTranslator"
+                xmlns:oracle-xsl-mapper="http://www.oracle.com/xsl/mapper/schemas"
+                xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+                xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+                xmlns:utl="http://www.oracle.com/XSL/Transform/java/com.eia.soa.util.Configuration"
+                xmlns:oraxsl="http://www.oracle.com/XSL/Transform/java"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="xsd oracle-xsl-mapper xsi xsl ns1 tns mhdr oraext xp20 xref socket dvm utl oraxsl"
+                xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+                xmlns:ns0="http://xmlns.oracle.com/SOAAppDev/NUC_PurchaseOrder_DJJ_EBiz_ABF/DJJGetPurchaseOrdersV1"
+                xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+                xmlns:ns6="http://xmlns.eia.com/EO/common/Header/1.0"
+                xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+                xmlns:ns14="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+                xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                xmlns:ns17="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+                xmlns:ns18="http://xmlns.eia.com/EO/Standard/External/ISO/Language/639-3/2007/Language"
+                xmlns:ns3="http://xmlns.eia.com/EO/common/Common/1.0"
+                xmlns:ns5="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+                xmlns:ns7="http://xmlns.eia.com/EO/Standard/External/ISO/Currency/4217/2001/Currency"
+                xmlns:ns8="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+                xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:core="http://xmlns.eia.com/EO/Common/1.0"
+                xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+                xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+                xmlns:ns2="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+                xmlns:ns12="http://xmlns.eia.com/EO/Standard/External/ISO/Country/3166-1/2006/Country"
+                xmlns:ns13="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+                xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                xmlns:ns15="http://xmlns.eia.com/AO/EBiz/P2P/OrganizationAO/1.0"
+                xmlns:ns16="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0">
+  <oracle-xsl-mapper:schema>
+    <!--SPECIFICATION OF MAP SOURCES AND TARGETS, DO NOT MODIFY.-->
+    <oracle-xsl-mapper:mapSources>
+      <oracle-xsl-mapper:source type="WSDL">
+        <oracle-xsl-mapper:schema location="../WSDLs/DJJGetPurchaseOrdersV1.wsdl"/>
+        <oracle-xsl-mapper:rootElement name="ApiResponsePOHeader" namespace=""/>
+      </oracle-xsl-mapper:source>
+      <oracle-xsl-mapper:source type="WSDL">
+        <oracle-xsl-mapper:schema location="../WSDLs/DJJGetPurchaseOrdersV1.wsdl"/>
+        <oracle-xsl-mapper:rootElement name="parameters" namespace="http://schemas.oracle.com/service/bpel/common"/>
+        <oracle-xsl-mapper:param name="DJJGetPurchaseOrderV1_ep_ReqMsg.parameter"/>
+      </oracle-xsl-mapper:source>
+      <oracle-xsl-mapper:source type="WSDL">
+        <oracle-xsl-mapper:schema location="../WSDLs/DJJGetPurchaseOrdersV1.wsdl"/>
+        <oracle-xsl-mapper:rootElement name="parameters" namespace="http://schemas.oracle.com/service/bpel/common"/>
+        <oracle-xsl-mapper:param name="gblGenericParameters"/>
+      </oracle-xsl-mapper:source>
+    </oracle-xsl-mapper:mapSources>
+    <oracle-xsl-mapper:mapTargets>
+      <oracle-xsl-mapper:target type="WSDL">
+        <oracle-xsl-mapper:schema location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/PurchaseOrderABS.wsdl"/>
+        <oracle-xsl-mapper:rootElement name="CreatePurchaseOrderRequestMessage"
+                                       namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"/>
+      </oracle-xsl-mapper:target>
+    </oracle-xsl-mapper:mapTargets>
+    <!--GENERATED BY ORACLE XSL MAPPER 12.1.3.0.0(XSLT Build 140529.0700.0211) AT [TUE DEC 08 16:03:13 CST 2015].-->
+  </oracle-xsl-mapper:schema>
+  <!--User Editing allowed BELOW this line - DO NOT DELETE THIS LINE-->
+  <xsl:param name="DJJGetPurchaseOrderV1_ep_ReqMsg.parameter"/>
+  <xsl:param name="gblGenericParameters"/>
+  <xsl:template match="/">
+    <xsl:variable name="varDJJPOIdx"
+                  select="number($gblGenericParameters/ns1:parameters/ns1:item[ns1:name='DJJPOIdx']/ns1:value)"/>
+    <xsl:variable name="varOrgName"
+                  select='dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm", "CONSUMER_REF_ID", /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, "EBS_OPERATING_UNIT_NAME", "" )'/>
+    <xsl:variable name="varDivision"
+                  select='dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm", "CONSUMER_REF_ID", /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, "EBS_DIVISION", "" )'/>
+    <xsl:variable name="varOrgId"
+                  select="oraext:query-database(concat(&quot;Select organization_id as retvalue from APPS.hr_operating_units where name='&quot;,$varOrgName,&quot;'&quot;),false(),false(),&quot;jdbc/ebsapps&quot;)"/>
+    <tns:CreatePurchaseOrderRequestMessage>
+      <ns6:HeaderRq>
+        <ns6:Language>ENG</ns6:Language>
+        <ns6:ComponentID>I093</ns6:ComponentID>
+        <ns6:ServiceName>TEMP</ns6:ServiceName>
+        <ns6:TransactionIDREF>TEMP</ns6:TransactionIDREF>
+        <ns6:TransactionName>PurchaseOrder</ns6:TransactionName>
+        <ns6:Source>15</ns6:Source>
+        <ns6:Target>2</ns6:Target>
+        <ns6:TimeStamp>
+          <xsl:value-of select="xp20:current-dateTime ( )"/>
+        </ns6:TimeStamp>
+      </ns6:HeaderRq>
+      <tns:AppsContext>
+        <ns10:UserName>
+          <xsl:value-of select='dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm", "DIVISION", $varDivision, "EBS_USER_NAME", "" )'/>
+        </ns10:UserName>
+        <!--ns10:UserId>
+          <xsl:value-of select='dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm", "DIVISION", "NSNE", "EBS_USER_ID", "" )'/>
+        </ns10:UserId-->
+        <ns10:ResponsibilityName>
+          <xsl:value-of select='dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm", "DIVISION", $varDivision, "EBS_RESP_NAME", "", "EBS_FUNCTION_AREA", "PURCHASE ORDER" )'/>
+        </ns10:ResponsibilityName>
+        <ns10:OrgId>
+          <xsl:value-of select="$varOrgId"/>
+        </ns10:OrgId>
+      </tns:AppsContext>
+      <tns:ListOfPurchaseOrders>
+        <ns13:PurchaseOrder>
+          <ns13:Action>ORIGINAL</ns13:Action>
+          <ns13:Agentname>
+            <xsl:value-of select='dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm", "CONSUMER_REF_ID", /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, "EBS_AGENT_NAME", "" )'/>
+          </ns13:Agentname>
+          <!--ns13:Approvalstatus>INITIATE APPROVAL</ns13:Approvalstatus>
+          
+          Changed Approval Status as part of I093 CR for Release 1.1 -->
+          <xsl:choose>
+            <xsl:when test='(dvm:lookupValue ("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_VENDORSITECODE_DEFAULTS.dvm", "DJJ_ORG_ID", /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOrgID, "EBS_PO_AUTOAPPROVAL_FLAG", "","CONSUMER_REF_ID", /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID)) = "true"'>
+              <ns13:Approvalstatus>APPROVED</ns13:Approvalstatus>
+            </xsl:when>
+            <xsl:otherwise>
+              <ns13:Approvalstatus>INITIATE APPROVAL</ns13:Approvalstatus>
+            </xsl:otherwise>
+          </xsl:choose>
+          <ns13:Approveddate>
+            <xsl:value-of select="xp20:current-dateTime ( )"/>
+          </ns13:Approveddate>
+          <ns13:Creationdate>
+            <xsl:value-of select="xp20:current-dateTime ( )"/>
+          </ns13:Creationdate>
+          <ns13:Currencycode>USD</ns13:Currencycode>
+          <ns13:Documentnum>
+            <xsl:value-of select="/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/POID"/>
+          </ns13:Documentnum>
+          <ns13:Documentsubtype>PO</ns13:Documentsubtype>
+          <ns13:Documenttypecode>STANDARD</ns13:Documenttypecode>
+          <xsl:if test="/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/POLine/POConsumerLineModel/ShipToLocation/POConsumerLineShipToModel/POFufillment/POFufillmentModel/SupplierName">
+            <ns13:Globalattribute4>
+              <xsl:value-of select="/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/POLine/POConsumerLineModel/ShipToLocation/POConsumerLineShipToModel/POFufillment/POFufillmentModel/SupplierName"/>
+            </ns13:Globalattribute4>
+          </xsl:if>
+          <ns13:Globalattribute5>Brokered</ns13:Globalattribute5>
+          <ns13:Globalattributecategory>STANDARD</ns13:Globalattributecategory>
+          <ns13:Interfacesourcecode>DJJ</ns13:Interfacesourcecode>
+          <ns13:OperatingUnit>
+            <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_OPERATING_UNIT_NAME', '' )"/>
+          </ns13:OperatingUnit>
+          <ns13:Paymentterms xsi:nil="true"></ns13:Paymentterms>
+          <ns13:Shiptolocation>
+            <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_SHIP_TO_LOCATION_CODE', '' )"/>
+          </ns13:Shiptolocation>
+          <ns13:Vendorname>
+            <!--xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_VENDOR_NAME', '' )"/-->
+            <!--xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_VENDORSITECODE_DEFAULTS.dvm', 'DJJ_OFFICE_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOfficeID, 'EBS_VENDOR_NAME', '', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'DJJ_ORG_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOrgID)"/-->
+            <!-- As a part of Defect#1586-->
+            <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_VENDORSITECODE_DEFAULTS.dvm', 'DJJ_ORG_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOrgID, 'EBS_VENDOR_NAME', '', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID)"/>
+          </ns13:Vendorname>
+          <ns13:Vendorsitecode>
+            <!--xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_VENDOR_SITE_CODE', '' )"/-->
+            <!--xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_VENDORSITECODE_DEFAULTS.dvm', 'DJJ_OFFICE_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOfficeID, 'EBS_VENDOR_SITE_CODE', '', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'DJJ_ORG_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOrgID)"/-->
+            <!-- As a part of Defect#1586-->
+            <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_VENDORSITECODE_DEFAULTS.dvm', 'DJJ_ORG_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/DJJOrgID, 'EBS_VENDOR_SITE_CODE', '', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID)"/>
+          </ns13:Vendorsitecode>
+          <ns13:ListOfPurchaseOrderLines>
+            <xsl:for-each select="/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/POLine/POConsumerLineModel">
+              <!--xsl:variable name="varSecondaryUOM"
+                            select="oraext:query-database (concat(&quot;select inv_convert.inv_um_convert_new(msi.inventory_item_id,NULL,&quot;,QtyOrderedLB,&quot;,msi.primary_uom_code,decode(NVL(msi.tracking_quantity_ind,'P'),'P',NULL,msi.secondary_uom_code),NULL,NULL,'W') secondary_quantity from mtl_system_items msi where msi.segment1 = '&quot;,ConsumerItemRefID,&quot;' and msi.organization_id  in (select mp.master_organization_id from org_organization_Definitions ood, mtl_parameters mp where ood.operating_unit = &quot;,$varOrgId,&quot;and rownum &lt; 2 )&quot;), false ( ), false ( ), &quot;jdbc/ebsapps&quot; )"/-->
+              <xsl:variable name="varSecondaryUOM"
+                            select="oraext:query-database (concat(&quot;select decode(NVL(msi.tracking_quantity_ind,'P'),'P',NULL,msi.secondary_uom_code) secondar_uom from mtl_system_items msi where msi.segment1 = '&quot;, ConsumerItemRefID ,&quot;' and msi.organization_id  in (select mp.master_organization_id from org_organization_Definitions ood, mtl_parameters mp where ood.operating_unit = &quot;,$varOrgId, &quot; and rownum &lt; 2)&quot;), false ( ), false ( ), &quot;jdbc/ebsapps&quot; )"/>
+              <ns13:PurchaseOrderLine>
+                <ns13:Action>NEW</ns13:Action>
+                <ns13:Interfacelineid xsi:nil="true"></ns13:Interfacelineid>
+                <xsl:if test="ConsumerItemRefID">
+                  <ns13:Item>
+                    <xsl:value-of select="ConsumerItemRefID"/>
+                  </ns13:Item>
+                  <!--ns13:Item>200030</ns13:Item-->
+                  <!--xsl:choose>
+                    <xsl:when test="ConsumerItemRefID !=''">
+                      <ns13:Item-->
+                  <!--xsl:value-of select="ConsumerItemRefID"/-->
+                  <!--xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_ITEM', '' )"/>
+                      </ns13:Item>
+                    </xsl:when>
+                    <xsl:otherwise-->
+                  <!--ns13:Item>100000205</ns13:Item-->
+                  <!--ns13:Item>
+                        <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID', /ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_ITEM', '' )"/>
+                      </ns13:Item>
+                    </xsl:otherwise>
+                  </xsl:choose-->
+                </xsl:if>
+                <!--xsl:if test="ShipToLocation/POConsumerLineShipToModel/POFufillment/POFufillmentModel/ShipFromName"-->
+                <ns13:Lineattribute1>
+                  <xsl:value-of select="concat(ShipToLocation/POConsumerLineShipToModel/POFufillment/POFufillmentModel/ShipFromCity,' ',ShipToLocation/POConsumerLineShipToModel/POFufillment/POFufillmentModel/ShipFromState)"/>
+                </ns13:Lineattribute1>
+                <!--/xsl:if-->
+                <xsl:variable name="varModeCode"
+                              select="normalize-space (ShipToLocation/POConsumerLineShipToModel[1]/ModeCode)"/>
+                <ns13:Lineattribute2>
+                  <xsl:value-of select="$varModeCode"/>
+                </ns13:Lineattribute2>
+                <ns13:Lineattributecategorylines>Raw Materials</ns13:Lineattributecategorylines>
+                <xsl:if test="POLineID">
+                  <ns13:Linenum>
+                    <xsl:value-of select="POLineID"/>
+                  </ns13:Linenum>
+                </xsl:if>
+                <ns13:Linetype>Goods</ns13:Linetype>
+                <ns13:Needbydate>
+                  <!--xsl:value-of select="xp20:add-dayTimeDuration-to-dateTime (xp20:current-date ( ), 'P2D' )"/-->
+                  <xsl:value-of select="/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ExpirationDate"/>
+                </ns13:Needbydate>
+                <ns13:Orgid>
+                  <xsl:value-of select="$varOrgId"/>
+                </ns13:Orgid>
+                <ns13:Paymentterms xsi:nil="true"></ns13:Paymentterms>
+                <xsl:if test="QtyOrderedLB">
+                  <ns13:Quantity>
+                    <xsl:value-of select="QtyOrderedLB"/>
+                  </ns13:Quantity>
+                </xsl:if>
+                <xsl:choose>
+                  <xsl:when test="$varModeCode = 'RL'">
+                    <ns13:Receivingrouting>Direct Delivery</ns13:Receivingrouting>
+                  </xsl:when>
+                  <xsl:when test="$varModeCode = 'TK'">
+                    <ns13:Receivingrouting>Direct Delivery</ns13:Receivingrouting>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <ns13:Receivingrouting>Direct Delivery</ns13:Receivingrouting>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                  <xsl:when test="$varSecondaryUOM != ''">
+                    <ns13:Secondaryquantity>
+                      <xsl:value-of select="oraext:query-database (concat(&quot;select inv_convert.inv_um_convert_new(msi.inventory_item_id,NULL,&quot;,QtyOrderedLB,&quot;,msi.primary_uom_code,decode(NVL(msi.tracking_quantity_ind,'P'),'P',NULL,msi.secondary_uom_code),NULL,NULL,'W') secondary_quantity from mtl_system_items msi where msi.segment1 = '&quot;,ConsumerItemRefID,&quot;' and msi.organization_id  in (select mp.master_organization_id from org_organization_Definitions ood, mtl_parameters mp where ood.operating_unit = &quot;,$varOrgId,&quot;and rownum &lt; 2 )&quot;), false ( ), false ( ), &quot;jdbc/ebsapps&quot; )"/>
+                    </ns13:Secondaryquantity>
+                  </xsl:when>
+                </xsl:choose>
+                <xsl:choose>
+                  <xsl:when test="$varSecondaryUOM != ''">
+                    <ns13:Secondaryuom>
+                      <xsl:value-of select="$varSecondaryUOM"/>
+                    </ns13:Secondaryuom>
+                  </xsl:when>
+                </xsl:choose>
+                <ns13:Shipmentnum>1</ns13:Shipmentnum>
+                <ns13:Shiptolocation>
+                  <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm','CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_SHIP_TO_LOCATION_CODE', '' )"/>
+                </ns13:Shiptolocation>
+                <ns13:Shiptoorganizationcode>
+                  <xsl:value-of select="dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_SHIP_TO_ORGANIZATION', '' )"/>
+                </ns13:Shiptoorganizationcode>
+                <ns13:Unitprice>
+                  <xsl:value-of select="ShipToLocation/POConsumerLineShipToModel/PriceRateLBS"/>
+                </ns13:Unitprice>
+                <ns13:Uomcode>LBS</ns13:Uomcode>
+                <ns13:ListOfPurchaseOrderDistLines>
+                  <ns13:PurchaseOrderDistLines>
+                    <!--ns13:Chargeaccountsegment1>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),1.0,4.0)"/>
+                    </ns13:Chargeaccountsegment1>
+                    <ns13:Chargeaccountsegment2>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),6.0,2.0)"/>
+                    </ns13:Chargeaccountsegment2>
+                    <ns13:Chargeaccountsegment3>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),9.0,3.0)"/>
+                    </ns13:Chargeaccountsegment3>
+                    <ns13:Chargeaccountsegment4>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),13.0,6.0)"/>
+                    </ns13:Chargeaccountsegment4>
+                    <ns13:Chargeaccountsegment5>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),20.0,4.0)"/>
+                    </ns13:Chargeaccountsegment5>
+                    <ns13:Chargeaccountsegment6>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),25.0,4.0)"/>
+                    </ns13:Chargeaccountsegment6>
+                    <ns13:Chargeaccountsegment7>
+                      <xsl:value-of select="substring(dvm:lookupValue ('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/DJJ_EBS_DIVISION_DEFAULTS.dvm', 'CONSUMER_REF_ID',/ApiResponsePOHeader/POHeader/POConsumerHeaderModel[$varDJJPOIdx]/ConsumerRefID, 'EBS_DEFAULT_GL_CC', '' ),30.0,4.0)"/>
+                    </ns13:Chargeaccountsegment7-->
+                    <ns13:Distributionnum>1</ns13:Distributionnum>
+                    <ns13:Linenum>
+                      <xsl:value-of select="POLineID"/>
+                    </ns13:Linenum>
+                    <ns13:Orgid>
+                      <xsl:value-of select="$varOrgId"/>
+                    </ns13:Orgid>
+                    <xsl:if test="QtyOrderedLB">
+                      <ns13:Quantityordered>
+                        <xsl:value-of select="QtyOrderedLB"/>
+                      </ns13:Quantityordered>
+                    </xsl:if>
+                    <ns13:Setofbooks xsi:nil="true"></ns13:Setofbooks>
+                  </ns13:PurchaseOrderDistLines>
+                </ns13:ListOfPurchaseOrderDistLines>
+              </ns13:PurchaseOrderLine>
+            </xsl:for-each>
+          </ns13:ListOfPurchaseOrderLines>
+        </ns13:PurchaseOrder>
+      </tns:ListOfPurchaseOrders>
+    </tns:CreatePurchaseOrderRequestMessage>
+  </xsl:template>
+</xsl:stylesheet>

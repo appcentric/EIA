@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org"
+            targetNamespace="http://www.example.org" elementFormDefault="qualified">
+  <xsd:element name="Envelope">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="SupplierInfo">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="MillDUNS" type="xsd:string"/>
+              <xsd:element name="Name" type="xsd:string"/>
+              <xsd:element name="Addr" type="xsd:string"/>
+              <xsd:element name="City" type="xsd:string"/>
+              <xsd:element name="State" type="xsd:string"/>
+              <xsd:element name="PostalCode" type="xsd:integer"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="CustomerInfo">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="SoldTo">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Name" type="xsd:string"/>
+                    <xsd:element name="SupplierCustID" type="xsd:integer"/>
+                    <xsd:element name="Addr" type="xsd:string"/>
+                    <xsd:element name="City" type="xsd:string"/>
+                    <xsd:element name="State" type="xsd:string"/>
+                    <xsd:element name="PostalCode" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="BillTo">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Name" type="xsd:string"/>
+                    <xsd:element name="SupplierCustID" type="xsd:integer"/>
+                    <xsd:element name="Addr" type="xsd:string"/>
+                    <xsd:element name="City" type="xsd:string"/>
+                    <xsd:element name="State" type="xsd:string"/>
+                    <xsd:element name="PostalCode" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="FreightInfo">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="ShipMode" type="xsd:string"/>
+              <xsd:element name="ShipDate" type="xsd:string"/>
+              <xsd:element name="FreightTerm" type="xsd:string"/>
+              <xsd:element name="Carrier">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Name" type="xsd:string"/>
+                    <xsd:element name="VehicleID" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="ShipTo">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Name" type="xsd:string"/>
+                    <xsd:element name="SupplierCustID" type="xsd:integer"/>
+                    <xsd:element name="Addr" type="xsd:string"/>
+                    <xsd:element name="City" type="xsd:string"/>
+                    <xsd:element name="State" type="xsd:string"/>
+                    <xsd:element name="PostalCode" type="xsd:integer"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Waybills">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="Waybill">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="WaybillNum" type="xsd:integer"/>
+                    <xsd:element name="WaybillDateTime" type="xsd:string"/>
+                    <xsd:element name="WaybillLines">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="WaybillLine" maxOccurs="unbounded">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="LineNum" type="xsd:integer"/>
+                                <xsd:element name="CustPO" type="xsd:string"/>
+                                <xsd:element name="CustPartNum" type="xsd:string"/>
+                                <xsd:element name="SupplierOrderNum" type="xsd:integer"/>
+                                <xsd:element name="QtyBundles" type="xsd:integer"/>
+                                <xsd:element name="LineWgtTtl">
+                                  <xsd:complexType>
+                                    <xsd:simpleContent>
+                                      <xsd:extension base="xsd:float">
+                                        <xsd:attribute name="UOM" type="xsd:string"/>
+                                        <xsd:attribute name="Qual" type="xsd:string"/>
+                                      </xsd:extension>
+                                    </xsd:simpleContent>
+                                  </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element name="Bundles">
+                                  <xsd:complexType>
+                                    <xsd:sequence>
+                                      <xsd:element name="Bundle" maxOccurs="unbounded">
+                                        <xsd:complexType>
+                                          <xsd:sequence>
+                                            <xsd:element name="BundleNum" type="xsd:string"/>
+                                            <xsd:element name="RollDateTime" type="xsd:string"/>
+                                            <xsd:element name="SupplierProductCode" type="xsd:string"/>
+                                            <xsd:element name="SupplierProductDesc" type="xsd:string"/>
+                                            <xsd:element name="Grade" type="xsd:string"/>
+                                            <xsd:element name="GradeDesc" type="xsd:string"/>
+                                            <xsd:element name="Shape" type="xsd:string"/>
+                                            <xsd:element name="Size" type="xsd:string"/>
+                                            <xsd:element name="Dims">
+                                              <xsd:complexType>
+                                                <xsd:sequence>
+                                                  <xsd:element name="Dim">
+                                                    <xsd:complexType>
+                                                      <xsd:simpleContent>
+                                                        <xsd:extension base="xsd:string">
+                                                          <xsd:attribute name="Axis" type="xsd:string"/>
+                                                        </xsd:extension>
+                                                      </xsd:simpleContent>
+                                                    </xsd:complexType>
+                                                  </xsd:element>
+                                                </xsd:sequence>
+                                              </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="TagNum" type="xsd:string"/>
+                                            <xsd:element name="Length" type="xsd:string"/>
+                                            <xsd:element name="QtyPcs" type="xsd:integer"/>
+                                            <xsd:element name="TtlWgt">
+                                              <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                  <xsd:extension base="xsd:float">
+                                                    <xsd:attribute name="UOM" type="xsd:string"/>
+                                                    <xsd:attribute name="Qual" type="xsd:string"/>
+                                                  </xsd:extension>
+                                                </xsd:simpleContent>
+                                              </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="HeatNum" type="xsd:string"/>
+                                            <xsd:element name="ReheatNum" type="xsd:string"/>
+                                          </xsd:sequence>
+                                        </xsd:complexType>
+                                      </xsd:element>
+                                    </xsd:sequence>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                  <xsd:attribute name="Type" type="xsd:string"/>
+                  <xsd:attribute name="Revision" type="xsd:integer"/>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Tests">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="TestSet" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="Bundles">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="BundleNum" maxOccurs="unbounded" type="xsd:string"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="HeatNum" type="xsd:string"/>
+                    <xsd:element name="ReheatNum" type="xsd:string"/>
+                    <xsd:element name="MeltCountry" type="xsd:string"/>
+                    <xsd:element name="MeltDate" type="xsd:string"/>
+                    <xsd:element name="RollCountry" type="xsd:string"/>
+                    <xsd:element name="Measures">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="Measure" maxOccurs="unbounded">
+                            <xsd:complexType>
+                              <xsd:simpleContent>
+                                <xsd:extension base="xsd:float">
+                                  <xsd:attribute name="Test" type="xsd:string"/>
+                                  <xsd:attribute name="Replicate" type="xsd:integer"/>
+                                  <xsd:attribute name="UOM" type="xsd:string"/>
+                                </xsd:extension>
+                              </xsd:simpleContent>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="MsgType" type="xsd:string"/>
+      <xsd:attribute name="Ver" type="xsd:float"/>
+      <xsd:attribute name="CreatedDate" type="xsd:string"/>
+      <xsd:attribute name="OpMode" type="xsd:string"/>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_PureSQL_Log_Entry"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/i102/NUC_UpdateLogEntry_EBS_CP_ABF/DB_PureSQL_Log_Entry"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/i102/NUC_UpdateLogEntry_EBS_CP_ABF/DB_PureSQL_Log_Entry"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/DB_PureSQL_Log_Entry"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_PureSQL_Log_Entry_plt" >
+    <plt:role name="DB_PureSQL_Log_Entry_role" >
+      <plt:portType name="tns:DB_PureSQL_Log_Entry_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_PureSQL_Log_Entry" schemaLocation="../Schemas/DB_PureSQL_Log_Entry.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_PureSQL_Log_EntryInput_msg">
+        <wsdl:part name="DB_PureSQL_Log_EntryInput_msg" element="db:DB_PureSQL_Log_EntryInput"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_PureSQL_Log_Entry_ptt">
+        <wsdl:operation name="DB_PureSQL_Log_Entry">
+            <wsdl:input message="tns:DB_PureSQL_Log_EntryInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,11 @@
+<adapter-config name="DB_Select_API_WorkOrder_Status" adapter="db" wsdlLocation="../WSDLs/DB_Select_API_WorkOrder_Status.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_1DB" location="eis/DB/nsneqmos1"/>
+  <endpoint-interaction portType="DB_Select_API_WorkOrder_Status_ptt" operation="DB_Select_API_WorkOrder_Status">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="SELECT ID,TRANSACTION_TYPE,ORDER_NUMBER,TRANSACTION_DATE FROM API_WORK_ORDER_STATUS WHERE ( (PROCESSED = 'N') AND (ROWNUM  &lt;= #rownumValue) ) ORDER BY ID asc"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

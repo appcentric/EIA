@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0"
+            xmlns:obj="http://xmlns.eia.com/AO/EBiz/O2C/TripsAO/1.0"
+            xmlns:msg="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0"
+            xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0"
+            xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite HR</Definition>
+<Description>This schema defines the messages to create or extract Freight Payment Information in Oracle HR.</Description>
+<Author>Jagannath Rao</Author>
+<ModifiedBy/>
+<VersionDate>06-12-2010</VersionDate>
+<VersionDescription>Review and standardization</VersionDescription>
+<ModificationHistory>06-12-2010 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0"
+              schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/TripsAO/1.0"
+              schemaLocation="../../../../AO/EBiz/O2C/V1.0/TripsAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0"
+              schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+  <xsd:element name="TripsAddRq" type="msg:TripsAddRq"/>
+  <xsd:element name="TripsAddRs" type="msg:TripsAddRs"/>
+  <xsd:complexType name="TripsAddRq">
+    <xsd:sequence>
+      <xsd:element ref="header:HeaderRq"/>
+      <xsd:element ref="obj:Trips"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TripsAddRs">
+    <xsd:sequence>
+      <xsd:element ref="header:HeaderRs"/>
+      <xsd:element ref="obj:TripsResponse"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

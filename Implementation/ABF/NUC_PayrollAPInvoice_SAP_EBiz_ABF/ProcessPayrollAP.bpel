@@ -1,0 +1,146 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Feb 04 14:49:50 CST 2015
+  Author:  brian.lowe
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ProcessPayrollAP"
+         targetNamespace="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="www.Nucor.com"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/StorePostingData"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/PayrollPostData"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/SelectPayrollAP">
+    <import location="oramds:/apps/EIAMetadata/AO/SAP/common/V1.0/nuepay_posting.xsd"
+            importType="http://www.w3.org/2001/XMLSchema"/>
+    <import namespace="http://xmlns.oracle.com/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/ProcessPayrollAP" location="ProcessPayrollAP.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="processpayrollap_client" partnerLinkType="client:ProcessPayrollAP" myRole="ProcessPayrollAPProvider" partnerRole="ProcessPayrollAPRequester"/>
+        <partnerLink name="SAP_Posting_WS" partnerLinkType="ns1:SAP_Posting_WS"
+                     partnerRole="SapDataSoap"/>
+        <partnerLink name="StorePostingData"
+                     partnerLinkType="ns2:StorePostingData_plt"
+                     partnerRole="StorePostingData_role"/>
+        <partnerLink name="SelectPayrollAP"
+                     partnerLinkType="ns4:SelectPayrollAP_plt"
+                     partnerRole="SelectPayrollAP_role"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:ProcessPayrollAPRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:ProcessPayrollAPResponseMessage"/>
+        <variable name="SAPPostingWS_Get_SAP_FIPosting_ReqMsg"
+                  messageType="ns1:Get_SAP_FIPostingSoapIn"/>
+        <variable name="SAPPostingWS_Get_SAP_FIPosting_RespMsg"
+                  messageType="ns1:Get_SAP_FIPostingSoapOut"/>
+        <variable name="StorePostingData_merge_ReqMsg"
+                  messageType="ns2:XxnucSapPayrollPostDataCollection_msg"/>
+        <variable name="SAP_PostingService_RespMsg" element="Envelope"/>
+        <variable name="SelectPayrolAP_ReqMsg"
+                  messageType="ns4:SelectPayrollAPInput_msg"/>
+        <variable name="SelectPayrollAP_RespMsg"
+                  messageType="ns4:SelectPayrollAPOutputCollection_msg"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in ProcessPayrollAP.wsdl) -->
+        <receive name="receiveInput" partnerLink="processpayrollap_client" portType="client:ProcessPayrollAP" operation="process" variable="inputVariable" createInstance="yes"/>
+        <assign name="Xform_Input_SAPPostingWS_ReqMsg">
+            <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_Input_SAPPostingWS_ReqMsg.xsl", $inputVariable.payload)</from>
+                <to variable="SAPPostingWS_Get_SAP_FIPosting_ReqMsg"
+                    part="parameters"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_SAPPostingWS"
+                partnerLink="SAP_Posting_WS" portType="ns1:SapDataSoap"
+                operation="Get_SAP_FIPosting"
+                inputVariable="SAPPostingWS_Get_SAP_FIPosting_ReqMsg"
+                outputVariable="SAPPostingWS_Get_SAP_FIPosting_RespMsg"
+                bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+        <bpelx:toProperty name="javax.xml.ws.security.auth.username">dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_LEGACY_LEDGER_NAME_MAP.dvm","LEGACY_DIV_NUM",$inputVariable.payload/client:DivCode,"DIV_USER_NAME","")</bpelx:toProperty>
+        <bpelx:toProperty name="javax.xml.ws.security.auth.password">dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_LEGACY_LEDGER_NAME_MAP.dvm","LEGACY_DIV_NUM",$inputVariable.payload/client:DivCode,"DIV_PASSWORD","")</bpelx:toProperty>
+            </bpelx:toProperties>
+        </invoke>
+        <assign name="AssignPostingServiceOutput">
+            <copy>
+                <from>$SAPPostingWS_Get_SAP_FIPosting_RespMsg.parameters/ns1:Get_SAP_FIPostingResult/Envelope</from>
+                <to>$SAP_PostingService_RespMsg</to>
+            </copy>
+        </assign>
+        <assign name="Xform_SAPPostingWS_RespMsg_StorePostingData_ReqMsg">
+            <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_SAPPostingWS_RespMsg_StorePostingData_ReqMsg.xsl", $SAP_PostingService_RespMsg)</from>
+                <to variable="StorePostingData_merge_ReqMsg"
+                    part="XxnucSapPayrollPostDataCollection"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_StorePostingData" bpelx:invokeAsDetail="no"
+                partnerLink="StorePostingData"
+                portType="ns2:StorePostingData_ptt" operation="merge"
+                inputVariable="StorePostingData_merge_ReqMsg"/>
+        <invoke name="Invoke_SelectPayrolAP" bpelx:invokeAsDetail="no"
+                partnerLink="SelectPayrollAP"
+                portType="ns4:SelectPayrollAP_ptt" operation="SelectPayrollAP"
+                inputVariable="SelectPayrolAP_ReqMsg"
+                outputVariable="SelectPayrollAP_RespMsg"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="processpayrollap_client" portType="client:ProcessPayrollAPCallback" operation="processResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="Manual_PublishPayment_ABF">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="203" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="196" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="Manual_PublishPayment_ABF" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/Implementation/ABF/NUC_PublishPayment_EBiz_ABF/1.0#wsdl.interface(ASyncPortType)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>ManualPublishPayment</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gService name="OA_BE_PublishPayment_AQ">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="321" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="314" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="OA_BE_PublishPayment_AQ" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_PublishPayment_EBiz_ABF/OA_BE_PublishPayment_AQ#wsdl.interface(DEQUEUE_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/oa_adapter_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>DEQUEUE</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="NUC_EBizPayment_ABS">
+        <dgm:body borderWidth="2" arcRad="20" X="900" Y="26" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="890" Y="19" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="NUC_EBizPayment_ABS" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/PaymentABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>QueryPaymentBy_Example_Sync</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="JMS_Publish_Payment">
+        <dgm:body borderWidth="2" arcRad="20" X="900" Y="144" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="890" Y="137" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="JMS_Publish_Payment" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/jms/Nucor/NUC_PublishPayment_EBiz_ABF/JMS_Publish_Payment#wsdl.interface(Produce_Message_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/jms_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>Produce_Message</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="DB_Get_payment">
+        <dgm:body borderWidth="2" arcRad="20" X="900" Y="262" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="890" Y="255" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="DB_Get_payment" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_PublishPayment_EBiz_ABF/DB_Get_payment#wsdl.interface(DB_Get_payment_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/db_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>queryByExample</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="EIAAsyncErrorHandlingBPELProcessV1">
+        <dgm:body borderWidth="2" arcRad="20" X="900" Y="380" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="890" Y="373" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="EIAAsyncErrorHandlingBPELProcessV1" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0#wsdl.interface(EIAAsyncErrorHandlingBPELProcess)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>processFault</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CommonLogging_PL">
+        <dgm:body borderWidth="2" arcRad="20" X="900" Y="498" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="890" Y="491" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLogging_PL" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="PublishPayment">
+        <dgm:body borderWidth="2" arcRad="20" X="464" Y="223" width="130" height="161">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="454" Y="216" width="150" height="177">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="Manual_PublishPayment_ABF" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/Implementation/ABF/NUC_PublishPayment_EBiz_ABF/1.0#wsdl.interface(ASyncPortType)"/>
+        <dgm:inputPort name="OA_BE_PublishPayment_AQ" X="-10" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_PublishPayment_EBiz_ABF/OA_BE_PublishPayment_AQ#wsdl.interface(DEQUEUE_ptt)"/>
+        <dgm:outputPort name="NUC_EBizPayment_ABS" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/PaymentABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:outputPort name="JMS_Publish_Payment" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/jms/Nucor/NUC_PublishPayment_EBiz_ABF/JMS_Publish_Payment#wsdl.interface(Produce_Message_ptt)"/>
+        <dgm:outputPort name="DB_Get_payment" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_PublishPayment_EBiz_ABF/DB_Get_payment#wsdl.interface(DB_Get_payment_ptt)"/>
+        <dgm:outputPort name="EIAAsyncErrorHandlingBPELProcessV1" X="120" Y="90" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0#wsdl.interface(EIAAsyncErrorHandlingBPELProcess)"/>
+        <dgm:outputPort name="CommonLogging_PL" X="120" Y="115" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="Manual_PublishPayment_ABF" target="PublishPayment/Manual_PublishPayment_ABF" width="2">
+        <dgm:gSegment X1="168" Y1="213" X2="192" Y2="213"/>
+        <dgm:gSegment X1="192" Y1="213" X2="192" Y2="248"/>
+        <dgm:gSegment X1="192" Y1="248" X2="454" Y2="248"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="OA_BE_PublishPayment_AQ" target="PublishPayment/OA_BE_PublishPayment_AQ" width="2">
+        <dgm:gSegment X1="168" Y1="331" X2="192" Y2="331"/>
+        <dgm:gSegment X1="192" Y1="331" X2="192" Y2="273"/>
+        <dgm:gSegment X1="192" Y1="273" X2="454" Y2="273"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="PublishPayment/NUC_EBizPayment_ABS" target="NUC_EBizPayment_ABS" width="2">
+        <dgm:gSegment X1="604" Y1="248" X2="628" Y2="248"/>
+        <dgm:gSegment X1="628" Y1="248" X2="628" Y2="36"/>
+        <dgm:gSegment X1="628" Y1="36" X2="890" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="PublishPayment/JMS_Publish_Payment" target="JMS_Publish_Payment" width="2">
+        <dgm:gSegment X1="604" Y1="273" X2="643" Y2="273"/>
+        <dgm:gSegment X1="643" Y1="273" X2="643" Y2="154"/>
+        <dgm:gSegment X1="643" Y1="154" X2="890" Y2="154"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="PublishPayment/DB_Get_payment" target="DB_Get_payment" width="2">
+        <dgm:gSegment X1="604" Y1="298" X2="658" Y2="298"/>
+        <dgm:gSegment X1="658" Y1="298" X2="658" Y2="272"/>
+        <dgm:gSegment X1="658" Y1="272" X2="890" Y2="272"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="PublishPayment/EIAAsyncErrorHandlingBPELProcessV1" target="EIAAsyncErrorHandlingBPELProcessV1" width="2">
+        <dgm:gSegment X1="604" Y1="323" X2="643" Y2="323"/>
+        <dgm:gSegment X1="643" Y1="323" X2="643" Y2="390"/>
+        <dgm:gSegment X1="643" Y1="390" X2="890" Y2="390"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="PublishPayment/CommonLogging_PL" target="CommonLogging_PL" width="2">
+        <dgm:gSegment X1="604" Y1="348" X2="628" Y2="348"/>
+        <dgm:gSegment X1="628" Y1="348" X2="628" Y2="508"/>
+        <dgm:gSegment X1="628" Y1="508" X2="890" Y2="508"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

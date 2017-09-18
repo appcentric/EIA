@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+xmlns:poam="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0" 
+xmlns:core="http://xmlns.eia.com/EO/Common/1.0">
+<wsdl:types>
+<xsd:schema>
+<xsd:import namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0" schemaLocation="../../../../AO/EBiz/P2P/V1.0/PurchaseOrderABM.xsd"/>
+<xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="../../../../EO/common/Common.xsd"/>
+</xsd:schema>
+</wsdl:types>
+
+<wsdl:message name="CreatePurchaseOrderRequestMessageType">
+<wsdl:part name="CreatePurchaseOrderRequestMessage" element="poam:CreatePurchaseOrderRequestMessage"/>
+</wsdl:message>
+
+<wsdl:message name="CreatePurchaseOrderResponseMessageType">
+<wsdl:part name="CreatePurchaseOrderResponseMessage" element="poam:CreatePurchaseOrderResponseMessage"/>
+</wsdl:message>
+
+<wsdl:message name="QueryPurchaseOrderRequestMessageType">
+<wsdl:part name="QueryPurchaseOrderRequestMessage" element="poam:QueryPurchaseOrderRequestMessage"/>
+</wsdl:message>
+
+<wsdl:message name="QueryPurchaseOrderResponseMessageType">
+<wsdl:part name="QueryPurchaseOrderResponseMessage" element="poam:QueryPurchaseOrderResponseMessage"/>
+</wsdl:message>
+
+
+<wsdl:message name="AddPurchaseOrderLineRequestMessageType">
+<wsdl:part name="AddPurchaseOrderLineRequestMessage" element="poam:AddPurchaseOrderLineRequestMessage"/>
+</wsdl:message>
+
+<wsdl:message name="AddPurchaseOrderLineResponseMessageType">
+<wsdl:part name="AddPurchaseOrderLineResponseMessage" element="poam:AddPurchaseOrderLineResponseMessage"/>
+</wsdl:message>
+
+<wsdl:message name="UpdatePurchaseOrderLineRequestMessageType">
+<wsdl:part name="UpdatePurchaseOrderLineRequestMessage" element="poam:UpdatePurchaseOrderLineRequestMessage"/>
+</wsdl:message>
+<wsdl:message name="UpdatePurchaseOrderLineResponseMessageType">
+<wsdl:part name="UpdatePurchaseOrderLineResponseMessage" element="poam:UpdatePurchaseOrderLineResponseMessage"/>
+</wsdl:message>
+
+<wsdl:message name="CancelPurchaseOrderLineRequestMessageType">
+<wsdl:part name="CancelPurchaseOrderLineRequestMessage" element="poam:CancelPurchaseOrderLineRequestMessage"/>
+</wsdl:message>
+                  
+<wsdl:message name="CancelPurchaseOrderLineResponseMessageType">
+<wsdl:part name="CancelPurchaseOrderLineResponseMessage" element="poam:CancelPurchaseOrderLineResponseMessage"/>
+</wsdl:message>
+
+
+
+<wsdl:message name="EIAFaultMsgType">
+<wsdl:part name="Fault" element="core:Fault"/>
+</wsdl:message>
+
+<wsdl:portType name="SyncPortType">
+<wsdl:operation name="CreateListPurchaseOrders_Sync">
+<wsdl:input message="tns:CreatePurchaseOrderRequestMessageType"/>
+<wsdl:output message="tns:CreatePurchaseOrderResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+
+<wsdl:operation name="QueryPurchaseOrderByExample_Sync">
+<wsdl:input message="tns:QueryPurchaseOrderRequestMessageType"/>
+<wsdl:output message="tns:QueryPurchaseOrderResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+
+<wsdl:operation name="UpdatePurchaseOrderLine_Sync">
+<wsdl:input message="tns:UpdatePurchaseOrderLineRequestMessageType"/>
+<wsdl:output message="tns:UpdatePurchaseOrderLineResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+
+<wsdl:operation name="AddPurchaseOrderLine_Sync">
+<wsdl:input message="tns:AddPurchaseOrderLineRequestMessageType"/>
+<wsdl:output message="tns:AddPurchaseOrderLineResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+
+
+<wsdl:operation name="CancelPurchaseOrderLine_Sync">
+<wsdl:input message="tns:CancelPurchaseOrderLineRequestMessageType"/>
+<wsdl:output message="tns:CancelPurchaseOrderLineResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+
+
+
+</wsdl:portType>
+  <wsdl:binding name="SyncPort" type="tns:SyncPortType">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CreateListPurchaseOrders_Sync">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0/CreateListPurchaseOrders_Sync"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="CreatePurchaseOrderRequestMessage"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" parts="CreatePurchaseOrderResponseMessage"/>
+      </wsdl:output>
+      <wsdl:fault name="EIAFault">
+        <soap:fault name="EIAFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="QueryPurchaseOrderByExample_Sync">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0/QueryPurchaseOrderByExample_Sync"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="QueryPurchaseOrderRequestMessage"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" parts="QueryPurchaseOrderResponseMessage"/>
+      </wsdl:output>
+      <wsdl:fault name="EIAFault">
+        <soap:fault name="EIAFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePurchaseOrderLine_Sync">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0/UpdatePurchaseOrderLine_Sync"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="UpdatePurchaseOrderLineRequestMessage"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"
+                   parts="UpdatePurchaseOrderLineResponseMessage"/>
+      </wsdl:output>
+      <wsdl:fault name="EIAFault">
+        <soap:fault name="EIAFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddPurchaseOrderLine_Sync">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0/AddPurchaseOrderLine_Sync"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="AddPurchaseOrderLineRequestMessage"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" parts="AddPurchaseOrderLineResponseMessage"/>
+      </wsdl:output>
+      <wsdl:fault name="EIAFault">
+        <soap:fault name="EIAFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CancelPurchaseOrderLine_Sync">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0/CancelPurchaseOrderLine_Sync"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="CancelPurchaseOrderLineRequestMessage"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"
+                   parts="CancelPurchaseOrderLineResponseMessage"/>
+      </wsdl:output>
+      <wsdl:fault name="EIAFault">
+        <soap:fault name="EIAFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PurchaseOrderABS">
+    <wsdl:port name="SyncPort" binding="tns:SyncPort">
+      <soap:address location="http://www.example.com"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

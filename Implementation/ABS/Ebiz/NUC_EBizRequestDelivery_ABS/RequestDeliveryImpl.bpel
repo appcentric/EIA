@@ -1,0 +1,359 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri May 16 10:26:40 CDT 2014
+  Author:  vivek
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="RequestDeliveryImpl"
+               targetNamespace="http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0/RequestDeliveryImpl"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0/RequestDeliveryImpl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBizRequestDelivery_ABS/OA_LaunchRequestDelivery"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/DeliveryAO/1.0"
+         xmlns:ns3="http://xmlns.eia.com/AO/EBiz/common/DeliveryAM/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:ns9="http://xmlns.eia.com/CommonLogging">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0" location="DeliveryABSWrapper.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0"
+          location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="Nuc_EBizRequestDelivery_ABS"
+                 partnerLinkType="ns1:Nuc_EBizRequestDelivery_ABS"
+                 myRole="SyncPortType"/>
+    <partnerLink name="OA_LaunchRequestDelivery"
+                 partnerLinkType="ns2:OA_LaunchRequestDelivery_plt"
+                 partnerRole="OA_LaunchRequestDelivery_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns9:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="DeliveryReqMsg"
+              messageType="ns1:ListOfDeliveryRequestMessageType"/>
+    <variable name="DeliveryRespMsg"
+              messageType="ns1:ListOfDeliveryResponseMessageType"/>
+    <variable name="OA_LaunchRequestDelivery_ReqMsg"
+              messageType="ns2:args_in_msg"/>
+    <variable name="OA_LaunchRequestDelivery_RespMsg"
+              messageType="ns2:args_out_msg"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns6:ProcessHeader"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="Assign_Header_CatchAll">
+          <copy>
+            <from>'ERROR'</from>
+            <to>$DeliveryRespMsg.ListOfDeliveryResponseMessage/ns7:HeaderRs/ns7:Status/ns7:Status</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$DeliveryRespMsg.ListOfDeliveryResponseMessage/ns7:HeaderRs/ns7:Status/ns7:StatusFreeText</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq</from>
+            <to>$DeliveryRespMsg.ListOfDeliveryResponseMessage/ns7:HeaderRs/ns7:RequestDetails</to>
+          </copy>
+        </assign>
+        <scope name="Scope_CatchALLLogging">
+          <variables>
+            <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                      messageType="ns9:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence name="Sequence4">
+            <assign name="Assign_CatchAllLogging">
+              <copy>
+                <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ProjectName</to>
+              </copy>
+              <copy>
+                <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:ComponentID</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ComponentId</to>
+              </copy>
+              <copy>
+                <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:TransactionName</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:Source</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:Target</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:LogType</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns9:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+        <reply name="Reply_CatchAll" variable="DeliveryRespMsg" partnerLink="Nuc_EBizRequestDelivery_ABS"
+               portType="ns1:SyncPortType" operation="Delivery_Sync"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_DeliveryReqMsg" createInstance="yes"
+             partnerLink="Nuc_EBizRequestDelivery_ABS"
+             portType="ns1:SyncPortType" operation="Delivery_Sync"
+             variable="DeliveryReqMsg"/>
+    <scope name="Scope_StartLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns9:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence3">
+        <assign name="Assign_StartLogging">
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:ComponentID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ComponentId</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:TransactionName</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:Source</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:Target</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns9:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="setEHM">
+      <copy>
+        <from>xp20:current-dateTime()</from>
+        <to>$EIA_HEADER_MESSAGE/ns6:ProcessStartTime</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$EIA_HEADER_MESSAGE/ns6:ProcessName</to>
+      </copy>
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$EIA_HEADER_MESSAGE/ns6:ProcessInstanceID</to>
+      </copy>
+      <copy>
+        <from>ora:getProcessVersion()</from>
+        <to>$EIA_HEADER_MESSAGE/ns6:ProcessRevision</to>
+      </copy>
+    </assign>
+    <assign name="Xform_DeliveryReqMsg_OALaunchRequestDeliveryReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_DeliveryReqMsg_OALaunchRequestDeliveryReqMsg.xsl", $DeliveryReqMsg.ListOfDeliveryRequestMessage)</from>
+        <to variable="OA_LaunchRequestDelivery_ReqMsg" part="InputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_OA_LaunchRequestDelivery"
+            partnerLink="OA_LaunchRequestDelivery"
+            portType="ns2:OA_LaunchRequestDelivery_ptt"
+            operation="OA_LaunchRequestDelivery"
+            inputVariable="OA_LaunchRequestDelivery_ReqMsg"
+            outputVariable="OA_LaunchRequestDelivery_RespMsg"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="jca.apps.Username">$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns3:AppsContext/ns4:UserName</bpelx:toProperty>
+        <bpelx:toProperty name="jca.apps.Responsibility">$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns3:AppsContext/ns4:ResponsibilityName</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="Xform_OALaunchRequestDeliveryRespMsg_DeliveryRespMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_OALaunchRequestDeliveryRespMsg_DeliveryRespMsg.xsl", $OA_LaunchRequestDelivery_RespMsg.OutputParameters)</from>
+        <to variable="DeliveryRespMsg" part="ListOfDeliveryResponseMessage"/>
+      </copy>
+    </assign>
+    <assign name="Assign_Header">
+      <copy>
+        <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq</from>
+        <to>$DeliveryRespMsg.ListOfDeliveryResponseMessage/ns7:HeaderRs/ns7:RequestDetails</to>
+      </copy>
+    </assign>
+    <scope name="Scope_EndLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns9:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence2">
+        <assign name="Assign_EndLogging">
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:ComponentID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ComponentId</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:TransactionName</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:Source</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>$DeliveryReqMsg.ListOfDeliveryRequestMessage/ns7:HeaderRq/ns7:Target</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns9:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns9:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <reply name="Reply_DeliveryRespMsg" variable="DeliveryRespMsg"
+           partnerLink="Nuc_EBizRequestDelivery_ABS"
+           portType="ns1:SyncPortType" operation="Delivery_Sync"/>
+  </sequence>
+</process>

@@ -1,0 +1,280 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jun 26 16:13:36 CDT 2017
+  Author:  brian.stapleton@nucor.com
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_WriteBOLShipment_OTM_RailInc_ABF" targetNamespace="http://xmlns.eia.com/OTM/WriteBOLShipment/1.0"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/OTM/WriteBOLShipment/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns1="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_RailInc_ABF/WriteBOLShipment"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns3="http://xmlns.eia.com/CommonLogging"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns4="http://xmlns.oracle.com/apps/otm"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/ftp/OTM/NUC_WriteBOLShipment_OTM_RailInc_ABF/FTP_PutFileRailInc">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_RailInc_ABF/WriteBOLShipment"
+          location="../WSDLs/WriteBOLShipment.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="WS_WriteBOLShipment" partnerLinkType="ns1:WriteBOLShipment" myRole="WriteBOLShipmentProvider"/>
+    <partnerLink name="WS_CommonLogging" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="FTP_PutFileRailInc" partnerLinkType="ns5:Put_plt" partnerRole="Put_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:WriteBOLShipmentRequestMessage"/>
+    <variable name="gbl_CommonLogging_ReqMsg" messageType="ns3:CommonLoggingRequestMessage"/>
+    <variable name="gbl_FlowTitle" type="xsd:string"/>
+    <variable name="gbl_FTPPutFileRailInc_ReqMsg" messageType="ns5:Put_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="Scope_ErrorLog">
+        <sequence name="Sequence_ErrorLog">
+          <assign name="Assign_ErrorLog">
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I166'</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+            </copy>
+            <copy>
+              <from>'WriteBOLShipment'</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>31</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>34</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+            </copy>
+            <copy>
+              <from>''</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+            </copy>
+            <copy>
+              <from>concat('FlowId: ',ora:getFlowId(),' Error ',ora:getFaultAsString())</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging_Error" partnerLink="WS_CommonLogging" portType="ns3:CommonLogging"
+                  operation="process" inputVariable="gbl_CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in NUC_WriteBOLShipment_OTM_RailInc_ABF.wsdl) -->
+    <receive name="receiveInput" partnerLink="WS_WriteBOLShipment" portType="ns1:WriteBOLShipment" operation="process"
+             variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_FlowTitle">
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($inputVariable.payload/ns4:TransmissionBody/ns4:GLogXMLElement/ns4:PlannedShipment/ns4:Shipment/ns4:ShipmentHeader/ns4:ShipmentRefnum[ns4:ShipmentRefnumQualifierGid/ns4:Gid/ns4:Xid='MBOL_NUMBER']/ns4:ShipmentRefnumValue))</from>
+        <to>$gbl_FlowTitle</to>
+      </copy>
+    </assign>
+    <scope name="Scope_StartLog">
+      <faultHandlers>
+        <catchAll>
+          <empty name="Empty_DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence_StartLog">
+        <assign name="Assign_StartLog">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I166'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'WriteBOLShipment'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>34</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_Start" partnerLink="WS_CommonLogging" portType="ns3:CommonLogging"
+                operation="process" inputVariable="gbl_CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Xform_GLog_To_RailIncCLUC">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Xform_GLog_To_RailIncCLUC.xsl", $inputVariable.payload)</from>
+        <to variable="gbl_FTPPutFileRailInc_ReqMsg" part="body"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_FTP_PutFileRailInc" bpelx:invokeAsDetail="no" partnerLink="FTP_PutFileRailInc"
+            portType="ns5:Put_ptt" operation="Put" inputVariable="gbl_FTPPutFileRailInc_ReqMsg"/>
+    <scope name="Scope_EndLog">
+      <faultHandlers>
+        <catchAll>
+          <empty name="Empty_DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence_EndLog">
+        <assign name="Assign_EndLog">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I166'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'WriteBOLShipment'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>34</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$gbl_CommonLogging_ReqMsg.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_End" partnerLink="WS_CommonLogging" portType="ns3:CommonLogging"
+                operation="process" inputVariable="gbl_CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

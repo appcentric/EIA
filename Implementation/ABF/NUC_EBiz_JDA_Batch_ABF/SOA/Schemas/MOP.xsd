@@ -1,0 +1,61 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/MOP/1.0" targetNamespace="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/MOP/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars" nxsd:encoding="UTF-8" nxsd:hasHeader="true" nxsd:headerLines="1" nxsd:headerLinesTerminatedBy="${eol}">
+
+  <xsd:element name="MOPList">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="MOPHeader">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="operation" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' fixed="#operation" maxOccurs="1"/>
+              <xsd:element name="step_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="step_number"/>
+              <xsd:element name="stock_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="stock_order"/>
+              <xsd:element name="consumed_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="consumed_order"/>
+              <xsd:element name="consumed_part" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="consumed_part"/>
+              <xsd:element name="demand_order_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="demand_order_p"/>
+              <xsd:element name="actual_quantity_fed" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="actual_quantity_fed"/>
+              <xsd:element name="demands_locked_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="demands_locked_p"/>
+              <xsd:element name="produced_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="produced_order"/>
+              <xsd:element name="quantity_fed" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="quantity_fed"/>
+              <xsd:element name="surplus" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="${eol}"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="surplus"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="MOP" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="operation" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="step_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="stock_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="consumed_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="consumed_part" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="demand_order_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="actual_quantity_fed" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="demands_locked_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="produced_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="quantity_fed" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|" nxsd:quotedBy="&quot;"/>
+              <xsd:element name="surplus" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="${eol}" nxsd:quotedBy="&quot;"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=/Users/dikshasawheny/Documents/SHared/MOPRecord.txt</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=true</xsd:appinfo>
+   </xsd:annotation>
+
+</xsd:schema>

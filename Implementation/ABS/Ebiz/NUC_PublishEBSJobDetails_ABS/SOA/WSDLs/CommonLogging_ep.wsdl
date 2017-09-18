@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="CommonLogging"
+     targetNamespace="http://nucor.eia.com/CommonLogging"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://nucor.eia.com/CommonLogging"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <wsdl:documentation>
+        <abstractWSDL>http://brmkea250.bar.nucorsteel.local:7015/soa-infra/services/nxg/CommonLogging!2.0/CommonLogging.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="CommonLogging">
+        <plnk:role name="CommonLoggingProvider">
+            <plnk:portType name="client:CommonLogging"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:client="http://nucor.eia.com/CommonLogging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://nucor.eia.com/CommonLogging" schemaLocation="http://brmkea250.bar.nucorsteel.local:7015/soa-infra/services/nxg/CommonLogging/CommonLogging_ep?XSD=xsd/CommonLogging.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="CommonLoggingRequestMessage">
+        <wsdl:part name="CommonLogging" element="client:Input"/>
+    </wsdl:message>
+    <wsdl:portType name="CommonLogging">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:CommonLoggingRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CommonLoggingBinding" type="client:CommonLogging">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CommonLogging_ep">
+        <wsdl:port name="CommonLogging_pt" binding="client:CommonLoggingBinding">
+            <soap:address location="http://brmkea250.bar.nucorsteel.local:7015/soa-infra/services/nxg/CommonLogging/CommonLogging_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

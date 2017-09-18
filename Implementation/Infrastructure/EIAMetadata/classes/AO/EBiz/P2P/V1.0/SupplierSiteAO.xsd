@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:ssiteao="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0" xmlns:commao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+            xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0">
+ <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0" schemaLocation="../../common/V1.0/CommonAO.xsd"/>
+ <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0" schemaLocation="../../common/V1.0/WhoAO.xsd"/>
+ <xsd:element name="BasicSupplierSiteInfo" type="ssiteao:BasicSupplierSiteType"></xsd:element>
+ <xsd:complexType name="ListOfOrigSystemReferencesType">
+  <xsd:sequence>
+   <xsd:element name="OrigSystem" type="ssiteao:OrigSystemType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="OrigSystemType">
+  <xsd:sequence>
+   <xsd:element name="Identifier" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="TableName" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="TableIdentifier" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrigSystem" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrigSystemReference" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="ObjectVersionNumber" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Status" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="StartDate" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="EndDate" minOccurs="0" type="xsd:string"></xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="BasicSupplierSiteType">
+  <xsd:sequence>
+   <xsd:element name="Identifier" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="SupplierSiteCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="SupplierSiteCodeAlt" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="SupplierTypeCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="ObjectVersionNumber" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrgName" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrigSystem" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrigSystemReference" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="ShipViaLookupCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="FreightTermsLookupCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="FOBLookupCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaySiteFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PurchasingSiteFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="RFQonlySiteFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="AttentionARFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="HoldAllPaymentsFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="HoldFuturePaymentsFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="HoldUnmatchedInvoicesFlag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="ExcludeFreightFromDiscount" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrgId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="VendorId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Attributes" type="commao:CommonDFFType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ListOrigSystemReferences" type="ssiteao:ListOfOrigSystemReferencesType"></xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ListOfSupplierConcatsType">
+ <xsd:sequence>
+ <xsd:element name="SupplierContactInfo" type="ssiteao:SupplierContactInfoType" maxOccurs="unbounded" minOccurs="0" />
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="ListOfSupplierSitesType">
+ <xsd:sequence>
+ <xsd:element name="SupplierSite" type="ssiteao:SupplierSiteType" maxOccurs="unbounded" minOccurs="0" />
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="SupplierContactInfoType">
+  <xsd:sequence>
+   <xsd:element name="Identifier" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="SupplierSiteId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="WhoColumns" type="whoao:WhoColumnsType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="FirstName" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="MiddleName" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="LastName" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Prefix" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Title" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="MailStop" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="AreaCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Phone" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="RequestId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Program" type="commao:ProgramType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ContactNameAlt" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="FirstNameAlt" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="LastNameAlt" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Department" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Email" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Url" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="AreaCodeAlt" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PhoneAlt" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="FaxAreaCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Fax" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="InactiveDate" minOccurs="0" type="xsd:dateTime"></xsd:element>
+   <xsd:element name="PerPartyId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="RelationShipId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="RelativePartyId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PartySiteId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrgContactId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="OrgPartySiteId" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Attributes" minOccurs="0" type="commao:CommonDFFType"></xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ListOfBasicSupplierSiteInfoType">
+  <xsd:sequence>
+   <xsd:element name="BasicSupplierSiteInfo" type="ssiteao:BasicSupplierSiteType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="SupplierSiteType">
+  <xsd:sequence>
+   <xsd:element name="BasicSupplierSite" type="ssiteao:BasicSupplierSiteType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Address" type="commao:AddressType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CustomerNumber" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ShipToLocationId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="BillToLocationId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="InactiveDate" type="xsd:date" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PaymentMethodLookupCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Bank" type="commao:BankType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="TermsDateBasis" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CurrentCatalogNumber" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="VATCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="VATRegistrationNumber" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DistributionSetId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AlwaysTakeDiscountFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AccountsPayCodeCombinationId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PrepayCodeCombinationId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PayGroupLookupCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PaymentPriority" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="TermsId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="InvoiceAmoutLimit" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="InvoiceCurrencyCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PaymentCurrencyCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Hold" type="commao:HoldType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="APTaxRoundingRule" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PayDateBasicsLookupCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AutoTaxCalculationFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AutoTaxCalculationOverride" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AmountIncludesTaxFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ExclusivePaymentFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="TaxReportingSiteFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ExcludeFreightFromDiscount" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Program" type="commao:ProgramType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ValidationNumber" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="OffsetViaCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CheckDigits" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Language" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AllowAWTFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="AWTGroupId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="EDI" type="commao:EDIType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PayOnCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DefaultPaySiteId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PayOnReceiptSummaryCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="TPHeaderId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ECETPLocationCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PCardSiteFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="MatchOption" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CountryOfOriginCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="FutureDatedPaymentCCId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CreateDebitMemoFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="OffsetTaxFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="SupplierNotificationMethod" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Email" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="RemittanceEmail" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PrimaryPaySiteFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ShippingControl" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="SellingCompanyIdentifier" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="GaplessInvNumFlag" type="commao:YesNoType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DunsNumber" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ToleranceId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="LocatinId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PartySiteId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ServiceToleranceId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="RetainanceRate" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="TCASync" type="commao:TCASyncType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="PayAWTGroupId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CageCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="LeagalBusinessName" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DoingBusinessAsName" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DivisionName" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="SmallBusinessCode" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="CCRComments" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DebarmentStartDate" type="xsd:date" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="DebarmentEndDate" type="xsd:date" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="Attributes" type="commao:CommonDFFType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="GlobalAttributes" type="commao:CommonDFFType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="WhoColumns" type="whoao:WhoColumnsType" maxOccurs="1" minOccurs="0"/>
+   <xsd:element name="ListOfSupplierSiteContacts" type="ssiteao:ListOfSupplierConcatsType" />
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>

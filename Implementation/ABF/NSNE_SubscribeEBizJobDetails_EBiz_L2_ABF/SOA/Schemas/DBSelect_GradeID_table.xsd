@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSelect_GradeID" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSelect_GradeID" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="GradeCollection" type="GradeCollection"/>
+   <xs:complexType name="GradeCollection">
+      <xs:sequence>
+         <xs:element name="Grade" type="Grade" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Grade">
+      <xs:sequence>
+         <xs:element name="GradeID" type="xs:int" nillable="true"/>
+         <xs:element name="GradeName" type="string64" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DBSelect_GradeIDSelect_nameInputParameters" type="DBSelect_GradeIDSelect_name"/>
+   <xs:complexType name="DBSelect_GradeIDSelect_name">
+      <xs:sequence>
+         <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string64">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="64"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

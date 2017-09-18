@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="UtilityXREF_LoadDB">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <!--Add search and replace rules for the service properties-->
+      <service name="DB_XREF_Polling">
+         <property name="jca.retry.count">
+            <replace>2147483647</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="jca">
+            <property name="useRejectedMessageRecovery">
+               <replace>true</replace>
+            </property>
+            <property name="singleton">
+               <replace>true</replace>
+            </property>
+         </binding>
+      </service>
+      <service name="DB_XREF_Polling"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>542eef94-d2c3-42e4-9b70-2620ae9ada1c</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="BPELUtility_LoadDB">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+         <property name="singleton">
+            <replace>true</replace>
+         </property>
+      </component>
+      <reference name="WS_UtilityXREF"/>
+      <reference name="DB_UpdateProcStatus"/>
+      <reference name="WS_UtilityXREF">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0#wsdl.endpoint(processXREF_ep/UtilityXREF_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>http://rzslca352.rz.nucorsteel.local:8001/soa-infra/services/common/UtilityXREF/processXREF_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+            <property name="oracle.webservices.local.optimization">
+               <replace>false</replace>
+            </property>
+            <property name="oracle.soa.local.optimization.force">
+               <replace>true</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DB_UpdateProcStatus">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_UpdateProcStatus_db.jca|Adapters/DB_XREF_Polling_db.jca|Schemas/DB_UpdateProcStatus_table.xsd|Schemas/DB_XREF_Polling_table.xsd|Schemas/UtilityXREF.xsd|WSDLs/DB_UpdateProcStatus.wsdl|WSDLs/DB_XREF_Polling.wsdl|WSDLs/processXREF_ep.wsdl">
+      <jca:property name="MarkReadValue">
+         <replace>ST2.Processed</replace>
+      </jca:property>
+      <jca:property name="MarkReservedValue">
+         <replace>ST2-R${weblogic.Name-2}-${IP-2}</replace>
+      </jca:property>
+      <jca:property name="MarkUnreadValue">
+         <replace>ST2.NEW</replace>
+      </jca:property> 
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

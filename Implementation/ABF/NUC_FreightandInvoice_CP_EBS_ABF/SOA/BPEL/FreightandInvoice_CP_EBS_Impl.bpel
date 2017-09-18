@@ -1,0 +1,480 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Oct 30 05:30:26 CDT 2015
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="FreightandInvoice_CP_EBS_Impl"
+               targetNamespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/DbCallXXNUC_OMSI_EXTRACTS_PKG"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/DbInsertXXNUC_WSH_CP_FREINV_HDR_STG"
+         xmlns:ns3="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://xmlns.eia.com/CommonLogging"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/apps/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DbCallXXNUC_OMSI_EXTRACTS_PKG">
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+          location="../Schemas/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_sp.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.xmlns.nucor.com/NameValuePair/NUC_FreightandInvoice_CP_EBS_ABF"
+          location="../Schemas/NameValuePair.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0" location="../WSDLs/FreightandInvoice_CP_EBS_Impl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="freightandinvoice_cp_ebs_impl_client" partnerLinkType="client:FreightandInvoice_CP_EBS_Impl" myRole="FreightandInvoice_CP_EBS_ImplProvider"/>
+    <partnerLink name="DbCallXXNUC_OMSI_EXTRACTS_PKG" partnerLinkType="ns1:DbCallXXNUC_OMSI_EXTRACTS_PKG_plt"
+                 partnerRole="DbCallXXNUC_OMSI_EXTRACTS_PKG_role"/>
+    <partnerLink name="DbInsertXXNUC_WSH_CP_FREINV_HDR_STG"
+                 partnerLinkType="ns2:DbInsertXXNUC_WSH_CP_FREINV_HDR_STG_plt"
+                 partnerRole="DbInsertXXNUC_WSH_CP_FREINV_HDR_STG_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns4:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+                 partnerLinkType="ns5:EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_plt"
+                 partnerRole="EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:FreightandInvoice_CP_EBS_ImplRequestMessage"/>
+    <variable name="InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_InputVariable" messageType="ns1:args_in_msg"/>
+    <variable name="InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_OutputVariable" messageType="ns1:args_out_msg"/>
+    <variable name="InvokeDbInsertXXNUC_WSH_CP_FREINV_HDR_STG_insert_InputVariable"
+              messageType="ns2:XxnucWshCpFreinvHdrStgCollection_msg"/>
+    <variable name="TransactionIdNV" element="ns3:parameters"/>
+    <variable name="title" type="xsd:string"/>
+    <variable name="InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable" messageType="ns5:args_in_msg"/>
+    <variable name="InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable" messageType="ns5:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <scope name="Scope_Catchall_Logging">
+          <variables>
+            <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                      messageType="ns4:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence name="Sequence2">
+            <assign name="Assign_Error">
+              <copy>
+                <from>$title</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I025&amp;amp;I102'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'CPFreightCostInvRate'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>5</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LogType</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'EBS'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'EBS'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns4:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in FreightandInvoice_CP_EBS_Impl.wsdl) -->
+    <receive name="receiveInput" partnerLink="freightandinvoice_cp_ebs_impl_client" portType="client:FreightandInvoice_CP_EBS_Impl" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_SetTitle">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$title</to>
+      </copy>
+      <copy>
+        <from>oraext:setFlowInstanceTitle($title)</from>
+        <to>$title</to>
+      </copy>
+      <copy>
+        <from>'TransactionId'</from>
+        <to>$TransactionIdNV/ns3:item/ns3:name</to>
+      </copy>
+      <copy>
+        <from>$title</from>
+        <to>$TransactionIdNV/ns3:item/ns3:value</to>
+      </copy>
+    </assign>
+    <scope name="Scope_StartLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns4:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <assign name="Assign_Logging">
+          <copy>
+            <from>$title</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I025&amp;amp;I102'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'CPFreightCostInvRate'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns4:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <invoke name="InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG" bpelx:invokeAsDetail="no"
+            partnerLink="DbCallXXNUC_OMSI_EXTRACTS_PKG" portType="ns1:DbCallXXNUC_OMSI_EXTRACTS_PKG_ptt"
+            operation="DbCallXXNUC_OMSI_EXTRACTS_PKG"
+            inputVariable="InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_InputVariable"
+            outputVariable="InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_OutputVariable"/>
+    <if name="IfDataPresent">
+      <documentation>
+        <![CDATA[DataPresnet]]>
+      </documentation>
+      <condition>count($InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_OutputVariable.OutputParameters/ns7:P_LOG_ENTRY/ns7:P_LOG_ENTRY_ITEM) &gt; 0</condition>
+      <sequence>
+        <!--assign name="Transformation_OMSIOutput_To_EBSStaging">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_OMSIOutput_To_EBSStaging.xsl", $InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_OutputVariable.OutputParameters, "TransactionIdNV", $TransactionIdNV)</from>
+            <to variable="InvokeDbInsertXXNUC_WSH_CP_FREINV_HDR_STG_insert_InputVariable"
+                part="XxnucWshCpFreinvHdrStgCollection"/>
+          </copy>
+        </assign-->
+        <assign name="Transformation_OMSIOutput_To_EBSStaging">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_OMSIOutput_To_EBSStaging.xsl", $TransactionIdNV, "InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_OutputVariable.OutputParameters", $InvokeDbCallXXNUC_OMSI_EXTRACTS_PKG_OutputVariable.OutputParameters)</from>
+            <to variable="InvokeDbInsertXXNUC_WSH_CP_FREINV_HDR_STG_insert_InputVariable"
+                part="XxnucWshCpFreinvHdrStgCollection"/>
+          </copy>
+        </assign>
+        <invoke name="InvokeDbInsertXXNUC_WSH_CP_FREINV_HDR_STG" bpelx:invokeAsDetail="no"
+                partnerLink="DbInsertXXNUC_WSH_CP_FREINV_HDR_STG" portType="ns2:DbInsertXXNUC_WSH_CP_FREINV_HDR_STG_ptt"
+                operation="insert" inputVariable="InvokeDbInsertXXNUC_WSH_CP_FREINV_HDR_STG_insert_InputVariable"/>
+        <assign name="Assign_TransactionId">
+          <copy>
+            <from>$title</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_TXN_ID</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","NUCOR","EBS_USER_ID","")</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_FREIGHT_APPS_INIT/ns6:USER_ID</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","NUCOR","EBS_USER_NAME","")</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_FREIGHT_APPS_INIT/ns6:USER_NAME</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm","DIVISION","NUCOR","EBS_RESP_NAME","","EBS_FUNCTION_AREA","CP FREIGHT CHARGE")</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_FREIGHT_APPS_INIT/ns6:RESPONSIBILITY_NAME</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","NUCOR","EBS_USER_ID","")</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_APINV_APPS_INIT/ns6:USER_ID</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","NUCOR","EBS_USER_NAME","")</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_APINV_APPS_INIT/ns6:USER_NAME</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm","DIVISION","NUCOR","EBS_RESP_NAME","","EBS_FUNCTION_AREA","CP AP INVOICES")</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable.InputParameters/ns6:P_APINV_APPS_INIT/ns6:RESPONSIBILITY_NAME</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG" bpelx:invokeAsDetail="no"
+                partnerLink="EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+                portType="ns5:EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_ptt"
+                operation="EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"
+                inputVariable="InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_InputVariable"
+                outputVariable="InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable"/>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[NoData]]>
+        </documentation>
+        <assign name="Assign_RequestId">
+          <copy>
+            <from>0</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable.OutputParameters/ns6:P_REQUEST_ID</to>
+          </copy>
+          <copy>
+            <from>'SUCCESS'</from>
+            <to>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable.OutputParameters/ns6:P_STATUS</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <scope name="Scope_EndLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns4:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence4">
+        <if name="If_ProcStatus">
+          <documentation>
+            <![CDATA[SUCCESS]]>
+          </documentation>
+          <condition>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable.OutputParameters/ns6:P_STATUS = 'SUCCESS'</condition>
+          <sequence name="Sequence5">
+            <if name="IfReqId">
+              <documentation>
+                <![CDATA[ReqId0]]>
+              </documentation>
+              <condition>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable.OutputParameters/ns6:P_REQUEST_ID = 0</condition>
+              <assign name="AssignTransactionStatus">
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+                </copy>
+              </assign>
+              <else>
+                <assign name="AssignTransactionStatus">
+                  <copy>
+                    <from>1</from>
+                    <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+                  </copy>
+                </assign>
+              </else>
+            </if>
+            <assign name="Assign_SuccessEnd">
+              <copy>
+                <from>'BMG-026'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+              </copy>
+              <copy>
+                <from>$InvokeEBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_OutputVariable.OutputParameters/ns6:P_REQUEST_ID</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LogType</to>
+              </copy>
+            </assign>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[ERROR]]>
+            </documentation>
+            <assign name="Assign_ErrorEnd">
+              <copy>
+                <from>'BMG-027'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LogType</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+              </copy>
+            </assign>
+          </else>
+        </if>
+        <scope name="Scope1">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="Assign_EndLogging">
+              <copy>
+                <from>$title</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I025&amp;amp;I102'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'CPFreightCostInvRate'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>5</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns4:CommonLogging"
+                    operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>(eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false") and ($Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns4:LogType != '4')</bpelx:skipCondition>
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

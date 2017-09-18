@@ -1,0 +1,13 @@
+<adapter-config name="DB_Get_InventoryOnHand" adapter="db" wsdlLocation="../WSDLs/DB_Get_InventoryOnHand.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DEV_Apps_xxnuc" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_Get_InventoryOnHand_ptt" operation="DB_Get_InventoryOnHand">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_INV_TRANSACTIONS_PUB_PKG"/>
+      <property name="ProcedureName" value="EXPORT"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>InsertWSH_OTRIPS_STG_DBInsertAdapter-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>InsertWSH_OTRIPS_STG_DBInsertAdapter.XxnucWshOtripsStg</class>
+         <alias>XXNUC_WSH_OTRIPS_STG</alias>
+         <primary-key>
+            <field table="XXNUC_WSH_OTRIPS_STG" name="RECORD_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="InsertWSH_OTRIPS_STG_DBInsertAdapterSelect" xsi:type="read-all-query">
+                  <reference-class>InsertWSH_OTRIPS_STG_DBInsertAdapter.XxnucWshOtripsStg</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>transactionId</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="TRANSACTION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>recordId</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="RECORD_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processFlag</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="PROCESS_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>tripId</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="TRIP_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>resultCode</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="RESULT_CODE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operation</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="OPERATION" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>trailerNumber</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="TRAILER_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>resultMessage</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="RESULT_MESSAGE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierName</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="CARRIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>carrierComment</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="CARRIER_COMMENT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>timeAwarded</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="TIME_AWARDED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>delCarrierName</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="DEL_CARRIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>creationDate</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="CREATION_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateDate</attribute-name>
+               <field table="XXNUC_WSH_OTRIPS_STG" name="LAST_UPDATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucWshOtripStopsStgCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>InsertWSH_OTRIPS_STG_DBInsertAdapter.XxnucWshOtripStopsStg</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_WSH_OTRIP_STOPS_STG" name="RECORD_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_WSH_OTRIPS_STG" name="RECORD_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>InsertWSH_OTRIPS_STG_DBInsertAdapter.XxnucWshOtripStopsStg</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_WSH_OTRIPS_STG"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>InsertWSH_OTRIPS_STG_DBInsertAdapter.XxnucWshOtripStopsStg</class>
+         <alias>XXNUC_WSH_OTRIP_STOPS_STG</alias>
+         <primary-key>
+            <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="RECORD_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="InsertWSH_OTRIPS_STG_DBInsertAdapterSelect" xsi:type="read-all-query">
+                  <reference-class>InsertWSH_OTRIPS_STG_DBInsertAdapter.XxnucWshOtripStopsStg</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>transactionId</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="TRANSACTION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>recordId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="RECORD_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>tripId</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="TRIP_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stopSeqNumber</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="STOP_SEQ_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>startTime</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="START_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>endTime</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="END_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>doorName</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="DOOR_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>signer</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="SIGNER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>signingDate</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="SIGNING_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>entryTime</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="ENTRY_TIME" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>notes</attribute-name>
+               <field table="XXNUC_WSH_OTRIP_STOPS_STG" name="NOTES" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_WSH_OTRIP_STOPS_STG"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle10Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

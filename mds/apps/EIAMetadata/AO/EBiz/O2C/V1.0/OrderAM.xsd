@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/OrderAM/1.0" version="1.00"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:oam="http://xmlns.eia.com/AO/EBiz/O2C/OrderAM/1.0"
+            xmlns:oao="http://xmlns.eia.com/AO/EBiz/O2C/OrderAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0">
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/OrderAO/1.0"
+              schemaLocation="../../../../AO/EBiz/O2C/V1.0/OrderAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0"
+              schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+  <xsd:element name="CreateSalesOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="CreateSalesOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="UpdateSalesOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="UpdateSalesOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="QuerySalesOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="QuerySalesOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="DeleteSalesOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="DeleteSalesOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="Order" nillable="true" type="oao:OrdersType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ProgressSalesOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="ListOfActionRequests" nillable="true"
+                     type="oao:ListOfActionRequestsType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ProgressSalesOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="ListOfActionRequests" nillable="true"
+                     type="oao:ListOfActionRequestsType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="QueryBasicSalesOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="header:HeaderRq"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="BasicOrder" nillable="true">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:restriction base="oao:BasicOrderType">
+              <xsd:sequence>
+                  <xsd:element ref="oao:OrganizationId"/>
+                  <xsd:element ref="oao:OrganizationCode" />
+                  <xsd:element ref="oao:OrderNumber" />
+                  <xsd:element ref="oao:OrigSysDocumentRef"/>
+                  <xsd:element ref="oao:SoldToCustomerNumber"/>
+                  <xsd:element ref="oao:SoldToCustomerName"/>
+                  <xsd:element ref="oao:HeaderId"/>
+                  <xsd:element ref="oao:FlowStatusCode"/>
+                  </xsd:sequence>
+              </xsd:restriction>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="numRows" type="xsd:integer" use="optional" default="10"/>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="QueryBasicSalesOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="header:HeaderRs"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+        
+        
+        <xsd:element name="ListOfBasicOrders" minOccurs="0" nillable="true" maxOccurs="1">
+        <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="BasicOrder" minOccurs="0" nillable="true" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:extension base="oao:BasicOrderType">
+                <xsd:sequence>
+                  <xsd:element name="ListOfBasicOrderLines" type="oao:ListOfBasicOrderLinesType"/>
+                </xsd:sequence>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+        </xsd:sequence>
+       </xsd:complexType>
+       </xsd:element>
+        
+        
+        
+      </xsd:sequence>
+      </xsd:complexType>
+  </xsd:element>
+  
+</xsd:schema>

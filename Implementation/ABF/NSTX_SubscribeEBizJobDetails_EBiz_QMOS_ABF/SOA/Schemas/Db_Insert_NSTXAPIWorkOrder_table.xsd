@@ -1,0 +1,61 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/Db_Insert_NSTXAPIWorkOrder" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/Db_Insert_NSTXAPIWorkOrder" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ApiWorkOrderCollection" type="ApiWorkOrderCollection"/>
+   <xs:complexType name="ApiWorkOrderCollection">
+      <xs:sequence>
+         <xs:element name="ApiWorkOrder" type="ApiWorkOrder" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiWorkOrder">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="cycle" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="productGroup" type="string20" minOccurs="0"/>
+         <xs:element name="millId" type="string2" minOccurs="0"/>
+         <xs:element name="partCode" type="string15" minOccurs="0"/>
+         <xs:element name="orderNumber" type="xs:long" minOccurs="0"/>
+         <xs:element name="startDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="endDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="scheduledTons" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="binLocation" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="customerNumber" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="customerName" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="userId" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="processed" type="string1" minOccurs="0"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="jobStatus" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="note" type="string2000" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

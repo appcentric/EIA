@@ -1,0 +1,447 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="ui-toolbar-group-left">
+                    <!--<i style="float:left" class="material-icons">mail</i>-->
+                    <!--<div style="float:left;margin-right:15px;font-weight:400;font-size:1.375em;">Purchase Orders</div>-->
+                    <form class="ui-toolbar-group-left" [formGroup]="form">
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #PONumber formControlName="PONumber" id="PONumber" pInputText>
+                            <label>PO Number</label>
+                            <div *ngIf="form.controls['PONumber'].invalid&&form.controls['PONumber'].dirty" class="ui-message ui-messages-error ui-corner-all">
+                                Must be a number between 5 and 7 digits
+                            </div>
+                        </span>
+                        <button pButton icon="ui-icon-send" label="Submit" [disabled]="!form.valid"  (click)="submit(PONumber.value)"></button>
+                    </form>
+                    <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                    <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                </div>
+                <div class="ui-toolbar-group-right">
+                    <button [disabled]="!purchaseOrders" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()"></button>
+                </div>
+            </div>
+        </div>
+        <load-bar [visible]="loading"></load-bar>
+        <p-dataTable #exportCSV [value]="purchaseOrders" [rows]="25" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" [responsive]="true" #dt>
+            <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+            <p-column field="POID" header="PO Number"></p-column>
+            <p-column field="EffectiveDate" header="Effective Date">
+                <ng-template let-PO="rowData" pTemplate>
+                    {{PO.EffectiveDate | date}}
+                </ng-template>
+            </p-column>
+            <p-column field="ExpirationDate" header="Expiration Date">
+                <ng-template let-PO="rowData" pTemplate>
+                    {{PO.ExpirationDate | date}}
+                </ng-template>
+            </p-column>
+            <p-column field="QtyOrderedLB" header="Quantity">
+                <ng-template let-PO="rowData" pTemplate>
+                    <div *ngFor="let POLine of PO.POLine; let i = index; let firstItem = first;">
+                        <div *ngIf="firstItem">{{POLine.QtyOrderedLB | number:'1.0-0'}} LBS</div>
+                    </div>
+                </ng-template>
+            </p-column>
+            <p-column field="ModeCode" header="Mode Code">
+                <ng-template let-PO="rowData" pTemplate>
+                    <div *ngFor="let POLine of PO.POLine; let i = index; let firstItem = first;">
+                        <div *ngFor="let ShipToLocation of POLine.ShipToLocation; let i = index; let firstItem = first;">
+                            <div *ngIf="firstItem">{{ShipToLocation.ModeCode}}</div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-column>
+            <p-column field="ItemLongName" header="Item Description">
+                <ng-template let-PO="rowData" pTemplate>
+                    <div *ngFor="let POLine of PO.POLine; let i = index; let firstItem = first;">
+                        <div *ngIf="firstItem">{{POLine.ItemLongName}}</div>
+                    </div>
+                </ng-template>
+            </p-column>
+            <p-column field="SupplierName" header="Supplier & Origin">
+                <ng-template let-PO="rowData" pTemplate>
+                    <div *ngFor="let POLine of PO.POLine; let i = index; let firstItem = first;">
+                        <div *ngIf="firstItem">
+                            <div *ngFor="let ShipToLocation of POLine.ShipToLocation; let i = index; let firstItem = first;">
+                                <div *ngIf="firstItem">
+                                    <div *ngFor="let POFufillment of ShipToLocation.POFufillment; let i = index; let firstItem = first;">
+                                        <div *ngIf="firstItem">{{POFufillment.SupplierName}}, {{POFufillment.ShipFromCity}}, {{POFufillment.ShipFromState}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-column>
+            <p-column  field="LastUpdatedDate" header="Last Updated Date">
+                <ng-template let-PO="rowData" pTemplate>
+                    {{PO.LastUpdatedDate | date:'medium'}}
+                </ng-template>
+            </p-column>
+            <p-column hidden="true" field="POID" header="POID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="PONum" header="PO Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="POIDRefID" header="POID Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ChangeVersionID" header="Change Version ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="POHeaderStatusID" header="PO Header Status ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="DJJOrgID" header="DJJ Org ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="DJJOfficeID" header="DJJ Office ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ConsumerID" header="Consumer ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ConsumerName" header="Consumer Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ConsumerRefID" header="Consumer Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ParentConsumerID" header="Parent Consumer ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ParentConsumerName" header="Parent Consumer Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ParentConsumerRefID" header="Parent Consumer Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="EffectiveDate" header="Effective Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ExpirationDate" header="Expiration Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="APTermsID" header="AP Terms ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="ConsumerTermsRefID" header="Consumer Terms Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="DataChangeTypeID" header="Data Change Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="DataChangeChildTypeID" header="Data Change Child Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="BizType" header="Biz Type" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column hidden="true" field="POHeaderAddtlCharge" header="PO Header Addtl Charge" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <ng-template let-PO pTemplate="rowexpansion">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <h2>Purchase Order Details: {{PO.POID}}</h2>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Effective Date: </div>
+                                <div class="ui-g-8">
+                                    {{PO.EffectiveDate | date}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Quantity: </div>
+                                <div class="ui-g-8">
+                                    <div *ngFor="let POLine of PO.POLine">
+                                        {{POLine.QtyOrderedLB | number:'1.0-0'}} LBS
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Price Rate: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <div *ngFor="let ShipToLocation of POLine.ShipToLocation">
+                                            {{ShipToLocation.PriceRate | currency:'USD':true:'1.2-2'}} per {{ShipToLocation.PriceRateUOMCode}}
+                                        </div>
+                                    </ng-template> 
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Shipper #: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                            <div *ngFor="let POFufillment of ShipToLocation.POFufillment">
+                                                {{POFufillment.SupplierID}}
+                                            </div>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Freight: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                            <ng-template ngFor [ngForOf]="ShipToLocation.POFufillment" let-POFufillment>
+                                                <div *ngFor="let FreightRate of POFufillment.FreightRate">
+                                                    {{FreightRate.FrtEffectiveRate | currency:'USD':true:'1.2-2'}} per {{FreightRate.FrtEffectiveRateUOMCode}}
+                                                </div>
+                                            </ng-template>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4"> Freight Vendor: </div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                            <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                                <ng-template ngFor [ngForOf]="ShipToLocation.POFufillment" let-POFufillment>
+                                                    <div *ngFor="let FreightRate of POFufillment.FreightRate">
+                                                        {{FreightRate.MainFrtVendorName}}
+                                                    </div>
+                                                </ng-template>
+                                            </ng-template>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Expiration Date: </div>
+                                <div class="ui-g-8">
+                                    {{PO.ExpirationDate | date}}
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Material: </div>
+                                <div class="ui-g-8">
+                                    <div *ngFor="let POLine of PO.POLine">
+                                        {{POLine.ItemLongName}} ({{POLine.ItemID}})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Total Price: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <div *ngFor="let ShipToLocation of POLine.ShipToLocation">
+                                            {{POLine.QtyOrderedLB | number:'1.0-0'}} {{ShipToLocation.PriceRate | currency:'USD':true:'1.2-2'}} per {{ShipToLocation.PriceRateUOMCode}}
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Origin: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                            <ng-template ngFor [ngForOf]="ShipToLocation.POFufillment" let-POFufillment>
+                                                <div *ngFor="let FreightRate of POFufillment.FreightRate">
+                                                    {{POFufillment.SupplierName}}, {{POFufillment.ShipFromCity}}, {{POFufillment.ShipFromState}}
+                                                </div>
+                                            </ng-template>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Guaranteed Minimum: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                            <ng-template ngFor [ngForOf]="ShipToLocation.POFufillment" let-POFufillment>
+                                                <div *ngFor="let FreightRate of POFufillment.FreightRate">
+                                                    {{FreightRate.FrtEffectiveRateMinLB | number:'1.0-0'}} {{FreightRate.FrtEffectiveRateMinUOMCode}}
+                                                </div>
+                                            </ng-template>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Mode: </div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <div *ngFor="let ShipToLocation of POLine.ShipToLocation">
+                                                {{ShipToLocation.ModeCode}}
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <h2>Acknowledgement Details</h2>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-4">Ack Comment:</div>
+                            <div class="ui-g-8">
+                                <ng-template ngFor [ngForOf]="purchaseOrderAck" let-purchaseOrderAck>
+                                    {{purchaseOrderAck.ClientComment}}
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-4">Client Status:</div>
+                            <div class="ui-g-8">
+                                <ng-template ngFor [ngForOf]="purchaseOrderAck" let-purchaseOrderAck>
+                                    {{purchaseOrderAck.ClientStatusID}}
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-4">Error Count:</div>
+                            <div class="ui-g-8">
+                                <ng-template ngFor [ngForOf]="purchaseOrderAck" let-purchaseOrderAck>
+                                    {{purchaseOrderAck.ErrorCount}}
+                                </ng-template>
+                            </div>
+                        </div>
+                        <h2>Shipments</h2>
+                        <div class="ui-g-12 ui-g-nopad">
+                            <ng-template ngFor [ngForOf]="purchaseOrderAck" let-purchaseOrderAck>
+                                {{purchaseOrderAck.SupplimentData}}
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <p-inplace closable="closable">
+                        <span pInplaceDisplay>
+                            CLICK FOR ALL DETAILS
+                        </span>
+                        <span pInplaceContent>
+                            <div class="ui-g-12 ui-lg-4">
+                                <h1>PO Header</h1>
+                                <li>POID: {{PO.POID}}</li>
+                                <li>PONum: {{PO.PONum}}</li>
+                                <li>POIDRefID: {{PO.POIDRefID}}</li>
+                                <li>ChangeVersionID: {{PO.ChangeVersionID}}</li>
+                                <li>POHeaderStatusID: {{PO.POHeaderStatusID}}</li>
+                                <li>DJJOrgID: {{PO.DJJOrgID}}</li>
+                                <li>DJJOfficeID: {{PO.DJJOfficeID}}</li>
+                                <li>ConsumerID: {{PO.ConsumerID}}</li>
+                                <li>ConsumerName: {{PO.ConsumerName}}</li>
+                                <li>ConsumerRefID: {{PO.ConsumerRefID}}</li>
+                                <li>ParentConsumerID: {{PO.ParentConsumerID}}</li>
+                                <li>ParentConsumerName: {{PO.ParentConsumerName}}</li>
+                                <li>ParentConsumerRefID: {{PO.ParentConsumerRefID}}</li>
+                                <li>EffectiveDate: {{PO.EffectiveDate}}</li>
+                                <li>ExpirationDate: {{PO.ExpirationDate}}</li>
+                                <li>APTermsID: {{PO.APTermsID}}</li>
+                                <li>ConsumerTermsRefID: {{PO.ConsumerTermsRefID}}</li>
+                                <li>DataChangeTypeID: {{PO.DataChangeTypeID}}</li>
+                                <li>DataChangeChildTypeID: {{PO.DataChangeChildTypeID}}</li>
+                                <li>BizType: {{PO.BizType}}</li>
+                                <li>CreatedDate: {{PO.CreatedDate}}</li>
+                                <li>LastUpdatedDate: {{PO.LastUpdatedDate}}</li>
+                                <li>POHeaderAddtlCharge: {{PO.POHeaderAddtlCharge}}</li>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4">
+                                <h1>PO Line</h1>
+                                <ul *ngFor="let POLine of PO.POLine">
+                                    <li>POID: {{POLine.POID}}</li>
+                                    <li>POLineID: {{POLine.POLineID}}</li>
+                                    <li>POLineStatusID: {{POLine.POLineStatusID}}</li>
+                                    <li>ItemID: {{POLine.ItemID}}</li>
+                                    <li>ItemShortName: {{POLine.ItemShortName}}</li>
+                                    <li>ItemLongName: {{POLine.ItemLongName}}</li>
+                                    <li>ItemOverrideName: {{POLine.ItemOverrideName}}</li>
+                                    <li>ConsumerItemRefID: {{POLine.ConsumerItemRefID}}</li>
+                                    <li>QtyOrderedLB: {{POLine.QtyOrderedLB}}</li>
+                                    <li>QtyOrderedUOMCode: {{POLine.QtyOrderedUOMCode}}</li>
+                                    <li>QtyCanBeOvershipped: {{POLine.QtyCanBeOvershipped}}</li>
+                                    <li>SharesQtyAcrossLocations: {{POLine.SharesQtyAcrossLocations}}</li>
+                                    <li>SharesQtyAcrossModes: {{POLine.SharesQtyAcrossModes}}</li>
+                                    <li>ShipToConsumerRefID: {{POLine.ShipToConsumerRefID}}</li>
+                                    <li>BuyPeriodCode: {{POLine.BuyPeriodCode}}</li>
+                                    <li>CreatedDate: {{POLine.CreatedDate | date:'medium'}}</li>
+                                    <li>LastUpdatedDate: {{POLine.LastUpdatedDate | date:'medium'}}</li>
+                                    <li>DataChangeTypeID: {{POLine.DataChangeTypeID}}</li>
+                                    <li>DataChangeChildTypeID: {{POLine.DataChangeChildTypeID}}</li>
+                                    <li>BizType: {{POLine.BizType}}</li>
+                                    <li>POLineAddtlCharge: {{POLine.POLineAddtlCharge}}</li>
+                                </ul>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4">
+                                <h1>Ship To Location</h1>
+                                <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                    <ul *ngFor="let ShipToLocation of POLine.ShipToLocation">
+                                        <li>POID: {{ShipToLocation.POID}}</li>
+                                        <li>POLineID: {{ShipToLocation.POLineID}}</li>
+                                        <li>POLineShipToID: {{ShipToLocation.POLineShipToID}}</li>
+                                        <li>POLineShipToStatusID: {{ShipToLocation.POLineShipToStatusID}}</li>
+                                        <li>ConsumerID: {{ShipToLocation.ConsumerID}}</li>
+                                        <li>ConsumerRefID: {{ShipToLocation.ConsumerRefID}}</li>
+                                        <li>ShipToID: {{ShipToLocation.ShipToID}}</li>
+                                        <li>ShipToConsumerRefID: {{ShipToLocation.ShipToConsumerRefID}}</li>
+                                        <li>PriceRate: {{ShipToLocation.PriceRate | currency:'USD':true:'1.2-2'}}</li>
+                                        <li>PriceRateUOMCode: {{ShipToLocation.PriceRateUOMCode}}</li>
+                                        <li>PriceRateLBS: {{ShipToLocation.PriceRateLBS | currency:'USD':true:'1.2-7'}}</li>
+                                        <li>PriceRateTypeID: {{ShipToLocation.PriceRateTypeID}}</li>
+                                        <li>IsPriceEstimated: {{ShipToLocation.IsPriceEstimated}}</li>
+                                        <li>CommissionRate: {{ShipToLocation.CommissionRate}}</li>
+                                        <li>ComissionRateUOMCode: {{ShipToLocation.ComissionRateUOMCode}}</li>
+                                        <li>CurrencyCode: {{ShipToLocation.CurrencyCode}}</li>
+                                        <li>CurrencyConvRateToUSD: {{ShipToLocation.CurrencyConvRateToUSD}}</li>
+                                        <li>FOBCode: {{ShipToLocation.FOBCode}}</li>
+                                        <li>FrtCostRespID: {{ShipToLocation.FrtCostRespID}}</li>
+                                        <li>FrtPaymentRespID: {{ShipToLocation.FrtPaymentRespID}}</li>
+                                        <li>ModeCode: {{ShipToLocation.ModeCode}}</li>
+                                        <li>ShipToQtyLB: {{ShipToLocation.ShipToQtyLB | number:'1.0-0'}}</li>
+                                        <li>ShipToQtyUOMCode: {{ShipToLocation.ShipToQtyUOMCode}}</li>
+                                        <li>ShipToSettleWeightCode: {{ShipToLocation.ShipToSettleWeightCode}}</li>
+                                        <li>IsRecovered: {{ShipToLocation.IsRecovered}}</li>
+                                        <li>RecoveryPercentage: {{ShipToLocation.RecoveryPercentage}}</li>
+                                        <li>IsContained: {{ShipToLocation.IsContained}}</li>
+                                        <li>ContainmentPercentage: {{ShipToLocation.ContainmentPercentage}}</li>
+                                        <li>ItemPackageID: {{ShipToLocation.ItemPackageID}}</li>
+                                        <li>ItemPackageName: {{ShipToLocation.ItemPackageName}}</li>
+                                        <li>ItemSizeID: {{ShipToLocation.ItemSizeID}}</li>
+                                        <li>ItemSizeName: {{ShipToLocation.ItemSizeName}}</li>
+                                        <li>DataChangeTypeID: {{ShipToLocation.DataChangeTypeID}}</li>
+                                        <li>BizType: {{ShipToLocation.BizType}}</li>
+                                        <li>DataChangeChildTypeID: {{ShipToLocation.DataChangeChildTypeID}}</li>
+                                        <li>CreatedDate: {{ShipToLocation.CreatedDate | date:'medium'}}</li>
+                                        <li>LastUpdatedDate: {{ShipToLocation.LastUpdatedDate | date:'medium'}}</li>
+                                        <li>POLineShipToAddtlCharge: {{ShipToLocation.POLineShipToAddtlCharge}}</li>
+                                    </ul>
+                                </ng-template>
+                            </div>
+                            <div class="ui-g-12">
+                                <div class="ui-g-12 ui-lg-4">
+                                    <h1>PO Fufillment</h1>
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                            <ul *ngFor="let POFufillment of ShipToLocation.POFufillment">
+                                                <li>POID: {{POFufillment.POID}}</li>
+                                                <li>POLineID: {{POFufillment.POLineID}}</li>
+                                                <li>POLineShipToID: {{POFufillment.POLineShipToID}}</li>
+                                                <li>SupplierID: {{POFufillment.SupplierID}}</li>
+                                                <li>SupplierName: {{POFufillment.SupplierName}}</li>
+                                                <li>SupplierConsumerRefID: {{POFufillment.SupplierConsumerRefID}}</li>
+                                                <li>ShipFromID: {{POFufillment.ShipFromID}}</li>
+                                                <li>ShipFromConsumerRefID: {{POFufillment.ShipFromConsumerRefID}}</li>
+                                                <li>ShipFromName: {{POFufillment.ShipFromName}}</li>
+                                                <li>ShipFromCity: {{POFufillment.ShipFromCity}}</li>
+                                                <li>ShipFromState: {{POFufillment.ShipFromState}}</li>
+                                                <li>SupplierParentID: {{POFufillment.SupplierParentID}}</li>
+                                                <li>SupplierParentName: {{POFufillment.SupplierParentName}}</li>
+                                                <li>SupplierParentConsumerRefID: {{POFufillment.SupplierParentConsumerRefID}}</li>
+                                                <li>SupplierPORefID: {{POFufillment.SupplierPORefID}}</li>
+                                                <li>CargoNum: {{POFufillment.CargoNum}}</li>
+                                                <li>DataChangeTypeID: {{POFufillment.DataChangeTypeID}}</li>
+                                                <li>DataChangeChildTypeID: {{POFufillment.DataChangeChildTypeID}}</li>
+                                                <li>BizType: {{POFufillment.BizType}}</li>
+                                                <li>CreatedDate: {{POFufillment.CreatedDate}}</li>
+                                                <li>LastUpdatedDate: {{POFufillment.LastUpdatedDate}}</li>
+                                                <li>FreightRate: {{POFufillment.FreightRate}}</li>
+                                            </ul>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <h1>Freight Rate</h1>
+                                    <ng-template ngFor [ngForOf]="PO.POLine" let-POLine>
+                                        <ng-template ngFor [ngForOf]="POLine.ShipToLocation" let-ShipToLocation>
+                                            <ng-template ngFor [ngForOf]="ShipToLocation.POFufillment" let-POFufillment>
+                                                <ul *ngFor="let FreightRate of POFufillment.FreightRate">
+                                                    <li>POID: {{FreightRate.POID}}</li>
+                                                    <li>POLineID: {{FreightRate.POLineID}}</li>
+                                                    <li>POLineShipToID: {{FreightRate.POLineShipToID}}</li>
+                                                    <li>FrtRateID: {{FreightRate.FrtRateID}}</li>
+                                                    <li>FrtRateTierID: {{FreightRate.FrtRateTierID}}</li>
+                                                    <li>FrtEffectiveRate: {{FreightRate.FrtEffectiveRate}}</li>
+                                                    <li>FrtEffectiveRateUOMCode: {{FreightRate.FrtEffectiveRateUOMCode}}</li>
+                                                    <li>FrtCurrencyCode: {{FreightRate.FrtCurrencyCode}}</li>
+                                                    <li>FrtEquipmentTypeID: {{FreightRate.FrtEquipmentTypeID}}</li>
+                                                    <li>FrtEffectiveRateMinLB: {{FreightRate.FrtEffectiveRateMinLB}}</li>
+                                                    <li>FrtEffectiveRateMinUOMCode: {{FreightRate.FrtEffectiveRateMinUOMCode}}</li>
+                                                    <li>MainFrtVendorID: {{FreightRate.MainFrtVendorID}}</li>
+                                                    <li>MainFrtVendorName: {{FreightRate.MainFrtVendorName}}</li>
+                                                    <li>FrtVendorConsumerRefID: {{FreightRate.FrtVendorConsumerRefID}}</li>
+                                                    <li>DataChangeTypeID: {{FreightRate.DataChangeTypeID}}</li>
+                                                    <li>DataChangeChildTypeID: {{FreightRate.DataChangeChildTypeID}}</li>
+                                                    <li>BizType: {{FreightRate.BizType}}</li>
+                                                    <li>CreatedDate: {{FreightRate.CreatedDate | date:'medium'}}</li>
+                                                    <li>LastUpdatedDate: {{FreightRate.LastUpdatedDate | date:'medium'}}</li>
+                                                </ul>
+                                            </ng-template>
+                                        </ng-template>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </span>
+                    </p-inplace>
+                </div>
+            </ng-template>
+        </p-dataTable>
+    </div>
+</div>

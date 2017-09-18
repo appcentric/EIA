@@ -1,0 +1,13 @@
+<adapter-config name="DB_GetBusinessDomainName" adapter="db" wsdlLocation="../partnerWsdls/DB_GetBusinessDomainName.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBS_DEV" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_GetBusinessDomainName_ptt" operation="DB_GetBusinessDomainName">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_WSH_OTM_INBOUND_GRP_PKG"/>
+      <property name="ProcedureName" value="GET_NUC_BUSINESS_DIVN"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,25 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="NUC_EBiz_SAP_GLJE_ABF"
+     targetNamespace="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:ns1="http://xmlns.eia.com/CommonArtifacts/wsdl/EIAFault/1.0"
+     xmlns:ns2="http://xmlns.eia.com/EO/Common/1.0"
+     xmlns:ns3="http://schemas.oracle.com/bpel/extension"
+    >
+    <plnk:partnerLinkType name="ProcessPayroll">
+        <plnk:role name="SyncPort" portType="tns:SyncPort"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0" location="NUC_EBiz_SAP_GLJE_ABF.wsdl"/>
+    <wsdl:import namespace="http://xmlns.eia.com/CommonArtifacts/wsdl/EIAFault/1.0" location="oramds:/apps/EIAMetadata/CommonArtifacts/wsdl/EIAFault.wsdl"/>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="WSDLs/RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="oramds:/apps/EIAMetadata/EO/common/Common.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+</wsdl:definitions>

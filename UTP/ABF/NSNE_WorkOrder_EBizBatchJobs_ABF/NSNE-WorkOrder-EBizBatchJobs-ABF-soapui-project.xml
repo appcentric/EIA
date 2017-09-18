@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b1d10915-df16-4805-ab57-abdf444798a7" activeEnvironment="Default" name="NSNE_WorkOrder_EBizBatchJobs_ABF" soapui-version="5.2.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="8079d381-f9d6-4f5c-895c-cf244370cfa0" wsaVersion="NONE" name="WorkOrder_EBizBatchJobsBinding" type="wsdl" bindingName="{http://nucor.eia.com/WorkOrder_EBizBatchJobs}WorkOrder_EBizBatchJobsBinding" soapVersion="1_1" anonymous="optional" definition="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep?WSDL"><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep?WSDL</con:url><con:content><![CDATA[<wsdl:definitions name="WorkOrder_EBizBatchJobs" targetNamespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://nucor.eia.com/WorkOrder_EBizBatchJobs" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF!1.0/WSDLs/WorkOrder_EBizBatchJobs.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="WorkOrder_EBizBatchJobs">
+    <plnk:role name="WorkOrder_EBizBatchJobsProvider" portType="client:WorkOrder_EBizBatchJobs"/>
+  </plnk:partnerLinkType>
+  <wsp:Policy wsu:Id="wss_username_token_service_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+      <wsp:Policy>
+        <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+          <wsp:Policy>
+            <sp:WssUsernameToken10/>
+          </wsp:Policy>
+        </sp:UsernameToken>
+      </wsp:Policy>
+    </sp:SupportingTokens>
+  </wsp:Policy>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs" schemaLocation="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep?XSD=../Schemas/WorkOrder_EBizBatchJobs.xsd"/>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="WorkOrder_EBizBatchJobsRequestMessage">
+    <wsdl:part name="payload" element="client:process"/>
+  </wsdl:message>
+  <wsdl:portType name="WorkOrder_EBizBatchJobs">
+    <wsdl:operation name="process">
+      <wsdl:input message="client:WorkOrder_EBizBatchJobsRequestMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WorkOrder_EBizBatchJobsBinding" type="client:WorkOrder_EBizBatchJobs">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsp:PolicyReference URI="#wss_username_token_service_policy" wsdl:required="false" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"/>
+    <wsdl:operation name="process">
+      <soap:operation style="document" soapAction="process"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="workorder_ebizbatchjobs_client_ep">
+    <wsdl:port name="WorkOrder_EBizBatchJobs_pt" binding="client:WorkOrder_EBizBatchJobsBinding">
+      <soap:address location="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep?XSD=../Schemas/WorkOrder_EBizBatchJobs.xsd</con:url><con:content><![CDATA[<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://nucor.eia.com/WorkOrder_EBizBatchJobs" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="process">
+    <complexType>
+      <sequence>
+        <element name="ResourceName" type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep</con:endpoint></con:endpoints><con:operation id="14ca7ca9-44dd-4393-9b75-271bdefff7f9" isOneWay="false" action="process" name="process" bindingOperationName="process" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="5581387c-d8a4-4906-8425-d821aaf7797f" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nsne/NSNE_WorkOrder_EBizBatchJobs_ABF/workorder_ebizbatchjobs_client_ep</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://nucor.eia.com/WorkOrder_EBizBatchJobs">
+   <soapenv:Header>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="1">
+            <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" wsu:Id="UsernameToken-10b544k4N1Y1Iqw0rBy6dw22">
+                <wsse:Username>ws_mes_user</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">ws_mes_user</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soapenv:Header>
+   <soapenv:Body>
+      <wor:process>
+         <wor:ResourceName>RM1</wor:ResourceName>
+      </wor:process>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="process"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

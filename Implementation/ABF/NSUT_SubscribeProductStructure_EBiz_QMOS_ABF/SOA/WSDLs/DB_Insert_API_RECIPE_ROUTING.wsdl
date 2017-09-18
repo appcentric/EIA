@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Insert_API_RECIPE_ROUTING"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSUT_SubscribeProductStructure_EBiz_QMOS_ABF/DB_Insert_API_RECIPE_ROUTING"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSUT_SubscribeProductStructure_EBiz_QMOS_ABF/DB_Insert_API_RECIPE_ROUTING"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_API_RECIPE_ROUTING"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Insert_API_RECIPE_ROUTING_plt" >
+    <plt:role name="DB_Insert_API_RECIPE_ROUTING_role" >
+      <plt:portType name="tns:DB_Insert_API_RECIPE_ROUTING_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_API_RECIPE_ROUTING" schemaLocation="../Schemas/DB_Insert_API_RECIPE_ROUTING_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="ApiRecipeRoutingCollection_msg">
+        <wsdl:part name="ApiRecipeRoutingCollection" element="top:ApiRecipeRoutingCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Insert_API_RECIPE_ROUTING_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:ApiRecipeRoutingCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

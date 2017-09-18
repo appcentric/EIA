@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions
+     name="EBizLPNABS"
+     targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLPN_ABS/EBizLPNABS/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLPN_ABS/EBizLPNABS/1.0"
+     xmlns:ns1="http://xmlns.eia.com/AM/EBiz/P2P/LotAM/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <!--<wsdl:documentation>
+        <abstractWSDL>http://rzmkea253.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_EBizLPN_ABS!1.0/WSDLs/EBizLPNABS.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="EBizLPNABS">
+        <plnk:role name="EBizLPNABSProvider" portType="client:EBizLPNABS"/>
+    </plnk:partnerLinkType>-->
+<!--<wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="wss_username_token_service_policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+      <wsp:Policy>
+         <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+            <wsp:Policy>
+               <sp:WssUsernameToken10/>
+            </wsp:Policy>
+         </sp:UsernameToken>
+      </wsp:Policy>
+   </sp:SupportingTokens>
+</wsp:Policy> -->
+  <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.eia.com/AM/EBiz/P2P/LotAM/1.0" schemaLocation="../../../../AO/EBiz/P2P/V1.0/LPNAM.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="EBizLPNABSRequestMessage">
+        <wsdl:part name="payload" element="ns1:CreateLpnRequest"/>
+    </wsdl:message>
+    <wsdl:message name="EBizLPNABSResponseMessage">
+        <wsdl:part name="payload" element="ns1:CreateLpnResp"/>
+    </wsdl:message>
+    <wsdl:portType name="EBizLPNABS">
+        <wsdl:operation name="Create">
+            <wsdl:input message="client:EBizLPNABSRequestMessage"/>
+            <wsdl:output message="client:EBizLPNABSResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="EBizLPNABSBinding" type="client:EBizLPNABS">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+      <!--<wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#wss_username_token_service_policy" wsdl:required="false"/>-->
+        <wsdl:operation name="Create">
+            <soap:operation style="document" soapAction="Create"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="EBizLPNABS_ep">
+        <wsdl:port name="EBizLPNABS_pt" binding="client:EBizLPNABSBinding">
+            <soap:address location="www.examle.org"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

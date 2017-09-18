@@ -1,0 +1,30 @@
+import { OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DJJAPIService } from '../../services/DJJAPI.service';
+import { ConfirmationService } from 'primeng/primeng';
+import { ShipFromMapping } from './ship-from-mapping';
+export declare class ShipFromMappingsComponent implements OnInit {
+    private _router;
+    private _service;
+    private _confirmService;
+    selectedAPI: string;
+    form: FormGroup;
+    displayDialog: boolean;
+    shipFromMapping: ShipFromMapping;
+    newShipFromMapping: boolean;
+    selectedShipFromMapping: ShipFromMapping;
+    shipFromMappings: ShipFromMapping[];
+    loading: any;
+    constructor(fb: FormBuilder, _router: Router, _service: DJJAPIService, _confirmService: ConfirmationService);
+    ngOnInit(): void;
+    refreshPage(): void;
+    showDialogToAdd(): void;
+    save(value: string): void;
+    delete(): void;
+    cancel(): void;
+    onRowSelect(event: any): void;
+    cloneShipFromMapping(s: ShipFromMapping): ShipFromMapping;
+    findSelectedShipFromMappingIndex(): number;
+    routerCanDeactivate(): boolean;
+}

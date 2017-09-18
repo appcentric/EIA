@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_Polling_HeatSchedule-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Polling_HeatSchedule.Cast_Heat_Trans_Events_V</class>
+         <alias>dbo.Cast_Heat_Trans_Events_V</alias>
+         <primary-key>
+            <field table="Cast_Heat_Trans_Events_V" name="CastHeatTransEventID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_Polling_HeatScheduleSelect" xsi:type="read-all-query">
+                  <reference-class>DB_Polling_HeatSchedule.Cast_Heat_Trans_Events_V</reference-class>
+                  <refresh>true</refresh>
+                  <remote-refresh>true</remote-refresh>
+                  <lock-mode>lock-no-wait</lock-mode>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>CastHeatTransEventID</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="CastHeatTransEventID" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>CastHeatID</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="CastHeatID" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>TransEventName</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="TransEventName" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>TransEventTime</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="TransEventTime" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ProcessedStatus</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="ProcessedStatus" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>EBSBatchIDRef</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="EBSBatchIDRef" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ProcessedTime</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="ProcessedTime" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ProcessedMessage</attribute-name>
+               <field table="Cast_Heat_Trans_Events_V" name="ProcessedMessage" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <sequencing>
+            <sequence-name>SEQ</sequence-name>
+            <sequence-field name="Cast_Heat_Trans_Events_V.CastHeatTransEventID"/>
+         </sequencing>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="dbo.Cast_Heat_Trans_Events_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.SQLServerPlatform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

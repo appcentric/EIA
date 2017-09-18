@@ -1,0 +1,21 @@
+<adapter-config name="DB_Polling_HeatSchedule" adapter="db" wsdlLocation="../WSDLs/DB_Polling_HeatSchedule.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="L2_Dev" location="eis/DB/nsneL2"/>
+  <endpoint-activation portType="DB_Polling_HeatSchedule_ptt" operation="receive">
+    <activation-spec className="oracle.tip.adapter.db.DBActivationSpec">
+      <property name="DescriptorName" value="DB_Polling_HeatSchedule.Cast_Heat_Trans_Events"/>
+      <property name="QueryName" value="DB_Polling_HeatScheduleSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_Polling_HeatSchedule-or-mappings.xml"/>
+      <property name="PollingStrategy" value="LogicalDeletePollingStrategy"/>
+      <property name="MarkReadColumn" value="ProcessedStatus"/>
+      <property name="MarkReadValue" value="CastRead"/>
+      <property name="MarkUnreadValue" value="CastNew"/>
+      <property name="PollingInterval" value="10"/>
+      <property name="MaxRaiseSize" value="1"/>
+      <property name="MaxTransactionSize" value="1"/>
+      <property name="NumberOfThreads" value="1"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

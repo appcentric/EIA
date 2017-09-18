@@ -1,0 +1,11 @@
+<adapter-config name="DB_Update_API_Billet_Control" adapter="db" wsdlLocation="../WSDLs/DB_Update_API_Billet_Control.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_RM1" location="eis/DB/nsneqmos1"/>
+  <endpoint-interaction portType="DB_Update_API_Billet_Control_ptt" operation="DB_Update_API_Billet_Control">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE API_BILLET_TRANS_EXT_CONTROL SET SEND_FLAG = 1"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

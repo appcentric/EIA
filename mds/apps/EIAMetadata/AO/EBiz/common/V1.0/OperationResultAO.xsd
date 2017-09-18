@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0">
+<xsd:complexType name="OperationResultErrorsType">
+<xsd:sequence>
+<xsd:element name="OperationResultError" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="OperationResultWarningsType">
+<xsd:sequence>
+<xsd:element name="OperationResultWarning" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="OperationResultType">
+<xsd:sequence>
+<xsd:element name="Stats" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="Errors" type="res:OperationResultErrorsType" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="Warnings" type="res:OperationResultWarningsType" minOccurs="0" maxOccurs="1" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="OperationLaunchResultType">
+<xsd:sequence>
+<xsd:element name="EntityName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="TableName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="RowIdentifier1" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="RowIdentifier2" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="RowIdentifier3" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="MessageName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="MessageText" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="EntityIndex" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="MessageType" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="OperationLaunchResultsType">
+<xsd:sequence>
+<xsd:element name="OperationLaunchResults" type="res:OperationLaunchResultType" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

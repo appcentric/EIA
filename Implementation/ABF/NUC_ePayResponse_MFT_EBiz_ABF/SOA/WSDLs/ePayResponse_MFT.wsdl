@@ -1,0 +1,87 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="ePayResponse_MFT"
+     targetNamespace="http://xmlns.oracle.com/fmw/mft/soap"
+     xmlns:tns="http://xmlns.oracle.com/fmw/mft/soap"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:mftconfig="http://xmlns.oracle.com/fmw/mft/config/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="http://xmlns.eia.com/fileService"
+     xmlns:ns2="http://schemas.oracle.com/bpel/extension"
+    >
+    <wsdl:documentation>MFT Service</wsdl:documentation>
+    <plt:partnerLinkType name="submit_plt">
+        <plt:role name="submit_role">
+            <plt:portType name="tns:submit_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <schema targetNamespace="http://xmlns.oracle.com/fmw/mft/soap" xmlns="http://www.w3.org/2001/XMLSchema"
+             version="1.0" elementFormDefault="qualified" xmlns:tns="http://xmlns.oracle.com/fmw/mft/soap"
+             xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:mftconfig="http://xmlns.oracle.com/fmw/mft/config/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <complexType name="DeliveryOnlyType">
+                <sequence>
+                    <element minOccurs="0" name="TargetFilesize" type="long"/>
+                    <element minOccurs="0" name="SourceUser" type="string"/>
+                    <element minOccurs="0" name="TransferURL" type="string"/>
+                    <element minOccurs="0" name="SourceName" type="string"/>
+                    <element minOccurs="0" name="TargetName" type="string"/>
+                    <element minOccurs="0" name="TransferName" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="MFTHeaderType">
+                <sequence>
+                    <element minOccurs="0" name="TargetFilename" type="string"/>
+                    <element minOccurs="0" name="ContentIdentifier" type="string"/>
+                    <element name="DeliveryOnly" type="tns:DeliveryOnlyType"/>
+                </sequence>
+            </complexType>
+            <complexType name="FileReferenceType">
+                <sequence>
+                    <element name="URL" type="anyURI"/>
+                </sequence>
+            </complexType>
+            <complexType name="FTPReferenceType">
+                <sequence>
+                    <element name="URL" type="anyURI"/>
+                </sequence>
+            </complexType>
+            <complexType name="MFTServiceInputType">
+                <choice maxOccurs="1" minOccurs="1">
+                    <element name="FileReference" type="tns:FileReferenceType"/>
+                    <element name="FTPReference" type="tns:FTPReferenceType"/>
+                    <element name="InlinePayload" type="anyType"/>
+                    <element name="BinaryPayload" type="base64Binary"/>
+                </choice>
+                <attribute name="PayloadType" default="FtpRefFile" type="string"/>
+            </complexType>
+            <element name="MFTServiceInput" type="tns:MFTServiceInputType"/>
+            <element name="MFTServiceResponse" type="anyType"/>
+            <element name="MFTServiceFault" type="anyType"/>
+            <element name="MFTHeader" type="tns:MFTHeaderType"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/fileService" schemaLocation="../Schemas/OrderBatch.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="MFTServiceRequest">
+        <wsdl:part name="payload" element="tns:MFTServiceInput"/>
+        <wsdl:part name="qheader" element="tns:MFTHeader"/>
+    </wsdl:message>
+    <wsdl:message name="MFTServiceResponse">
+        <wsdl:part name="payload" element="tns:MFTServiceResponse"/>
+    </wsdl:message>
+    <wsdl:message name="MFTServiceFaultMessage">
+        <wsdl:part name="payload" element="tns:MFTServiceFault"/>
+    </wsdl:message>
+    <wsdl:portType name="submit_ptt">
+        <wsdl:operation name="submit">
+            <mftconfig:parameters/>
+            <wsdl:input message="tns:MFTServiceRequest"/>
+            <wsdl:output message="tns:MFTServiceResponse"/>
+            <wsdl:fault name="MFTServiceFault" message="tns:MFTServiceFaultMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

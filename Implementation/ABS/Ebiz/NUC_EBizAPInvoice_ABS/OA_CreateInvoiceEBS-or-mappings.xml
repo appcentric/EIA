@@ -1,0 +1,1806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>OA_CreateInvoiceEBS-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>OA_CreateInvoiceEBS.ApInvoicesInterface</class>
+         <alias>AP.AP_INVOICES_INTERFACE</alias>
+         <primary-key>
+            <field table="AP_INVOICES_INTERFACE" name="INVOICE_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="OA_CreateInvoiceEBSSelect" xsi:type="read-all-query">
+                  <reference-class>OA_CreateInvoiceEBS.ApInvoicesInterface</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceTypeLookupCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_TYPE_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poNumber</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PO_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VENDOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VENDOR_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VENDOR_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorSiteId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VENDOR_SITE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorSiteCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VENDOR_SITE_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceAmount</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceCurrencyCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_CURRENCY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exchangeRate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exchangeRateType</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="EXCHANGE_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exchangeDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="EXCHANGE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>termsId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TERMS_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>termsName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TERMS_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>description</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="DESCRIPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>awtGroupId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="AWT_GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>awtGroupName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="AWT_GROUP_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="LAST_UPDATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdatedBy</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="LAST_UPDATED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateLogin</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="LAST_UPDATE_LOGIN" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>creationDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="CREATION_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createdBy</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="CREATED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attributeCategory</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute1</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute2</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute3</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute4</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute5</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute6</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE6" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute7</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE7" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute8</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE8" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute9</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE9" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute10</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE10" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute11</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE11" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute12</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE12" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute13</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE13" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute14</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE14" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute15</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ATTRIBUTE15" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttributeCategory</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute1</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute2</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute3</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute4</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute5</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute6</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE6" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute7</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE7" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute8</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE8" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute9</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE9" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute10</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE10" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute11</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE11" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute12</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE12" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute13</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE13" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute14</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE14" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute15</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE15" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute16</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE16" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute17</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE17" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute18</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE18" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute19</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE19" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute20</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GLOBAL_ATTRIBUTE20" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>status</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="STATUS" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>source</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="SOURCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>groupId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requestId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REQUEST_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentCrossRateType</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_CROSS_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentCrossRateDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_CROSS_RATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentCrossRate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_CROSS_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentCurrencyCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_CURRENCY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>workflowFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="WORKFLOW_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>docCategoryCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="DOC_CATEGORY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>voucherNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VOUCHER_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentMethodLookupCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_METHOD_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payGroupLookupCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAY_GROUP_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>goodsReceivedDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GOODS_RECEIVED_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceReceivedDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_RECEIVED_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>glDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="GL_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>acctsPayCodeCombinationId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ACCTS_PAY_CODE_COMBINATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ussglTransactionCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="USSGL_TRANSACTION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exclusivePaymentFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="EXCLUSIVE_PAYMENT_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>orgId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ORG_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>amountApplicableToDiscount</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="AMOUNT_APPLICABLE_TO_DISCOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prepayNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PREPAY_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prepayDistNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PREPAY_DIST_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prepayApplyAmount</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PREPAY_APPLY_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prepayGlDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PREPAY_GL_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceIncludesPrepayFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="INVOICE_INCLUDES_PREPAY_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>noXrateBaseAmount</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="NO_XRATE_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorEmailAddress</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="VENDOR_EMAIL_ADDRESS" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>termsDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TERMS_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REQUESTER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shipToLocation</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="SHIP_TO_LOCATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>externalDocRef</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="EXTERNAL_DOC_REF" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prepayLineNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PREPAY_LINE_NUM" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterFirstName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REQUESTER_FIRST_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterLastName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REQUESTER_LAST_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>applicationId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="APPLICATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productTable</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PRODUCT_TABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey1</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_KEY1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey2</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_KEY2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey3</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_KEY3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey4</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_KEY4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey5</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_KEY5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>applyAdvancesFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="APPLY_ADVANCES_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>calcTaxDuringImportFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="CALC_TAX_DURING_IMPORT_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>controlAmount</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="CONTROL_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>addTaxToInvAmtFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ADD_TAX_TO_INV_AMT_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRelatedInvoiceId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TAX_RELATED_INVOICE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxationCountry</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TAXATION_COUNTRY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>documentSubType</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="DOCUMENT_SUB_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>supplierTaxInvoiceNumber</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="SUPPLIER_TAX_INVOICE_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>supplierTaxInvoiceDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="SUPPLIER_TAX_INVOICE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>supplierTaxExchangeRate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="SUPPLIER_TAX_EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxInvoiceRecordingDate</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TAX_INVOICE_RECORDING_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxInvoiceInternalSeq</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="TAX_INVOICE_INTERNAL_SEQ" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>legalEntityId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="LEGAL_ENTITY_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>legalEntityName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="LEGAL_ENTITY_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>reference1</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>reference2</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REFERENCE_2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operatingUnit</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="OPERATING_UNIT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankChargeBearer</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="BANK_CHARGE_BEARER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remittanceMessage1</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMITTANCE_MESSAGE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remittanceMessage2</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMITTANCE_MESSAGE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remittanceMessage3</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMITTANCE_MESSAGE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>uniqueRemittanceIdentifier</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="UNIQUE_REMITTANCE_IDENTIFIER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>uriCheckDigit</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="URI_CHECK_DIGIT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>settlementPriority</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="SETTLEMENT_PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentReasonCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_REASON_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentReasonComments</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_REASON_COMMENTS" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentMethodCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_METHOD_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deliveryChannelCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="DELIVERY_CHANNEL_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paidOnBehalfEmployeeId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAID_ON_BEHALF_EMPLOYEE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>netOfRetainageFlag</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="NET_OF_RETAINAGE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterEmployeeNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REQUESTER_EMPLOYEE_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>custRegistrationCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="CUST_REGISTRATION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>custRegistrationNumber</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="CUST_REGISTRATION_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partyId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PARTY_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partySiteId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PARTY_SITE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payProcTrxnTypeCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAY_PROC_TRXN_TYPE_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentFunction</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_FUNCTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentPriority</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAYMENT_PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>portOfEntryCode</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PORT_OF_ENTRY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>externalBankAccountId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="EXTERNAL_BANK_ACCOUNT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>acctsPayCodeConcatenated</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ACCTS_PAY_CODE_CONCATENATED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payAwtGroupId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAY_AWT_GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payAwtGroupName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="PAY_AWT_GROUP_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>originalInvoiceAmount</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="ORIGINAL_INVOICE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>disputeReason</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="DISPUTE_REASON" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierName</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMIT_TO_SUPPLIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMIT_TO_SUPPLIER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierSite</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMIT_TO_SUPPLIER_SITE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierSiteId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMIT_TO_SUPPLIER_SITE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>relationshipId</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="RELATIONSHIP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierNum</attribute-name>
+               <field table="AP_INVOICES_INTERFACE" name="REMIT_TO_SUPPLIER_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>apInvoiceLinesInterfaceCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>OA_CreateInvoiceEBS.ApInvoiceLinesInterface</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="AP_INVOICE_LINES_INTERFACE" name="INVOICE_ID" xsi:type="column"/>
+                     <target-field table="AP_INVOICES_INTERFACE" name="INVOICE_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>OA_CreateInvoiceEBS.ApInvoiceLinesInterface</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="AP.AP_INVOICES_INTERFACE"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>OA_CreateInvoiceEBS.ApInvoiceLinesInterface</class>
+         <alias>AP.AP_INVOICE_LINES_INTERFACE</alias>
+         <primary-key>
+            <field table="AP_INVOICE_LINES_INTERFACE" name="INVOICE_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="INVOICE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>invoiceLineId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="INVOICE_LINE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lineNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="LINE_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lineTypeLookupCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="LINE_TYPE_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lineGroupNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="LINE_GROUP_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>amount</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>accountingDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ACCOUNTING_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>description</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DESCRIPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>amountIncludesTaxFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="AMOUNT_INCLUDES_TAX_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>prorateAcrossFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRORATE_ACROSS_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>finalMatchFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="FINAL_MATCH_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poHeaderId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_HEADER_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poLineId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_LINE_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poLineNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_LINE_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poLineLocationId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_LINE_LOCATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poShipmentNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_SHIPMENT_NUM" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poDistributionId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_DISTRIBUTION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poDistributionNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_DISTRIBUTION_NUM" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poUnitOfMeasure</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_UNIT_OF_MEASURE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>inventoryItemId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="INVENTORY_ITEM_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>itemDescription</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ITEM_DESCRIPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>quantityInvoiced</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="QUANTITY_INVOICED" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shipToLocationCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SHIP_TO_LOCATION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unitPrice</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="UNIT_PRICE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>distributionSetId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DISTRIBUTION_SET_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>distributionSetName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DISTRIBUTION_SET_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>distCodeConcatenated</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DIST_CODE_CONCATENATED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>distCodeCombinationId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DIST_CODE_COMBINATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>awtGroupId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="AWT_GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>awtGroupName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="AWT_GROUP_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdatedBy</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="LAST_UPDATED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="LAST_UPDATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateLogin</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="LAST_UPDATE_LOGIN" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createdBy</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="CREATED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>creationDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="CREATION_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attributeCategory</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute1</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute2</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute3</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute4</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute5</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute6</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE6" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute7</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE7" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute8</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE8" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute9</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE9" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute10</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE10" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute11</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE11" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute12</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE12" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute13</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE13" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute14</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE14" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute15</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ATTRIBUTE15" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttributeCategory</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute1</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute2</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute3</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute4</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute5</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute6</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE6" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute7</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE7" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute8</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE8" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute9</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE9" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute10</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE10" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute11</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE11" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute12</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE12" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute13</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE13" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute14</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE14" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute15</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE15" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute16</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE16" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute17</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE17" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute18</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE18" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute19</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE19" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute20</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="GLOBAL_ATTRIBUTE20" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>poReleaseId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PO_RELEASE_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>releaseNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RELEASE_NUM" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>accountSegment</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ACCOUNT_SEGMENT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>balancingSegment</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="BALANCING_SEGMENT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>costCenterSegment</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="COST_CENTER_SEGMENT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>projectId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PROJECT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taskId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TASK_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expenditureType</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXPENDITURE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expenditureItemDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXPENDITURE_ITEM_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expenditureOrganizationId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXPENDITURE_ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>projectAccountingContext</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PROJECT_ACCOUNTING_CONTEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paAdditionFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PA_ADDITION_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paQuantity</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PA_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ussglTransactionCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="USSGL_TRANSACTION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>statAmount</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="STAT_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>type1099</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TYPE_1099" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>incomeTaxRegion</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="INCOME_TAX_REGION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assetsTrackingFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ASSETS_TRACKING_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>priceCorrectionFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRICE_CORRECTION_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>orgId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ORG_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>receiptNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RECEIPT_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>receiptLineNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RECEIPT_LINE_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>matchOption</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MATCH_OPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>packingSlip</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PACKING_SLIP" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>rcvTransactionId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RCV_TRANSACTION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paCcArInvoiceId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PA_CC_AR_INVOICE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paCcArInvoiceLineNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PA_CC_AR_INVOICE_LINE_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>reference1</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>reference2</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paCcProcessedCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PA_CC_PROCESSED_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRecoveryRate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_RECOVERY_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRecoveryOverrideFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_RECOVERY_OVERRIDE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRecoverableFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_RECOVERABLE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxCodeOverrideFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_CODE_OVERRIDE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxCodeId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_CODE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>creditCardTrxId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="CREDIT_CARD_TRX_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>awardId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="AWARD_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorItemNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="VENDOR_ITEM_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxableFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAXABLE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>priceCorrectInvNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRICE_CORRECT_INV_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>externalDocLineRef</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXTERNAL_DOC_LINE_REF" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>serialNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SERIAL_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>manufacturer</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MANUFACTURER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>modelNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MODEL_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>warrantyNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="WARRANTY_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>deferredAcctgFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DEFERRED_ACCTG_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defAcctgStartDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DEF_ACCTG_START_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defAcctgEndDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DEF_ACCTG_END_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defAcctgNumberOfPeriods</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DEF_ACCTG_NUMBER_OF_PERIODS" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defAcctgPeriodType</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DEF_ACCTG_PERIOD_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unitOfMeasLookupCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="UNIT_OF_MEAS_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>priceCorrectInvLineNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRICE_CORRECT_INV_LINE_NUM" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assetBookTypeCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ASSET_BOOK_TYPE_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assetCategoryId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ASSET_CATEGORY_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REQUESTER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterFirstName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REQUESTER_FIRST_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterLastName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REQUESTER_LAST_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requesterEmployeeNum</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REQUESTER_EMPLOYEE_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>applicationId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="APPLICATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productTable</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRODUCT_TABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey1</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_KEY1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey2</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_KEY2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey3</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_KEY3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey4</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_KEY4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>referenceKey5</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="REFERENCE_KEY5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>purchasingCategory</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PURCHASING_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>purchasingCategoryId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PURCHASING_CATEGORY_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>costFactorId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="COST_FACTOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>costFactorName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="COST_FACTOR_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>controlAmount</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="CONTROL_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>assessableValue</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="ASSESSABLE_VALUE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defaultDistCcid</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="DEFAULT_DIST_CCID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>primaryIntendedUse</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRIMARY_INTENDED_USE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shipToLocationId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SHIP_TO_LOCATION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productType</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRODUCT_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productCategory</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRODUCT_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productFiscClassification</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PRODUCT_FISC_CLASSIFICATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>userDefinedFiscClass</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="USER_DEFINED_FISC_CLASS" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>trxBusinessCategory</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TRX_BUSINESS_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRegimeCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_REGIME_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>tax</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxJurisdictionCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_JURISDICTION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxStatusCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_STATUS_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRateId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_RATE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRateCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_RATE_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxRate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>inclInTaxableLineFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="INCL_IN_TAXABLE_LINE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sourceApplicationId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SOURCE_APPLICATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sourceEntityCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SOURCE_ENTITY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sourceEventClassCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SOURCE_EVENT_CLASS_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sourceTrxId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SOURCE_TRX_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sourceLineId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SOURCE_LINE_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sourceTrxLevelType</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="SOURCE_TRX_LEVEL_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taxClassificationCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="TAX_CLASSIFICATION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ccReversalFlag</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="CC_REVERSAL_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>companyPrepaidInvoiceId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="COMPANY_PREPAID_INVOICE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expenseGroup</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXPENSE_GROUP" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>justification</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="JUSTIFICATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>merchantDocumentNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MERCHANT_DOCUMENT_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>merchantName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MERCHANT_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>merchantReference</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MERCHANT_REFERENCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>merchantTaxRegNumber</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MERCHANT_TAX_REG_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>merchantTaxpayerId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="MERCHANT_TAXPAYER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>receiptCurrencyCode</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RECEIPT_CURRENCY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>receiptConversionRate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RECEIPT_CONVERSION_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>receiptCurrencyAmount</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="RECEIPT_CURRENCY_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>countryOfSupply</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="COUNTRY_OF_SUPPLY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payAwtGroupId</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PAY_AWT_GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payAwtGroupName</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="PAY_AWT_GROUP_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expenseStartDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXPENSE_START_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expenseEndDate</attribute-name>
+               <field table="AP_INVOICE_LINES_INTERFACE" name="EXPENSE_END_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="AP.AP_INVOICE_LINES_INTERFACE"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

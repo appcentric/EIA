@@ -1,0 +1,61 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<definitions
+     name="WshSendLocRefDataToOtm"
+     targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ref="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="WshSendLocRefDataToOtm">
+        <plnk:role name="WshSendLocRefDataToOtmProvider">
+            <plnk:portType name="client:WshSendLocRefDataToOtm"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <types>
+        <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+             xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ref="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <import namespace="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+                 schemaLocation="oramds:/apps/EIAMetadata/AO/OTM/common/V1.0/WshOtmGlobalOutbound.xsd"/>
+            <element name="WshSendLocRefDataToOtmProcessRequest">
+                <complexType>
+                    <sequence>
+                        <element name="input" type="ref:tOutboundInput"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="WshSendLocRefDataToOtmProcessResponse">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="ref:tOutboundOutput"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ref="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+             xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="WshSendLocRefDataToOtmRequestMessage">
+        <part name="payload" element="client:WshSendLocRefDataToOtmProcessRequest"/>
+    </message>
+    <message name="WshSendLocRefDataToOtmResponseMessage">
+        <part name="payload" element="client:WshSendLocRefDataToOtmProcessResponse"/>
+    </message>
+    <message name="WshLocRefErrorMessage">
+        <part name="payload" type="xsd:string"/>
+    </message>
+    <portType name="WshSendLocRefDataToOtm">
+        <operation name="process">
+            <input message="client:WshSendLocRefDataToOtmRequestMessage"/>
+            <output message="client:WshSendLocRefDataToOtmResponseMessage"/>
+        </operation>
+    </portType>
+</definitions>

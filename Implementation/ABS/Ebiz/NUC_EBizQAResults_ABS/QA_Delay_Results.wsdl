@@ -1,0 +1,21 @@
+<?binding.jca QA_Delay_Results_db.jca?>
+<wsdl:definitions name="QA_Delay_Results" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_EBizQAResults_ABS/QA_Delay_Results" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_EBizQAResults_ABS/QA_Delay_Results" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/QA_Delay_Results">
+    <plt:partnerLinkType name="QA_Delay_Results_plt">
+        <plt:role name="QA_Delay_Results_role">
+            <plt:portType name="tns:QA_Delay_Results_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/QA_Delay_Results" schemaLocation="xsd/QA_Delay_Results_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="QaResultsInterfaceCollection_msg">
+        <wsdl:part name="QaResultsInterfaceCollection" element="top:QaResultsInterfaceCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="QA_Delay_Results_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:QaResultsInterfaceCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

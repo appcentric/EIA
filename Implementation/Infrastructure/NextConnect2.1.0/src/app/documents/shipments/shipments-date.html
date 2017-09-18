@@ -1,0 +1,475 @@
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>Shipments</h1>   
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <form class="ui-toolbar-group-left" [formGroup]="form">
+                            <span style="float:left;margin-right:15px">
+                                <p-calendar placeholder="From Date" formControlName="fromDate" [(ngModel)]="fromDate" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" dateFormat="yy-mm-dd" dataType="string" ></p-calendar>
+                                <p-calendar placeholder="To Date" formControlName="toDate" [(ngModel)]="toDate"  [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" dateFormat="yy-mm-dd" dataType="string" ></p-calendar>
+                            </span>
+                            <button [disabled]="!form.valid" pButton icon="ui-icon-send" label="Submit" (click)="submit(fromDate, toDate)"></button>
+                        </form>
+                        <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                        <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button [disabled]="!shipments" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()"></button>
+                    </div>
+                </div>
+            </div>
+            <load-bar [visible]="loading"></load-bar>
+            <p-dataTable #exportCSV #dt [value]="shipments" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" expandableRows="true" reorderableColumns="true" sortField="ShipmentID" sortOrder="-1" [responsive]="true">
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <p-column field="ShipmentID" header="Shipment ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AccountWgtRefID" header="Scale Connect #" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight">
+                                <!--<div *ngIf="firstItem">{{PurchaseShipLineWeight.AccountWgtRefID}}</div>-->
+                                <div>{{PurchaseShipLineWeight[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="POID" header="PO Number" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngIf="firstItem">{{PurchaseShipLine[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="POLineID" header="PO Line" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngIf="firstItem">{{PurchaseShipLine[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="ItemID" header="DJJ Item ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngIf="firstItem">{{PurchaseShipLine[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="ConsumerItemRefID" header="Oracle Item ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngIf="firstItem">{{PurchaseShipLine[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="YardDestinationName" header="Oracle Locator" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight">
+                                <div *ngIf="firstItem">{{PurchaseShipLineWeight[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="GrossWgtLB" header="Gross Weight" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight">
+                                <div *ngIf="firstItem">{{PurchaseShipLineWeight[col.field] | number:'1.0-0'}} LBS</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="TareWgtLB" header="Tare Weight" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" let-ri="rowIndex" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight">
+                                <div *ngIf="firstItem">{{PurchaseShipLineWeight[col.field] | number:'1.0-0'}} LBS</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="NetWgtLB" header="Net Weight" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight">
+                                <div *ngIf="firstItem">{{PurchaseShipLineWeight[col.field] | number:'1.0-0'}} LBS</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="VehicleNum" header="Vehicle Num" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ShipmentType" header="Shipment Type" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column  field="DateShipped" header="Date Shipped" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!shipments" [(ngModel)]="dateShippedDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=dateShippedDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        {{shipment[col.field]  | date}}
+                    </ng-template>
+                </p-column>
+                <p-column  field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!shipments" [(ngModel)]="lastUpdatedDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=lastUpdatedDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-col let-shipment="rowData" pTemplate="body">
+                        {{shipment[col.field]  | date:'medium'}}
+                    </ng-template>
+                </p-column>
+                <!-- <p-column field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column> -->
+                <!-- hidden values for export CSV at PurchaseShipmentHeaders-->
+                <p-column hidden="true" field="DateShipped" header="Date Shipped" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ChangeVersionID" header="Change Version ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ShipHeaderStatusId" header="Ship Header Status Id" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="DJJOrgID" header="DJJ Org ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ConsumerID" header="Consumer ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ConsumerName" header="Consumer Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ConsumerRefID" header="Consumer Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ShipmentScenarioID" header="Shipment Scenario ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ModeCode" header="Mode Code" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="MainFrtVendorID" header="Main FrtVendor ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtVendorConsumerRefID" header="Frt Vendor Consumer Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtEquipmentTypeID" header="Frt Equipment Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtCostRespID" header="Frt Cost Resp ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtPaymentRespID" header="Frt Payment Resp ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="BOLNum" header="BOL Num" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="BOLDate" header="BOL Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FreightRateID" header="Freight Rate ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FreightDetailID" header="Freight Detail ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FreightTierID" header="Freight Tier ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtRate" header="Frt Rate" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtRateUOMCode" header="Frt Rate UOM Code" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtAmt" header="Frt Amt" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtCurrencyCode" header="Frt Currency Code" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="OverrideFrtGuaranteedMinLB" header="Override Frt Guaranteed Min LB" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="GuaranteedMinLB" header="Guaranteed Min LB" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="DeadFrtQtyLB" header="Dead Frt Qty LB" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtCurrencyConvToUSD" header="Frt Currency Conv To USD" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ShipmentGroupId" header="Shipment Group Id" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ShipmentGroupOrder" header="Shipment Group Order" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="ConsumerShipmentRefID" header="Consumer Shipment Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="SupplierShipmentRefID" header="Supplier Shipment Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="FrtVendorShipmentRefID" header="Frt Vendor Shipment Ref ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="PackingList" header="Packing List" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="WayBillNum" header="Way Bill Num" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="PurchaseShipmentHeaderAddtlCharge" header="Purchase Shipment Header Addtl Charge" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="DataChangeTypeID" header="Data Change Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="DataChangeChildTypeID" header="Data Change Child Type ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column hidden="true" field="BizType" header="Biz Type" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <ng-template let-shipment pTemplate="rowexpansion">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-lg-8">
+                            <h2>Shipment Details: {{shipment.ShipmentID}}</h2>
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">PO Number: </div>
+                                    <div class="ui-g-8">
+                                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                                            <div *ngIf="firstItem">{{PurchaseShipLine.POID}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">PO Line Number: </div>
+                                    <div class="ui-g-8">
+                                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                                            <div *ngIf="firstItem">{{PurchaseShipLine.POLineID}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Gross Weight:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.GrossWgtLB | number:'1.0-0'}} LBS</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Tare Weight:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.TareWgtLB | number:'1.0-0'}} LBS</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Net Weight:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.NetWgtLB | number:'1.0-0'}} LBS</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">ContainmentNet Weight:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.ContainmentNetWgt | number:'1.0-0'}} LBS</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Containment Percentage:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.ContainmentPercentage}} %</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">ScaleConnect Ticket #:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.AccountWgtRefID}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Oracle PO Number:</div>
+                                    <div class="ui-g-8">
+                                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                                            <div *ngIf="firstItem">{{PurchaseShipLine.ConsumerPORefID}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">DJJ Item: </div>
+                                    <div class="ui-g-8">
+                                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                                            <div *ngIf="firstItem">{{PurchaseShipLine.ItemID}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Oracle Item:</div>
+                                    <div class="ui-g-8">
+                                        <div *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine; let i = index; let firstItem = first;">
+                                            <div *ngIf="firstItem">{{PurchaseShipLine.ConsumerItemRefID}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Oracle Locator:</div>
+                                    <div class="ui-g-8">
+                                        <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                            <div *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight;  let i = index; let firstItem = first;">
+                                                <div *ngIf="firstItem">{{PurchaseShipLineWeight.YardDestinationName}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Date Shipped:</div>
+                                    <div class="ui-g-8">
+                                        {{shipment.DateShipped | date}}
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-4">Shipment Type:</div>
+                                    <div class="ui-g-8">
+                                        {{shipment.ShipmentType}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-lg-4">
+                            <h2>Acknowledgement Details</h2>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Ack Comment:</div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="shipmentAck" let-shipmentAck>
+                                        {{shipmentAck.ClientComment}}
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Client Status:</div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="shipmentAck" let-shipmentAck>
+                                        {{shipmentAck.ClientStatusID}}
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-4">Error Count:</div>
+                                <div class="ui-g-8">
+                                    <ng-template ngFor [ngForOf]="shipmentAck" let-shipmentAck>
+                                        {{shipmentAck.ErrorCount}}
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">  
+                        <p-inplace closable="closable">
+                            <span pInplaceDisplay>
+                                CLICK FOR ALL DETAILS
+                            </span>
+                            <span pInplaceContent>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <h1>Purchase Shipment Headers</h1>
+                                    <li>ShipmentID: {{shipment.ShipmentID}}</li>
+                                    <li>ShipmentVersionID: {{shipment.ShipmentVersionID}}</li>
+                                    <li>ShipmentType: {{shipment.ShipmentType}}</li>
+                                    <li>VehicleNum: {{shipment.VehicleNum}}</li>
+                                    <li>VehicleName: {{shipment.VehicleName}}</li>
+                                    <li>DateShipped: {{shipment.DateShipped | date}}</li>
+                                    <li>ChangeVersionID: {{shipment.ChangeVersionID}}</li>
+                                    <li>ShipHeaderStatusId: {{shipment.ShipHeaderStatusId}}</li>
+                                    <li>DJJOrgID: {{shipment.DJJOrgID}}</li>
+                                    <li>ConsumerID: {{shipment.ConsumerID}}</li>
+                                    <li>ConsumerName: {{shipment.ConsumerName}}</li>
+                                    <li>ConsumerRefID: {{shipment.ConsumerRefID}}</li>
+                                    <li>ShipmentScenarioID: {{shipment.ShipmentScenarioID}}</li>
+                                    <li>ModeCode: {{shipment.ModeCode}}</li>
+                                    <li>MainFrtVendorID: {{shipment.MainFrtVendorID}}</li>
+                                    <li>MainFrtVendorName: {{shipment.MainFrtVendorName}}</li>
+                                    <li>FrtVendorConsumerRefID: {{shipment.FrtVendorConsumerRefID}}</li>
+                                    <li>FrtEquipmentTypeID: {{shipment.FrtEquipmentTypeID}}</li>
+                                    <li>FrtCostRespID: {{shipment.FrtCostRespID}}</li>
+                                    <li>FrtPaymentRespID: {{shipment.FrtPaymentRespID}}</li>
+                                    <li>BOLNum: {{shipment.BOLNum}}</li>
+                                    <li>BOLDate: {{shipment.BOLDate}}</li>
+                                    <li>FreightRateID: {{shipment.FreightRateID}}</li>
+                                    <li>FreightDetailID: {{shipment.FreightDetailID}}</li>
+                                    <li>FreightTierID: {{shipment.FreightTierID}}</li>
+                                    <li>FrtRate: {{shipment.FrtRate}}</li>
+                                    <li>FrtRateUOMCode: {{shipment.FrtRateUOMCode}}</li>
+                                    <li>FrtAmt: {{shipment.FrtAmt}}</li>
+                                    <li>FrtCurrencyCode: {{shipment.FrtCurrencyCode}}</li>
+                                    <li>OverrideFrtGuaranteedMinLB: {{shipment.OverrideFrtGuaranteedMinLB}}</li>
+                                    <li>GuaranteedMinLB: {{shipment.GuaranteedMinLB | number:'1.0-0'}}</li>
+                                    <li>DeadFrtQtyLB: {{shipment.DeadFrtQtyLB}}</li>
+                                    <li>FrtCurrencyConvToUSD: {{shipment.FrtCurrencyConvToUSD}}</li>
+                                    <li>ShipmentGroupId: {{shipment.ShipmentGroupId}}</li>
+                                    <li>ShipmentGroupOrder: {{shipment.ShipmentGroupOrder}}</li>
+                                    <li>ConsumerShipmentRefID: {{shipment.ConsumerShipmentRefID}}</li>
+                                    <li>SupplierShipmentRefID: {{shipment.SupplierShipmentRefID}}</li>
+                                    <li>FrtVendorShipmentRefID: {{shipment.FrtVendorShipmentRefID}}</li>
+                                    <li>PackingList: {{shipment.PackingList}}</li>
+                                    <li>WayBillNum: {{shipment.WayBillNum}}</li>
+                                    <li>PurchaseShipmentHeaderAddtlCharge: {{shipment.PurchaseShipmentHeaderAddtlCharge}}</li>
+                                    <li>CreatedDate: {{shipment.CreatedDate}}</li>
+                                    <li>LastUpdatedDate: {{shipment.LastUpdatedDate}}</li>
+                                    <li>DataChangeTypeID: {{shipment.DataChangeTypeID}}</li>
+                                    <li>BizType: {{shipment.BizType}}</li>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                                    <h1>Purchase Ship Line</h1>
+                                    <ul *ngFor="let PurchaseShipLine of shipment.PurchaseShipLine">
+                                        <li>ShipmentID: {{PurchaseShipLine.ShipmentID}}</li>
+                                        <li>ShipmentLineID: {{PurchaseShipLine.ShipmentLineID}}</li>
+                                        <li>AllocationID: {{PurchaseShipLine.AllocationID}}</li>
+                                        <li>ShipLineStatusID: {{PurchaseShipLine.ShipLineStatusID}}</li>
+                                        <li>POID: {{PurchaseShipLine.POID}}</li>
+                                        <li>POLineID: {{PurchaseShipLine.POLineID}}</li>
+                                        <li>POLineShipToID: {{PurchaseShipLine.POLineShipToID}}</li>
+                                        <li>ConsumerContractRefID: {{PurchaseShipLine.ConsumerContractRefID}}</li>
+                                        <li>ConsumerPORefID: {{PurchaseShipLine.ConsumerPORefID}}</li>
+                                        <li>ConsumerPOLineRefID: {{PurchaseShipLine.ConsumerPOLineRefID}}</li>
+                                        <li>ConsumerID: {{PurchaseShipLine.ConsumerID}}</li>
+                                        <li>ConsumerRefID: {{PurchaseShipLine.ConsumerRefID}}</li>
+                                        <li>ShipToID: {{PurchaseShipLine.ShipToID}}</li>
+                                        <li>ShipToConsumerRefID: {{PurchaseShipLine.ShipToConsumerRefID}}</li>
+                                        <li>ItemID: {{PurchaseShipLine.ItemID}}</li>
+                                        <li>ConsumerItemRefID: {{PurchaseShipLine.ConsumerItemRefID}}</li>
+                                        <li>CargoNum: {{PurchaseShipLine.CargoNum}}</li>
+                                        <li>PriceRate: {{PurchaseShipLine.PriceRate}}</li>
+                                        <li>PriceRateUOMCode: {{PurchaseShipLine.PriceRateUOMCode}}</li>
+                                        <li>PriceRateCurrencyCode: {{PurchaseShipLine.PriceRateCurrencyCode}}</li>
+                                        <li>PriceRateCurrencyConvToUSD: {{PurchaseShipLine.PriceRateCurrencyConvToUSD}}</li>
+                                        <li>FOBCode: {{PurchaseShipLine.FOBCode}}</li>
+                                        <li>FrtCostRespID: {{PurchaseShipLine.FrtCostRespID}}</li>
+                                        <li>FrtPaymentRespID: {{PurchaseShipLine.FrtPaymentRespID}}</li>
+                                        <li>ModeCode: {{PurchaseShipLine.ModeCode}}</li>
+                                        <li>CommissionRate: {{PurchaseShipLine.CommissionRate}}</li>
+                                        <li>CommissionRateUOMCode: {{PurchaseShipLine.CommissionRateUOMCode}}</li>
+                                        <li>CommissionRateCurrencyCode: {{PurchaseShipLine.CommissionRateCurrencyCode}}</li>
+                                        <li>CommissionRateCurrencyConvToUSD: {{PurchaseShipLine.CommissionRateCurrencyConvToUSD}}</li>
+                                        <li>ShipToSettleWeightCode: {{PurchaseShipLine.ShipToSettleWeightCode}}</li>
+                                        <li>OverridesPOLineARTermID: {{PurchaseShipLine.OverridesPOLineARTermID}}</li>
+                                        <li>ARTermID: {{PurchaseShipLine.ARTermID}}</li>
+                                        <li>FrtLineCosting: {{PurchaseShipLine.FrtLineCosting}}</li>
+                                        <li>FrtLineCurrencyCode: {{PurchaseShipLine.FrtLineCurrencyCode}}</li>
+                                        <li>FrtLineCurrencyConvToUSD: {{PurchaseShipLine.FrtLineCurrencyConvToUSD}}</li>
+                                        <li>ItemPackageID: {{PurchaseShipLine.ItemPackageID}}</li>
+                                        <li>ItemPackageName: {{PurchaseShipLine.ItemPackageName}}</li>
+                                        <li>ItemSizeID: {{PurchaseShipLine.ItemSizeID}}</li>
+                                        <li>ItemSizeName: {{PurchaseShipLine.ItemSizeName}}</li>
+                                        <li>RejectionReasonID: {{PurchaseShipLine.RejectionReasonID}}</li>
+                                        <li>QtyShipped: {{PurchaseShipLine.QtyShipped}}</li>
+                                        <li>QtyShippedUOM: {{PurchaseShipLine.QtyShippedUOM}}</li>
+                                        <li>BestKnownWeightVersionID: {{PurchaseShipLine.BestKnownWeightVersionID}}</li>
+                                        <li>BestKnownWeightLB: {{PurchaseShipLine.BestKnownWeightLB}}</li>
+                                        <li>CreatedDate: {{PurchaseShipLine.CreatedDate | date}}</li>
+                                        <li>LastUpdatedDate: {{PurchaseShipLine.LastUpdatedDate | date}}</li>
+                                        <li>DataChangeTypeID: {{PurchaseShipLine.DataChangeTypeID}}</li>
+                                        <li>DataChangeChildTypeID: {{PurchaseShipLine.DataChangeChildTypeID}}</li>
+                                        <li>BizType: {{PurchaseShipLine.BizType}}</li>
+                                        <li>PurchaseShipLineAddtlCharge: {{PurchaseShipLine.PurchaseShipLineAddtlCharge}}</li>
+                                    </ul>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <h1>Purchase Ship Line Weight</h1>
+                                    <ng-template ngFor [ngForOf]="shipment.PurchaseShipLine" let-PurchaseShipLine>
+                                        <ul *ngFor="let PurchaseShipLineWeight of PurchaseShipLine.PurchaseShipLineWeight">
+                                            <li>ShipmentID: {{PurchaseShipLineWeight.ShipmentID}}</li>
+                                            <li>ShipmentLineID: {{PurchaseShipLineWeight.ShipmentLineID}}</li>
+                                            <li>WgtVersionID: {{PurchaseShipLineWeight.WgtVersionID}}</li>
+                                            <li>WgtTypeCode: {{PurchaseShipLineWeight.WgtTypeCode}}</li>
+                                            <li>AccountID: {{PurchaseShipLineWeight.AccountID}}</li>
+                                            <li>AccountWgtRefID: {{PurchaseShipLineWeight.AccountWgtRefID}}</li>
+                                            <li>GrossWgtLB: {{PurchaseShipLineWeight.GrossWgtLB | number:'1.0-0'}}</li>
+                                            <li>TareWgtLB: {{PurchaseShipLineWeight.TareWgtLB | number:'1.0-0'}}</li>
+                                            <li>CleanTareWeight: {{PurchaseShipLineWeight.CleanTareWeight | number:'1.0-0'}}</li>
+                                            <li>NetWgtLB: {{PurchaseShipLineWeight.NetWgtLB | number:'1.0-0'}}</li>
+                                            <li>WgtDate: {{PurchaseShipLineWeight.WgtDate | date}}</li>
+                                            <li>WgtSourceTypeID: {{PurchaseShipLineWeight.WgtSourceTypeID}}</li>
+                                            <li>ContainmentPercentage: {{PurchaseShipLineWeight.ContainmentPercentage}}</li>
+                                            <li>ContainmentNetWgt: {{PurchaseShipLineWeight.ContainmentNetWgt}}</li>
+                                            <li>RecoveryPercentage: {{PurchaseShipLineWeight.RecoveryPercentage}}</li>
+                                            <li>YardDestinationName: {{PurchaseShipLineWeight.YardDestinationName}}</li>
+                                            <li>Comment: {{PurchaseShipLineWeight.Comment}}</li>
+                                            <li>CarTypeCode: {{PurchaseShipLineWeight.CarTypeCode}}</li>
+                                            <li>CarTypeDescription: {{PurchaseShipLineWeight.CarTypeDescription}}</li>
+                                            <li>IsCleaningFeeApplied: {{PurchaseShipLineWeight.IsCleaningFeeApplied}}</li>
+                                            <li>PieceCount: {{PurchaseShipLineWeight.PieceCount}}</li>
+                                            <li>CreatedDate: {{PurchaseShipLineWeight.CreatedDate | date}}</li>
+                                            <li>LastUpdatedDate: {{PurchaseShipLineWeight.LastUpdatedDate | date}}</li>
+                                            <li>DataChangeTypeID: {{PurchaseShipLineWeight.DataChangeTypeID}}</li>
+                                            <li>DataChangeChildTypeID: {{PurchaseShipLineWeight.DataChangeChildTypeID}}</li>
+                                            <li>BizType: {{PurchaseShipLineWeight.BizType}}</li>
+                                        </ul>
+                                    </ng-template>
+                                </div>
+                            </span>
+                        </p-inplace>
+                    </div>    
+                </ng-template>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

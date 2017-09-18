@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NSUT_Billet_EBSMTLTrxImp_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="billet_ebsmtltrximp_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://nucor.eia.com/Billet_EBSMTLTrxImp#wsdl.endpoint(billet_ebsmtltrximp_client_ep/Billet_EBSMTLTrxImp_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <service name="billet_ebsmtltrximp_client"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>7e805cc4-52c7-42b7-90e9-0188a4474fe5</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="Billet_EBSMTLTrxImp">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+         <property name="bpel.preference.rowNumValue">
+            <replace>50</replace>
+         </property>
+      </component>
+      <reference name="CommonLogging"/>
+      <reference name="DB_Get_Billet_Trx"/>
+      <reference name="DB_Update_Billet_Trx"/>
+      <reference name="DB_Process_Billet_Trx_EBS"/>
+      <reference name="DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId"/>
+      <reference name="DB_Update_API_BILLET_TRANS"/>
+      <reference name="CommonLogging">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DB_Get_Billet_Trx">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_Billet_Trx">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Process_Billet_Trx_EBS">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_Update_API_BILLET_TRANS">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_Get_Billet_Trx_db.jca|Adapters/DB_Process_Billet_Trx_EBS_db.jca|Adapters/DB_Update_API_BILLET_TRANS_db.jca|Adapters/DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId_db.jca|Adapters/DB_Update_Billet_Trx_db.jca|Schemas/Billet_EBSMTLTrxImp.xsd|Schemas/DB_Get_Billet_Trx_table.xsd|Schemas/DB_Process_Billet_Trx_EBS_sp.xsd|Schemas/DB_Update_API_BILLET_TRANS.xsd|Schemas/DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId.xsd|Schemas/DB_Update_Billet_Trx_table.xsd|WSDLs/Billet_EBSMTLTrxImp.wsdl|WSDLs/DB_Get_Billet_Trx.wsdl|WSDLs/DB_Process_Billet_Trx_EBS.wsdl|WSDLs/DB_Update_API_BILLET_TRANS.wsdl|WSDLs/DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId.wsdl|WSDLs/DB_Update_Billet_Trx.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

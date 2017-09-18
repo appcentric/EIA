@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://nucor.eia.com/AO/Ebiz/L2C/BundleAO/1.0" xmlns:bundleao="http://nucor.eia.com/AO/Ebiz/L2C/BundleAO/1.0" xmlns:qualityResultao="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Bundle AO</Definition>
+<Description>This schema defines the objects to create or extract Bundles information</Description>
+<Author>Nirav Sanghavi</Author>
+<ModifiedBy>Nirav Sanghavi</ModifiedBy>
+<VersionDate>27-04-2016</VersionDate>
+<VersionDescription>Initial standard</VersionDescription>
+<ModificationHistory>27-04-2016 Version 1.0 - Initial Development Version</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+<xsd:import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/QualityResultsAO.xsd"/>
+<xsd:element name="Bundle" type="bundleao:BundleType"/>
+<xsd:complexType name="BundleType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="BolNumber" type="common:C50"/>
+<xsd:element minOccurs="0" name="BolType" type="common:C10"/>
+<xsd:element minOccurs="0" name="BolRev" type="common:C1"/>
+<xsd:element minOccurs="0" name="BolDate" type="common:C8"/>
+<xsd:element minOccurs="0" name="BolTime" type="common:C6"/>
+<xsd:element minOccurs="0" name="ConfirmDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ShippedBy" type="common:C1"/>
+<xsd:element minOccurs="0" name="CustPickUp" type="common:C1"/>
+<xsd:element minOccurs="0" name="TareWeight" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="GrossWeight" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="NetWeight" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="Carrier" type="common:C30"/>
+<xsd:element minOccurs="0" name="CarNumber" type="common:C40"/>
+<xsd:element minOccurs="0" name="PrepaidFreight" type="common:C1"/>
+<xsd:element minOccurs="0" name="LoadOrder" type="common:C30"/>
+<xsd:element minOccurs="0" name="SalesDiv" type="common:C3"/>
+<xsd:element minOccurs="0" name="BundleMill" type="common:C100"/>
+<xsd:element minOccurs="0" name="DocumentInstanceId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="EntityName" type="common:C50"/>
+<xsd:element minOccurs="0" name="EntityId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="DocumentType" type="common:C30"/>
+<xsd:element minOccurs="0" name="Status" type="common:C30"/>
+<xsd:element minOccurs="0" name="FinalPrintDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="DocSequenceCategoryId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="Attributes" type="common:Attributes15"/>
+<xsd:element minOccurs="0" name="CreationDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CreatedBy" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="LastUpdateDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="LastUpdatedBy" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="LastUpdateLogin" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="ProgramApplicationId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="ProgramId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="ProgramUpdateDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="RequestId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="PodFlag" type="common:C1"/>
+<xsd:element minOccurs="0" name="PodBy" type="common:C50"/>
+<xsd:element minOccurs="0" name="PodDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ReasonOfTransport" type="common:C30"/>
+<xsd:element minOccurs="0" name="Description" type="common:C150"/>
+<xsd:element minOccurs="0" name="CodAmount" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="CodCurrencyCode" type="common:C15"/>
+<xsd:element minOccurs="0" name="CodRemitTo" type="common:C150"/>
+<xsd:element minOccurs="0" name="CodChargePaidBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="ProblemContactReference" type="common:C500"/>
+<xsd:element minOccurs="0" name="BillFreightTo" type="common:C1000"/>
+<xsd:element minOccurs="0" name="CarriedBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="PortOfLoading" type="common:C150"/>
+<xsd:element minOccurs="0" name="PortOfDischarge" type="common:C150"/>
+<xsd:element minOccurs="0" name="BookingOffice" type="common:C50"/>
+<xsd:element minOccurs="0" name="BookingNumber" type="common:C30"/>
+<xsd:element minOccurs="0" name="ServiceContract" type="common:C30"/>
+<xsd:element minOccurs="0" name="ShipperExportRef" type="common:C30"/>
+<xsd:element minOccurs="0" name="CarrierExportRef" type="common:C30"/>
+<xsd:element minOccurs="0" name="BolNotifyParty" type="common:C30"/>
+<xsd:element minOccurs="0" name="SupplierCode" type="common:C30"/>
+<xsd:element minOccurs="0" name="AETCNum" type="common:C30"/>
+<xsd:element minOccurs="0" name="ShipperSignedBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="ShipperDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CarrierSignedBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="CarrierDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="BolIssueOffice" type="common:C150"/>
+<xsd:element minOccurs="0" name="BolIssuedBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="BolDateIssued" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ShipperHMBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="ShipperHMDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="CarrierHMBy" type="common:C150"/>
+<xsd:element minOccurs="0" name="CarrierHMDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="ExpectedPODDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="FuncAmount" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="GrossAmount" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="CurrencyCode" type="common:C10"/>
+<xsd:element minOccurs="0" name="CertificateNo" type="common:C80"/>
+<xsd:element minOccurs="0" name="KeyVersion" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="SystemEntryDate" type="common:DtTm"/>
+<xsd:element minOccurs="0" name="DocSeqId" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="Signature" type="common:C240"/>
+<xsd:element minOccurs="0" name="RailRouting" type="common:C2000"/>
+<xsd:element name="ListOfSupplierInfo" minOccurs="0" type="bundleao:ListOfSupplierInfoType"/>
+<xsd:element name="ListOfCustomerInfo" minOccurs="0" type="bundleao:ListOfCustomerInfoType"/>
+<xsd:element name="ListOfBillInfo" minOccurs="0" type="bundleao:ListOfBillInfoType"/>
+<xsd:element name="ListOfShipInfo" minOccurs="0" type="bundleao:ListOfShipInfoType"/>
+<xsd:element name="ListOfFreightInfo" minOccurs="0" type="bundleao:ListOfFreightInfoType"/>
+<xsd:element name="ListOfBolDetails" minOccurs="0" type="bundleao:ListOfBolDetailsType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfSupplierInfoType">
+<xsd:sequence>
+<xsd:element name="SupplierInfo" maxOccurs="unbounded" minOccurs="0" type="bundleao:AddressInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfCustomerInfoType">
+<xsd:sequence>
+<xsd:element name="CustomerInfo" maxOccurs="unbounded" minOccurs="0" type="bundleao:CustomerInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfBillInfoType">
+<xsd:sequence>
+<xsd:element name="BillInfo" maxOccurs="unbounded" minOccurs="0" type="bundleao:AddressInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfShipInfoType">
+<xsd:sequence>
+<xsd:element name="ShipInfo" maxOccurs="unbounded" minOccurs="0" type="bundleao:AddressInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfFreightInfoType">
+<xsd:sequence>
+<xsd:element name="FreightInfo" maxOccurs="unbounded" minOccurs="0" type="bundleao:FreightInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfGmdResultsPubType">
+<xsd:sequence>
+<xsd:element name="GmdResultsPub" maxOccurs="unbounded" minOccurs="0" type="qualityResultao:GmdResultPubType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="ListOfBundles" type="bundleao:ListOfBundlesType"/>
+<xsd:complexType name="ListOfBundlesType">
+<xsd:sequence>
+<xsd:element name="Bundle" type="bundleao:BundleType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="AddressInfoType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="Name" type="common:C360"/>
+<xsd:element minOccurs="0" name="AddressLine1" type="common:C240"/>
+<xsd:element minOccurs="0" name="AddressLine2" type="common:C240"/>
+<xsd:element minOccurs="0" name="AddressLine3" type="common:C240"/>
+<xsd:element minOccurs="0" name="City" type="common:C60"/>
+<xsd:element minOccurs="0" name="State" type="common:C60"/>
+<xsd:element minOccurs="0" name="Zip" type="common:C60"/>
+<xsd:element minOccurs="0" name="Country" type="common:C60"/>
+<xsd:element minOccurs="0" name="ForeignZip" type="common:C60"/>
+<xsd:element minOccurs="0" name="ID" type="common:C100"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfBolDetailsType">
+<xsd:sequence>
+<xsd:element name="BolDetail" type="bundleao:BolDetailType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BolDetailType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="DelLineNum" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="DelDetID" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="CustPoNum" type="common:C50"/>
+<xsd:element minOccurs="0" name="CustPoLineNum" type="common:C50"/>
+<xsd:element minOccurs="0" name="CustProdNum" type="common:C40"/>
+<xsd:element minOccurs="0" name="ReheatLot" type="common:C80"/>
+<xsd:element minOccurs="0" name="ParentLot" type="common:C80"/>
+<xsd:element minOccurs="0" name="NoOfBundle" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="NoOfPieces" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="Weight" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="WeightUOM" type="common:C30"/>
+<xsd:element minOccurs="0" name="TTLWeight" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="Item" type="common:C40"/>
+<xsd:element minOccurs="0" name="ItemDesc" type="common:C240"/>
+<xsd:element minOccurs="0" name="Grade" type="common:C150"/>
+<xsd:element minOccurs="0" name="Qual" type="common:C20"/>
+<xsd:element minOccurs="0" name="LenghtFeet" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="LenghtInch" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="FracInch" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="UDALength" type="common:C100"/>
+<xsd:element minOccurs="0" name="UADShape" type="common:C100"/>
+<xsd:element minOccurs="0" name="UDASize" type="common:C100"/>
+<xsd:element minOccurs="0" name="OrderNumber" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="OrderLine" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="OrderType" type="common:C30"/>
+<xsd:element minOccurs="0" name="ProductType" type="common:C30"/>
+<xsd:element minOccurs="0" name="NumericSize" type="common:C30"/>
+<xsd:element minOccurs="0" name="FlatSize" type="common:C30"/>
+<xsd:element name="ListOfBolTag" minOccurs="0" type="bundleao:ListOfBolTagType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfBolTagType">
+<xsd:sequence>
+<xsd:element name="BolTag" type="bundleao:BolTagType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BolTagType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="TagNum" type="common:C30"/>
+<xsd:element minOccurs="0" name="ReheatLot" type="common:C80"/>
+<xsd:element minOccurs="0" name="ParentLot" type="common:C80"/>
+<xsd:element minOccurs="0" name="NoOfPieces" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="Weight" type="common:Decimal"/>
+<xsd:element minOccurs="0" name="RollDateTime" type="common:DtTm"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="CustomerInfoType">
+<xsd:sequence>
+<xsd:element name="SoldTo" maxOccurs="1" minOccurs="0" type="bundleao:AddressInfoType"/>
+<xsd:element name="BillTo" maxOccurs="1" minOccurs="0" type="bundleao:AddressInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FreightInfoType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="ShipMode" type="common:C50"/>
+<xsd:element minOccurs="0" name="ShipDate" type="common:C50"/>
+<xsd:element minOccurs="0" name="FreightTerm" type="common:C100"/>
+<xsd:element name="ListOfCarrier" minOccurs="0" type="bundleao:ListOfCarrierType"/>
+<xsd:element name="ListOfShipTo" minOccurs="0" type="bundleao:ListOfShipToType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfCarrierType">
+<xsd:sequence>
+<xsd:element name="Carrier" maxOccurs="unbounded" minOccurs="0" type="bundleao:CarrierType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfShipToType">
+<xsd:sequence>
+<xsd:element name="ShipTo" maxOccurs="unbounded" minOccurs="0" type="bundleao:AddressInfoType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="CarrierType">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="Name" type="common:C50"/>
+<xsd:element minOccurs="0" name="VehicleID" type="common:C50"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

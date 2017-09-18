@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jul 28 19:52:48 IST 2014
+  Author:  DebasishR
+  Type: BPEL 1.1 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_Emp_SAP_EBiz_ABF"
+         targetNamespace="http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:client="http://xmlns.oracle.com/NUCOR/NUC_Emp_SAP_EBiz_ABF/NUC_Emp_SAP_EBiz_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:ns1="http://tempuri.org/"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_Emp_SAP_EBiz_ABF/DB_DeleteSapSpsData"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_Emp_SAP_EBiz_ABF/DB_InsertHrEmployee"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_Emp_SAP_EBiz_ABF/DB_InsertSapSpsEmployee"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_Emp_SAP_EBiz_ABF/DB_SelectUpdateEmpRecs"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/NUCOR/NUC_Emp_SAP_EBiz_ABF/DB_MergeSpsEmp"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_Emp_SAP_EBiz_ABF/OA_EmpDataLoad" 
+         
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns8="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_EmpDataLoad"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_SelectUpdateEmpRecs"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_InsertHrEmployee"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_InsertSapSpsEmployee"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_Emp_SAP_EBiz_ABF/DB_SelectUpdateEmpRecs"
+         xmlns:ns14="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/SOA_ABF/NUC_Emp_SAP_EBiz_ABF/DB_SelectTransferEmps"
+         xmlns:ns16="http://xmlns.eia.com/CommonLogging" xmlns:ess="http://xmlns.oracle.com/scheduler" 
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" >
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[NUC_Emp_SAP_EBiz_ABF.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="nuc_reduceddemographicsemp_sap_ebiz_abf_client" partnerLinkType="client:NUC_Emp_SAP_EBiz_ABF"
+                 myRole="NUC_Emp_SAP_EBiz_ABFProvider"/>
+    <partnerLink name="WS_Demographics" partnerLinkType="ns1:WS_Demographics" partnerRole="IDemo"/>
+    <partnerLink name="DB_DeleteSapSpsData" partnerLinkType="ns2:DB_DeleteSapSpsData_plt"
+                 partnerRole="DB_DeleteSapSpsData_role"/>
+    <partnerLink name="DB_InsertHrEmployee" partnerLinkType="ns3:DB_InsertHrEmployee_plt"
+                 partnerRole="DB_InsertHrEmployee_role"/>
+    <partnerLink name="DB_InsertSapSpsEmployee" partnerLinkType="ns4:DB_InsertSapSpsEmployee_plt"
+                 partnerRole="DB_InsertSapSpsEmployee_role"/>
+    <partnerLink name="DB_MergeSpsEmp" partnerLinkType="ns6:DB_MergeSpsEmp_plt" partnerRole="DB_MergeSpsEmp_role"/>
+    <partnerLink name="OA_EmpDataLoad" partnerLinkType="ns7:OA_EmpDataLoad_plt" partnerRole="OA_EmpDataLoad_role"/>
+    <partnerLink name="DB_SelectUpdateEmpRecs" partnerLinkType="ns13:DB_SelectUpdateEmpRecs_plt"
+                 partnerRole="DB_SelectUpdateEmpRecs_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns16:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:NUC_Emp_SAP_EBiz_ABFRequestMessage"/>
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:NUC_Emp_SAP_EBiz_ABFResponseMessage"/>
+    <variable name="Load_Terminations" type="xsd:string"/>
+    <variable name="DemographicsService_GetDemographicXML_ReqMsg"
+              messageType="ns1:IDemo_GetReducedDemoXML_InputMessage"/>
+    <variable name="DemographicsService_GetDemographicXML_RespMsg"
+              messageType="ns1:IDemo_GetReducedDemoXML_OutputMessage"/>
+    <variable name="DB_DeleteSapSpsData_ReqMsg" messageType="ns2:DB_DeleteSapSpsDataInput_msg"/>
+    <variable name="OA_EmpDataLoad_ReqMsg" messageType="ns7:args_in_msg"/>
+    <variable name="OA_EmpDataLoad_RespMsg" messageType="ns7:args_out_msg"/>
+    <variable name="TempVariable" element="Envelope"/>
+    <variable name="DB_SelectUpdateEmpRecs_ReqMsg" messageType="ns13:DB_SelectUpdateEmpRecsInput_msg"/>
+    <variable name="DB_SelectUpdateEmpRecs_RespMsg" messageType="ns13:DB_SelectUpdateEmpRecsOutputCollection_msg"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns14:ProcessHeader"/>
+    <variable name="InsertSapSpsEmployee_insert_InputVariable" messageType="ns4:XxnucHrSapEmployeeStgCollection_msg"/>
+    <variable name="DB_InsertHrEmployee_insert_InputVariable" messageType="ns3:XxnucHrEmpIfaceStgCollection_msg"/>
+    <variable name="DB_SelectUpdateEmpRecs_InputVariable" messageType="ns13:DB_SelectUpdateEmpRecsInput_msg"/>
+    <variable name="DB_SelectUpdateEmpRecs_OutputVariable"
+              messageType="ns13:DB_SelectUpdateEmpRecsOutputCollection_msg"/>
+    <variable name="DB_MergeSpsEmp_merge_InputVariable" messageType="ns6:XxnucHrEmpBaseStgCollection_msg"/>
+    <variable name="OA_EmpDataLoad_InputVariable" messageType="ns7:args_in_msg"/>
+    <variable name="OA_EmpDataLoad_OutputVariable" messageType="ns7:args_out_msg"/>
+    <variable name="g_Invoke_CommonLogging_PL_process_InputVariable" messageType="ns16:CommonLoggingRequestMessage"/>
+    <variable name="g_URL" type="xsd:string">
+      
+    </variable>
+    <variable name="setTitleVar" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_CatchAll">
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from expression="''"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:MessageCode"/>
+          </copy>
+          <copy>
+            <from expression="concat(  ora:getFlowId(),':',ora:getFaultAsString())"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:MessageDescription"/>
+          </copy>
+          <copy>
+            <from expression="2"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:TransactionStatus"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                partnerLink="CommonLogging_PL" portType="ns16:CommonLogging" operation="process">
+         <bpelx:inputProperty name="endpointURI" 
+                              variable="g_URL"/> 
+      </invoke>
+         
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in NUC_Emp_SAP_EBiz_ABF.wsdl) -->
+    <receive name="receiveInput" partnerLink="nuc_reduceddemographicsemp_sap_ebiz_abf_client"
+             portType="client:NUC_Emp_SAP_EBiz_ABF" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="SetEHM" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <copy>
+        <from expression="xp20:current-dateTime()"/>
+        <to variable="EIA_HEADER_MESSAGE" query="/ns14:ProcessHeader/ns14:ProcessStartTime"/>
+      </copy>
+      <copy>
+        <from expression="ora:getCompositeName()"/>
+        <to variable="EIA_HEADER_MESSAGE" query="/ns14:ProcessHeader/ns14:ProcessName"/>
+      </copy>
+      <copy>
+        <from expression="ora:getCompositeInstanceId()"/>
+        <to variable="EIA_HEADER_MESSAGE" query="/ns14:ProcessHeader/ns14:ProcessInstanceID"/>
+      </copy>
+      <copy>
+        <from expression="ora:getProcessVersion()"/>
+        <to variable="EIA_HEADER_MESSAGE" query="/ns14:ProcessHeader/ns14:ProcessRevision"/>
+      </copy>
+      <copy>
+        
+        <from expression="eia:getEIAServiceProperty('CommonLogging','endpointURI')"/>        
+        <to variable="g_URL"/>
+      </copy>
+    </assign>
+    <assign name="Assign_CommonLogging_PL">
+      <copy>
+        <from expression="'1000'"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:TransactionId"/>
+      </copy>
+      <copy>
+        <from expression="'NextGen'"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:ProjectName"/>
+      </copy>
+      <copy>
+        <from expression="'I009'"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:ComponentId"/>
+      </copy>
+      <copy>
+        <from expression="'Employee'"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:TransactionName"/>
+      </copy>
+      <copy>
+        <from expression="ora:getCompositeName()"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:ProcessName"/>
+      </copy>
+      <copy>
+        <from expression="1"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:LoggingSystem"/>
+      </copy>
+      <copy>
+        <from expression="3"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:SourceSystem"/>
+      </copy>
+      <copy>
+        <from expression="2"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:TargetSystem"/>
+      </copy>
+      <copy>
+        <from expression="1"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:LogType"/>
+      </copy>
+      <copy>
+        <from expression="'BMG-003'"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:MessageCode"/>
+      </copy>
+      <copy>
+        <from expression="1"/>
+        <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+            query="/ns16:Input/ns16:TransactionStatus"/>
+      </copy>
+      <copy>
+        <from expression="ora:setCompositeInstanceTitle( string(bpws:getVariableData(  'g_Invoke_CommonLogging_PL_process_InputVariable','CommonLogging','/ns16:Input/ns16:TransactionId')))"/>
+        <to variable="setTitleVar"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging_PL" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+            partnerLink="CommonLogging_PL" portType="ns16:CommonLogging" operation="process"
+            bpelx:skipCondition='eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"'>
+      <bpelx:inputProperty name="endpointURI" variable="g_URL"/>
+    </invoke>
+    <!-- <from expression="eia:getEIAModuleProperty('CommonLogging','endpointURI')"/>-->
+    <!--scope name="Scope1">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1"> 
+                                     
+      </sequence>
+    </scope-->
+    <assign name="AssignWSInputValues">
+      <copy>
+        <from variable="inputVariable" part="payload" query="/client:GetReducedDemoXML/client:divNum"/>
+        <to variable="DemographicsService_GetDemographicXML_ReqMsg" part="parameters"
+            query="/ns1:GetReducedDemoXML/ns1:divNums/ns8:int"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload" query="/client:GetReducedDemoXML/client:environmentCode"/>
+        <to variable="Load_Terminations"/>
+      </copy>
+      <copy>
+        <from expression="'P'"/>
+        <to variable="DemographicsService_GetDemographicXML_ReqMsg" part="parameters"
+            query="/ns1:GetReducedDemoXML/ns1:environmentCode"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DemographicsService" inputVariable="DemographicsService_GetDemographicXML_ReqMsg"
+            outputVariable="DemographicsService_GetDemographicXML_RespMsg" partnerLink="WS_Demographics"
+            portType="ns1:IDemo" operation="GetReducedDemoXML" bpelx:invokeAsDetail="no"/>
+    <assign name="AssignOutputToXML">
+      <copy>
+        <from expression="bpws:getVariableData('DemographicsService_GetDemographicXML_RespMsg','parameters','/ns1:GetReducedDemoXMLResponse/ns1:GetReducedDemoXMLResult/Envelope')"/>
+        <to variable="TempVariable" query="/Envelope"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DeleteSapSpsData" inputVariable="DB_DeleteSapSpsData_ReqMsg" partnerLink="DB_DeleteSapSpsData"
+            portType="ns2:DB_DeleteSapSpsData_ptt" operation="DB_DeleteSapSpsData" bpelx:invokeAsDetail="no"/>
+    <assign name="Xform_Envelope_To_DB_Insert_SapSpS_Employee_ReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Xform_Envelope_To_DB_Insert_SapSpS_Employee_ReqMsg1.xsl', $TempVariable)"/>
+        <to variable="InsertSapSpsEmployee_insert_InputVariable" part="XxnucHrSapEmployeeStgCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_InsertSapSpsEmployee" inputVariable="InsertSapSpsEmployee_insert_InputVariable"
+            partnerLink="DB_InsertSapSpsEmployee" portType="ns4:DB_InsertSapSpsEmployee_ptt" operation="insert"
+            bpelx:invokeAsDetail="no"/>
+    <invoke name="Invoke_SelectUpdateEmpRecs" bpelx:invokeAsDetail="no"
+            inputVariable="DB_SelectUpdateEmpRecs_InputVariable" outputVariable="DB_SelectUpdateEmpRecs_OutputVariable"
+            partnerLink="DB_SelectUpdateEmpRecs" portType="ns13:DB_SelectUpdateEmpRecs_ptt"
+            operation="DB_SelectUpdateEmpRecs"/>
+    <assign name="Xform_Select_UpdateEmp_ReqMsg_To_Insert_HrEmp_ReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Xform_Select_UpdateEmp_ReqMsg_To_Insert_HrEmp_ReqMsg1.xsl', $DB_SelectUpdateEmpRecs_OutputVariable.DB_SelectUpdateEmpRecsOutputCollection, 'g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging', $g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging)"/>
+        <to variable="DB_InsertHrEmployee_insert_InputVariable" part="XxnucHrEmpIfaceStgCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_InsertHrEmployee" inputVariable="DB_InsertHrEmployee_insert_InputVariable"
+            bpelx:invokeAsDetail="no" partnerLink="DB_InsertHrEmployee" portType="ns3:DB_InsertHrEmployee_ptt"
+            operation="insert"/>
+    <assign name="Xform_Select_UpdateEmpRecs_RespMsg_To_Merge_SpsEmp_ReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Xform_Select_UpdateEmpRecs_RespMsg_To_Merge_SpsEmp_ReqMsg1.xsl', $DB_SelectUpdateEmpRecs_OutputVariable.DB_SelectUpdateEmpRecsOutputCollection)"/>
+        <to variable="DB_MergeSpsEmp_merge_InputVariable" part="XxnucHrEmpBaseStgCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_MergeSpsEmp" inputVariable="DB_MergeSpsEmp_merge_InputVariable" partnerLink="DB_MergeSpsEmp"
+            portType="ns6:DB_MergeSpsEmp_ptt" operation="merge" bpelx:invokeAsDetail="no"/>
+    <!--assign name="Assign_Emp_DataLoad">
+      <copy>
+        <from expression="'INTERFACE'"/>
+        <to variable="OA_EmpDataLoad_ReqMsg" part="InputParameters"
+            query="/ns9:InputParameters/ns9:InterfaceorConversion"/>
+      </copy>
+      <copy>
+        <from variable="DB_InsertHrEmployee_insert_ReqMsg"
+              part="XxnucHrEmployeeStgCollection"
+              query="/ns11:XxnucHrEmployeeStgCollection/ns11:XxnucHrEmployeeStg/ns11:ledger"/>
+        <to variable="OA_EmpDataLoad_ReqMsg" part="InputParameters"
+            query="/ns9:InputParameters/ns9:LedgerName"/>
+      </copy>
+    </assign-->
+    <switch name="Run_Conc_Prog">
+      <case condition="bpws:getVariableData('inputVariable','payload','/client:GetReducedDemoXML/client:environmentCode') = &quot;P&quot;">
+        <bpelx:annotation>
+          <bpelx:general>
+            <bpelx:property name="userLabel">
+              <![CDATA[Run Process]]>
+            </bpelx:property>
+          </bpelx:general>
+        </bpelx:annotation>
+        <sequence>
+          <assign name="Xform_EmpLedger_OA_EmpDataLoadReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern>transformation</bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from expression="ora:doXSLTransformForDoc('xsl/Xform_EmpLedger_OA_EmpDataLoadReqMsg1.xsl', $DB_InsertHrEmployee_insert_InputVariable.XxnucHrEmpIfaceStgCollection)"/>
+              <to variable="OA_EmpDataLoad_InputVariable" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_EmpDataLoad" inputVariable="OA_EmpDataLoad_InputVariable"
+                  outputVariable="OA_EmpDataLoad_OutputVariable" partnerLink="OA_EmpDataLoad"
+                  portType="ns7:OA_EmpDataLoad_ptt" operation="OA_EmpDataLoad" bpelx:invokeAsDetail="no">
+            <bpelx:inputProperty name="jca.apps.Username" expression='"SOAUSER"'/>
+            <bpelx:inputProperty name="jca.apps.Responsibility" expression='"NUC HR Foundation"'/>
+          </invoke>
+          <switch name="Switch1">
+            <case condition="bpws:getVariableData('OA_EmpDataLoad_OutputVariable','OutputParameters','/ns9:OutputParameters/ns9:RETURN_CODE') != 'S' and bpws:getVariableData('OA_EmpDataLoad_OutputVariable','OutputParameters','/ns9:OutputParameters/ns9:RETURN_MESSAGE') != ''">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">
+                    <![CDATA[ErrorDescriptionNotPresent]]>
+                  </bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation><sequence name="Sequence_Otherwise"
+                                           xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <assign name="Assign_CommonLogging_PL">
+         
+         
+      <copy><from expression="4"/><to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                                      query="/ns16:Input/ns16:LogType"/></copy><copy>
+            <from expression="''"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:MessageCode"/>
+         </copy><copy><from expression="bpws:getVariableData('OA_EmpDataLoad_OutputVariable','OutputParameters','/ns9:OutputParameters/ns9:RETURN_MESSAGE')"/><to variable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                                                                                                                                                                  part="CommonLogging"
+                                                                                                                                                                  query="/ns16:Input/ns16:MessageDescription"/></copy><copy>
+            <from expression="2"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:TransactionStatus"/>
+         </copy></assign>
+      <invoke name="Invoke_CommonLogging_PL" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+              partnerLink="CommonLogging_PL" portType="ns16:CommonLogging" operation="process"
+              bpelx:skipCondition='eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"'
+              xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:inputProperty name="endpointURI" variable="g_URL"/>
+         <!--expression="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;endpointURI&quot;)"/> -->
+      </invoke>
+   </sequence></case>
+            <case condition="bpws:getVariableData('OA_EmpDataLoad_OutputVariable','OutputParameters','/ns9:OutputParameters/ns9:RETURN_CODE') = 'S'">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">
+                    <![CDATA[Sucess]]>
+                  </bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="Sequence_Success">
+                <assign name="Assign_CommonLogging_PL">
+                  <copy>
+                    <from expression="'BMG-002'"/>
+                    <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                        query="/ns16:Input/ns16:MessageCode"/>
+                  </copy>
+                  <copy>
+                    <from expression="2"/>
+                    <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                        query="/ns16:Input/ns16:TransactionStatus"/>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging_PL" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                        partnerLink="CommonLogging_PL" portType="ns16:CommonLogging" operation="process"
+                        bpelx:skipCondition='eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"'>
+                  <bpelx:inputProperty name="endpointURI" variable="g_URL"/>
+                  <!--expression="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;endpointURI&quot;)"/> -->
+                </invoke>
+              </sequence>
+            </case>
+            <otherwise><sequence name="Sequence_Otherwise"
+                                 xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      <assign name="Assign_CommonLogging_PL">
+         
+         
+      <copy>
+                    <from expression="4"/>
+                    <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                        query="/ns16:Input/ns16:LogType"/>
+                  </copy><copy>
+            <from expression="''"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:MessageCode"/>
+         </copy><copy>
+            <from expression="2"/>
+            <to variable="g_Invoke_CommonLogging_PL_process_InputVariable" part="CommonLogging"
+                query="/ns16:Input/ns16:TransactionStatus"/>
+         </copy></assign>
+      <invoke name="Invoke_CommonLogging_PL" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+              partnerLink="CommonLogging_PL" portType="ns16:CommonLogging" operation="process"
+              bpelx:skipCondition='eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"'
+              xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:inputProperty name="endpointURI" variable="g_URL"/>
+         <!--expression="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;endpointURI&quot;)"/> -->
+      </invoke>
+   </sequence></otherwise>
+          </switch>
+          <!--scope name="Scope2">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence1"/>
+          </scope-->
+        </sequence>
+      </case>
+      <otherwise>
+        <empty name="DoNothing"/>
+      </otherwise>
+    </switch>
+    <!--assign name="Xform_HrEmployee_Insert_ReqMsg_To_OA_EmpDataLoad_ReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:doXSLTransformForDoc('xsl/Xform_HrEmployee_Insert_ReqMsg_To_OA_EmpDataLoad_ReqMsg.xsl', $DB_InsertHrEmployee_insert_ReqMsg.XxnucHrEmployeeStgCollection)"/>
+        <to variable="OA_EmpDataLoad_ReqMsg" part="InputParameters"/>
+      </copy>
+    </assign-->
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="nuc_reduceddemographicsemp_sap_ebiz_abf_client"
+           portType="client:NUC_Emp_SAP_EBiz_ABF" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

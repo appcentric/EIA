@@ -1,0 +1,21 @@
+<adapter-config name="PollOMSI_DBAdapter" adapter="db" wsdlLocation="../WSDLs/PollOMSI_DBAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="OMSI" location="eis/DB/omsi"/>
+  <endpoint-activation portType="PollOMSI_DBAdapter_ptt" operation="receive">
+    <activation-spec className="oracle.tip.adapter.db.DBActivationSpec">
+      <property name="DescriptorName" value="PollOMSI_DBAdapter.LogEntry"/>
+      <property name="QueryName" value="PollOMSI_DBAdapterSelect"/>
+      <property name="MappingsMetaDataURL" value="PollOMSI_DBAdapter-or-mappings.xml"/>
+      <property name="PollingStrategy" value="LogicalDeletePollingStrategy"/>
+      <property name="MarkReadColumn" value="IS_READ"/>
+      <property name="MarkReadValue" value="1"/>
+      <property name="MarkUnreadValue" value="0"/>
+      <property name="PollingInterval" value="5"/>
+      <property name="MaxRaiseSize" value="100"/>
+      <property name="MaxTransactionSize" value="unlimited"/>
+      <property name="NumberOfThreads" value="1"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

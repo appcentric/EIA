@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="glpayroll_sap_ebs_abf_client_ep">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="265" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="258" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="glpayroll_sap_ebs_abf_client_ep" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF#wsdl.interface(GLPayroll_SAP_EBS_ABF)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="SAP_FI_Posting_Service">
+        <dgm:body borderWidth="2" arcRad="20" X="520" Y="26" width="136" height="168">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="510" Y="19" width="156" height="182">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="SAP_FI_Posting_Service" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="www.Nucor.com#wsdl.interface(SapDataSoap)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>AAATest_RunID</dgm:item>
+            <dgm:item>Get_SAP_FIPosting</dgm:item>
+            <dgm:item>Get_SAP_FIPosting_Via_RunID_List</dgm:item>
+            <dgm:item>Get_Pos_Pay</dgm:item>
+            <dgm:item>AuthPropsReadUserName</dgm:item>
+            <dgm:item>UpdateAuthProps</dgm:item>
+            <dgm:item>IsUserAuthorized</dgm:item>
+            <dgm:item>GetPending_SAP_Text_Files</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="DB_xxnuc_gl_sap_payroll_pkg">
+        <dgm:body borderWidth="2" arcRad="20" X="520" Y="228" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="510" Y="221" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="DB_xxnuc_gl_sap_payroll_pkg" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/GLPayroll_SAP_EBS_ABF/DB_xxnuc_gl_sap_payroll_pkg#wsdl.interface(DB_xxnuc_gl_sap_payroll_pkg_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/db_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>DB_xxnuc_gl_sap_payroll_pkg</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="APPS_GL_Interface">
+        <dgm:body borderWidth="2" arcRad="20" X="520" Y="346" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="510" Y="339" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="APPS_GL_Interface" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/apps/Manish/GLPayroll_SAP_EBS_ABF/APPS_GL_Interface#wsdl.interface(APPS_GL_Interface_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/oa_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>insert</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CommonLoggin_PL">
+        <dgm:body borderWidth="2" arcRad="20" X="520" Y="464" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="510" Y="457" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLoggin_PL" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://nucor.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="GLPayroll_SAP_EBS_ABF">
+        <dgm:body borderWidth="2" arcRad="20" X="274" Y="250" width="130" height="136">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="264" Y="243" width="150" height="152">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="glpayroll_sap_ebs_abf_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF#wsdl.interface(GLPayroll_SAP_EBS_ABF)"/>
+        <dgm:outputPort name="SAP_FI_Posting_Service" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="www.Nucor.com#wsdl.interface(SapDataSoap)"/>
+        <dgm:outputPort name="DB_xxnuc_gl_sap_payroll_pkg" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/GLPayroll_SAP_EBS_ABF/DB_xxnuc_gl_sap_payroll_pkg#wsdl.interface(DB_xxnuc_gl_sap_payroll_pkg_ptt)"/>
+        <dgm:outputPort name="APPS_GL_Interface" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/apps/Manish/GLPayroll_SAP_EBS_ABF/APPS_GL_Interface#wsdl.interface(APPS_GL_Interface_ptt)"/>
+        <dgm:outputPort name="CommonLoggin_PL" X="120" Y="90" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://nucor.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="glpayroll_sap_ebs_abf_client_ep" target="GLPayroll_SAP_EBS_ABF/glpayroll_sap_ebs_abf_client" width="2">
+        <dgm:gSegment X1="168" Y1="275" X2="264" Y2="275"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="GLPayroll_SAP_EBS_ABF/SAP_FI_Posting_Service" target="SAP_FI_Posting_Service" width="2">
+        <dgm:gSegment X1="414" Y1="275" X2="438" Y2="275"/>
+        <dgm:gSegment X1="438" Y1="275" X2="438" Y2="36"/>
+        <dgm:gSegment X1="438" Y1="36" X2="510" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="GLPayroll_SAP_EBS_ABF/DB_xxnuc_gl_sap_payroll_pkg" target="DB_xxnuc_gl_sap_payroll_pkg" width="2">
+        <dgm:gSegment X1="414" Y1="300" X2="453" Y2="300"/>
+        <dgm:gSegment X1="453" Y1="300" X2="453" Y2="238"/>
+        <dgm:gSegment X1="453" Y1="238" X2="510" Y2="238"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="GLPayroll_SAP_EBS_ABF/APPS_GL_Interface" target="APPS_GL_Interface" width="2">
+        <dgm:gSegment X1="414" Y1="325" X2="453" Y2="325"/>
+        <dgm:gSegment X1="453" Y1="325" X2="453" Y2="356"/>
+        <dgm:gSegment X1="453" Y1="356" X2="510" Y2="356"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="GLPayroll_SAP_EBS_ABF/CommonLoggin_PL" target="CommonLoggin_PL" width="2">
+        <dgm:gSegment X1="414" Y1="350" X2="438" Y2="350"/>
+        <dgm:gSegment X1="438" Y1="350" X2="438" Y2="474"/>
+        <dgm:gSegment X1="438" Y1="474" X2="510" Y2="474"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

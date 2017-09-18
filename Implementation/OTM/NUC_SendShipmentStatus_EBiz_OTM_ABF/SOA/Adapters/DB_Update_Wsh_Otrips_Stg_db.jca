@@ -1,0 +1,11 @@
+<adapter-config name="DB_Update_Wsh_Otrips_Stg" adapter="db" wsdlLocation="../WSDLs/DB_Update_Wsh_Otrips_Stg.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="ebsapps" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_Update_Wsh_Otrips_Stg_ptt" operation="DB_Update_Wsh_Otrips_Stg">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE xxnuc_wsh_otrips_stg  SET otm_flag = 'P' WHERE 1 = 1  AND otm_flag = 'Q'  AND process_flag = 'SUCCESS'  AND operation = 1500  AND trip_id = #p_trip_id  AND transaction_id = #p_txn_id"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

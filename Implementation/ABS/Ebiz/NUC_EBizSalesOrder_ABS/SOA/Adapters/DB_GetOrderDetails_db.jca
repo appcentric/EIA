@@ -1,0 +1,14 @@
+<adapter-config name="DB_GetOrderDetails" adapter="db" wsdlLocation="../WSDLs/DB_GetOrderDetails.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="SMGPDEV1" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_GetOrderDetails_ptt" operation="DB_GetOrderDetailsSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_GetOrderDetails.OeOrderHeadersAll"/>
+      <property name="QueryName" value="DB_GetOrderDetailsSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_GetOrderDetails-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

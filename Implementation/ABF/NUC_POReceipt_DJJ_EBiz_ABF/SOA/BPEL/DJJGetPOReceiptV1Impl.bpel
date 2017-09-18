@@ -1,0 +1,1986 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer :
+  
+  Created: Tue Feb 02 09:24:40 CST 2016
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="DJJGetPOReceiptV1Impl"
+               targetNamespace="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/DV1Application/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ns2="http://schemas.oracle.com/service/bpel/common"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns4="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns15="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0"
+         xmlns:ns14="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptABM/1.0"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns13="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns16="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns17="http://xmlns.oracle.com/DV1Application/NUC_POReceipt_DJJ_EBiz_ABF/DJJAcknowledge_ep"
+         xmlns:ns18="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl/correlationset"
+         xmlns:ns19="http://xmlns.eia.com/EDN/1.0/Event" xmlns:ns20="http://xmlns.eia.com/EDN/EntityResponseEvent/1.0">
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="propertiesFile">
+        <![CDATA[../WSDLs/DJJGetPOReceiptV1Impl_properties.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <import namespace="http://xmlns.eia.com/EDN/1.0/Event"
+          location="oramds:/apps/EIAMetadata/CommonArtifacts/schemas/EntityResponseEventAO.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.eia.com/ABF/NUC_POReceipt_DJJ_EBiz_ABF/DJJGetPOReceiptV1Impl" location="../WSDLs/DJJGetPOReceiptV1Impl.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="DJJGetPOReceiptV1_ep" partnerLinkType="client:DJJGetPOReceiptV1Impl" myRole="DJJGetPOReceiptV1ImplProvider"/>
+    <partnerLink name="DJJGetPOReceiptV1" partnerLinkType="ns1:DJJGetPOReceiptV1"
+                 partnerRole="DJJGetPOReceiptV1Provider"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="ReceiptABS" partnerLinkType="ns4:ReceiptABS" partnerRole="SyncPortType"/>
+    <partnerLink name="DJJAcknowledge_ep" partnerLinkType="ns17:DJJAcknowledge_ep"
+                 partnerRole="DJJAcknowledge_epProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:DJJGetPOReceiptV1ImplRequestMessage"/>
+    <variable name="DJJGetPOReceiptV1_ReqMsg" messageType="ns1:Rest_EmptyMessage"/>
+    <variable name="DJJGetPOReceiptV1_RespMsg" messageType="ns1:GetPOReceipt_outputMessage"/>
+    <!--variable name="Invoke_ReceiptABS_CreateReceipt_Sync_InputVariable"
+              messageType="ns4:CreateReceiptRequestMessageType"/-->
+    <!--variable name="Invoke_ReceiptABS_CreateReceipt_Sync_OutputVariable"
+              messageType="ns4:CreateReceiptResponseMessageType"/-->
+    <variable name="gVar_GroupId" type="xsd:string"/>
+    <variable name="Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_InputVariable"
+              messageType="ns4:LaunchReceiptRequestMessageType"/>
+    <variable name="Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable"
+              messageType="ns4:LaunchReceiptResponseMessageType"/>
+    <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+    <variable name="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+              messageType="ns17:AcknowledgeReceipts_inputMessage"/>
+    <variable name="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable" messageType="ns17:Rest_EmptyMessage"/>
+    <variable name="ReceiveEvent_EBSRequestID_InputVariable" element="ns19:Event"/>
+    <variable name="Invoke_ReceiptABS_CreateReceiptReqMsg" messageType="ns4:CreateReceiptRequestMessageType"/>
+    <variable name="Invoke_ReceiptABS_CreateReceiptRespMsg" messageType="ns4:CreateReceiptResponseMessageType"/>
+    <variable name="tmpTransactionPresent" type="xsd:string"/>
+  </variables>
+  <correlationSets>
+    <correlationSet name="Correlation_SetEBSRequestID" properties="ns18:EBSRequestID"/>
+  </correlationSets>
+  <faultHandlers>
+    <catch bpelx:name="Timeout" faultName="bpelx:timeout">
+      <sequence name="Sequence22">
+        <assign name="Assign_Ack_CommonLogging">
+          <!--copy>
+            <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+          </copy-->
+          <copy>
+            <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+          </copy>
+          <copy>
+            <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+          </copy>
+          <copy>
+            <from>"2"</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+          </copy>
+          <copy>
+            <from>concat('FlowId:',ora:getFlowId(),':',"TimeOut occured while response from EBS for RequestID ",$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable.LaunchReceiptResponseMessage/ns5:RequestID)</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+          </copy>
+          <copy>
+            <from>$gVar_GroupId</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I094"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"POReceipts"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>15</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-156"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable.LaunchReceiptResponseMessage/ns5:RequestID</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+          <extensionAssignOperation>
+            <bpelx:remove>
+              <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</bpelx:target>
+            </bpelx:remove>
+          </extensionAssignOperation>
+          <extensionAssignOperation>
+            <bpelx:remove>
+              <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</bpelx:target>
+            </bpelx:remove>
+          </extensionAssignOperation>
+          <extensionAssignOperation>
+            <bpelx:remove>
+              <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</bpelx:target>
+            </bpelx:remove>
+          </extensionAssignOperation>
+        </assign>
+        <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable" bpelx:invokeAsDetail="no"
+                outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable">
+          <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+                  <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <invoke name="Invoke_CommonLogging_TimeOut" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence3">
+        <if name="IfDJJError">
+          <documentation>
+            <![CDATA[Yes]]>
+          </documentation>
+          <condition>(($DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID) and ($DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID != "")) and (($DJJGetPOReceiptV1_RespMsg.reply/ApplicationID) and ($DJJGetPOReceiptV1_RespMsg.reply/ApplicationID != ""))</condition>
+          <sequence name="Sequence8">
+            <assign name="Assign_AckDJJCatchAll">
+              <!--copy>
+                <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+              </copy-->
+              <copy>
+                <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+              </copy>
+              <copy>
+                <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+              </copy>
+              <copy>
+                <from>""</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+              </copy>
+              <copy>
+                <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+              </copy>
+              <copy>
+                <from>'2'</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+              </copy>
+              <copy>
+                <from>""</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+              </copy>
+              <copy>
+                <from>""</from>
+                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+              </copy>
+              <extensionAssignOperation>
+                <bpelx:remove>
+                  <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</bpelx:target>
+                </bpelx:remove>
+              </extensionAssignOperation>
+              <extensionAssignOperation>
+                <bpelx:remove>
+                  <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</bpelx:target>
+                </bpelx:remove>
+              </extensionAssignOperation>
+              <extensionAssignOperation>
+                <bpelx:remove>
+                  <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</bpelx:target>
+                </bpelx:remove>
+              </extensionAssignOperation>
+            </assign>
+            <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                    portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                    inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                    outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+                  <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <empty name="DoNotAckDJJ"/>
+          </else>
+        </if>
+        <if name="If_NoContent">
+          <documentation>
+            <![CDATA[Yes]]>
+          </documentation>
+          <condition>contains(ora:getFaultAsString(),'No Content')</condition><assign name="Assign_CatchAllLogging"
+                                                                                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+   <copy>
+         <from>1</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+      </copy><copy>
+         <from>"BMG-177"</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+      </copy><copy>
+         <from>'DJJ REST Service'</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+      </copy></assign><else>
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <assign name="Assign_CatchAllLogging"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   <copy>
+         <from>4</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+      </copy><copy>
+         <from>""</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+      </copy><copy>
+         <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+      </copy></assign></else>
+        </if><assign name="Assign_CatchAllLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   <copy>
+         <from>$gVar_GroupId</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+      </copy><copy>
+         <from>"NextGen"</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+      </copy><copy>
+         <from>"I094"</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+      </copy><copy>
+         <from>"POReceipts"</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+      </copy><copy>
+         <from>ora:getCompositeName()</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+      </copy><copy>
+         <from>1</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+      </copy><copy>
+         <from>15</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+      </copy><copy>
+         <from>2</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+      </copy><copy>
+         <from>2</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+      </copy><copy>
+         <from>"SOA"</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+      </copy><copy>
+         <from>"SOA"</from>
+         <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+      </copy></assign><invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in DJJGetPOReceiptV1Impl.wsdl) -->
+    <receive name="receiveInput" partnerLink="DJJGetPOReceiptV1_ep" portType="client:DJJGetPOReceiptV1Impl" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="FetchGroupId">
+      <copy>
+        <from>oraext:sequence-next-val('RCV_INTERFACE_GROUPS_S','jdbc/ebsapps')</from>
+        <to>$gVar_GroupId</to>
+      </copy>
+      <copy>
+        <from>'false'</from>
+        <to>$tmpTransactionPresent</to>
+      </copy>
+    </assign>
+    <scope name="Scope_StartLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence6">
+        <assign name="Assign_StartLogging">
+          <copy>
+            <from>$gVar_GroupId</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($gVar_GroupId))</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I094"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'POReceipts'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>"15"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-003"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <if name="IfTestData">
+      <documentation>
+        <![CDATA[TestDataPresent]]>
+      </documentation>
+      <condition>$inputVariable.payload/ns2:item[ns2:name = "TestPayload"]/ns2:value != ""</condition>
+      <assign name="Assign_TestPayload">
+        <copy>
+          <from>oraext:parseXML($inputVariable.payload/ns2:item[ns2:name = "TestPayload"]/ns2:value)</from>
+          <to>$DJJGetPOReceiptV1_RespMsg.reply</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[TestDataNotPresent]]>
+        </documentation>
+        <sequence>
+          <invoke name="InvokeDJJGetPOReceiptV1" partnerLink="DJJGetPOReceiptV1" portType="ns1:DJJGetPOReceiptV1_ptt"
+                  operation="GetPOReceipt" inputVariable="DJJGetPOReceiptV1_ReqMsg"
+                  outputVariable="DJJGetPOReceiptV1_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.requestURI"]/ns2:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.Accept">'application/xml'</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.OverrideReturnCount">$inputVariable.payload/ns2:item[ns2:name="OverrideReturnCount"]/ns2:value</bpelx:toProperty>
+              <bpelx:toProperty name="rest.binding.http.CallingAckReq">$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </else>
+    </if>
+    <forEach parallel="no" counterName="DJJRcptIdx" name="ForEachDJJReceipts">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel)</finalCounterValue>
+      <scope name="Scope_DJJReceipts">
+        <variables>
+          <variable name="tmpDJJPORcpt" messageType="ns1:GetPOReceipt_outputMessage"/>
+          <variable name="tmpGroupIdNV" element="ns2:parameters"/>
+          <!--variable name="Invoke_ReceiptABS_QueryReceiptById_InputVariable"
+                    messageType="ns4:QueryReceiptRequestMessageType"/>
+          <variable name="Invoke_ReceiptABS_QueryReceiptById_OutputVariable"
+                    messageType="ns4:QueryReceiptResponseMessageType"/-->
+          <variable name="QueryReceiptByShipment_InputVariable" messageType="ns4:QueryReceiptRequestMessageType"/>
+          <variable name="QueryReceiptByShipment_OutputVariable" messageType="ns4:QueryReceiptResponseMessageType"/>
+          <variable name="tmpSourceTransactionNum" type="xsd:string"/>
+        </variables>
+        <faultHandlers>
+          <catchAll>
+            <sequence name="Sequence2">
+              <assign name="Assign_Ack_CreateABSCatchAll">
+                <!--copy>
+                  <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                </copy-->
+                <copy>
+                  <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                </copy>
+                <copy>
+                  <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                </copy>
+                <copy>
+                  <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/ChangeVersionID</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                </copy>
+                <copy>
+                  <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                </copy>
+                <copy>
+                  <from>'2'</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                </copy>
+                <copy>
+                  <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/DataChangeTypeID</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                </copy>
+                <copy>
+                  <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/DataChangeChildTypeID</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                      portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                      inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                      outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Assign_CommonLoggingReceiptError">
+                <copy>
+                  <from>$gVar_GroupId</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>"NextGen"</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>"I094"</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>"POReceipts"</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>15</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                </copy>
+                <copy>
+                  <from>""</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>"SOA"</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>"SOA"</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                      portType="ns3:CommonLogging" operation="process"
+                      inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </catchAll>
+        </faultHandlers>
+        <sequence name="Sequence1">
+          <assign name="Assign_tmpDJJPORcpt">
+            <copy>
+              <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[$DJJRcptIdx]</from>
+              <to>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel</to>
+            </copy>
+            <copy>
+              <from>$gVar_GroupId</from>
+              <to>$tmpGroupIdNV/ns2:item/ns2:value</to>
+            </copy>
+            <copy>
+              <from>'GroupId'</from>
+              <to>$tmpGroupIdNV/ns2:item/ns2:name</to>
+            </copy>
+          </assign>
+          
+         
+              <sequence>
+                <assign name="Xform_tmpDJJPORcpt_To_QueryReceiptByShipmentIdABSRequest">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("../Transformations/Xform_tmpDJJPORcpt_To_QueryReceiptByShipmentIdABSRequest.xsl", $tmpDJJPORcpt.reply, "tmpGroupIdNV", $tmpGroupIdNV)</from>
+                    <to variable="QueryReceiptByShipment_InputVariable" part="QueryReceiptRequestMessage"/>
+                  </copy>
+                </assign>
+                <assign name="Assign_Header">
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$QueryReceiptByShipment_InputVariable.QueryReceiptRequestMessage/ns6:HeaderRq/ns6:ServiceName</to>
+              </copy>
+            </assign>
+                <invoke name="QueryReceiptByShipment" partnerLink="ReceiptABS"
+                        portType="ns4:SyncPortType" operation="QueryReceiptById_Sync"
+                        inputVariable="QueryReceiptByShipment_InputVariable"
+                        outputVariable="QueryReceiptByShipment_OutputVariable" bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+            <assign name="SetReceiptABS">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJGetPOReceiptRespMsg_To_EBizPOReceiptABS_ReqMsg.xsl", $tmpDJJPORcpt.reply, "QueryReceiptByShipment_OutputVariable.QueryReceiptResponseMessage", $QueryReceiptByShipment_OutputVariable.QueryReceiptResponseMessage, "tmpGroupIdNV", $tmpGroupIdNV)</from>
+                <to variable="Invoke_ReceiptABS_CreateReceiptReqMsg" part="CreateReceiptRequestMessage"/>
+              </copy>
+            </assign>
+            <assign name="Assign_Header">
+            
+            <!--copy>
+              <from>$gVar_GroupId</from>
+              <to>$Invoke_ReceiptABS_CreateReceipt_Sync_InputVariable.CreateReceiptRequestMessage/ns6:HeaderRq/ns6:TransactionIDREF</to>
+            </copy>
+            <copy>
+              <from>$gVar_GroupId</from>
+              <to>$Invoke_ReceiptABS_CreateReceipt_Sync_InputVariable.CreateReceiptRequestMessage/ns5:Receipt/ns8:Groupid</to>
+            </copy-->
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_ReceiptABS_CreateReceiptReqMsg.CreateReceiptRequestMessage/ns6:HeaderRq/ns6:ServiceName</to>
+              </copy>
+            </assign>
+            <if name="IfTransactionLines">
+              <documentation>
+                <![CDATA[Present]]>
+              </documentation>
+              <condition>count($Invoke_ReceiptABS_CreateReceiptReqMsg.CreateReceiptRequestMessage/ns5:Receipt/ns8:ListOfTransactions/ns8:Transaction) &gt; 0</condition>
+              <sequence>
+                <invoke name="Invoke_ReceiptABS" partnerLink="ReceiptABS" portType="ns4:SyncPortType"
+                        operation="CreateReceipt_Sync" inputVariable="Invoke_ReceiptABS_CreateReceiptReqMsg"
+                        outputVariable="Invoke_ReceiptABS_CreateReceiptRespMsg"
+                        xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+                <if name="IfCreateSuccess">
+                  <documentation>
+                    <![CDATA[S]]>
+                  </documentation>
+                  <condition>$Invoke_ReceiptABS_CreateReceiptRespMsg.CreateReceiptResponseMessage/ns5:OperationResult/ns16:Stats = 'S'</condition>
+                  <sequence name="Sequence30">
+                    <assign name="Assign_TransactionPresent">
+                      <copy>
+                        <from>'true'</from>
+                        <to>$tmpTransactionPresent</to>
+                      </copy>
+                    </assign>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[E]]>
+                    </documentation>
+                    <sequence name="Sequence9">
+                      <assign name="Assign_Ack_CreateABSError">
+                        <!--copy>
+                                      <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+                                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                                    </copy-->
+                        <copy>
+                          <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                        </copy>
+                        <copy>
+                          <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/ChangeVersionID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                        </copy>
+                        <copy>
+                          <from>'2'</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                        </copy>
+                        <copy ignoreMissingFromData="yes">
+                          <from>concat('FlowId:',ora:getFlowId(),':',string($Invoke_ReceiptABS_CreateReceiptRespMsg.CreateReceiptResponseMessage/ns5:OperationResult/ns16:Errors/ns16:OperationResultError[1]))</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                        </copy>
+                        <copy>
+                          <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/DataChangeTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                        </copy>
+                        <copy>
+                          <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/DataChangeChildTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                              portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                              inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                              outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                              bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                        <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                          <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                          <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                          <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                      <scope name="Scope5">
+                        <faultHandlers>
+                          <catchAll>
+                            <empty name="DoNothing"/>
+                          </catchAll>
+                        </faultHandlers>
+                        <sequence name="Sequence20">
+                          <assign name="Assign_CommonLogginABSError">
+                            <copy>
+                              <from>$gVar_GroupId</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                            </copy>
+                            <copy>
+                              <from>"POReceipts"</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                            </copy>
+                            <copy>
+                              <from>'NextGen'</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                            </copy>
+                            <copy>
+                              <from>'I094'</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                            </copy>
+                            <copy>
+                              <from>ora:getCompositeName()</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                            </copy>
+                            <copy>
+                              <from>1</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                            </copy>
+                            <copy>
+                              <from>15</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                            </copy>
+                            <copy>
+                              <from>2</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                            </copy>
+                            <copy>
+                              <from>4</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                            </copy>
+                            <copy>
+                              <from>""</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                            </copy>
+                            <copy ignoreMissingFromData="yes">
+                              <from>concat('FlowId:',ora:getFlowId(),':',$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/ShipmentID,"::",$Invoke_ReceiptABS_CreateReceiptRespMsg.CreateReceiptResponseMessage/ns5:OperationResult/ns16:Errors/ns16:OperationResultError[1])</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                            </copy>
+                            <copy>
+                              <from>1</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                            </copy>
+                            <copy>
+                              <from>"SOA"</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                            </copy>
+                            <copy>
+                              <from>"SOA"</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                            </copy>
+                          </assign>
+                          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging_PL"
+                                  portType="ns3:CommonLogging" operation="process"
+                                  inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                                  bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                            <bpelx:toProperties>
+                              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                            </bpelx:toProperties>
+                          </invoke>
+                        </sequence>
+                      </scope>
+                    </sequence>
+                  </else>
+                </if>
+              </sequence>
+              <else>
+                <documentation>
+                  <![CDATA[Empty]]>
+                </documentation>
+                <sequence name="Sequence24">
+                  <assign name="Assign_Ack_NoTransactionPresent">
+                    <copy>
+                      <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                    </copy>
+                    <copy>
+                      <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                    </copy>
+                    <copy>
+                      <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/ChangeVersionID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                    </copy>
+                    <copy>
+                      <from>'Success as No Receipt Lines to update or correction'</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                    </copy>
+                    <copy>
+                      <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/DataChangeChildTypeID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                    </copy>
+                    <copy>
+                      <from>$tmpDJJPORcpt.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[1]/DataChangeTypeID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                    </copy>
+                    <copy>
+                      <from>'1'</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                          portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                          inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                          bpelx:invokeAsDetail="no"
+                          outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable">
+                    <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                          <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                          <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                          <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                </sequence>
+              </else>
+            </if>
+              </sequence> <!--
+            </else> 
+          </if> -->
+        </sequence>
+      </scope>
+    </forEach>
+    <if name="If_TransactionsPresent">
+      <documentation>
+        <![CDATA[Yes]]>
+      </documentation>
+      <condition>$tmpTransactionPresent = 'true'</condition>
+      <!--
+      <scope name="Scope_Launch">
+        <sequence name="Sequence4">
+          <assign name="Transformation_DJJPOReceiptV1_To_LaunchReceipts">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/Transformation_DJJPOReceiptV1_To_LaunchReceipts.xsl", $DJJGetPOReceiptV1_RespMsg.reply)</from>
+              <to variable="Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_InputVariable"
+                  part="LaunchReceiptRequestMessage"/>
+            </copy>
+          </assign>
+          <assign name="Assign_Launch">
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_InputVariable.LaunchReceiptRequestMessage/ns6:HeaderRq/ns6:ServiceName</to>
+            </copy>
+            <copy>
+              <from>$gVar_GroupId</from>
+              <to>$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_InputVariable.LaunchReceiptRequestMessage/ns6:HeaderRq/ns6:TransactionIDREF</to>
+            </copy>
+            <copy>
+              <from>$gVar_GroupId</from>
+              <to>$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_InputVariable.LaunchReceiptRequestMessage/ns5:GroupID</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Launch_ReceiptABS" partnerLink="ReceiptABS" portType="ns4:SyncPortType"
+                  operation="LaunchReceipt_Sync"
+                  inputVariable="Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_InputVariable"
+                  outputVariable="Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+            <correlations>
+              <correlation set="Correlation_SetEBSRequestID" initiate="yes" pattern="response"/>
+            </correlations>
+          </invoke>
+          <if name="IfLaunchSuccess">
+            <documentation>
+              <![CDATA[S]]>
+            </documentation>
+            <condition>$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable.LaunchReceiptResponseMessage/ns5:OperationResult/ns16:Stats = 'Success' or $Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable.LaunchReceiptResponseMessage/ns5:OperationResult/ns16:Stats = 'Warning'</condition>
+            <empty name="DoNothing"/>
+            <else>
+              <documentation>
+                <![CDATA[E]]>
+              </documentation>
+              <sequence name="Sequence10">
+                <assign name="Assign_Ack_LaunchABSError"> -->
+                  <!--copy>
+                  <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                </copy-->
+                <!--
+                  <copy>
+                    <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                  </copy>
+                  <copy>
+                    <from>""</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                  </copy>
+                  <copy>
+                    <from>'2'</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                  </copy>
+                  <copy ignoreMissingFromData="yes">
+                    <from>concat('FlowId:',ora:getFlowId(),':',string($Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable.LaunchReceiptResponseMessage/ns5:OperationResult/ns16:Errors/ns16:OperationResultError[1]))</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                  </copy>
+                  <copy>
+                    <from>""</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                  </copy>
+                  <copy>
+                    <from>""</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                  </copy>
+                  <extensionAssignOperation>
+                    <bpelx:remove>
+                      <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</bpelx:target>
+                    </bpelx:remove>
+                  </extensionAssignOperation>
+                  <extensionAssignOperation>
+                    <bpelx:remove>
+                      <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</bpelx:target>
+                    </bpelx:remove>
+                  </extensionAssignOperation>
+                  <extensionAssignOperation>
+                    <bpelx:remove>
+                      <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</bpelx:target>
+                    </bpelx:remove>
+                  </extensionAssignOperation>
+                </assign>
+                <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                        portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                        inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                        outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                        bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+                <scope name="Scope4">
+                  <faultHandlers>
+                    <catchAll>
+                      <empty name="DoNothing"/>
+                    </catchAll>
+                  </faultHandlers>
+                  <sequence>
+                    <assign name="Assign_CommonLoggingLaunchError">
+                      <copy>
+                        <from>$gVar_GroupId</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                      </copy>
+                      <copy>
+                        <from>"POReceipts"</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                      </copy>
+                      <copy>
+                        <from>'NextGen'</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                      </copy>
+                      <copy>
+                        <from>'I094'</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                      </copy>
+                      <copy>
+                        <from>ora:getCompositeName()</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                      </copy>
+                      <copy>
+                        <from>1</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                      </copy>
+                      <copy>
+                        <from>15</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                      </copy>
+                      <copy>
+                        <from>2</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                      </copy>
+                      <copy>
+                        <from>4</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                      </copy>
+                      <copy>
+                        <from>""</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                      </copy>
+                      <copy ignoreMissingFromData="yes">
+                        <from>concat('FlowId:',ora:getFlowId(),':',$Invoke_Launch_ReceiptABS_LaunchReceipt_Sync_OutputVariable.LaunchReceiptResponseMessage/ns5:OperationResult/ns16:Errors/ns16:OperationResultError[1])</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                      </copy>
+                      <copy>
+                        <from>2</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                      </copy>
+                      <copy>
+                        <from>"SOA"</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                      </copy>
+                      <copy>
+                        <from>"SOA"</from>
+                        <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                            operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+                <exit name="ExitOnLaunchFailure"/>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </scope>
+      -->
+      <sequence name="Sequence26">
+        <scope name="Scope6">
+          <variables>
+            <variable name="Invoke_SyncLaunchReceipt_InputVariable"
+                      messageType="ns4:SyncLaunchReceiptRequestMessageType"/>
+            <variable name="Invoke_SyncLaunchReceipt_OutputVariable"
+                      messageType="ns4:SyncLaunchReceiptResponseMessageType"/>
+          </variables>
+          <sequence name="Sequence27">
+            <assign name="Xform_DJJPOReceiptV1_To_SyncLaunchReceipts">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_DJJPOReceiptV1_To_SyncLaunchReceipts.xsl", $DJJGetPOReceiptV1_RespMsg.reply)</from>
+                <to variable="Invoke_SyncLaunchReceipt_InputVariable" part="SyncLaunchReceiptRequestMessage"/>
+              </copy>
+            </assign>
+            <assign name="Assign_Launch">
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_SyncLaunchReceipt_InputVariable.SyncLaunchReceiptRequestMessage/ns6:HeaderRq/ns6:ServiceName</to>
+              </copy>
+              <copy>
+                <from>$gVar_GroupId</from>
+                <to>$Invoke_SyncLaunchReceipt_InputVariable.SyncLaunchReceiptRequestMessage/ns6:HeaderRq/ns6:TransactionIDREF</to>
+              </copy>
+              <copy>
+                <from>$gVar_GroupId</from>
+                <to>$Invoke_SyncLaunchReceipt_InputVariable.SyncLaunchReceiptRequestMessage/ns5:GroupID</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_SyncLaunchReceipt" partnerLink="ReceiptABS" portType="ns4:SyncPortType"
+                    operation="SyncLaunchReceipt_Sync" inputVariable="Invoke_SyncLaunchReceipt_InputVariable"
+                    outputVariable="Invoke_SyncLaunchReceipt_OutputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <if name="IfLaunchSuccess">
+              <documentation>
+                <![CDATA[S]]>
+              </documentation>
+              <condition>count($Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:SyncLaunchResult/ns16:OperationLaunchResults) &gt; 0</condition>
+              <forEach parallel="no" counterName="StatusIndx" name="ForEachStatus">
+                <startCounterValue>1</startCounterValue>
+                <finalCounterValue>count($Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:SyncLaunchResult/ns16:OperationLaunchResults)</finalCounterValue>
+                <scope name="Scope7">
+                  <variables>
+                    <variable name="tmpCurrentShipmentId" type="xsd:string"/>
+                  </variables>
+                  <sequence name="Sequence28">
+                    <assign name="Assign_tmpShipmentId">
+                      <copy>
+                        <from>$Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:SyncLaunchResult/ns16:OperationLaunchResults[$StatusIndx]/ns16:RowIdentifier3</from>
+                        <to>$tmpCurrentShipmentId</to>
+                      </copy>
+                    </assign>
+                    <if name="IfContainsRevision">
+                      <documentation>
+                        <![CDATA[Yes]]>
+                      </documentation>
+                      <condition>contains($tmpCurrentShipmentId,'_')</condition>
+                      <assign name="RemoveRevision">
+                        <copy>
+                          <from>substring-before($tmpCurrentShipmentId,'_')</from>
+                          <to>$tmpCurrentShipmentId</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <documentation>
+                          <![CDATA[No]]>
+                        </documentation>
+                        <empty name="DoNothing"/>
+                      </else>
+                    </if>
+                    <if name="IfContainsScale">
+                      <documentation>
+                        <![CDATA[BizType=Scale and ConsumerShipmentRefID = '']]>
+                      </documentation>
+                      <condition>contains($tmpCurrentShipmentId,'Scale-')</condition>
+                      <assign name="Assign_ACK_Scale">
+                        <copy>
+                          <from>substring-after($tmpCurrentShipmentId,'-')</from>
+                          <to>$tmpCurrentShipmentId</to>
+                        </copy>
+                        <copy>
+                          <from>substring-after($tmpCurrentShipmentId,'-')</from>
+                          <to>$tmpCurrentShipmentId</to>
+                        </copy>
+                        <copy>
+                          <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/ChangeVersionID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeChildTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <documentation>
+                          <![CDATA[BizType=Scale and ConsumerShipmentRefID != '' or BizType=B]]>
+                        </documentation>
+                        <if name="IfBizType">
+                          <documentation>
+                            <![CDATA[B]]>
+                          </documentation>
+                          <condition>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/ShipmentID != ''</condition>
+                          <assign name="Assign_Ack">
+                            <copy>
+                              <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                            </copy>
+                            <copy>
+                              <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                            </copy>
+                            <copy>
+                              <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                            </copy>
+                            <copy>
+                              <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/ChangeVersionID</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                            </copy>
+                            <copy>
+                              <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeChildTypeID</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                            </copy>
+                            <copy>
+                              <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeTypeID</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                            </copy>
+                          </assign>
+                          <else>
+                            <documentation>
+                              <![CDATA[Scale]]>
+                            </documentation>
+                            <assign name="Assign_Ack_Scale">
+                              <copy>
+                                <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                              </copy>
+                              <copy>
+                                <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                              </copy>
+                              <copy>
+                                <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                              </copy>
+                              <copy>
+                                <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ConsumerShipmentRefID=$tmpCurrentShipmentId]/ChangeVersionID</from>
+                                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                              </copy>
+                              <copy>
+                                <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ConsumerShipmentRefID=$tmpCurrentShipmentId]/DataChangeChildTypeID</from>
+                                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                              </copy>
+                              <copy>
+                                <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ConsumerShipmentRefID=$tmpCurrentShipmentId]/DataChangeTypeID</from>
+                                <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                              </copy>
+                            </assign>
+                          </else>
+                        </if>
+                      </else>
+                    </if>
+                    <if name="IfStatus">
+                      <documentation>
+                        <![CDATA[Success]]>
+                      </documentation>
+                      <condition>$Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:SyncLaunchResult/ns16:OperationLaunchResults[$StatusIndx]/ns16:MessageType = 'S'</condition>
+                      <assign name="Assign_StatusId">
+                        <copy>
+                          <from>'1'</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                        </copy>
+                        <copy>
+                          <from>concat('FlowId:',ora:getFlowId(),':',' Record Created')</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <documentation>
+                          <![CDATA[Error]]>
+                        </documentation>
+                        <sequence name="Sequence29">
+                          <assign name="Assign_StatusId">
+                            <copy>
+                              <from>'2'</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                            </copy>
+                            <copy>
+                              <from>concat('FlowId:',ora:getFlowId(),':',$Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:SyncLaunchResult/ns16:OperationLaunchResults[$StatusIndx]/ns16:MessageText)</from>
+                              <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                            </copy>
+                            <copy>
+                              <from>$gVar_GroupId</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                            </copy>
+                            <copy>
+                              <from>4</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                            </copy>
+                            <copy>
+                              <from>""</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                            </copy>
+                            <copy>
+                              <from>concat('FlowId:',ora:getFlowId(),':',$tmpCurrentShipmentId,'::',$Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:SyncLaunchResult/ns16:OperationLaunchResults[$StatusIndx]/ns16:MessageText)</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                            </copy>
+                            <copy>
+                              <from>1</from>
+                              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                            </copy>
+                          </assign>
+                          <scope name="Scope8">
+                            <faultHandlers>
+                              <catchAll>
+                                <empty name="DoNothing"/>
+                              </catchAll>
+                            </faultHandlers>
+                            <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no"
+                                    partnerLink="CommonLogging_PL" portType="ns3:CommonLogging" operation="process"
+                                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable">
+                                    <bpelx:toProperties>
+                            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                          </bpelx:toProperties>
+                                    </invoke>
+                          </scope>
+                        </sequence>
+                      </else>
+                    </if>
+                    <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                            portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                            inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                            outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                        <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+              </forEach>
+              <else>
+                <documentation>
+                  <![CDATA[E]]>
+                </documentation>
+                <sequence name="Sequence10">
+                <assign name="Assign_Ack_LaunchABSError"> 
+                  <!--copy>
+                  <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                </copy-->
+                    <copy>
+                      <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                    </copy>
+                    <copy>
+                      <from>""</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                    </copy>
+                    <copy>
+                      <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                    </copy>
+                    <copy>
+                      <from>'2'</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                    </copy>
+                    <copy ignoreMissingFromData="yes">
+                      <from>concat('FlowId:',ora:getFlowId(),':',string($Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:OperationResult/ns16:Errors/ns16:OperationResultError[1]))</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                    </copy>
+                    <copy>
+                      <from>""</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                    </copy>
+                    <copy>
+                      <from>""</from>
+                      <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                    </copy>
+                    <extensionAssignOperation>
+                      <bpelx:remove>
+                        <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</bpelx:target>
+                      </bpelx:remove>
+                    </extensionAssignOperation>
+                    <extensionAssignOperation>
+                      <bpelx:remove>
+                        <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</bpelx:target>
+                      </bpelx:remove>
+                    </extensionAssignOperation>
+                    <extensionAssignOperation>
+                      <bpelx:remove>
+                        <bpelx:target>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</bpelx:target>
+                      </bpelx:remove>
+                    </extensionAssignOperation>
+                  </assign>
+                <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                        portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                        inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                        outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                        bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                    <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+                <scope name="Scope4">
+                  <faultHandlers>
+                    <catchAll>
+                      <empty name="DoNothing"/>
+                    </catchAll>
+                  </faultHandlers>
+                  <sequence>
+                    <assign name="Assign_CommonLoggingLaunchError">
+                        <copy>
+                          <from>$gVar_GroupId</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                        </copy>
+                        <copy>
+                          <from>"POReceipts"</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                        </copy>
+                        <copy>
+                          <from>'NextGen'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                        </copy>
+                        <copy>
+                          <from>'I094'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                        </copy>
+                        <copy>
+                          <from>ora:getCompositeName()</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                        </copy>
+                        <copy>
+                          <from>15</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                        </copy>
+                        <copy>
+                          <from>2</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                        </copy>
+                        <copy>
+                          <from>4</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>""</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                        </copy>
+                        <copy ignoreMissingFromData="yes">
+                          <from>concat('FlowId:',ora:getFlowId(),':',$Invoke_SyncLaunchReceipt_OutputVariable.SyncLaunchReceiptResponseMessage/ns5:OperationResult/ns16:Errors/ns16:OperationResultError[1])</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                        </copy>
+                        <copy>
+                          <from>2</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                        </copy>
+                        <copy>
+                          <from>"SOA"</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                        </copy>
+                        <copy>
+                          <from>"SOA"</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                        </copy>
+                      </assign>
+                    <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                            operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+                <exit name="ExitOnLaunchFailure"/>
+              </sequence>
+              </else>
+            </if>
+          </sequence>
+        </scope>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[No]]>
+        </documentation>
+        <sequence name="Sequence25">
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>$gVar_GroupId</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I094'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+            </copy>
+            <copy>
+              <from>"POReceipts"</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>15</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+            </copy>
+            <copy>
+              <from>"BMG-002"</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+            </copy>
+            <copy>
+              <from>''</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                  portType="ns3:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <exit name="ExitOnNoReceiptForProcessing"/>
+        </sequence>
+      </else>
+    </if>
+    <!--scope name="Scope_GetResponseFromABS">
+      <sequence name="Sequence5">
+        <receive name="ReceiveEvent" bpelx:eventName="ns20:EntityResponse"
+                 variable="ReceiveEvent_EBSRequestID_InputVariable">
+          <bpelx:for>eia:getEIAServiceProperty("NUC_POReceipt_DJJ_EBiz_ABF","MidReceiveTimeOut")</bpelx:for>
+          <correlations>
+            <correlation set="Correlation_SetEBSRequestID" initiate="no"/>
+          </correlations>
+        </receive>
+        <forEach parallel="no" counterName="StatusIndx" name="ForEachEventResponse">
+          <startCounterValue>1</startCounterValue>
+          <finalCounterValue>count($ReceiveEvent_EBSRequestID_InputVariable/ns2:parameters/ns2:item)</finalCounterValue>
+          <scope name="Scope1">
+            <variables>
+              <variable name="tmpCurrentShipmentId" type="xsd:string"/>
+            </variables>
+            <sequence name="Sequence11">
+              <assign name="Assign_tmpShipmentId">
+                <copy>
+                  <from>$ReceiveEvent_EBSRequestID_InputVariable/ns2:parameters/ns2:item[$StatusIndx]/ns2:name</from>
+                  <to>$tmpCurrentShipmentId</to>
+                </copy>
+              </assign>
+              <if name="IfContainsScale">
+                <documentation>
+                  <![CDATA[BizType=Scale and ConsumerShipmentRefID = '']]>
+                </documentation>
+                <condition>contains($tmpCurrentShipmentId,'Scale-')</condition>
+                <assign name="Assign_ACK_Scale">
+                  <copy>
+                    <from>substring-after($tmpCurrentShipmentId,'-')</from>
+                    <to>$tmpCurrentShipmentId</to>
+                  </copy>
+                  <copy>
+                    <from>substring-after($tmpCurrentShipmentId,'-')</from>
+                    <to>$tmpCurrentShipmentId</to>
+                  </copy>
+                  <copy>
+                    <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/ChangeVersionID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeChildTypeID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                  </copy>
+                  <copy>
+                    <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeTypeID</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                  </copy>
+                </assign>
+                <else>
+                  <documentation>
+                    <![CDATA[BizType=Scale and ConsumerShipmentRefID != '' or BizType=B]]>
+                  </documentation>
+                  <if name="IfBizType">
+                    <documentation>
+                      <![CDATA[B]]>
+                    </documentation>
+                    <condition>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/ShipmentID != ''</condition>
+                    <assign name="Assign_Ack"> -->
+                      <!--copy>
+                  <from>$DJJGetPOReceiptV1_RespMsg.reply/DataChangeType</from>
+                  <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                </copy-->
+                 <!--     <copy>
+                        <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                        <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                        <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                        <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/ChangeVersionID</from>
+                        <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeChildTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                      </copy>
+                      <copy>
+                        <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ShipmentID=$tmpCurrentShipmentId]/DataChangeTypeID</from>
+                        <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                      </copy>
+                    </assign>
+                    <else>
+                      <documentation>
+                        <![CDATA[Scale]]>
+                      </documentation>
+                      <assign name="Assign_Ack_Scale">
+                        <copy>
+                          <from>$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APIUserID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/APICallBatchID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/APICallBatchID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/ApplicationID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ApplicationID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ConsumerShipmentRefID=$tmpCurrentShipmentId]/ChangeVersionID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/ChangeVersionID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ConsumerShipmentRefID=$tmpCurrentShipmentId]/DataChangeChildTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeChildTypeID</to>
+                        </copy>
+                        <copy>
+                          <from>$DJJGetPOReceiptV1_RespMsg.reply/PurchaseShipmentHeaders/PurchaseShipmentHeaderModel[ConsumerShipmentRefID=$tmpCurrentShipmentId]/DataChangeTypeID</from>
+                          <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/DataChangeTypeID</to>
+                        </copy>
+                      </assign>
+                    </else>
+                  </if>
+                </else>
+              </if>
+              <if name="IfStatus">
+                <documentation>
+                  <![CDATA[Success]]>
+                </documentation>
+                <condition>$ReceiveEvent_EBSRequestID_InputVariable/ns2:parameters/ns2:item[$StatusIndx]/ns2:value = 'Success'</condition>
+                <assign name="Assign_StatusId">
+                  <copy>
+                    <from>'1'</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                  </copy>
+                  <copy>
+                    <from>concat('FlowId:',ora:getFlowId(),':',' Record Created')</from>
+                    <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                  </copy>
+                </assign>
+                <else>
+                  <documentation>
+                    <![CDATA[Error]]>
+                  </documentation>
+                  <sequence name="Sequence12">
+                    <scope name="Scope3">
+                      <faultHandlers>
+                        <catchAll>
+                          <empty name="DoNothing"/>
+                        </catchAll>
+                      </faultHandlers>
+                      <sequence>
+                        <assign name="Assign_StatusId">
+                          <copy>
+                            <from>'2'</from>
+                            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/StatusID</to>
+                          </copy>
+                          <copy>
+                            <from>concat('FlowId:',ora:getFlowId(),':',$ReceiveEvent_EBSRequestID_InputVariable/ns2:parameters/ns2:item[$StatusIndx]/ns2:msg)</from>
+                            <to>$Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable.request/Comment</to>
+                          </copy>
+                          <copy>
+                            <from>$gVar_GroupId</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                          </copy>
+                          <copy>
+                            <from>4</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                          </copy>
+                          <copy>
+                            <from>""</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                          </copy>
+                          <copy>
+                            <from>concat('FlowId:',ora:getFlowId(),':',$tmpCurrentShipmentId,'::',$ReceiveEvent_EBSRequestID_InputVariable/ns2:parameters/ns2:item[$StatusIndx]/ns2:msg)</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                                portType="ns3:CommonLogging" operation="process"
+                                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+                          <bpelx:toProperties>
+                            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                          </bpelx:toProperties>
+                        </invoke>
+                      </sequence>
+                    </scope>
+                  </sequence>
+                </else>
+              </if>
+              <invoke name="Invoke_DJJAcknowledge_ep" partnerLink="DJJAcknowledge_ep"
+                      portType="ns17:DJJAcknowledge_ep_ptt" operation="AcknowledgeReceipts"
+                      inputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_InputVariable"
+                      outputVariable="Invoke_DJJAcknowledge_ep_AcknowledgeReceipts_OutputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>$inputVariable.payload/ns2:item[ns2:name="CallingAckReq"]/ns2:value = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="rest.binding.http.Ocp-Apim-Subscription-Key">$inputVariable.payload/ns2:item[ns2:name="Ocp-Apim-Subscription-Key"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.IP">$inputVariable.payload/ns2:item[ns2:name="IP"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.requestURI">$inputVariable.payload/ns2:item[ns2:name="rest.binding.AckURI"]/ns2:value</bpelx:toProperty>
+                  <bpelx:toProperty name="rest.binding.http.APIUserId">$inputVariable.payload/ns2:item[ns2:name="APIUserId"]/ns2:value</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </forEach>
+      </sequence>
+    </scope-->
+    <scope name="Scope_EndLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence7">
+        <assign name="Assign_EndLogging">
+          <copy>
+            <from>$gVar_GroupId</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I094"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"POReceipts"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>15</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-002"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>"SOA"</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

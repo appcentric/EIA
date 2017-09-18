@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="WshSendTxnToOtmService" targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTxnToOtmService" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/APPS/WSH_OTM_REF_DATA_GEN_PKG/VALIDATE_TKT/" xmlns:ns4="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTripToOtmService" xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/UpdateTxnData/" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/AuthenticateTicket/" xmlns:ns5="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm" xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendTxnToOtmService" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ns11="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendItemRefDataToOtm" xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/ReferenceLocationData/" xmlns:ns1="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendDlvyToOtmService" xmlns:ns3="http://xmlns.oracle.com/apps/otm" xmlns:ns2="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:orcl="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/APPS/WSH_OTM_SYNC_REF_DATA_PKG/UPDATE_REF_DATA/" xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/APPS/WSH_OTM_OUTBOUND/UPDATE_ENTITY_INTF_STATUS/" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:ns6="http://xmlns.oracle.com/WshSendOtmDocument" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns14="http://xmlns.eia.com/CommonLogging" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:ess="http://xmlns.oracle.com/scheduler" id="BpPrc0">
+  <!-- ================================================================= -->
+  <!-- PARTNERLINKS                                                      -->
+  <!-- List of services participating in this BPEL process               -->
+  <!-- ================================================================= -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[WshSendTxnToOtmService.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+    The 'client' role represents the requester of this service. It is 
+    used for callback. The location and correlation information associated
+    with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="client" partnerLinkType="client:WshSendTxnToOtmService" myRole="WshSendTxnToOtmServiceProvider"/>
+    <partnerLink name="getDeliveryService" partnerRole="WshSendDlvyToOtmServiceProvider" partnerLinkType="ns1:WshSendDlvyToOtmService"/>
+    <partnerLink name="getTripService" partnerRole="WshSendTripToOtmServiceProvider" partnerLinkType="ns4:WshSendTripToOtmService"/>
+    <partnerLink name="getRefLocationService" partnerRole="WshSendLocRefDataToOtmProvider" partnerLinkType="ns5:WshSendLocRefDataToOtm"/>
+                 <partnerLink name="getItemRefService" partnerRole="WshSendItemRefDataToOtmProvider" partnerLinkType="ns11:WshSendItemRefDataToOtm"/>
+
+    <partnerLink name="WshSendOtmDocument" partnerRole="WshSendOtmDocumentProvider" partnerLinkType="ns6:WshSendOtmDocument"/>
+                 
+                     <partnerLink name="getAuthenticateTicket" partnerRole="AuthenticateTicket_role" partnerLinkType="ns12:AuthenticateTicket_plt"/>
+    <partnerLink name="getUpdateTxnData" partnerRole="UpdateTxnData_role" partnerLinkType="ns7:UpdateTxnData_plt"/>
+    <partnerLink name="updateRefLocationData" partnerRole="ReferenceLocationData_role" partnerLinkType="ns9:ReferenceLocationData_plt"/>
+    
+    <partnerLink name="CommonLogging" partnerLinkType="ns14:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <!-- ================================================================= -->
+  <!-- VARIABLES                                                         -->
+  <!-- List of messages and XML documents used within this BPEL process  -->
+  <!-- ================================================================= -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:WshSendTxnToOtmServiceRequestMessage"/>
+    <!--  
+    Reference to the message that will be returned to the requester
+    -->
+    <variable name="outputVariable" messageType="client:WshSendTxnToOtmServiceResponseMessage"/>
+    <variable name="g_InvokeDeliveryServiceInput" messageType="ns1:WshSendDlvyToOtmServiceRequestMessage"/>
+    <variable name="g_InvokeDeliveryServiceOutput" messageType="ns1:WshSendDlvyToOtmServiceResponseMessage"/>
+    <variable name="g_faultVariable" messageType="client:WshSendTxnToOtmServiceFaultMessage"/>
+    <variable name="isAuthenticCaller" type="xsd:boolean"/>
+    <variable name="g_InvokeTripServiceInput" messageType="ns4:WshSendTripToOtmServiceRequestMessage"/>
+    <variable name="g_InvokeTripServiceOutput" messageType="ns4:WshSendTripToOtmServiceResponseMessage"/>
+    <variable name="g_InvokeRefLocationServiceInput" messageType="ns5:WshSendLocRefDataToOtmRequestMessage"/>
+    <variable name="g_InvokeRefLocationServiceOutput" messageType="ns5:WshSendLocRefDataToOtmResponseMessage"/>
+    <variable name="g_InvokeOtmInput" messageType="ns6:WshSendOtmDocumentRequestMessage"/>
+    <variable name="g_InvokeOtmOutput" messageType="ns6:WshSendOtmDocumentResponseMessage"/>
+    <variable name="g_getDataFault" messageType="client:WshSendTxnToOtmServiceFaultMessage"/>
+    <variable name="g_InvokeUpdateTxnInput" messageType="ns7:args_in_msg"/>
+    <variable name="g_InvokeUpdateTxnOutput" messageType="ns7:args_out_msg"/>
+    <variable name="txnVariable" messageType="client:WshSendTxnToOtmServiceResponseMessage"/>
+    <variable name="g_updateFault" messageType="client:WshSendTxnToOtmServiceFaultMessage"/>
+    <variable name="g_InvokeUpdRefLocationInput" messageType="ns9:args_in_msg"/>
+    <variable name="g_InvokeUpdRefLocationOutput" messageType="ns9:args_out_msg"/>
+    <variable name="g_InvokeRefItemServiceInput" messageType="ns11:WshSendItemRefDataToOtmRequestMessage"/>
+    <variable name="g_InvokeRefItemServiceOutput" messageType="ns11:WshSendItemRefDataToOtmResponseMessage"/>
+    <variable name="g_IinvokeUpdRefItemInput" messageType="ns9:args_in_msg"/>
+    <variable name="g_InvokeUpdRefItemOutput" messageType="ns9:args_out_msg"/>
+    <variable name="g_InvokeAuthenticateTicketInput" messageType="ns12:args_in_msg"/>
+    <variable name="g_InvokeAuthenticateTicketOutput" messageType="ns12:args_out_msg"/>
+   
+  </variables>
+  <faultHandlers id="BpFhs0">
+    <catchAll id="BpCAl0">
+      <sequence name="Seq_ReturnError" id="BpSeq0">
+        <assign name="assignErrorOutput" id="BpAss0">
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+            <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:errorIdList"/>
+          </copy>
+          <copy>
+            <from expression="'U'"/>
+            <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:returnStatus"/>
+          </copy>
+          <copy>
+            <from expression="boolean(bpws:getVariableData('g_InvokeAuthenticateTicketOutput','OutputParameters','/ns13:OutputParameters/X_TKT_VALID')='T')"/>
+            <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:authenticated"/>
+          </copy>
+          <copy>
+            <from expression="ora:getInstanceId()"/>
+            <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:bpelInstanceId"/>
+          </copy>
+        </assign>
+        <switch name="hasOtmTxnNo" id="BpSwt0">
+          <case condition="(string-length(bpws:getVariableData('g_InvokeOtmOutput','payload','/ns3:TransmissionAck/ns3:EchoedTransmissionHeader/ns3:TransmissionHeader/ns3:ReferenceTransmissionNo') )) > 0.0">
+            <bpelx:annotation>
+              <bpelx:pattern>checkOtmTxnmissionId</bpelx:pattern>
+            </bpelx:annotation>
+            <assign name="assignOtmTxnNo" id="BpAss1">
+              <copy>
+                <from variable="g_InvokeOtmOutput" part="payload" query="/ns3:TransmissionAck/ns3:EchoedTransmissionHeader/ns3:TransmissionHeader/ns3:ReferenceTransmissionNo"/>
+                <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:otmTransmissionId"/>
+              </copy>
+            </assign>
+          </case>
+          <otherwise>
+            <empty name="noOtmTxnNo" id="BpEmp0"/>
+          </otherwise>
+        </switch>
+        <scope name="Scope3" id="BpScp0">
+         <variables>
+          <variable name="Invoke_Error_Log_process_InputVariable" messageType="ns14:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence name="Sequence2" id="BpSeq1">
+            <assign name="Assign_Error_Log" id="BpAss2">
+              <copy>
+                <from expression="ora:getComponentInstanceId()"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionId"/>
+              </copy>
+              <copy>
+                <from expression="'NextGen'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ProjectName"/>
+              </copy>
+              <copy>
+                <from expression="'I124'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ComponentId"/>
+              </copy>
+              <copy>
+                <from expression="ora:getCompositeName()"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ProcessName"/>
+              </copy>
+              <copy>
+                <from expression="'OTMDelivery'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionName"/>
+              </copy>
+              <copy>
+                <from expression="'1'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:LoggingSystem"/>
+              </copy>
+              <copy>
+                <from expression="'2'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:SourceSystem"/>
+              </copy>
+              <copy>
+                <from expression="'31'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TargetSystem"/>
+              </copy>
+              <copy>
+                <from expression="'4'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:LogType"/>
+              </copy>
+              <copy>
+                <from expression="'2'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionStatus"/>
+              </copy>
+              <copy>
+                <from expression="concat('FlowId: ',ora:getFlowId(),' Error ',ora:getFaultAsString())"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:MessageDescription"/>
+              </copy>
+              <copy>
+                <from expression="'SOA'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:CreatedBy"/>
+              </copy>
+              <copy>
+                <from expression="'SOA'"/>
+                <to variable="Invoke_Error_Log_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:UpdatedBy"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_Error_Log" inputVariable="Invoke_Error_Log_process_InputVariable" partnerLink="CommonLogging" portType="ns14:CommonLogging" operation="process" id="BpInv0">
+              <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;endpointURI&quot;)"/>
+            </invoke>
+          </sequence>
+        </scope>
+        <reply name="replyErrorOutput" partnerLink="client" portType="client:WshSendTxnToOtmService" operation="process" variable="outputVariable" id="BpRpl0"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- ================================================================= -->
+  <!-- ORCHESTRATION LOGIC                                               -->
+  <!-- Set of activities coordinating the flow of messages across the    -->
+  <!-- services integrated within this business process                  -->
+  <!-- ================================================================= -->
+  <sequence name="main" id="BpSeq2">
+    <!-- Receive input from requestor. 
+    Note: This maps to operation defined in WshSendTxnToOtmService.wsdl
+    -->
+    <receive name="receiveInput" partnerLink="client" portType="client:WshSendTxnToOtmService" operation="process" variable="inputVariable" createInstance="yes" id="BpRcv0"/>
+    <scope name="Scope1" id="BpScp1">
+      <variables>
+        <variable name="Invoke_Start_CommonLogging_process_InputVariable" messageType="ns14:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers id="BpFhs1">
+        <catchAll id="BpCAl1">
+          <empty name="ThrowEmptyError" id="BpEmp1"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence_Start_CommonLogging" id="BpSeq3">
+        <assign name="Assign_Start_CommonLogging" id="BpAss3">
+          <copy>
+           <from expression="ora:getComponentInstanceId()"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionId"/>
+          </copy>
+          <copy>
+            <from expression="'NextGen'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ProjectName"/>
+          </copy>
+          <copy>
+            <from expression="'I124'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ComponentId"/>
+          </copy>
+          <copy>
+            <from expression="ora:getCompositeName()"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ProcessName"/>
+          </copy>
+          <copy>
+            <from expression="'OTMDelivery'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionName"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:LoggingSystem"/>
+          </copy>
+          <copy>
+            <from expression="'2'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:SourceSystem"/>
+          </copy>
+          <copy>
+            <from expression="'31'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TargetSystem"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:LogType"/>
+          </copy>
+          <copy>
+            <from expression="'BMG-003'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:MessageCode"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionStatus"/>
+          </copy>
+          <copy>
+            <from expression="'SOA'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:CreatedBy"/>
+          </copy>
+          <copy>
+            <from expression="'SOA'"/>
+            <to variable="Invoke_Start_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:UpdatedBy"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_Start_CommonLogging" inputVariable="Invoke_Start_CommonLogging_process_InputVariable" partnerLink="CommonLogging" portType="ns14:CommonLogging" operation="process" bpelx:skipCondition="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;LOGGING.ENABLED&quot;) = &quot;false&quot;" id="BpInv1">
+          <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;endpointURI&quot;)"/>
+        </invoke>
+      </sequence>
+    </scope>
+    <!-- Generate reply to synchronous request -->
+    <scope name="authenticateCaller" id="BpScp2">
+      <sequence name="Seq_AuthenticateCaller" id="BpSeq4">
+        <assign name="assignAuthTktInput" id="BpAss4">
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:securityContext/ns2:opCode"/>
+            <to variable="g_InvokeAuthenticateTicketInput" part="InputParameters" query="/ns13:InputParameters/P_OPERATION"/>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:securityContext/ns2:argKey"/>
+            <to variable="g_InvokeAuthenticateTicketInput" part="InputParameters" query="/ns13:InputParameters/P_ARGUMENT"/>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:securityContext/ns2:ticket"/>
+            <to variable="g_InvokeAuthenticateTicketInput" part="InputParameters" query="/ns13:InputParameters/P_TICKET"/>
+          </copy>
+        </assign>
+        <invoke name="invokeAuthenticateTicket" partnerLink="getAuthenticateTicket" portType="ns12:AuthenticateTicket_ptt" operation="AuthenticateTicket" inputVariable="g_InvokeAuthenticateTicketInput" outputVariable="g_InvokeAuthenticateTicketOutput" id="BpInv2"/>
+        <switch name="checkAuthenticateResult" id="BpSwt1">
+          <case condition="(bpws:getVariableData('g_InvokeAuthenticateTicketOutput','OutputParameters','/ns13:OutputParameters/X_TKT_VALID') = 'T' )  and (bpws:getVariableData('g_InvokeAuthenticateTicketOutput','OutputParameters','/ns13:OutputParameters/X_RETURN_STATUS') = 'S' )">
+            <bpelx:annotation>
+              <bpelx:pattern>authenticatePass</bpelx:pattern>
+            </bpelx:annotation>
+            <assign name="assignTktOutput" id="BpAss5">
+              <copy>
+                <from expression="boolean(bpws:getVariableData('g_InvokeAuthenticateTicketOutput','OutputParameters','/ns13:OutputParameters/X_TKT_VALID')='T')"/>
+                <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:authenticated"/>
+              </copy>
+            </assign>
+          </case>
+          <otherwise>
+            <throw name="throwAuthenticateFail" faultVariable="g_faultVariable" faultName="client:faultError" id="BpThw0"/>
+          </otherwise>
+        </switch>
+      </sequence>
+    </scope>
+    <scope name="getTxnData" id="BpScp3">
+      <flow name="getRefTxnData" id="BpFlw0">
+        <sequence name="Seq_GetTxnData" id="BpSeq5">
+        <switch name="checkEntityType" id="BpSwt2">
+          <case condition="upper-case(string(bpws:getVariableData('inputVariable','payload','/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityType')))='DELIVERY'">
+            <bpelx:annotation>
+              <bpelx:pattern>Delivery</bpelx:pattern>
+            </bpelx:annotation>
+            <sequence name="Seq_GetTxnDelivery" id="BpSeq6">
+              <assign name="assignDeliveryInput" id="BpAss6">
+                <copy>
+                  <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+                  <to variable="g_InvokeDeliveryServiceInput" part="payload" query="/ns1:WshSendDlvyToOtmServiceProcessRequest/ns1:input/ns2:entityIdList"/>
+                </copy>
+                <copy>
+                  <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext"/>
+                  <to variable="g_InvokeDeliveryServiceInput" part="payload" query="/ns1:WshSendDlvyToOtmServiceProcessRequest/ns1:input/ns2:appsContext"/>
+                </copy>
+              </assign>
+              <invoke name="invokeDeliveryService" partnerLink="getDeliveryService" portType="ns1:WshSendDlvyToOtmService" operation="process" inputVariable="g_InvokeDeliveryServiceInput" outputVariable="g_InvokeDeliveryServiceOutput" id="BpInv3">
+                  <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;WshSendDlvyToOtmService&quot;,&quot;endpointURI&quot;)"/>
+                </invoke>
+              <switch name="checkDeliveryResult" id="BpSwt3">
+                <case condition="upper-case(string(bpws:getVariableData('g_InvokeDeliveryServiceOutput','payload','/ns1:WshSendDlvyToOtmServiceProcessResponse/ns1:result/ns2:returnStatus')))='S'">
+                  <bpelx:annotation>
+                    <bpelx:pattern>DeliveryService_Success</bpelx:pattern>
+                  </bpelx:annotation>
+                  <assign name="assignDlvyToTxn" id="BpAss7">
+                    <copy>
+                      <from variable="g_InvokeDeliveryServiceOutput" part="payload" query="/ns1:WshSendDlvyToOtmServiceProcessResponse/ns1:result/ns2:errorIdList"/>
+                      <to variable="txnVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:errorIdList"/>
+                    </copy>
+                    <copy>
+                      <from variable="g_InvokeDeliveryServiceOutput" part="payload" query="/ns1:WshSendDlvyToOtmServiceProcessResponse/ns1:result/ns3:Transmission"/>
+                      <to variable="g_InvokeOtmInput" part="payload" query="/ns3:Transmission"/>
+                    </copy>
+                    <copy>
+                      <from variable="g_InvokeDeliveryServiceOutput" part="payload" query="/ns1:WshSendDlvyToOtmServiceProcessResponse/ns1:result/ns2:entityidList"/>
+                      <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:entityidList"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise>
+                  <throw name="throwDataFault" faultName="client:faultError" faultVariable="g_getDataFault" id="BpThw1"/>
+                </otherwise>
+              </switch>
+            </sequence>
+          </case>
+          <otherwise>
+            <sequence name="Seq_GetTxnTrip" id="BpSeq7">
+              <assign name="assignTripInput" id="BpAss8">
+                <copy>
+                  <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+                  <to variable="g_InvokeTripServiceInput" part="payload" query="/ns4:WshSendTripToOtmServiceProcessRequest/ns4:input/ns2:entityIdList"/>
+                </copy>
+                <copy>
+                  <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext"/>
+                  <to variable="g_InvokeTripServiceInput" part="payload" query="/ns4:WshSendTripToOtmServiceProcessRequest/ns4:input/ns2:appsContext"/>
+                </copy>
+              </assign>
+              <invoke name="invokeTripService" partnerLink="getTripService" portType="ns4:WshSendTripToOtmService" operation="process" inputVariable="g_InvokeTripServiceInput" outputVariable="g_InvokeTripServiceOutput" id="BpInv4">
+                  <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;WshSendTripToOtmService&quot;,&quot;endpointURI&quot;)"/>
+                </invoke>
+              <switch name="checkTripResult" id="BpSwt4">
+                <case condition="upper-case(string(bpws:getVariableData('g_InvokeTripServiceOutput','payload','/ns4:WshSendTripToOtmServiceProcessResponse/ns4:result/ns2:returnStatus')))='S'">
+                  <bpelx:annotation>
+                    <bpelx:pattern>TripService_Success</bpelx:pattern>
+                  </bpelx:annotation>
+                  <assign name="assignTripToTxn" id="BpAss9">
+                    <copy>
+                      <from variable="g_InvokeTripServiceOutput" part="payload" query="/ns4:WshSendTripToOtmServiceProcessResponse/ns4:result/ns2:errorIdList"/>
+                      <to variable="txnVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:errorIdList"/>
+                    </copy>
+                    <copy>
+                      <from variable="g_InvokeTripServiceOutput" part="payload" query="/ns4:WshSendTripToOtmServiceProcessResponse/ns4:result/ns3:Transmission"/>
+                      <to variable="g_InvokeOtmInput" part="payload" query="/ns3:Transmission"/>
+                    </copy>
+                    <copy>
+                      <from variable="g_InvokeTripServiceOutput" part="payload" query="/ns4:WshSendTripToOtmServiceProcessResponse/ns4:result/ns2:entityidList"/>
+                      <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:entityidList"/>
+                    </copy>
+                  </assign>
+                </case>
+                <otherwise>
+                  <throw name="throwDataFault" faultName="client:faultError" faultVariable="g_getDataFault" id="BpThw2"/>
+                </otherwise>
+              </switch>
+            </sequence>
+          </otherwise>
+        </switch>
+      </sequence>
+      
+      <sequence name="Seq_GetRefItem" id="BpSeq8">
+        <assign name="assignRefItemInput" id="BpAss10">
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityType"/>
+            <to variable="g_InvokeRefItemServiceInput" part="payload" query="/ns11:WshSendItemRefDataToOtmProcessRequest/ns11:input/ns2:entityType"/>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+            <to variable="g_InvokeRefItemServiceInput" part="payload" query="/ns11:WshSendItemRefDataToOtmProcessRequest/ns11:input/ns2:entityIdList"/>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext"/>
+            <to variable="g_InvokeRefItemServiceInput" part="payload" query="/ns11:WshSendItemRefDataToOtmProcessRequest/ns11:input/ns2:appsContext"/>
+          </copy>
+        </assign>
+        <invoke name="invokeRefItemService" partnerLink="getItemRefService" portType="ns11:WshSendItemRefDataToOtm" operation="process" inputVariable="g_InvokeRefItemServiceInput" outputVariable="g_InvokeRefItemServiceOutput" id="BpInv5">
+            <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;WshSendItemRefDataToOtm&quot;,&quot;endpointURI&quot;)"/>
+          </invoke>
+      </sequence>
+      <sequence name="Seq_GetRefLocation" id="BpSeq9">
+        <assign name="assignRefLocationInput" id="BpAss11">
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityType"/>
+            <to variable="g_InvokeRefLocationServiceInput" part="payload" query="/ns5:WshSendLocRefDataToOtmProcessRequest/ns5:input/ns2:entityType"/>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+            <to variable="g_InvokeRefLocationServiceInput" part="payload" query="/ns5:WshSendLocRefDataToOtmProcessRequest/ns5:input/ns2:entityIdList"/>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext"/>
+            <to variable="g_InvokeRefLocationServiceInput" part="payload" query="/ns5:WshSendLocRefDataToOtmProcessRequest/ns5:input/ns2:appsContext"/>
+          </copy>
+        </assign>
+        <invoke name="invokeRefLocationService" partnerLink="getRefLocationService" portType="ns5:WshSendLocRefDataToOtm" operation="process" inputVariable="g_InvokeRefLocationServiceInput" outputVariable="g_InvokeRefLocationServiceOutput" id="BpInv6">
+            <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;WshSendLocRefDataToOtm&quot;,&quot;endpointURI&quot;)"/>
+          </invoke>
+      </sequence>
+      
+    </flow>
+    </scope>
+    <switch name="checkRefLocTxnmissionId" id="BpSwt5">
+      <case condition="(string-length(bpws:getVariableData('g_InvokeRefLocationServiceOutput','payload','/ns5:WshSendLocRefDataToOtmProcessResponse/ns5:result/ns2:transmissionId') )) > 0.0">
+        <bpelx:annotation>
+          <bpelx:pattern>checkRefLocTxnmissionId</bpelx:pattern>
+        </bpelx:annotation>
+        <assign name="appendLocToXMLDocument" id="BpAss12">
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+            <to variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+          </copy>
+          <bpelx:insertBefore>
+            <bpelx:from variable="g_InvokeRefLocationServiceOutput" part="payload" query="/ns5:WshSendLocRefDataToOtmProcessResponse/ns5:result/ns3:Transmission/ns3:TransmissionBody/ns3:GLogXMLElement"/>
+            <bpelx:to variable="g_InvokeOtmInput" part="payload" query="/ns3:Transmission/ns3:TransmissionBody/ns3:GLogXMLElement"/>
+          </bpelx:insertBefore>
+        </assign>
+      </case>
+      <otherwise>
+        <empty name="doNotAppendLocXML" id="BpEmp2"/>
+      </otherwise>
+    </switch>
+    <switch name="checkRefItemTxnmissionId" id="BpSwt6">
+      <case condition="(string-length(bpws:getVariableData('g_InvokeRefItemServiceOutput','payload','/ns11:WshSendItemRefDataToOtmProcessResponse/ns11:result/ns2:transmissionId') )) > 0.0">
+        <bpelx:annotation>
+          <bpelx:pattern>checkRefItemTxnmissionId</bpelx:pattern>
+        </bpelx:annotation>
+        <assign name="appendItemToXMLDocument" id="BpAss13">
+          <copy>
+            <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+            <to variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityIdList"/>
+          </copy>
+          <bpelx:insertBefore>
+            <bpelx:from variable="g_InvokeRefItemServiceOutput" part="payload" query="/ns11:WshSendItemRefDataToOtmProcessResponse/ns11:result/ns3:Transmission/ns3:TransmissionBody/ns3:GLogXMLElement"/>
+            <bpelx:to variable="g_InvokeOtmInput" part="payload" query="/ns3:Transmission/ns3:TransmissionBody/ns3:GLogXMLElement"/>
+          </bpelx:insertBefore>
+        </assign>
+      </case>
+      <otherwise>
+        <empty name="doNotAppendItemXML" id="BpEmp3"/>
+      </otherwise>
+    </switch>
+    <assign name="removeEmptyNode" id="BpAss14">
+      <bpelx:annotation>
+        <bpelx:pattern>transformation</bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from expression="ora:processXSLT('xsl/WshXFormOutRemEmptyNode.xsl',bpws:getVariableData('g_InvokeOtmInput','payload'))"/>
+        <to variable="g_InvokeOtmInput" part="payload"/>
+      </copy>
+    </assign>
+    <invoke name="invokeOtmService" partnerLink="WshSendOtmDocument" portType="ns6:WshSendOtmDocument" operation="process" inputVariable="g_InvokeOtmInput" outputVariable="g_InvokeOtmOutput" id="BpInv7">
+      <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;WshSendOtmDocument&quot;,&quot;endpointURI&quot;)"/>
+    </invoke>
+    <switch name="checkOtmTransAck" id="BpSwt7">
+      <case condition="count(bpws:getVariableData('g_InvokeOtmOutput','payload','/ns3:TransmissionAck/ns3:EchoedTransmissionHeader/ns3:TransmissionHeader/ns3:ReferenceTransmissionNo')) > 0  and string-length(bpws:getVariableData('g_InvokeOtmOutput','payload','/ns3:TransmissionAck/ns3:EchoedTransmissionHeader/ns3:TransmissionHeader/ns3:ReferenceTransmissionNo') ) > 0.0">
+        <bpelx:annotation>
+          <bpelx:pattern>hasValidOtmTransAck</bpelx:pattern>
+        </bpelx:annotation>
+        <empty name="validOtmTransAck" id="BpEmp4"/>
+      </case>
+      <otherwise>
+        <throw name="throwInvalidOtmTransAck" faultName="client:faultError" faultVariable="g_getDataFault" id="BpThw3"/>
+      </otherwise>
+    </switch>
+    <scope name="completeTxn" id="BpScp4">
+      <faultHandlers id="BpFhs2">
+        <catchAll id="BpCAl2">
+          <empty name="noError" id="BpEmp5"/>
+        </catchAll>
+      </faultHandlers>
+      <flow name="completeRefTxnData" id="BpFlw1">
+        <sequence name="Seq_UpdRefItemData" id="BpSeq10">
+          <switch name="Switch_1" id="BpSwt8">
+            <case condition="string-length(bpws:getVariableData('g_InvokeRefItemServiceOutput','payload','/ns11:WshSendItemRefDataToOtmProcessResponse/ns11:result/ns2:transmissionId')) > 0.0">
+              <bpelx:annotation>
+                <bpelx:pattern>hasRefItemTransmissionId</bpelx:pattern>
+              </bpelx:annotation>
+              <sequence name="Seq_UpdateRefItemData" id="BpSeq11">
+                <assign name="assignRefItemTxnState" id="BpAss15">
+                  <copy>
+                    <from variable="g_InvokeRefItemServiceOutput" part="payload" query="/ns11:WshSendItemRefDataToOtmProcessResponse/ns11:result/ns2:transmissionId"/>
+                    <to variable="g_IinvokeUpdRefItemInput" part="InputParameters" query="/ns10:InputParameters/P_TRANSMISSION_ID"/>
+                  </copy>
+                  <copy>
+                    <from expression="'S'"/>
+                    <to variable="g_IinvokeUpdRefItemInput" part="InputParameters" query="/ns10:InputParameters/P_TRANSMISSION_STATUS"/>
+                  </copy>
+                </assign>
+                <invoke name="invokeUpdRefItem" partnerLink="updateRefLocationData" portType="ns9:ReferenceLocationData_ptt" operation="ReferenceLocationData" inputVariable="g_IinvokeUpdRefItemInput" outputVariable="g_InvokeUpdRefItemOutput" id="BpInv8"/>
+              </sequence>
+            </case>
+            <otherwise>
+              <sequence name="Seq_doNotUpdRefItem" id="BpSeq12">
+                <empty name="doNotUpdRefItem" id="BpEmp6"/>
+              </sequence>
+            </otherwise>
+          </switch>
+        </sequence>
+        <sequence name="Seq_UpdateTxnData" id="BpSeq13">
+          <assign name="transformTxnData" id="BpAss16">
+            <bpelx:annotation>
+              <bpelx:pattern>transformation</bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from expression="ora:processXSLT('xsl/WshXFormOutTxnUpdateData.xsl',bpws:getVariableData('outputVariable','payload'))"/>
+              <to variable="g_InvokeUpdateTxnInput" part="InputParameters"/>
+            </copy>
+          </assign>
+          <assign name="assignTxnData" id="BpAss17">
+            <copy>
+              <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:entityType"/>
+              <to variable="g_InvokeUpdateTxnInput" part="InputParameters" query="/ns8:InputParameters/P_ENTITY_TYPE"/>
+            </copy>
+            <copy>
+              <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext/ns2:userId"/>
+              <to variable="g_InvokeUpdateTxnInput" part="InputParameters" query="/ns8:InputParameters/P_USERID"/>
+            </copy>
+            <copy>
+              <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext/ns2:respId"/>
+              <to variable="g_InvokeUpdateTxnInput" part="InputParameters" query="/ns8:InputParameters/P_RESPID"/>
+            </copy>
+            <copy>
+              <from variable="inputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessRequest/client:input/ns2:appsContext/ns2:respAppId"/>
+              <to variable="g_InvokeUpdateTxnInput" part="InputParameters" query="/ns8:InputParameters/P_RESP_APPL_ID"/>
+            </copy>
+          </assign>
+          <invoke name="invokeUpdateTxn" partnerLink="getUpdateTxnData" portType="ns7:UpdateTxnData_ptt" operation="UpdateTxnData" inputVariable="g_InvokeUpdateTxnInput" outputVariable="g_InvokeUpdateTxnOutput" id="BpInv9"/>
+        </sequence>
+        <sequence name="Seq_UpdateRefLocationData" id="BpSeq14">
+          <switch name="checkRefLocTransmissionId" id="BpSwt9">
+            <case condition="(string-length(bpws:getVariableData('g_InvokeRefLocationServiceOutput','payload','/ns5:WshSendLocRefDataToOtmProcessResponse/ns5:result/ns2:transmissionId') )) > 0.0">
+              <bpelx:annotation>
+                <bpelx:pattern>hasRefLocationTransmissionId</bpelx:pattern>
+              </bpelx:annotation>
+              <sequence name="Seq_UpdRefLocData" id="BpSeq15">
+                <assign name="assignRefLocTxnState" id="BpAss18">
+                  <copy>
+                    <from variable="g_InvokeRefLocationServiceOutput" part="payload" query="/ns5:WshSendLocRefDataToOtmProcessResponse/ns5:result/ns2:transmissionId"/>
+                    <to variable="g_InvokeUpdRefLocationInput" part="InputParameters" query="/ns10:InputParameters/P_TRANSMISSION_ID"/>
+                  </copy>
+                  <copy>
+                    <from expression="'S'"/>
+                    <to variable="g_InvokeUpdRefLocationInput" part="InputParameters" query="/ns10:InputParameters/P_TRANSMISSION_STATUS"/>
+                  </copy>
+                </assign>
+                <invoke name="invokeUpdRefLocation" partnerLink="updateRefLocationData" portType="ns9:ReferenceLocationData_ptt" operation="ReferenceLocationData" inputVariable="g_InvokeUpdRefLocationInput" outputVariable="g_InvokeUpdRefLocationOutput" id="BpInv10"/>
+              </sequence>
+            </case>
+            <otherwise>
+              <sequence name="Seq_doNotUpdRefLoc" id="BpSeq16">
+                <empty name="doNotUpdRefLoc" id="BpEmp7"/>
+              </sequence>
+            </otherwise>
+          </switch>
+        </sequence>
+      </flow>
+    </scope>
+    <assign name="assignTxnOut" id="BpAss19">
+      <copy>
+        <from variable="txnVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:errorIdList"/>
+        <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:errorIdList"/>
+      </copy>
+      <copy>
+        <from expression="'S'"/>
+        <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:returnStatus"/>
+      </copy>
+      <copy>
+        <from expression="ora:getInstanceId()"/>
+        <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:bpelInstanceId"/>
+      </copy>
+      <copy>
+        <from variable="g_InvokeOtmOutput" part="payload" query="/ns3:TransmissionAck/ns3:EchoedTransmissionHeader/ns3:TransmissionHeader/ns3:ReferenceTransmissionNo"/>
+        <to variable="outputVariable" part="payload" query="/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:otmTransmissionId"/>
+      </copy>
+    </assign>
+    <scope name="Scope2" id="BpScp5">
+              <variables>
+                        <variable name="Invoke_End_CommonLogging_process_InputVariable" messageType="ns14:CommonLoggingRequestMessage"/>
+
+              </variables>
+
+      <faultHandlers id="BpFhs3">
+        <catchAll id="BpCAl3">
+          <empty name="ThrowEmptyError" id="BpEmp8"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1" id="BpSeq17">
+        <assign name="Assign_End_CommonLogging" id="BpAss20">
+          <copy>
+            <from expression="ora:getComponentInstanceId()"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionId"/>
+          </copy>
+          <copy>
+            <from expression="'NextGen'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ProjectName"/>
+          </copy>
+          <copy>
+            <from expression="'I124'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ComponentId"/>
+          </copy>
+          <copy>
+            <from expression="ora:getCompositeName()"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:ProcessName"/>
+          </copy>
+          <copy>
+            <from expression="'OTMDelivery'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionName"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:LoggingSystem"/>
+          </copy>
+          <copy>
+            <from expression="'2'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:SourceSystem"/>
+          </copy>
+          <copy>
+            <from expression="'31'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TargetSystem"/>
+          </copy>
+          <copy>
+            <from expression="'1'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:LogType"/>
+          </copy>
+          <copy>
+            <from expression="'BMG-030'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:MessageCode"/>
+          </copy>
+          <copy>
+            <from expression="'2'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:TransactionStatus"/>
+          </copy>
+          <copy>
+            <from expression="concat(':',bpws:getVariableData('outputVariable','payload','/client:WshSendTxnToOtmServiceProcessResponse/client:result/ns2:otmTransmissionId'))"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:MessageDescription"/>
+          </copy>
+          <copy>
+            <from expression="'SOA'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:CreatedBy"/>
+          </copy>
+          <copy>
+            <from expression="'SOA'"/>
+            <to variable="Invoke_End_CommonLogging_process_InputVariable" part="CommonLogging" query="/ns14:Input/ns14:UpdatedBy"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_End_CommonLogging" inputVariable="Invoke_End_CommonLogging_process_InputVariable" partnerLink="CommonLogging" portType="ns14:CommonLogging" operation="process" bpelx:skipCondition="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;LOGGING.ENABLED&quot;) = &quot;false&quot;" id="BpInv11">
+          <bpelx:inputProperty name="endpointURI" expression="eia:getEIAServiceProperty(&quot;CommonLogging&quot;,&quot;endpointURI&quot;)"/>
+        </invoke>
+      </sequence>
+    </scope>
+    <reply name="replyOutput" partnerLink="client" portType="client:WshSendTxnToOtmService" operation="process" variable="outputVariable" id="BpRpl1"/>
+  </sequence>
+</process><!--
+  ///////////////////////////////////////////////////////////////////////////////////////////// 
+  // Oracle JDeveloper BPEL Designer 
+  // 
+  // Created: Tue Feb 07 11:47:26 PST 2006
+  // Author:  nltan
+  // Purpose: Synchronous BPEL Process
+  ///////////////////////////////////////////////////////////////////////////////////////////// 
+-->

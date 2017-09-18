@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="Db_Insert_NSTXAPIWorkOrder"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSTX_SubscribeEBizJobDetails_EBiz_QMOS_ABF/Db_Insert_NSTXAPIWorkOrder"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSTX_SubscribeEBizJobDetails_EBiz_QMOS_ABF/Db_Insert_NSTXAPIWorkOrder"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/Db_Insert_NSTXAPIWorkOrder"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="Db_Insert_NSTXAPIWorkOrder_plt" >
+    <plt:role name="Db_Insert_NSTXAPIWorkOrder_role" >
+      <plt:portType name="tns:Db_Insert_NSTXAPIWorkOrder_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/Db_Insert_NSTXAPIWorkOrder" schemaLocation="../Schemas/Db_Insert_NSTXAPIWorkOrder_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="ApiWorkOrderCollection_msg">
+        <wsdl:part name="ApiWorkOrderCollection" element="top:ApiWorkOrderCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="Db_Insert_NSTXAPIWorkOrder_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:ApiWorkOrderCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

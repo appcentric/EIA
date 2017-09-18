@@ -1,0 +1,25 @@
+<?binding.jca DB_Get_PartyID_db.jca?>
+<wsdl:definitions name="DB_Get_PartyID" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_PublishSupplier_EBiz_ABF/DB_Get_PartyID" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_PublishSupplier_EBiz_ABF/DB_Get_PartyID" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_PartyID">
+    <plt:partnerLinkType name="DB_Get_PartyID_plt">
+        <plt:role name="DB_Get_PartyID_role">
+            <plt:portType name="tns:DB_Get_PartyID_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_PartyID" schemaLocation="xsd/DB_Get_PartyID_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_Get_PartyIDSelect_inputParameters">
+        <wsdl:part name="DB_Get_PartyIDSelect_inputParameters" element="top:DB_Get_PartyIDSelect_PublicationEventIdInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="PosSuppPubHistoryVCollection_msg">
+        <wsdl:part name="PosSuppPubHistoryVCollection" element="top:PosSuppPubHistoryVCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Get_PartyID_ptt">
+        <wsdl:operation name="DB_Get_PartyIDSelect">
+            <wsdl:input message="tns:DB_Get_PartyIDSelect_inputParameters"/>
+            <wsdl:output message="tns:PosSuppPubHistoryVCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

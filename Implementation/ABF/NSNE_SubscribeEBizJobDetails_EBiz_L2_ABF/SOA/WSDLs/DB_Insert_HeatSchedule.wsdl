@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Insert_HeatSchedule"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscriberEBizJobDetails_EBiz_L2_ABF/DB_Insert_HeatSchedule"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscriberEBizJobDetails_EBiz_L2_ABF/DB_Insert_HeatSchedule"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_HeatSchedule"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Insert_HeatSchedule_plt" >
+    <plt:role name="DB_Insert_HeatSchedule_role" >
+      <plt:portType name="tns:DB_Insert_HeatSchedule_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_HeatSchedule" schemaLocation="../Schemas/DB_Insert_HeatSchedule_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Heat_Schedule_StgCollection_msg">
+        <wsdl:part name="Heat_Schedule_StgCollection" element="top:Heat_Schedule_StgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Insert_HeatSchedule_ptt">
+        <wsdl:operation name="merge">
+            <wsdl:input message="tns:Heat_Schedule_StgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

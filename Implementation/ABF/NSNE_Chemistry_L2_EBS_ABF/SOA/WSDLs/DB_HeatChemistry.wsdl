@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_HeatChemistry"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Chemistry_L2_EBS_ABF/DB_HeatChemistry"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Chemistry_L2_EBS_ABF/DB_HeatChemistry"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_HeatChemistry"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_HeatChemistry_plt" >
+    <plt:role name="DB_HeatChemistry_role" >
+      <plt:portType name="tns:DB_HeatChemistry_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_HeatChemistry" schemaLocation="../Schemas/DB_HeatChemistry_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_HeatChemistrySelect_inputParameters">
+        <wsdl:part name="DB_HeatChemistrySelect_inputParameters" element="top:DB_HeatChemistrySelect_HeatIDInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="vw_L2_Heat_Batch_ChemistryCollection_msg">
+        <wsdl:part name="vw_L2_Heat_Batch_ChemistryCollection" element="top:vw_L2_Heat_Batch_ChemistryCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_HeatChemistry_ptt">
+        <wsdl:operation name="DB_HeatChemistrySelect">
+            <wsdl:input message="tns:DB_HeatChemistrySelect_inputParameters"/>
+            <wsdl:output message="tns:vw_L2_Heat_Batch_ChemistryCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

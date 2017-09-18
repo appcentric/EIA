@@ -1,0 +1,263 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBS_LotCreation" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EBS_LotCreation" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_I_TRX_ID" type="decimal" db:index="1" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_I_TRX_NAME" type="string" db:index="2" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="P_I_SRC_SYSTEM" type="decimal" db:index="3" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_APPS_INIT" type="db:XXNUC.XXNUC_APPS_INIT_OBJ_TYPE" db:index="4" db:type="Struct" minOccurs="0" nillable="true"/>
+            <element name="P_I_LOT" type="db:XXNUC.XXNUC_INV_LOT_TBL_TYPE" db:index="5" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_O_STATUS" type="db:XXNUC.XXNUC_INV_STATUS_TBL_TYPE" db:index="6" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_INV_STATUS_OBJ_TYPE">
+      <sequence>
+         <element name="HEAT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATUS" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MSG" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_INV_LOT_TBL_TYPE">
+      <sequence>
+         <element name="P_I_LOT_ITEM" type="db:XXNUC.XXNUC_INV_LOT_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_APPS_INIT_OBJ_TYPE">
+      <sequence>
+         <element name="USER_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="USER_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESPONSIBILITY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_INV_LOT_OBJ_TYPE">
+      <sequence>
+         <element name="INVENTORY_ITEM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ITEM_NUMBER" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_DESC" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORGANIZATION_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORGANIZATION_CODE" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="HEAT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="WAYBILL_NUM" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="WAYBILL_LINE_NUM" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="EXPIRATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="DISABLE_FLAG" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE_CATEGORY" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE1" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE2" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE3" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE4" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE5" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE6" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE7" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE8" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE9" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE10" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE11" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE12" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE13" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE14" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE15" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GEN_OBJECT_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DESCRIPTION" type="db:string256" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPPLIER_LOT_NUMBER" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COUNTRY_OF_ORIGIN" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COUNTRY_OF_ORIGIN_CODE" type="db:string2" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GRADE_CODE" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORIGINATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="DATE_CODE" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATUS_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CHANGE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="AGE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RETEST_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="MATURITY_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LOT_ATTRIBUTE_CATEGORY" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_SIZE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="COLOR" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VOLUME" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="VOLUME_UOM" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PLACE_OF_ORIGIN" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="KILL_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="BEST_BY_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LENGTH" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LENGTH_UOM" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RECYCLED_CONTENT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="THICKNESS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="THICKNESS_UOM" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="WIDTH" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WIDTH_UOM" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CURL_WRINKLE_FOLD" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE1" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE2" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE3" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE4" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE5" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE6" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE7" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE8" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE9" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE10" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE11" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE12" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE13" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE14" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE15" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE16" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE17" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE18" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE19" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE20" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE21" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE22" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE23" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE24" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE25" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE26" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE27" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE28" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE29" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="C_ATTRIBUTE30" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE1" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE2" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE3" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE4" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE5" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE6" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE7" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE8" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE9" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE10" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE11" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE12" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE13" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE14" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE15" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE16" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE17" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE18" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE19" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="D_ATTRIBUTE20" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE1" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE2" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE3" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE4" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE5" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE6" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE7" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE8" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE9" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE10" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE11" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE12" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE13" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE14" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE15" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE16" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE17" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE18" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE19" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE20" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE21" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE22" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE23" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE24" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE25" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE26" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE27" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE28" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE29" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE30" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TERRITORY_CODE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PARENT_LOT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORIGINATION_TYPE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="AVAILABILITY_TYPE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="EXPIRATION_ACTION_CODE" type="db:string32" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="EXPIRATION_ACTION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="HOLD_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATED_BY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CREATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_LOGIN" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="INVENTORY_ATP_CODE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESERVABLE_TYPE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SAMPLING_EVENT_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_INV_STATUS_TBL_TYPE">
+      <sequence>
+         <element name="P_O_STATUS_ITEM" type="db:XXNUC.XXNUC_INV_STATUS_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string40">
+      <restriction base="string">
+         <maxLength value="40"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string240">
+      <restriction base="string">
+         <maxLength value="240"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string3">
+      <restriction base="string">
+         <maxLength value="3"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string30">
+      <restriction base="string">
+         <maxLength value="30"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string150">
+      <restriction base="string">
+         <maxLength value="150"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string256">
+      <restriction base="string">
+         <maxLength value="256"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2">
+      <restriction base="string">
+         <maxLength value="2"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string32">
+      <restriction base="string">
+         <maxLength value="32"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4000">
+      <restriction base="string">
+         <maxLength value="4000"/>
+      </restriction>
+   </simpleType>
+</schema>

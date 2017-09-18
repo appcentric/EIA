@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="UtilityXREF_FileLoad">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="bpelutilityfileload_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad#wsdl.endpoint(bpelutilityfileload_client_ep/BPELUtilityFileLoad_pt)</replace>
+            </attribute>
+         </binding>
+         <callback>
+            <binding type="ws">
+               <attribute name="port">
+                  <replace>http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad#wsdl.endpoint(bpelutilityfileload_client_ep/BPELUtilityFileLoadCallback_pt)</replace>
+               </attribute>
+            </binding>
+         </callback>
+      </service>
+      <service name="bpelutilityfileload_client"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>542eef94-d2c3-42e4-9b70-2620ae9ada1c</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="BPELUtilityFileLoad">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+      </component>
+      <reference name="UtilityFileLoadws"/>
+      <reference name="ftpUtilityFileLoad"/>
+      <reference name="WS_UtilityXREF">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0#wsdl.endpoint(processXREF_ep/UtilityXREF_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>http://rzsoast1.rz.nucorsteel.local/soa-infra/services/common/UtilityXREF/processXREF_ep?WSDL</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="ftpUtilityFileLoad">
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for file/ftp adapter: 
+	<jca:property name="PhysicalDirectory"><replace>c:\temp</replace></jca:property>
+	<jca:property name="DeleteFile"><replace>true</replace></jca:property>
+	<jca:property name="PollingFrequency"><replace>3</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/ftpUtilityFileLoad_ftp.jca|Schemas/BPELUtilityFileLoad.xsd|Schemas/Data_Load_Format.xsd|Schemas/UtilityXREF.xsd|WSDLs/BPELUtilityFileLoad.wsdl|WSDLs/ftpUtilityFileLoad.wsdl|WSDLs/processXREF_ep.wsdl|WSDLs/xsd/UtilityXREF.xsd">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

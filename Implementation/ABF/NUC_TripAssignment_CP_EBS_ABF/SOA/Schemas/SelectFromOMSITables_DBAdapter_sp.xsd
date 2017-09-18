@@ -1,0 +1,170 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SelectFromOMSITables_DBAdapter" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SelectFromOMSITables_DBAdapter" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <!--Empty Parameter List-->
+      <complexType/>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_LOG_ENTRY" type="db:XXNUC_LOG_ENTRY_TAB_TYPE" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_SHIPMENT_LOG_ENTRY" type="db:XXNUC_SHIPMENT_ENTRY_TAB_TYPE" db:index="2" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_APPOINTMENT_LOG_ENTRY" type="db:XXNUC_APPTMENT_ENTRY_TAB_TYPE" db:index="3" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_POD_LOG_ENTRY" type="db:XXNUC_POD_ENTRY_TAB_TYPE" db:index="4" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC_SHIPMENT_ENTRY_OBJ">
+      <sequence>
+         <element name="LOG_ENTRY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_1" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_2" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_3" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_4" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BID_TOTAL" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="BID_AMOUNT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="BID_QUANTITY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="BID_TYPE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_NAME" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_SCAC_CODE" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_COMMENTS" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_TRUCK_NUMBER" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_DRIVER_NUMBER" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_CONTRACT_NUMBER" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_EQUIPMENT_NUMBER" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="IS_COMPLETED" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="IS_CANCELLED" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DSM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="EQUIPMENT_TYPE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TIME_AWARDED" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_NAME" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_SCAC" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CANCELATION_REASON_CODE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="BROKERED_TO_CARRIER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_LOG_ENTRY_OBJ">
+      <sequence>
+         <element name="LOG_ENTRY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="OPERATION_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="OPERATION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_CODE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_MESSAGE" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="IS_READ" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_APPTMENT_ENTRY_TAB_TYPE">
+      <sequence>
+         <element name="P_APPOINTMENT_LOG_ENTRY_ITEM" type="db:XXNUC_APPOINTMENT_ENTRY_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_SHIPMENT_ENTRY_TAB_TYPE">
+      <sequence>
+         <element name="P_SHIPMENT_LOG_ENTRY_ITEM" type="db:XXNUC_SHIPMENT_ENTRY_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_POD_ENTRY_TAB_TYPE">
+      <sequence>
+         <element name="P_POD_LOG_ENTRY_ITEM" type="db:XXNUC_POD_ENTRY_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_LOG_ENTRY_TAB_TYPE">
+      <sequence>
+         <element name="P_LOG_ENTRY_ITEM" type="db:XXNUC_LOG_ENTRY_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_APPOINTMENT_ENTRY_OBJ">
+      <sequence>
+         <element name="LOG_ENTRY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_1" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_2" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_3" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_4" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STOP_SEQUENCE_NUMBER" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="START_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="END_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="STOP_DURATION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="IS_INBOUND" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="IS_EXTERNAL" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LOCATION_CODE" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DOOR_NAME" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_NAME" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_SCAC" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CUSTOMER_ORDER_NUMBER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_REF_NUMBER" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PO_NUMBER" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_NUMBER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CONSIGNEE_SUPPLIER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOG_IN_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LOG_IN_NOTES" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOG_OUT_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LOG_OUT_NOTES" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GATE_IN_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="GATE_IN_NOTES" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GATE_OUT_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="GATE_OUT_NOTES" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SCHEDULING_USER" type="db:string200" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SCHEDULING_COMPANY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TRAILER_NUMBER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_NAME" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_SCAC" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BROKERED_TO_CARRIER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_POD_ENTRY_OBJ">
+      <sequence>
+         <element name="LOG_ENTRY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_1" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_2" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_3" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_4" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STOP_SEQUENCE_NUMBER" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SIGNER" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SIGNING_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="ENTRY_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="ENTRY_USER" type="db:string101" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="NOTES" type="db:string300" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_SCAC" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string4000">
+      <restriction base="string">
+         <maxLength value="4000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string50">
+      <restriction base="string">
+         <maxLength value="50"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string25">
+      <restriction base="string">
+         <maxLength value="25"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string75">
+      <restriction base="string">
+         <maxLength value="75"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string200">
+      <restriction base="string">
+         <maxLength value="200"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string101">
+      <restriction base="string">
+         <maxLength value="101"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string300">
+      <restriction base="string">
+         <maxLength value="300"/>
+      </restriction>
+   </simpleType>
+</schema>

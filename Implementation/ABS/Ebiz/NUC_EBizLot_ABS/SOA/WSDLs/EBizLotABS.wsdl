@@ -1,0 +1,32 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="EBizLotABS"
+     targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+     xmlns:ns1="http://xmlns.eia.com/AM/EBiz/P2P/LotAM/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    >
+    <plnk:partnerLinkType name="EBizLotABS">
+        <plnk:role name="EBizLotABSProvider" portType="client:EBizLotABS"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+         location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/LotABS.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.eia.com/AM/EBiz/P2P/LotAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/P2P/V1.0/LotAM.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="EBizLotABSRequestMessage">
+        <wsdl:part name="payload" element="ns1:CreateLotRequest"/>
+    </wsdl:message>
+    <wsdl:message name="EBizLotABSResponseMessage">
+        <wsdl:part name="payload" element="ns1:CreateLotResp"/>
+    </wsdl:message>
+    <wsdl:portType name="EBizLotABS">
+        <wsdl:operation name="Create">
+            <wsdl:input message="client:EBizLotABSRequestMessage"/>
+            <wsdl:output message="client:EBizLotABSResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

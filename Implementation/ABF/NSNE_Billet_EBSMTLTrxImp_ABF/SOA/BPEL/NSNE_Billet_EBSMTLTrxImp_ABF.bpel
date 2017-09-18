@@ -1,0 +1,1084 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Mar 30 04:39:59 CDT 2016
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NSNE_Billet_EBSMTLTrxImp_ABF" targetNamespace="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_GetBillet_Details"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_UpdateBillet_Trans_Ext"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_EBS_Billet_ADJ"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_EBS_Billet_Acc_Alis"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_EBS_Billet_Dischange"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_EBS_Billet_Use"
+         xmlns:ns7="http://xmlns.eia.com/CommonLogging" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetBillet_Details"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns9="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_Update_Billet_Trans"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Billet_Trans"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_EBS_Billet_Movement"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_Billet_EBSMTLTrxImp_ABF/DB_EBS_Billet"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_EBS_Billet">
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF"
+          location="../WSDLs/NSNE_Billet_EBSMTLTrxImp_ABF.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="nsne_billet_ebsmtltrximp_abf_client" partnerLinkType="client:NSNE_Billet_EBSMTLTrxImp_ABF"
+                 myRole="NSNE_Billet_EBSMTLTrxImp_ABFProvider"/>
+    <partnerLink name="DB_GetBillet_Details" partnerLinkType="ns1:DB_GetBillet_Details_plt"
+                 partnerRole="DB_GetBillet_Details_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns7:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Update_Billet_Trans" partnerLinkType="ns10:DB_Update_Billet_Trans_plt"
+                 partnerRole="DB_Update_Billet_Trans_role"/>
+    <partnerLink name="DB_EBS_Billet" partnerLinkType="ns13:DB_EBS_Billet_plt" partnerRole="DB_EBS_Billet_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="g_inputVariable" messageType="client:NSNE_Billet_EBSMTLTrxImp_ABFRequestMessage"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns7:CommonLoggingRequestMessage"/>
+    <!--
+    <variable name="g_Invoke_DB_EBS_Billet_ADJ_InputVariable" messageType="ns3:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_ADJ_OutputVariable" messageType="ns3:args_out_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Acc_Alis_InputVariable" messageType="ns4:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Acc_Alis_OutputVariable" messageType="ns4:args_out_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Dischange_InputVariable" messageType="ns5:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Dischange_OutputVariable" messageType="ns5:args_out_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Use_InputVariable" messageType="ns6:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Use_OutputVariable" messageType="ns6:args_out_msg"/>
+    -->
+    <variable name="g_System" type="xsd:string"/>
+    <variable name="g_JNDI" type="xsd:string"/>
+    <variable name="g_Count" type="xsd:int"/>
+    <variable name="g_ChildCount" type="xsd:int"/>
+    <variable name="g_Param" element="ns9:parameters"/>
+    <variable name="g_Invoke_Update_Billet_Trans_update_InputVariable" messageType="ns10:ApiBilletTransCollection_msg"/>
+    <variable name="g_Invoke_DB_GetBillet_DetailsSelect_InputVariable"
+              messageType="ns1:DB_GetBillet_DetailsSelect_inputParameters"/>
+    <variable name="g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable" messageType="ns1:ApiBilletTransCollection_msg"/>
+    <!--
+    <variable name="g_Invoke_DB_EBS_Billet_Movement_InputVariable" messageType="ns12:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_Movement_OutputVariable" messageType="ns12:args_out_msg"/>
+    -->
+    <variable name="g_Invoke_DB_EBS_Billet_InputVariable" messageType="ns13:args_in_msg"/>
+    <variable name="g_Invoke_DB_EBS_Billet_OutputVariable" messageType="ns13:args_out_msg"/>
+    <variable name="g_LineLevelErrorMesg" type="xsd:string"/>
+    <variable name="g_setTitleVar" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_CatchAll">
+        <assign name="Transformation_Update_Error">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Error.xsl", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+            <to variable="g_Invoke_Update_Billet_Trans_update_InputVariable" part="ApiBilletTransCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_Update_Billet_Trans" inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <scope name="Scope10">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="Assign_CommonLogging">
+              <copy>
+                <from>4</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+              </copy>
+              <copy>
+                <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                    portType="ns7:CommonLogging" operation="process"
+                    inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in NSNE_Billet_EBSMTLTrxImp_ABF.wsdl) -->
+    <receive name="receiveInput" partnerLink="nsne_billet_ebsmtltrximp_abf_client"
+             portType="client:NSNE_Billet_EBSMTLTrxImp_ABF" operation="process" variable="g_inputVariable"
+             createInstance="yes"/>
+    <scope name="Scope_StartLog">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I138'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'NSNEQMOSTrxImport'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>21</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_inputVariable.payload/client:ResourceName,"SYSTEM","","ORG_CODE","100")</from>
+            <to>$g_System</to>
+          </copy>
+        </assign>
+        <assign name="Assign_setFlowInstanceTitle">
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionId))</from>
+            <to>$g_setTitleVar</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns7:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <if name="If_Check_Resource">
+      <documentation>
+        <![CDATA[TargetSystemQMOS]]>
+      </documentation>
+      <condition>$g_System = 'QMOS'</condition>
+      <sequence name="Sequence_TargetSystemQMOS">
+        <assign name="Assign_JNDI">
+          <!--copy>
+            <from>ora:getPreference("rowNumValue")</from>
+            <to>$g_rownum</to>
+          </copy-->
+          <copy>
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_inputVariable.payload/client:ResourceName,"JNDI","","ORG_CODE","100")</from>
+            <to>$g_JNDI</to>
+          </copy>
+          <copy>
+            <from>ora:getPreference("rowNumValue")</from>
+            <to>$g_Invoke_DB_GetBillet_DetailsSelect_InputVariable.DB_GetBillet_DetailsSelect_inputParameters/ns8:rownumValue</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_LineLevelErrorMesg</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_GetBillet_Details" partnerLink="DB_GetBillet_Details"
+                portType="ns1:DB_GetBillet_Details_ptt" operation="DB_GetBillet_DetailsSelect"
+                inputVariable="g_Invoke_DB_GetBillet_DetailsSelect_InputVariable"
+                outputVariable="g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Transformation_UpdateBillet_Trans_Ext">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Billet.xsl", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+            <to variable="g_Invoke_Update_Billet_Trans_update_InputVariable" part="ApiBilletTransCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_Update_Billet_Trans" inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Transformation_QMOS_EBS">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_QMOS_EBS.xsl", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection, "g_inputVariable.payload", $g_inputVariable.payload)</from>
+            <to variable="g_Invoke_DB_EBS_Billet_InputVariable" part="InputParameters"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_EBS_Billet" bpelx:invokeAsDetail="no" partnerLink="DB_EBS_Billet"
+                portType="ns13:DB_EBS_Billet_ptt" operation="DB_EBS_Billet"
+                inputVariable="g_Invoke_DB_EBS_Billet_InputVariable"
+                outputVariable="g_Invoke_DB_EBS_Billet_OutputVariable"/>
+        <assign name="Assign_Count">
+          <copy>
+            <from>count($g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM)</from>
+            <to>$g_Count</to>
+          </copy>
+        </assign>
+        <while name="While_Check_All_Status">
+          <condition>$g_Count &gt; 0</condition>
+          <sequence name="Sequence_Check_All_Status">
+            <if name="If_Check_Status">
+              <documentation>
+                <![CDATA[LogSuccess]]>
+              </documentation>
+              <condition>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_CODE = 'S'</condition>
+              <sequence name="Sequence_Error">
+                <scope name="Scope1">
+                  <faultHandlers>
+                    <catchAll>
+                      <empty name="DoNothing"/>
+                    </catchAll>
+                  </faultHandlers>
+                  <sequence>
+                    <assign name="Assign_CommonLogging">
+                      <copy>
+                        <from>2</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                      </copy>
+                      <copy>
+                        <from>''</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                      </copy>
+                      <copy>
+                        <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_MESSAGE</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns7:CommonLogging"
+                            operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                            bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+                <assign name="Assign_ChildNode">
+                  <copy>
+                    <from>count($g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM)</from>
+                    <to>$g_ChildCount</to>
+                  </copy>
+                </assign>
+                <while name="While_EachChild">
+                  <condition>$g_ChildCount &gt; 0</condition>
+                  <sequence name="Sequence_EachChild">
+                    <if name="If_Check_Child">
+                      <documentation>
+                        <![CDATA[ChildNode]]>
+                      </documentation>
+                      <condition>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_CODE = 'S'</condition>
+                      <sequence name="Sequence_Error">
+                        <scope name="Scope3">
+                          <faultHandlers>
+                            <catchAll>
+                              <empty name="DoNothing"/>
+                            </catchAll>
+                          </faultHandlers>
+                          <sequence>
+                            <assign name="Assign_CommonLogging">
+                              <!--copy>
+                            <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_MESSAGE</from>
+                            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                          </copy-->
+                              <copy>
+                                <from>2</from>
+                                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                              </copy>
+                              <copy>
+                                <from>''</from>
+                                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                              </copy>
+                              <copy>
+                                <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE</from>
+                                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                              </copy>
+                            </assign>
+                            <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns7:CommonLogging"
+                                    operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                                    bpelx:invokeAsDetail="no">
+                              <bpelx:toProperties>
+                                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                              </bpelx:toProperties>
+                            </invoke>
+                          </sequence>
+                        </scope>
+                        <assign name="Assign_LineLevelMessage">
+                          <copy>
+                            <from>concat($g_LineLevelErrorMesg,'-',$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE)</from>
+                            <to>$g_LineLevelErrorMesg</to>
+                          </copy>
+                        </assign>
+                      </sequence>
+                      <elseif>
+                        <documentation>
+                          <![CDATA[ChildNodeForSuccess]]>
+                        </documentation>
+                        <condition>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_CODE != 'S' and $g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_CODE != ''</condition>
+                        <sequence name="Sequence_Error">
+                          <scope name="Scope4">
+                            <faultHandlers>
+                              <catchAll>
+                                <empty name="DoNothing"/>
+                              </catchAll>
+                            </faultHandlers>
+                            <sequence>
+                              <assign name="Assign_CommonLogging">
+                                <copy>
+                                  <from>4</from>
+                                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                                </copy>
+                                <copy>
+                                  <from>''</from>
+                                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                                </copy>
+                                <copy>
+                                  <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE</from>
+                                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                                </copy>
+                              </assign>
+                              <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                                      portType="ns7:CommonLogging" operation="process"
+                                      inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                                      bpelx:invokeAsDetail="no">
+                                <bpelx:toProperties>
+                                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                </bpelx:toProperties>
+                              </invoke>
+                            </sequence>
+                          </scope>
+                          <assign name="Assign_LineLevelMessage"
+                                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>concat($g_LineLevelErrorMesg,'-',$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE)</from>
+         <to>$g_LineLevelErrorMesg</to>
+      </copy>
+   </assign>
+                        </sequence>
+                      </elseif>
+                      <else>
+                        <documentation>
+                          <![CDATA[DoNothing]]>
+                        </documentation>
+                        <empty name="DoNothing"/>
+                      </else>
+                    </if>
+                    <assign name="Assign_ChildCount">
+                      <copy>
+                        <from>$g_ChildCount - 1</from>
+                        <to>$g_ChildCount</to>
+                      </copy>
+                    </assign>
+                  </sequence>
+                </while>
+              </sequence>
+              <elseif>
+                <documentation>
+                  <![CDATA[LogError]]>
+                </documentation>
+                <condition>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_CODE != 'S' and $g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_CODE != ''</condition>
+                <sequence name="Sequence_Error">
+                  <scope name="Scope2">
+                    <faultHandlers>
+                      <catchAll>
+                        <empty name="DoNothing"/>
+                      </catchAll>
+                    </faultHandlers>
+                    <sequence>
+                      <assign name="Assign_CommonLogging">
+                        <copy>
+                          <from>4</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>''</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_MESSAGE</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns7:CommonLogging"
+                              operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </scope>
+                  <assign name="Assign_ChildNode">
+                    <copy>
+                      <from>count($g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM)</from>
+                      <to>$g_ChildCount</to>
+                    </copy>
+                  </assign>
+                  <while name="While_EachChild">
+                    <condition>$g_ChildCount &gt; 0</condition>
+                    <sequence name="Sequence_EachChild">
+                      <if name="If_Check_Child">
+                        <documentation>
+                          <![CDATA[ChildNode]]>
+                        </documentation>
+                        <condition>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_CODE = 'S'</condition>
+                        <sequence name="Sequence_Error">
+                          <scope name="Scope7">
+                            <faultHandlers>
+                              <catchAll>
+                                <empty name="DoNothing"/>
+                              </catchAll>
+                            </faultHandlers>
+                            <sequence>
+                              <assign name="Assign_CommonLogging">
+                                <!--copy>
+                            <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_MESSAGE</from>
+                            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                          </copy-->
+                                <copy>
+                                  <from>2</from>
+                                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                                </copy>
+                                <copy>
+                                  <from>''</from>
+                                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                                </copy>
+                                <copy>
+                                  <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE</from>
+                                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                                </copy>
+                              </assign>
+                              <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                                      portType="ns7:CommonLogging" operation="process"
+                                      inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                                      bpelx:invokeAsDetail="no">
+                                <bpelx:toProperties>
+                                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                </bpelx:toProperties>
+                              </invoke>
+                            </sequence>
+                          </scope>
+                          <assign name="Assign_LineLevelMessage"
+                                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>concat($g_LineLevelErrorMesg,'-',$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE)</from>
+         <to>$g_LineLevelErrorMesg</to>
+      </copy>
+   </assign>
+                        </sequence>
+                        <elseif>
+                          <documentation>
+                            <![CDATA[ChildNodeForError]]>
+                          </documentation>
+                          <condition>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_CODE != 'S' and $g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_CODE != ''</condition>
+                          <sequence name="Sequence_Error">
+                            <scope name="Scope8">
+                              <faultHandlers>
+                                <catchAll>
+                                  <empty name="DoNothing"/>
+                                </catchAll>
+                              </faultHandlers>
+                              <sequence>
+                                <assign name="Assign_CommonLogging">
+                                  <copy>
+                                    <from>4</from>
+                                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                                  </copy>
+                                  <copy>
+                                    <from>''</from>
+                                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                                  </copy>
+                                  <copy>
+                                    <from>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE</from>
+                                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                                  </copy>
+                                </assign>
+                                <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                                        portType="ns7:CommonLogging" operation="process"
+                                        inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                                        bpelx:invokeAsDetail="no">
+                                  <bpelx:toProperties>
+                                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                                  </bpelx:toProperties>
+                                </invoke>
+                              </sequence>
+                            </scope>
+                            <assign name="Assign_LineLevelMessage"
+                                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>concat($g_LineLevelErrorMesg,'-',$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:DTLS_RESULTS/ns14:DTLS_RESULTS_ITEM[$g_ChildCount]/ns14:RESULT_MESSAGE)</from>
+         <to>$g_LineLevelErrorMesg</to>
+      </copy>
+   </assign>
+                          </sequence>
+                        </elseif>
+                        <else>
+                          <documentation>
+                            <![CDATA[DoNothing]]>
+                          </documentation>
+                          <empty name="DoNothing"/>
+                        </else>
+                      </if>
+                      <assign name="Assign_ChildCount">
+                        <copy>
+                          <from>$g_ChildCount - 1</from>
+                          <to>$g_ChildCount</to>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </while>
+                </sequence>
+              </elseif>
+              <else>
+                <documentation>
+                  <![CDATA[DoNothing]]>
+                </documentation>
+                <empty name="DoNothing"/>
+              </else>
+            </if>
+            <assign name="Assign_Count">
+              <copy>
+                <from>substring(concat($g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_MESSAGE,$g_LineLevelErrorMesg),1,2000)</from>
+                <to>$g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters/ns14:P_RESULT_TAB/ns14:P_RESULT_TAB_ITEM[$g_Count]/ns14:RESULT_MESSAGE</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$g_LineLevelErrorMesg</to>
+              </copy>
+              <copy>
+                <from>$g_Count - 1</from>
+                <to>$g_Count</to>
+              </copy>
+            </assign>
+          </sequence>
+        </while>
+        <assign name="Transformation_Update_Status">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Billet_Status.xsl", $g_Invoke_DB_EBS_Billet_OutputVariable.OutputParameters)</from>
+            <to variable="g_Invoke_Update_Billet_Trans_update_InputVariable" part="ApiBilletTransCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_Update_Billet_Trans" inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <!--
+        <assign name="Assign_CountNode">
+          <copy>
+            <from>count($g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans)</from>
+            <to>$g_Count</to>
+          </copy>
+        </assign>
+        
+        <while name="While_Check_All_Node">
+          <condition>$g_Count &gt; 0</condition>
+          <sequence name="Sequence_Check_All_Node">
+            <scope name="Scope_Check_All_Node">
+              <faultHandlers>
+                <catchAll>
+                  <sequence name="Sequence_CatchAll">
+                    <assign name="Assign_Update_Billet_Trans">
+                      <copy>
+                        <from>'E'</from>
+                        <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:processed</to>
+                      </copy>
+                      <copy>
+                        <from>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:id</from>
+                        <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:id</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_Update_Billet_Trans"
+                            inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable" bpelx:invokeAsDetail="no"
+                            partnerLink="DB_Update_Billet_Trans" portType="ns10:DB_Update_Billet_Trans_ptt"
+                            operation="update">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                      </bpelx:toProperties>
+                    </invoke>
+                    <assign name="Assign_CommonLogging">
+                      <copy>
+                        <from>4</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                      </copy>
+                      <copy>
+                        <from>''</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                      </copy>
+                      <copy>
+                        <from>ora:getFaultAsString()</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                            portType="ns7:CommonLogging" operation="process"
+                            inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </catchAll>
+              </faultHandlers>
+              <sequence name="Sequence_All_Node">
+                <assign name="Assign_Param">
+                  <copy>
+                    <from>$g_Count</from>
+                    <to>$g_Param/ns9:item/ns9:name</to>
+                  </copy>
+                  <copy>
+                    <from>$g_Count</from>
+                    <to>$g_Param/ns9:item/ns9:value</to>
+                  </copy>
+                </assign>
+                <if name="If_Check_TrxName">
+                  <documentation>
+                    <![CDATA[ADJ]]>
+                  </documentation>
+                  <condition>( $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "ADJ") or ($g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "RECLASS")</condition>
+                  <sequence name="Sequence_ADJ">
+                    <assign name="Transformation_Insert_ADJ">
+                      <bpelx:annotation>
+                        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                      </bpelx:annotation>
+                      <copy>
+                        <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Insert_ADJ.xsl", $g_Param, "g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+                        <to variable="g_Invoke_DB_EBS_Billet_ADJ_InputVariable" part="InputParameters"/>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_EB_EBS_BIllet_ADJ" partnerLink="DB_EBS_Billet_ADJ"
+                            portType="ns3:DB_EBS_Billet_ADJ_ptt" operation="DB_EBS_Billet_ADJ"
+                            inputVariable="g_Invoke_DB_EBS_Billet_ADJ_InputVariable"
+                            outputVariable="g_Invoke_DB_EBS_Billet_ADJ_OutputVariable" bpelx:invokeAsDetail="no"/>
+                    <assign name="Assign_Update_Billet_Trans">
+                      <copy>
+                        <from>'C'</from>
+                        <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:processed</to>
+                      </copy>
+                      <copy>
+                        <from>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:id</from>
+                        <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:id</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_Update_Billet_Trans"
+                            inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable" bpelx:invokeAsDetail="no"
+                            partnerLink="DB_Update_Billet_Trans" portType="ns10:DB_Update_Billet_Trans_ptt"
+                            operation="update">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                  <elseif>
+                    <documentation>
+                      <![CDATA[Acc_Ali]]>
+                    </documentation>
+                    <condition>($g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "VOID") or ($g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "SCP")</condition>
+                    <sequence name="Sequence_Acc_Ali">
+                      <assign name="Transformation_Acc_Alis">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Acc_Alis.xsl", $g_Param, "g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+                          <to variable="g_Invoke_DB_EBS_Billet_Acc_Alis_InputVariable" part="InputParameters"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DB_EBS_Billet_Acc_Alis" partnerLink="DB_EBS_Billet_Acc_Alis"
+                              portType="ns4:DB_EBS_Billet_Acc_Alis_ptt" operation="DB_EBS_Billet_Acc_Alis"
+                              inputVariable="g_Invoke_DB_EBS_Billet_Acc_Alis_InputVariable"
+                              outputVariable="g_Invoke_DB_EBS_Billet_Acc_Alis_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                      <assign name="Assign_Update_Billet_Trans">
+                        <copy>
+                          <from>'C'</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:processed</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:id</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:id</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Update_Billet_Trans"
+                              inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                              bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                              portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </elseif>
+                  <elseif>
+                    <documentation>
+                      <![CDATA[Dischange]]>
+                    </documentation>
+                    <condition>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "DISPCHANGE"</condition>
+                    <sequence name="Sequence_Disachange">
+                      <assign name="Transformation_Dischange">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Dischange.xsl", $g_Param, "g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+                          <to variable="g_Invoke_DB_EBS_Billet_Dischange_InputVariable" part="InputParameters"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DB_EBS_Billet_Dischange" partnerLink="DB_EBS_Billet_Dischange"
+                              portType="ns5:DB_EBS_Billet_Dischange_ptt" operation="DB_EBS_Billet_Dischange"
+                              inputVariable="g_Invoke_DB_EBS_Billet_Dischange_InputVariable"
+                              outputVariable="g_Invoke_DB_EBS_Billet_Dischange_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                      <assign name="Assign_Update_Billet_Trans">
+                        <copy>
+                          <from>'C'</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:processed</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:id</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:id</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Update_Billet_Trans"
+                              inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                              bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                              portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </elseif>
+                  <elseif>
+                    <documentation>
+                      <![CDATA[Use]]>
+                    </documentation>
+                    <condition>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "USE"</condition>
+                    <sequence name="Sequence_Use">
+                      <assign name="Transformation_Use">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Use.xsl", $g_Param, "g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+                          <to variable="g_Invoke_DB_EBS_Billet_Use_InputVariable" part="InputParameters"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DB_EBS_Billet_Use" partnerLink="DB_EBS_Billet_Use"
+                              portType="ns6:DB_EBS_Billet_Use_ptt" operation="DB_EBS_Billet_Use"
+                              inputVariable="g_Invoke_DB_EBS_Billet_Use_InputVariable"
+                              outputVariable="g_Invoke_DB_EBS_Billet_Use_OutputVariable" bpelx:invokeAsDetail="no"/>
+                      <assign name="Assign_Update_Billet_Trans">
+                        <copy>
+                          <from>'C'</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:processed</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:id</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:id</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Update_Billet_Trans"
+                              inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                              bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                              portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </elseif>
+                  <elseif>
+                    <documentation>
+                      <![CDATA[Movement]]>
+                    </documentation>
+                    <condition>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType = "MOVEMENT"</condition>
+                    <sequence name="Sequence_Movement">
+                      <assign name="Transformation_Movement">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Movement.xsl", $g_Param, "g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection", $g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection)</from>
+                          <to variable="g_Invoke_DB_EBS_Billet_Movement_InputVariable" part="InputParameters"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DB_EBS_Billet_Movement" bpelx:invokeAsDetail="no"
+                              partnerLink="DB_EBS_Billet_Movement" portType="ns12:DB_EBS_Billet_Movement_ptt"
+                              operation="DB_EBS_Billet_Movement"
+                              inputVariable="g_Invoke_DB_EBS_Billet_Movement_InputVariable"
+                              outputVariable="g_Invoke_DB_EBS_Billet_Movement_OutputVariable"/>
+                    </sequence>
+                  </elseif>
+                  <else>
+                    <documentation>
+                      <![CDATA[DifferentTrxName]]>
+                    </documentation>
+                    <sequence name="Sequence_NonQMOSSystem">
+                      <assign name="Assign_Update_Billet_Trans">
+                        <copy>
+                          <from>'E'</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:processed</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:id</from>
+                          <to>$g_Invoke_Update_Billet_Trans_update_InputVariable.ApiBilletTransCollection/ns11:ApiBilletTrans/ns11:id</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Update_Billet_Trans"
+                              inputVariable="g_Invoke_Update_Billet_Trans_update_InputVariable"
+                              bpelx:invokeAsDetail="no" partnerLink="DB_Update_Billet_Trans"
+                              portType="ns10:DB_Update_Billet_Trans_ptt" operation="update">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                        </bpelx:toProperties>
+                      </invoke>
+                      <assign name="Assign_CommonLogging">
+                        <copy>
+                          <from>4</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>'BMG-165'</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                        </copy>
+                        <copy>
+                          <from>concat($g_Invoke_DB_GetBillet_DetailsSelect_OutputVariable.ApiBilletTransCollection/ns8:ApiBilletTrans[$g_Count]/ns8:transactionType,'QMOS')</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                              portType="ns7:CommonLogging" operation="process"
+                              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </else>
+                </if>
+              </sequence>
+            </scope>
+            <assign name="Assign_Count">
+              <copy>
+                <from>$g_Count - 1</from>
+                <to>$g_Count</to>
+              </copy>
+            </assign>
+          </sequence>
+        </while>
+        -->
+        <if name="If_Check_Status_Error">
+          <documentation>
+            <![CDATA[Check_Status]]>
+          </documentation>
+          <condition>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType != 4</condition>
+          <sequence name="Sequence_Success">
+            <scope name="Scope5">
+              <faultHandlers>
+                <catchAll>
+                  <empty name="DoNothing"/>
+                </catchAll>
+              </faultHandlers>
+              <sequence>
+                <assign name="Assign_CommonLogging">
+                  <copy>
+                    <from>'BMG-002'</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns7:CommonLogging"
+                        operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                        bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Status_Error]]>
+            </documentation>
+            <sequence name="Sequence_Error">
+              <scope name="Scope6">
+                <faultHandlers>
+                  <catchAll>
+                    <empty name="DoNothing"/>
+                  </catchAll>
+                </faultHandlers>
+                <sequence>
+                  <assign name="Assign_CommonLogging">
+                    <copy>
+                      <from>4</from>
+                      <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                    </copy>
+                    <copy>
+                      <from>'BMG-002'</from>
+                      <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                    </copy>
+                    <copy>
+                      <from>2</from>
+                      <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns7:CommonLogging"
+                          operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                          bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                </sequence>
+              </scope>
+            </sequence>
+          </else>
+        </if>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[NonQMOSTargetSystem]]>
+        </documentation>
+        <sequence name="Sequence_NonQMOSSystem">
+          <scope name="Scope9">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging">
+                <copy>
+                  <from>4</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-155'</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat($g_inputVariable.payload/client:ResourceName,'QMOS')</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns7:CommonLogging" operation="process"
+                      inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </else>
+    </if>
+  </sequence>
+</process>

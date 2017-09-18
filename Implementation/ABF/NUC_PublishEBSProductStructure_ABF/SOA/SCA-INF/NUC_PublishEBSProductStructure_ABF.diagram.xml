@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="AQ_DEQ_XXNUC_COMM_OUTINTF_Q">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="145" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="138" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="AQ_DEQ_XXNUC_COMM_OUTINTF_Q" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/aq/Application2/NUC_PublishEBSProductStructure_ABF/AQ_DEQ_XXNUC_COMM_OUTINTF_Q#wsdl.interface(Dequeue_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/aq_adapter_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>Dequeue</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="NUC_EBizProductStructure_ABS">
+        <dgm:body borderWidth="2" arcRad="20" X="606" Y="26" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="596" Y="19" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="NUC_EBizProductStructure_ABS" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://oracle.com/sca/soapservice/Application2/NUC_EBizProductStructure_ABS/EbizProductStructure#wsdl.interface(execute_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>queryProductStructure</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CommonLogging">
+        <dgm:body borderWidth="2" arcRad="20" X="606" Y="144" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="596" Y="137" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLogging" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="JMS_ENQ_NextGen_DistributedTopic">
+        <dgm:body borderWidth="2" arcRad="20" X="606" Y="262" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="596" Y="255" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="JMS_ENQ_NextGen_DistributedTopic" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/jms/Application2/NUC_PublishEBSProductStructure_ABF/JMS_ENQ_NextGen_DistributedTopic#wsdl.interface(Produce_Message_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/jms_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>Produce_Message</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="NUC_PublishEBSProductStructure">
+        <dgm:body borderWidth="2" arcRad="20" X="317" Y="130" width="130" height="111">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="307" Y="123" width="150" height="127">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="AQ_DEQ_XXNUC_COMM_OUTINTF_Q" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/aq/Application2/NUC_PublishEBSProductStructure_ABF/AQ_DEQ_XXNUC_COMM_OUTINTF_Q#wsdl.interface(Dequeue_ptt)"/>
+        <dgm:outputPort name="NUC_EBizProductStructure_ABS" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://oracle.com/sca/soapservice/Application2/NUC_EBizProductStructure_ABS/EbizProductStructure#wsdl.interface(execute_ptt)"/>
+        <dgm:outputPort name="CommonLogging" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:outputPort name="JMS_ENQ_NextGen_DistributedTopic" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/jms/Application2/NUC_PublishEBSProductStructure_ABF/JMS_ENQ_NextGen_DistributedTopic#wsdl.interface(Produce_Message_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="AQ_DEQ_XXNUC_COMM_OUTINTF_Q" target="NUC_PublishEBSProductStructure/AQ_DEQ_XXNUC_COMM_OUTINTF_Q" width="2">
+        <dgm:gSegment X1="168" Y1="155" X2="307" Y2="155"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="NUC_PublishEBSProductStructure/NUC_EBizProductStructure_ABS" target="NUC_EBizProductStructure_ABS" width="2">
+        <dgm:gSegment X1="457" Y1="155" X2="481" Y2="155"/>
+        <dgm:gSegment X1="481" Y1="155" X2="481" Y2="36"/>
+        <dgm:gSegment X1="481" Y1="36" X2="596" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="NUC_PublishEBSProductStructure/CommonLogging" target="CommonLogging" width="2">
+        <dgm:gSegment X1="457" Y1="180" X2="496" Y2="180"/>
+        <dgm:gSegment X1="496" Y1="180" X2="496" Y2="154"/>
+        <dgm:gSegment X1="496" Y1="154" X2="596" Y2="154"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="NUC_PublishEBSProductStructure/JMS_ENQ_NextGen_DistributedTopic" target="JMS_ENQ_NextGen_DistributedTopic" width="2">
+        <dgm:gSegment X1="457" Y1="205" X2="481" Y2="205"/>
+        <dgm:gSegment X1="481" Y1="205" X2="481" Y2="272"/>
+        <dgm:gSegment X1="481" Y1="272" X2="596" Y2="272"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

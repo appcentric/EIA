@@ -1,0 +1,98 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/WIP/1.0" targetNamespace="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/WIP/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars" nxsd:encoding="UTF-8" nxsd:hasHeader="true" nxsd:headerLines="1" nxsd:headerLinesTerminatedBy="${eol}">
+  <xsd:element name="WIPRecordList">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="WIPHeader">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="completion_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="#completion_time"/>
+              <xsd:element name="completion_time_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="completion_time_format"/>
+              <xsd:element name="elapsed_runtime" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="elapsed_runtime"/>
+              <xsd:element name="elapsed_runtime_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="elapsed_runtime_uom"/>
+              <xsd:element name="finished_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="finished_quantity"/>
+              <xsd:element name="finished_quantity_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="finished_quantity_uom"/>
+              <xsd:element name="finished_part_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="finished_part_number"/>
+              <xsd:element name="manufacturing_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="manufacturing_order"/>
+              <xsd:element name="operation" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="operation"/>
+              <xsd:element name="operation_complete" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="operation_complete"/>
+              <xsd:element name="routing" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="routing"/>
+              <xsd:element name="set_task_to_epst_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="set_task_to_epst_p"/>
+              <xsd:element name="start_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="start_time"/>
+              <xsd:element name="start_time_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="start_time_format"/>
+              <xsd:element name="step_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="start_time_format"/>
+              <xsd:element name="unfinished_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="unfinished_quantity"/>
+              <xsd:element name="unfinished_quantity_uom" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="|" nxsd:quotedBy='"' maxOccurs="1" fixed="unfinished_quantity_uom"/>
+              <xsd:element name="unfinished_part_number" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="${eol}" nxsd:quotedBy='"' maxOccurs="1" fixed="unfinished_part_number"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="WIPRecord" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="completion_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="completion_time_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="elapsed_runtime" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="elapsed_runtime_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="finished_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="finished_quantity_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="finished_part_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="manufacturing_order" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="operation" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="operation_complete" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="routing" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="set_task_to_epst_p" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="start_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="start_time_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="step_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="unfinished_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="unfinished_quantity_uom" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="|" nxsd:quotedBy='"'/>
+              <xsd:element name="unfinished_part_number" type="xsd:string" nxsd:style="terminated"
+                           nxsd:terminatedBy="${eol}" nxsd:quotedBy='"'/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=/Users/dikshasawheny/Documents/SHared/WIPrecord.csv</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=true</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

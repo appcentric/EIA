@@ -1,0 +1,14 @@
+<adapter-config name="DB_Update_Control_Stg" adapter="db" wsdlLocation="../WSDLs/DB_Update_Control_Stg.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSConnection" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_Update_Control_Stg_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_Update_Control_Stg.XxnucOutCtrlStg"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="DB_Update_Control_Stg-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

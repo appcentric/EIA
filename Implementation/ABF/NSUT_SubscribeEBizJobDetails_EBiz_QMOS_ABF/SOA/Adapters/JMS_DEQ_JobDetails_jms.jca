@@ -1,0 +1,14 @@
+<adapter-config name="JMS_DEQ_JobDetails" adapter="jms" wsdlLocation="../WSDLs/JMS_DEQ_JobDetails.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/jms/EBizJMSTopic" UIJmsProvider="WLSJMS" UIConnectionName="DV1"/>
+  <endpoint-activation portType="Consume_Message_ptt" operation="Consume_Message">
+    <activation-spec className="oracle.tip.adapter.jms.inbound.JmsConsumeActivationSpec">
+      <property name="DurableSubscriber" value="NSUTBATCHJOBS"/>
+      <property name="PayloadType" value="TextMessage"/>
+      <property name="MessageSelector" value="JMSType='BatchJobs' and System='QMOS' and OrgName = 'SMG_US_OU_NSUT'"/>
+      <property name="UseMessageListener" value="false"/>
+      <property name="DestinationName" value="jms/EBizJMSTopic"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

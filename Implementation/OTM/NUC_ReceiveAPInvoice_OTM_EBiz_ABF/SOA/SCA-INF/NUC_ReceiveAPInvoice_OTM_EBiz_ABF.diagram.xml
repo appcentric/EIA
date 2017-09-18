@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="OTMGetAPInvoice_client">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="111" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="104" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="OTMGetAPInvoice_client" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://oracle.com/sca/soapservice/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/OTMGetAPInvoice_client#wsdl.interface(execute_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>execute</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="CommonLogging">
+        <dgm:body borderWidth="2" arcRad="20" X="772" Y="26" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="762" Y="19" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLogging" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="InvoiceABS">
+        <dgm:body borderWidth="2" arcRad="20" X="772" Y="144" width="136" height="132">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="762" Y="137" width="156" height="146">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="InvoiceABS" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>CreateInvoice_Sync</dgm:item>
+            <dgm:item>QueryInvoiceById_Sync</dgm:item>
+            <dgm:item>LaunchAutoInvoice</dgm:item>
+            <dgm:item>CreateListOfInvoices_Sync</dgm:item>
+            <dgm:item>LaunchAutoInvoiceAPI</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="NUC_APInvoice_OTM_EBiz_ABF">
+        <dgm:body borderWidth="2" arcRad="20" X="400" Y="96" width="130" height="86">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="390" Y="89" width="150" height="102">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="OTMGetAPInvoice_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://oracle.com/sca/soapservice/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/OTMGetAPInvoice_client#wsdl.interface(execute_ptt)"/>
+        <dgm:outputPort name="CommonLogging" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:outputPort name="InvoiceABS" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="OTMGetAPInvoice_client" target="NUC_APInvoice_OTM_EBiz_ABF/OTMGetAPInvoice_client" width="2">
+        <dgm:gSegment X1="168" Y1="121" X2="390" Y2="121"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="NUC_APInvoice_OTM_EBiz_ABF/CommonLogging" target="CommonLogging" width="2">
+        <dgm:gSegment X1="540" Y1="121" X2="564" Y2="121"/>
+        <dgm:gSegment X1="564" Y1="121" X2="564" Y2="36"/>
+        <dgm:gSegment X1="564" Y1="36" X2="762" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="NUC_APInvoice_OTM_EBiz_ABF/InvoiceABS" target="InvoiceABS" width="2">
+        <dgm:gSegment X1="540" Y1="146" X2="564" Y2="146"/>
+        <dgm:gSegment X1="564" Y1="146" X2="564" Y2="154"/>
+        <dgm:gSegment X1="564" Y1="154" X2="762" Y2="154"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

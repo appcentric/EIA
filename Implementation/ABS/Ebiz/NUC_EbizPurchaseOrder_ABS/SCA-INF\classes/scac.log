@@ -1,0 +1,1048 @@
+Aug 26, 2015 10:56:27 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:27 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:30 AM oracle.mds
+NOTIFICATION: PManager instance is created without multitenancy support as JVM flag "oracle.multitenant.enabled" is not set to enable multitenancy support.
+Aug 26, 2015 10:56:30 AM oracle.security.jps.internal.config.xml.XmlConfigurationFactory initDefaultConfiguration
+SEVERE: java.io.FileNotFoundException: ./config/jps-config.xml (No such file or directory)
+Aug 26, 2015 10:56:30 AM oracle.mds
+NOTIFICATION: Auditing is disabled for component MDS.
+Aug 26, 2015 10:56:33 AM oracle.adf.share.ADFContext getCurrent
+WARNING: Automatically initializing a DefaultContext for getCurrent.
+Caller should ensure that a DefaultContext is proper for this use.
+Memory leaks and/or unexpected behaviour may occur if the automatic initialization is performed improperly.
+This message may be avoided by performing initADFContext before using getCurrent().
+For more information please enable logging for oracle.adf.share.ADFContext at FINEST level.
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.properties.ADFContextPropertiesCallback parseADFConfiguration
+INFO: No ADFContext properties defined in adf-config.xml.
+Aug 26, 2015 10:56:34 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:34 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.ADFMDSConfig createMDSInstanceFromelement
+SEVERE: MDSConfigurationException encountered in parseADFConfigurationMDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDElementDeclaration(SchemaManager.java:729)
+	at oracle.soa.scac.WSDLValidator.validateMessageParts(WSDLValidator.java:112)
+	at oracle.soa.scac.WSDLValidator.validateMessages(WSDLValidator.java:88)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:44)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:55)
+	at oracle.soa.scac.ValidateComposite.loadWSDLs(ValidateComposite.java:900)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:493)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 45 more
+
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.MDSConfigFactory createApplication
+INFO: 
+oracle.adf.share.ADFShareException: MDSConfigurationException encountered in parseADFConfiguration
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:292)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDElementDeclaration(SchemaManager.java:729)
+	at oracle.soa.scac.WSDLValidator.validateMessageParts(WSDLValidator.java:112)
+	at oracle.soa.scac.WSDLValidator.validateMessages(WSDLValidator.java:88)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:44)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:55)
+	at oracle.soa.scac.ValidateComposite.loadWSDLs(ValidateComposite.java:900)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:493)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	... 36 more
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 45 more
+
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.properties.ADFContextPropertiesCallback parseADFConfiguration
+INFO: No ADFContext properties defined in adf-config.xml.
+Aug 26, 2015 10:56:34 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:34 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.ADFMDSConfig createMDSInstanceFromelement
+SEVERE: MDSConfigurationException encountered in parseADFConfigurationMDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.ADFContext.getADFContextProperty(ADFContext.java:1078)
+	at oracle.adf.share.mds.MDSUtil.getCustClassList(MDSUtil.java:69)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:125)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDElementDeclaration(SchemaManager.java:729)
+	at oracle.soa.scac.WSDLValidator.validateMessageParts(WSDLValidator.java:112)
+	at oracle.soa.scac.WSDLValidator.validateMessages(WSDLValidator.java:88)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:44)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:55)
+	at oracle.soa.scac.ValidateComposite.loadWSDLs(ValidateComposite.java:900)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:493)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 57 more
+
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.MDSConfigFactory createApplication
+INFO: 
+oracle.adf.share.ADFShareException: MDSConfigurationException encountered in parseADFConfiguration
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:292)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.ADFContext.getADFContextProperty(ADFContext.java:1078)
+	at oracle.adf.share.mds.MDSUtil.getCustClassList(MDSUtil.java:69)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:125)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDElementDeclaration(SchemaManager.java:729)
+	at oracle.soa.scac.WSDLValidator.validateMessageParts(WSDLValidator.java:112)
+	at oracle.soa.scac.WSDLValidator.validateMessages(WSDLValidator.java:88)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:44)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:55)
+	at oracle.soa.scac.ValidateComposite.loadWSDLs(ValidateComposite.java:900)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:493)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	... 48 more
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 57 more
+
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.properties.ADFContextPropertiesCallback parseADFConfiguration
+INFO: No ADFContext properties defined in adf-config.xml.
+Aug 26, 2015 10:56:34 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:34 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.ADFMDSConfig parseADFConfiguration
+SEVERE: MDSConfigurationException encountered in parseADFConfigurationMDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:146)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDElementDeclaration(SchemaManager.java:729)
+	at oracle.soa.scac.WSDLValidator.validateMessageParts(WSDLValidator.java:112)
+	at oracle.soa.scac.WSDLValidator.validateMessages(WSDLValidator.java:88)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:44)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:55)
+	at oracle.soa.scac.ValidateComposite.loadWSDLs(ValidateComposite.java:900)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:493)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 48 more
+
+Aug 26, 2015 10:56:34 AM oracle.adf.share.config.ADFContextMDSConfigHelperImpl createMDSSession
+INFO: 
+oracle.adf.share.ADFShareException: MDSConfigurationException encountered in parseADFConfiguration
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:209)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDElementDeclaration(SchemaManager.java:729)
+	at oracle.soa.scac.WSDLValidator.validateMessageParts(WSDLValidator.java:112)
+	at oracle.soa.scac.WSDLValidator.validateMessages(WSDLValidator.java:88)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:44)
+	at oracle.soa.scac.WSDLValidator.validate(WSDLValidator.java:55)
+	at oracle.soa.scac.ValidateComposite.loadWSDLs(ValidateComposite.java:900)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:493)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:146)
+	... 39 more
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 48 more
+
+Aug 26, 2015 10:56:34 AM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+Aug 26, 2015 10:56:36 AM oracle.integration.platform.blocks.FabricConfigManager <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Aug 26, 2015 10:56:36 AM oracle.integration.platform.blocks.WLSPlatformConfigurationProvider <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+Aug 26, 2015 10:56:38 AM oracle.adf.share.config.properties.ADFContextPropertiesCallback parseADFConfiguration
+INFO: No ADFContext properties defined in adf-config.xml.
+Aug 26, 2015 10:56:38 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:38 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:38 AM oracle.adf.share.config.ADFMDSConfig createMDSInstanceFromelement
+SEVERE: MDSConfigurationException encountered in parseADFConfigurationMDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDTypeDefinition(SchemaManager.java:754)
+	at oracle.bpel.lang.v20.resolver.ProcessImportHandler.lookupXSDType(ProcessImportHandler.java:233)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXSDType(OracleModelQueryImpl.java:710)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupCanonicalType(OracleModelQueryImpl.java:1180)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXPathChildNamedStep(OracleModelQueryImpl.java:815)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookup(OracleModelQueryImpl.java:329)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.lookupByAxis(XPathVisitor.java:431)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:340)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:586)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitList(XPathVisitor.java:537)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit000(XPathVisitor.java:173)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:161)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:563)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:290)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:582)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:553)
+	at org.eclipse.bpel.validator.xpath.From.CheckGeneralExpression(From.java:45)
+	at sun.reflect.GeneratedMethodAccessor64.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.eclipse.bpel.validator.model.Rules$Rule.invoke(Rules.java:316)
+	at org.eclipse.bpel.validator.model.RuleRunner.runRules(RuleRunner.java:81)
+	at org.eclipse.bpel.validator.model.Validator.validate(Validator.java:260)
+	at org.eclipse.bpel.validator.model.Runner.pass1(Runner.java:145)
+	at org.eclipse.bpel.validator.model.Runner.run(Runner.java:179)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:223)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:114)
+	at oracle.bpel.lang.v20.validator.BPEL20Validator.validate(BPEL20Validator.java:77)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.validate(BPEL2Processor.java:170)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:119)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:107)
+	at com.collaxa.cube.lang.compiler.CubeParserHelper.compile(CubeParserHelper.java:47)
+	at oracle.fabric.bpel.bpelc.BPELComponentValidator.validate(BPELComponentValidator.java:40)
+	at oracle.soa.scac.ValidateComposite.validateComponentTypeServicesReferences(ValidateComposite.java:1051)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:502)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 73 more
+
+Aug 26, 2015 10:56:38 AM oracle.adf.share.config.MDSConfigFactory createApplication
+INFO: 
+oracle.adf.share.ADFShareException: MDSConfigurationException encountered in parseADFConfiguration
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:292)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDTypeDefinition(SchemaManager.java:754)
+	at oracle.bpel.lang.v20.resolver.ProcessImportHandler.lookupXSDType(ProcessImportHandler.java:233)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXSDType(OracleModelQueryImpl.java:710)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupCanonicalType(OracleModelQueryImpl.java:1180)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXPathChildNamedStep(OracleModelQueryImpl.java:815)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookup(OracleModelQueryImpl.java:329)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.lookupByAxis(XPathVisitor.java:431)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:340)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:586)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitList(XPathVisitor.java:537)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit000(XPathVisitor.java:173)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:161)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:563)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:290)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:582)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:553)
+	at org.eclipse.bpel.validator.xpath.From.CheckGeneralExpression(From.java:45)
+	at sun.reflect.GeneratedMethodAccessor64.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.eclipse.bpel.validator.model.Rules$Rule.invoke(Rules.java:316)
+	at org.eclipse.bpel.validator.model.RuleRunner.runRules(RuleRunner.java:81)
+	at org.eclipse.bpel.validator.model.Validator.validate(Validator.java:260)
+	at org.eclipse.bpel.validator.model.Runner.pass1(Runner.java:145)
+	at org.eclipse.bpel.validator.model.Runner.run(Runner.java:179)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:223)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:114)
+	at oracle.bpel.lang.v20.validator.BPEL20Validator.validate(BPEL20Validator.java:77)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.validate(BPEL2Processor.java:170)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:119)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:107)
+	at com.collaxa.cube.lang.compiler.CubeParserHelper.compile(CubeParserHelper.java:47)
+	at oracle.fabric.bpel.bpelc.BPELComponentValidator.validate(BPELComponentValidator.java:40)
+	at oracle.soa.scac.ValidateComposite.validateComponentTypeServicesReferences(ValidateComposite.java:1051)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:502)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	... 64 more
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 73 more
+
+Aug 26, 2015 10:56:38 AM oracle.adf.share.config.properties.ADFContextPropertiesCallback parseADFConfiguration
+INFO: No ADFContext properties defined in adf-config.xml.
+Aug 26, 2015 10:56:39 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:39 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:39 AM oracle.adf.share.config.ADFMDSConfig createMDSInstanceFromelement
+SEVERE: MDSConfigurationException encountered in parseADFConfigurationMDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.ADFContext.getADFContextProperty(ADFContext.java:1078)
+	at oracle.adf.share.mds.MDSUtil.getCustClassList(MDSUtil.java:69)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:125)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDTypeDefinition(SchemaManager.java:754)
+	at oracle.bpel.lang.v20.resolver.ProcessImportHandler.lookupXSDType(ProcessImportHandler.java:233)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXSDType(OracleModelQueryImpl.java:710)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupCanonicalType(OracleModelQueryImpl.java:1180)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXPathChildNamedStep(OracleModelQueryImpl.java:815)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookup(OracleModelQueryImpl.java:329)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.lookupByAxis(XPathVisitor.java:431)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:340)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:586)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitList(XPathVisitor.java:537)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit000(XPathVisitor.java:173)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:161)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:563)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:290)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:582)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:553)
+	at org.eclipse.bpel.validator.xpath.From.CheckGeneralExpression(From.java:45)
+	at sun.reflect.GeneratedMethodAccessor64.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.eclipse.bpel.validator.model.Rules$Rule.invoke(Rules.java:316)
+	at org.eclipse.bpel.validator.model.RuleRunner.runRules(RuleRunner.java:81)
+	at org.eclipse.bpel.validator.model.Validator.validate(Validator.java:260)
+	at org.eclipse.bpel.validator.model.Runner.pass1(Runner.java:145)
+	at org.eclipse.bpel.validator.model.Runner.run(Runner.java:179)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:223)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:114)
+	at oracle.bpel.lang.v20.validator.BPEL20Validator.validate(BPEL20Validator.java:77)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.validate(BPEL2Processor.java:170)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:119)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:107)
+	at com.collaxa.cube.lang.compiler.CubeParserHelper.compile(CubeParserHelper.java:47)
+	at oracle.fabric.bpel.bpelc.BPELComponentValidator.validate(BPELComponentValidator.java:40)
+	at oracle.soa.scac.ValidateComposite.validateComponentTypeServicesReferences(ValidateComposite.java:1051)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:502)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 85 more
+
+Aug 26, 2015 10:56:39 AM oracle.adf.share.config.MDSConfigFactory createApplication
+INFO: 
+oracle.adf.share.ADFShareException: MDSConfigurationException encountered in parseADFConfiguration
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:292)
+	at oracle.adf.share.config.MDSConfigFactory.createApplication(MDSConfigFactory.java:123)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:150)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:82)
+	at oracle.adf.share.config.ADFConfigFactory.findOrCreateADFConfig(ADFConfigFactory.java:60)
+	at oracle.adf.share.ADFContext.getADFConfigEx(ADFContext.java:888)
+	at oracle.adf.share.ADFContext.getADFConfig(ADFContext.java:837)
+	at oracle.adf.share.ADFContext.getADFContextProperty(ADFContext.java:1078)
+	at oracle.adf.share.mds.MDSUtil.getCustClassList(MDSUtil.java:69)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:125)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDTypeDefinition(SchemaManager.java:754)
+	at oracle.bpel.lang.v20.resolver.ProcessImportHandler.lookupXSDType(ProcessImportHandler.java:233)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXSDType(OracleModelQueryImpl.java:710)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupCanonicalType(OracleModelQueryImpl.java:1180)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXPathChildNamedStep(OracleModelQueryImpl.java:815)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookup(OracleModelQueryImpl.java:329)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.lookupByAxis(XPathVisitor.java:431)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:340)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:586)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitList(XPathVisitor.java:537)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit000(XPathVisitor.java:173)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:161)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:563)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:290)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:582)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:553)
+	at org.eclipse.bpel.validator.xpath.From.CheckGeneralExpression(From.java:45)
+	at sun.reflect.GeneratedMethodAccessor64.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.eclipse.bpel.validator.model.Rules$Rule.invoke(Rules.java:316)
+	at org.eclipse.bpel.validator.model.RuleRunner.runRules(RuleRunner.java:81)
+	at org.eclipse.bpel.validator.model.Validator.validate(Validator.java:260)
+	at org.eclipse.bpel.validator.model.Runner.pass1(Runner.java:145)
+	at org.eclipse.bpel.validator.model.Runner.run(Runner.java:179)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:223)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:114)
+	at oracle.bpel.lang.v20.validator.BPEL20Validator.validate(BPEL20Validator.java:77)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.validate(BPEL2Processor.java:170)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:119)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:107)
+	at com.collaxa.cube.lang.compiler.CubeParserHelper.compile(CubeParserHelper.java:47)
+	at oracle.fabric.bpel.bpelc.BPELComponentValidator.validate(BPELComponentValidator.java:40)
+	at oracle.soa.scac.ValidateComposite.validateComponentTypeServicesReferences(ValidateComposite.java:1051)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:502)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.createMDSInstanceFromelement(ADFMDSConfig.java:276)
+	... 76 more
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 85 more
+
+Aug 26, 2015 10:56:39 AM oracle.adf.share.config.properties.ADFContextPropertiesCallback parseADFConfiguration
+INFO: No ADFContext properties defined in adf-config.xml.
+Aug 26, 2015 10:56:39 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to true
+Aug 26, 2015 10:56:39 AM oracle.security.jps.util.JpsUtil disableAudit
+INFO: JpsUtil: isAuditDisabled set to false
+Aug 26, 2015 10:56:39 AM oracle.adf.share.config.ADFMDSConfig parseADFConfiguration
+SEVERE: MDSConfigurationException encountered in parseADFConfigurationMDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:146)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDTypeDefinition(SchemaManager.java:754)
+	at oracle.bpel.lang.v20.resolver.ProcessImportHandler.lookupXSDType(ProcessImportHandler.java:233)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXSDType(OracleModelQueryImpl.java:710)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupCanonicalType(OracleModelQueryImpl.java:1180)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXPathChildNamedStep(OracleModelQueryImpl.java:815)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookup(OracleModelQueryImpl.java:329)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.lookupByAxis(XPathVisitor.java:431)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:340)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:586)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitList(XPathVisitor.java:537)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit000(XPathVisitor.java:173)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:161)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:563)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:290)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:582)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:553)
+	at org.eclipse.bpel.validator.xpath.From.CheckGeneralExpression(From.java:45)
+	at sun.reflect.GeneratedMethodAccessor64.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.eclipse.bpel.validator.model.Rules$Rule.invoke(Rules.java:316)
+	at org.eclipse.bpel.validator.model.RuleRunner.runRules(RuleRunner.java:81)
+	at org.eclipse.bpel.validator.model.Validator.validate(Validator.java:260)
+	at org.eclipse.bpel.validator.model.Runner.pass1(Runner.java:145)
+	at org.eclipse.bpel.validator.model.Runner.run(Runner.java:179)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:223)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:114)
+	at oracle.bpel.lang.v20.validator.BPEL20Validator.validate(BPEL20Validator.java:77)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.validate(BPEL2Processor.java:170)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:119)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:107)
+	at com.collaxa.cube.lang.compiler.CubeParserHelper.compile(CubeParserHelper.java:47)
+	at oracle.fabric.bpel.bpelc.BPELComponentValidator.validate(BPELComponentValidator.java:40)
+	at oracle.soa.scac.ValidateComposite.validateComponentTypeServicesReferences(ValidateComposite.java:1051)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:502)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 76 more
+
+Aug 26, 2015 10:56:39 AM oracle.adf.share.config.ADFContextMDSConfigHelperImpl createMDSSession
+INFO: 
+oracle.adf.share.ADFShareException: MDSConfigurationException encountered in parseADFConfiguration
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:209)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at oracle.adf.share.config.ADFConfigImpl.getResultFromComponent(ADFConfigImpl.java:533)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:604)
+	at oracle.adf.share.config.ADFConfigImpl.getConfigObject(ADFConfigImpl.java:582)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:647)
+	at oracle.adf.share.config.ADFConfigImpl.getMDSInstance(ADFConfigImpl.java:642)
+	at oracle.adf.share.config.ADFContextMDSConfigHelperImpl.createMDSSession(ADFContextMDSConfigHelperImpl.java:62)
+	at oracle.adf.share.ADFContext.getMDSSessionAsObject(ADFContext.java:1722)
+	at oracle.mds.internal.net.OraMDSURLConnection.getMDSSession(OraMDSURLConnection.java:153)
+	at oracle.mds.internal.net.OraMDSURLConnection.getInputStream(OraMDSURLConnection.java:83)
+	at java.net.URL.openStream(URL.java:1037)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.openAsStreamConnection(WSDLReaderImpl.java:576)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readDocument(WSDLReaderImpl.java:438)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:377)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseImport(WSDLReaderImpl.java:937)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.parseDefinition(WSDLReaderImpl.java:820)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:719)
+	at oracle.j2ee.ws.wsdl.xml.WSDLReaderImpl.readWSDL(WSDLReaderImpl.java:688)
+	at oracle.fabric.common.wsdl.SchemaBuilder.convDOMElemToWSDLDef(SchemaBuilder.java:1307)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadEmbeddedSchemas(SchemaBuilder.java:504)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadSchemasFromWSDL(SchemaBuilder.java:456)
+	at oracle.fabric.common.wsdl.SchemaBuilder.loadAllSchemas(SchemaBuilder.java:247)
+	at oracle.fabric.common.wsdl.SchemaManager.loadAllXSD(SchemaManager.java:305)
+	at oracle.fabric.common.wsdl.SchemaManager.buildXDKSchema(SchemaManager.java:553)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupSchema(SchemaManager.java:404)
+	at oracle.fabric.common.wsdl.SchemaManager.lookupXSDTypeDefinition(SchemaManager.java:754)
+	at oracle.bpel.lang.v20.resolver.ProcessImportHandler.lookupXSDType(ProcessImportHandler.java:233)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXSDType(OracleModelQueryImpl.java:710)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupCanonicalType(OracleModelQueryImpl.java:1180)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookupXPathChildNamedStep(OracleModelQueryImpl.java:815)
+	at oracle.bpel.common.validator.helpers.OracleModelQueryImpl.lookup(OracleModelQueryImpl.java:329)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.lookupByAxis(XPathVisitor.java:431)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:340)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:586)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitList(XPathVisitor.java:537)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit000(XPathVisitor.java:173)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:161)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:563)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:290)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visitExpr(XPathVisitor.java:582)
+	at org.eclipse.bpel.validator.xpath.XPathVisitor.visit(XPathVisitor.java:553)
+	at org.eclipse.bpel.validator.xpath.From.CheckGeneralExpression(From.java:45)
+	at sun.reflect.GeneratedMethodAccessor64.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.eclipse.bpel.validator.model.Rules$Rule.invoke(Rules.java:316)
+	at org.eclipse.bpel.validator.model.RuleRunner.runRules(RuleRunner.java:81)
+	at org.eclipse.bpel.validator.model.Validator.validate(Validator.java:260)
+	at org.eclipse.bpel.validator.model.Runner.pass1(Runner.java:145)
+	at org.eclipse.bpel.validator.model.Runner.run(Runner.java:179)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:223)
+	at oracle.bpel.lang.v20.validator.helpers.OracleBpelREMValidator.validate(OracleBpelREMValidator.java:114)
+	at oracle.bpel.lang.v20.validator.BPEL20Validator.validate(BPEL20Validator.java:77)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.validate(BPEL2Processor.java:170)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:119)
+	at com.collaxa.cube.lang.compiler.BPEL2Processor.process(BPEL2Processor.java:107)
+	at com.collaxa.cube.lang.compiler.CubeParserHelper.compile(CubeParserHelper.java:47)
+	at oracle.fabric.bpel.bpelc.BPELComponentValidator.validate(BPELComponentValidator.java:40)
+	at oracle.soa.scac.ValidateComposite.validateComponentTypeServicesReferences(ValidateComposite.java:1051)
+	at oracle.soa.scac.ValidateComposite.doValidation0(ValidateComposite.java:502)
+	at oracle.soa.scac.ValidateComposite.doValidation(ValidateComposite.java:481)
+	at oracle.soa.scac.ValidateComposite.run0(ValidateComposite.java:206)
+	at oracle.soa.scac.ValidateComposite.run(ValidateComposite.java:187)
+	at oracle.soa.scac.ValidateComposite.main(ValidateComposite.java:179)
+Caused by: oracle.mds.config.MDSConfigurationException: MDS-01330: unable to load MDS configuration document    
+MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1014)
+	at oracle.mds.config.PConfig.<init>(PConfig.java:767)
+	at oracle.mds.config.MDSConfig.loadFromBean(MDSConfig.java:1151)
+	at oracle.mds.config.MDSConfig.loadFromElement(MDSConfig.java:1218)
+	at oracle.mds.config.MDSConfig.<init>(MDSConfig.java:781)
+	at oracle.mds.core.MDSInstance.getMDSConfigFromDocument(MDSInstance.java:2788)
+	at oracle.mds.core.MDSInstance.findAndStoreMDSInstanceWithCustConfig(MDSInstance.java:2621)
+	at oracle.mds.core.MDSInstance.getOrCreateInstanceInternal(MDSInstance.java:2118)
+	at oracle.mds.core.MDSInstance.getOrCreateInstance(MDSInstance.java:812)
+	at oracle.adf.share.config.ADFMDSConfig.parseADFConfiguration(ADFMDSConfig.java:146)
+	... 67 more
+Caused by: oracle.mds.exception.MDSExceptionList: MDS-01329: unable to load element "persistence-config"
+MDS-01370: MetadataStore configuration for metadata-store-usage "mstore-usage_4" is invalid.    
+MDS-00011: unable to create configuration object or MDSInstance due to invalid configuration information: oracle.mds.exception.MDSException: MDS-01373: unable to retrieve password.
+
+	at oracle.mds.config.PConfig.loadFromBean(PConfig.java:1008)
+	... 76 more
+

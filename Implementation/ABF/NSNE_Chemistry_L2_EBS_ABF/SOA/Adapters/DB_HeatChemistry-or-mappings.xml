@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_HeatChemistry-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_HeatChemistry.vw_L2_Heat_Batch_Chemistry</class>
+         <alias>dbo.vw_L2_Heat_Batch_Chemistry</alias>
+         <primary-key>
+            <field table="vw_L2_Heat_Batch_Chemistry" name="HeatID" xsi:type="column"/>
+            <field table="vw_L2_Heat_Batch_Chemistry" name="LotNumber" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_HeatChemistrySelect" xsi:type="read-all-query">
+                  <criteria operator="equal" xsi:type="relation-expression">
+                     <left name="HeatID" xsi:type="query-key-expression">
+                        <base xsi:type="base-expression"/>
+                     </left>
+                     <right xsi:type="parameter-expression">
+                        <parameter name="HeatID" xsi:type="column"/>
+                     </right>
+                  </criteria>
+                  <arguments>
+                     <argument name="HeatID">
+                        <type>java.lang.String</type>
+                     </argument>
+                  </arguments>
+                  <reference-class>DB_HeatChemistry.vw_L2_Heat_Batch_Chemistry</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>HeatID</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="HeatID" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>HeatNumber</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="HeatNumber" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>OracleBatchID</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="OracleBatchID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>AnalysisID</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="AnalysisID" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>AnalysisTime</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="AnalysisTime" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>SampleType</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="SampleType" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Grade</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Grade" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>HeatName</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="HeatName" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Operator</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Operator" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>IdealDiameter</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="IdealDiameter" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Al</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Al" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>As</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="As" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>b</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="B" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Bi</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Bi" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>c</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="C" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Ca</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Ca" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Cb</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Cb" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Ce</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Ce" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Co</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Co" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Cr</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Cr" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Cu</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Cu" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Mn</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Mn" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Mo</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Mo" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>N2_ppm</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="N2_ppm" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Ni</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Ni" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>o</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="O" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>p</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="P" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>s</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="S" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Sa</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Sa" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Sb</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Sb" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Se</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Se" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Si</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Si" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Sn</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Sn" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Te</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Te" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Ti</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Ti" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>v</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="V" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Zn</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Zn" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Zr</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Zr" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Liquidus</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Liquidus" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Nb</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Nb" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Pb</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Pb" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>fe</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="FE%" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lecoC</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="LECO_C" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lecoS</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="LECO_S" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lecoN2</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="LECO_N2" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lecoTox</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="LECO_TOX" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Tensile</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Tensile" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>Yield</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="Yield" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>CarbonEQ</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="CarbonEQ" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ce1</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="CE1" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>gsttensile</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="GSTTENSILE" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>kfactor</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="KFACTOR" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>USCuEQ</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="USCuEQ" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>c6</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="C6" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>di</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="DI" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>h</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="H" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>LotNumber</attribute-name>
+               <field table="vw_L2_Heat_Batch_Chemistry" name="LotNumber" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="dbo.vw_L2_Heat_Batch_Chemistry"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.SQLServerPlatform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryPOReceiptSummary" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryPOReceiptSummary" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="DB_QueryPOReceiptSummaryInput" type="DB_QueryPOReceiptSummaryInput"/>
+   <xs:complexType name="DB_QueryPOReceiptSummaryInput">
+      <xs:sequence>
+         <xs:element name="PoNum" type="xs:string" nillable="true"/>
+         <xs:element name="OrgName" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_QueryPOReceiptSummaryOutputCollection" type="DB_QueryPOReceiptSummaryOutputCollection"/>
+   <xs:complexType name="DB_QueryPOReceiptSummaryOutputCollection">
+      <xs:sequence>
+         <xs:element name="DB_QueryPOReceiptSummaryOutput" type="DB_QueryPOReceiptSummaryOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DB_QueryPOReceiptSummaryOutput">
+      <xs:sequence>
+         <xs:element name="org_name" type="xs:string" nillable="true"/>
+         <xs:element name="po_number" type="xs:string" nillable="true"/>
+         <xs:element name="vendor_id" type="xs:decimal" nillable="true"/>
+         <xs:element name="vendor_site_id" type="xs:decimal" nillable="true"/>
+         <xs:element name="order_type" type="xs:string" nillable="true"/>
+         <xs:element name="line_num" type="xs:decimal" nillable="true"/>
+         <xs:element name="quantity_received" type="xs:decimal" nillable="true"/>
+         <xs:element name="quantity_ordered" type="xs:decimal" nillable="true"/>
+         <xs:element name="quantity_invoiced" type="xs:decimal" nillable="true"/>
+         <xs:element name="quantity_cancelled" type="xs:decimal" nillable="true"/>
+         <xs:element name="uom_code" type="xs:string" nillable="true"/>
+         <xs:element name="unit_price" type="xs:decimal" nillable="true"/>
+         <xs:element name="item_description" type="xs:string" nillable="true"/>
+         <xs:element name="wh_part_number" type="xs:string" nillable="true"/>
+         <xs:element name="pda_req_header_reference_num" type="xs:string" nillable="true"/>
+         <xs:element name="pda_req_line_reference_num" type="xs:string" nillable="true"/>
+         <xs:element name="requisition_number" type="xs:string" nillable="true"/>
+         <xs:element name="requisition_line_number" type="xs:decimal" nillable="true"/>
+         <xs:element name="po_status" type="xs:string" nillable="true"/>
+         <xs:element name="po_close_date" type="xs:dateTime" nillable="true"/>
+         <xs:element name="authorization_status" type="xs:string" nillable="true"/>
+         <xs:element name="cancel_flag" type="xs:string" nillable="true"/>
+         <xs:element name="line_status" type="xs:string" nillable="true"/>
+         <xs:element name="po_date" type="xs:dateTime" nillable="true"/>
+         <xs:element name="req_date" type="xs:dateTime" nillable="true"/>
+         <xs:element name="req_approved_date" type="xs:dateTime" nillable="true"/>
+         <xs:element name="po_approved_date" type="xs:dateTime" nillable="true"/>
+         <xs:element name="org_id" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

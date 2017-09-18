@@ -1,0 +1,14 @@
+<adapter-config name="DB_Read_XrefStg" adapter="db" wsdlLocation="../WSDLs/DB_Read_XrefStg.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1_SOAINFRA" location="eis/DB/SOA"/>
+  <endpoint-interaction portType="DB_Read_XrefStg_ptt" operation="DB_Read_XrefStgSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_Read_XrefStg.XxnucXrefDataStg"/>
+      <property name="QueryName" value="DB_Read_XrefStgSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_Read_XrefStg-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

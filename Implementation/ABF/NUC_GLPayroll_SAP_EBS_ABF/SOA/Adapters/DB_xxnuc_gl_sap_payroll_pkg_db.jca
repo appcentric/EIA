@@ -1,0 +1,13 @@
+<adapter-config name="DB_xxnuc_gl_sap_payroll_pkg" adapter="db" wsdlLocation="../WSDLs/DB_xxnuc_gl_sap_payroll_pkg.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DEV_Apps_xxnuc" location="eis/DB/nxg/ebs"/>
+  <endpoint-interaction portType="DB_xxnuc_gl_sap_payroll_pkg_ptt" operation="DB_xxnuc_gl_sap_payroll_pkg">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_GL_SAP_PAYROLL_PKG"/>
+      <property name="ProcedureName" value="IMPORT"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

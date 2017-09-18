@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="CommonLoggingProviderAQAdapter" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/aq/CommonLogging/CommonLogging/CommonLoggingProviderAQAdapter" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:obj1="http://xmlns.oracle.com/xdb/XXNUC_LOGGING">
+   <plt:partnerLinkType name="Enqueue_plt">
+      <plt:role name="Enqueue_role">
+         <plt:portType name="tns:Enqueue_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/xdb/XXNUC_LOGGING" schemaLocation="Schemas/XXNUC_LOGGING_XXNUC_COMM_LOGG_OBJ_TYP.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="XXNUC_COMM_LOGG_OBJ_TYP_msg">
+      <wsdl:part name="XXNUC_COMM_LOGG_OBJ_TYP" element="obj1:XXNUC_COMM_LOGG_OBJ_TYP"/>
+   </wsdl:message>
+   <wsdl:portType name="Enqueue_ptt">
+      <wsdl:operation name="Enqueue">
+         <wsdl:input message="tns:XXNUC_COMM_LOGG_OBJ_TYP_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

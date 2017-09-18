@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Update_API_WorkOrder_Status"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_WorkOrder_EBizBatchJobs_ABF/DB_Update_API_WorkOrder_Status"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_WorkOrder_EBizBatchJobs_ABF/DB_Update_API_WorkOrder_Status"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_WorkOrder_Status"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Update_API_WorkOrder_Status_plt" >
+    <plt:role name="DB_Update_API_WorkOrder_Status_role" >
+      <plt:portType name="tns:DB_Update_API_WorkOrder_Status_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_WorkOrder_Status" schemaLocation="../Schemas/DB_Update_API_WorkOrder_Status_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="ApiWorkOrderStatusCollection_msg">
+        <wsdl:part name="ApiWorkOrderStatusCollection" element="top:ApiWorkOrderStatusCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Update_API_WorkOrder_Status_ptt">
+        <wsdl:operation name="update">
+            <wsdl:input message="tns:ApiWorkOrderStatusCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

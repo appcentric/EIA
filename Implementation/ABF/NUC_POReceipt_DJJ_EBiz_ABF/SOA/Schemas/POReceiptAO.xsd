@@ -1,0 +1,471 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" nxsd:encoding="US-ASCII">
+   <xsd:element name="ApiResponseShipment">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="APICallBatchID" type="xsd:integer"/>
+            <xsd:element name="ApplicationID" type="xsd:integer"/>
+            <xsd:element name="CallingAPIObject" type="xsd:string"/>
+            <xsd:element name="CallingAckReq">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CallingClientID">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CallingClientName">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CallingClientRefID">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CallingDate">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="DateTime" type="xsd:string"/>
+                     <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CallingRequestedStartDate">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="DJJCallReferenceID" type="xsd:integer"/>
+            <xsd:element name="OverrideReturnCount">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ReturnObjectCount" type="xsd:integer"/>
+            <xsd:element name="ReturnThroughDate">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SuccessCode" type="xsd:integer"/>
+            <xsd:element name="ValidationMessages">
+               <xsd:complexType>
+                  <xsd:attribute name="nil" type="xsd:string"/>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PurchaseShipmentHeaders">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="PurchaseShipmentHeaderModel" maxOccurs="unbounded">
+                        <xsd:complexType>
+                           <xsd:sequence>
+                              <xsd:element name="BOLDate" type="xsd:string"/>
+                              <xsd:element name="BOLNum">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="BizType" type="xsd:string"/>
+                              <xsd:element name="ChangeVersionID" type="xsd:integer"/>
+                              <xsd:element name="ConsumerID" type="xsd:integer"/>
+                              <xsd:element name="ConsumerName" type="xsd:string"/>
+                              <xsd:element name="ConsumerRefID" type="xsd:integer"/>
+                              <xsd:element name="ConsumerShipmentRefID">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="CreatedDate">
+                                 <xsd:complexType>
+                                    <xsd:sequence>
+                                       <xsd:element name="DateTime" type="xsd:string"/>
+                                       <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                                    </xsd:sequence>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="DJJOrgID" type="xsd:integer"/>
+                              <xsd:element name="DataChangeChildTypeID" type="xsd:integer"/>
+                              <xsd:element name="DataChangeTypeID" type="xsd:integer"/>
+                              <xsd:element name="DateShipped" type="xsd:string"/>
+                              <xsd:element name="DeadFrtQtyLB" type="xsd:integer"/>
+                              <xsd:element name="EstArrivalDate" type="xsd:string"/>
+                              <xsd:element name="FreightDetailID" type="xsd:integer"/>
+                              <xsd:element name="FreightRateID" type="xsd:integer"/>
+                              <xsd:element name="FreightTierID" type="xsd:integer"/>
+                              <xsd:element name="FrtAmt">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:double">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="FrtCostRespID" type="xsd:integer"/>
+                              <xsd:element name="FrtCurrencyCode">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:string">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="FrtCurrencyConvToUSD">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:integer">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="FrtEquipmentTypeID" type="xsd:integer"/>
+                              <xsd:element name="FrtPaymentRespID" type="xsd:integer"/>
+                              <xsd:element name="FrtRate">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:integer">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="FrtRateUOMCode">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:string">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="FrtVendorConsumerRefID">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="FrtVendorShipmentRefID"/>
+                              <xsd:element name="GuaranteedMinLB" type="xsd:integer"/>
+                              <xsd:element name="LastUpdatedDate">
+                                 <xsd:complexType>
+                                    <xsd:sequence>
+                                       <xsd:element name="DateTime" type="xsd:string"/>
+                                       <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                                    </xsd:sequence>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="MainFrtVendorID" type="xsd:integer"/>
+                              <xsd:element name="MainFrtVendorName">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:string">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="ModeCode" type="xsd:string"/>
+                              <xsd:element name="OverrideFrtGuaranteedMinLB">
+                                 <xsd:complexType>
+                                    <xsd:simpleContent>
+                                       <xsd:extension base="xsd:string">
+                                          <xsd:attribute name="nil" type="xsd:string"/>
+                                       </xsd:extension>
+                                    </xsd:simpleContent>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="PackingList">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="PurchaseShipLine">
+                                 <xsd:complexType>
+                                    <xsd:sequence>
+                                       <xsd:element name="PurchaseShipmentLineModel">
+                                          <xsd:complexType>
+                                             <xsd:sequence>
+                                                <xsd:element name="ARTermID">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="AllocationID" type="xsd:integer"/>
+                                                <xsd:element name="BestKnownWeightLB">
+                                                   <xsd:complexType>
+                                                      <xsd:simpleContent>
+                                                         <xsd:extension base="xsd:integer">
+                                                            <xsd:attribute name="nil" type="xsd:string"/>
+                                                         </xsd:extension>
+                                                      </xsd:simpleContent>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="BestKnownWeightVersionID">
+                                                   <xsd:complexType>
+                                                      <xsd:simpleContent>
+                                                         <xsd:extension base="xsd:integer">
+                                                            <xsd:attribute name="nil" type="xsd:string"/>
+                                                         </xsd:extension>
+                                                      </xsd:simpleContent>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="BizType" type="xsd:string"/>
+                                                <xsd:element name="CargoNum">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="CommissionRate" type="xsd:double"/>
+                                                <xsd:element name="CommissionRateCurrencyCode" type="xsd:string"/>
+                                                <xsd:element name="CommissionRateCurrencyConvToUSD" type="xsd:integer"/>
+                                                <xsd:element name="CommissionRateUOMCode" type="xsd:string"/>
+                                                <xsd:element name="ConsumerContractRefID">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="ConsumerID" type="xsd:integer"/>
+                                                <xsd:element name="ConsumerItemRefID" type="xsd:integer"/>
+                                                <xsd:element name="ConsumerPOLineRefID">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="ConsumerPORefID">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="ConsumerRefID" type="xsd:integer"/>
+                                                <xsd:element name="CreatedDate">
+                                                   <xsd:complexType>
+                                                      <xsd:sequence>
+                                                         <xsd:element name="DateTime" type="xsd:string"/>
+                                                         <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                                                      </xsd:sequence>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="DataChangeChildTypeID" type="xsd:integer"/>
+                                                <xsd:element name="DataChangeTypeID" type="xsd:integer"/>
+                                                <xsd:element name="FOBCode">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="FrtCostRespID" type="xsd:integer"/>
+                                                <xsd:element name="FrtLineCosting">
+                                                   <xsd:complexType>
+                                                      <xsd:simpleContent>
+                                                         <xsd:extension base="xsd:double">
+                                                            <xsd:attribute name="nil" type="xsd:string"/>
+                                                         </xsd:extension>
+                                                      </xsd:simpleContent>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="FrtLineCurrencyCode" type="xsd:string"/>
+                                                <xsd:element name="FrtLineCurrencyConvToUSD" type="xsd:integer"/>
+                                                <xsd:element name="FrtPaymentRespID" type="xsd:integer"/>
+                                                <xsd:element name="ItemID" type="xsd:integer"/>
+                                                <xsd:element name="ItemPackageID" type="xsd:integer"/>
+                                                <xsd:element name="ItemPackageName"/>
+                                                <xsd:element name="ItemSizeID" type="xsd:integer"/>
+                                                <xsd:element name="ItemSizeName"/>
+                                                <xsd:element name="LastUpdatedDate">
+                                                   <xsd:complexType>
+                                                      <xsd:sequence>
+                                                         <xsd:element name="DateTime" type="xsd:string"/>
+                                                         <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                                                      </xsd:sequence>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="ModeCode" type="xsd:string"/>
+                                                <xsd:element name="OverridesPOLineARTermID" type="xsd:string"/>
+                                                <xsd:element name="POID" type="xsd:integer"/>
+                                                <xsd:element name="POLineID" type="xsd:integer"/>
+                                                <xsd:element name="POLineShipToID" type="xsd:integer"/>
+                                                <xsd:element name="PriceRate" type="xsd:double"/>
+                                                <xsd:element name="PriceRateCurrencyCode" type="xsd:string"/>
+                                                <xsd:element name="PriceRateCurrencyConvToUSD" type="xsd:integer"/>
+                                                <xsd:element name="PriceRateUOMCode" type="xsd:string"/>
+                                                <xsd:element name="PurchaseShipLineAddtlCharge">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="PurchaseShipLineWeight">
+                                                   <xsd:complexType>
+                                                      <xsd:sequence>
+                                                         <xsd:element name="PurchaseShipmentLineWeightModel" maxOccurs="unbounded">
+                                                            <xsd:complexType>
+                                                               <xsd:sequence>
+                                                                  <xsd:element name="AccountID" type="xsd:integer"/>
+                                                                  <xsd:element name="AccountWgtRefID">
+                                                                     <xsd:complexType>
+                                                                        <xsd:simpleContent>
+                                                                           <xsd:extension base="xsd:integer">
+                                                                              <xsd:attribute name="nil" type="xsd:string"/>
+                                                                           </xsd:extension>
+                                                                        </xsd:simpleContent>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="BizType" type="xsd:string"/>
+                                                                  <xsd:element name="CarTypeCode">
+                                                                     <xsd:complexType>
+                                                                        <xsd:attribute name="nil" type="xsd:string"/>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="CarTypeDescription">
+                                                                     <xsd:complexType>
+                                                                        <xsd:simpleContent>
+                                                                           <xsd:extension base="xsd:string">
+                                                                              <xsd:attribute name="nil" type="xsd:string"/>
+                                                                           </xsd:extension>
+                                                                        </xsd:simpleContent>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="CleanTareWeight">
+                                                                     <xsd:complexType>
+                                                                        <xsd:simpleContent>
+                                                                           <xsd:extension base="xsd:integer">
+                                                                              <xsd:attribute name="nil" type="xsd:string"/>
+                                                                           </xsd:extension>
+                                                                        </xsd:simpleContent>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="Comment">
+                                                                     <xsd:complexType>
+                                                                        <xsd:attribute name="nil" type="xsd:string"/>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="ContainmentPercentage">
+                                                                     <xsd:complexType>
+                                                                        <xsd:attribute name="nil" type="xsd:string"/>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="ContainmentWeight">
+                                                                     <xsd:complexType>
+                                                                        <xsd:attribute name="nil" type="xsd:string"/>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="CreatedDate">
+                                                                     <xsd:complexType>
+                                                                        <xsd:sequence>
+                                                                           <xsd:element name="DateTime" type="xsd:string"/>
+                                                                           <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                                                                        </xsd:sequence>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="DataChangeChildTypeID" type="xsd:integer"/>
+                                                                  <xsd:element name="DataChangeTypeID" type="xsd:integer"/>
+                                                                  <xsd:element name="GrossWgtLB" type="xsd:integer"/>
+                                                                  <xsd:element name="IsCleaningFeeApplied" type="xsd:string"/>
+                                                                  <xsd:element name="LastUpdatedDate">
+                                                                     <xsd:complexType>
+                                                                        <xsd:sequence>
+                                                                           <xsd:element name="DateTime" type="xsd:string"/>
+                                                                           <xsd:element name="OffsetMinutes" type="xsd:integer"/>
+                                                                        </xsd:sequence>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="NetWgtLB" type="xsd:integer"/>
+                                                                  <xsd:element name="PieceCount" type="xsd:integer"/>
+                                                                  <xsd:element name="RecoveryPercentage">
+                                                                     <xsd:complexType>
+                                                                        <xsd:attribute name="nil" type="xsd:string"/>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="ShipmentID" type="xsd:integer"/>
+                                                                  <xsd:element name="ShipmentLineID" type="xsd:integer"/>
+                                                                  <xsd:element name="TareWgtLB" type="xsd:integer"/>
+                                                                  <xsd:element name="WgtDate">
+                                                                     <xsd:complexType>
+                                                                        <xsd:simpleContent>
+                                                                           <xsd:extension base="xsd:string">
+                                                                              <xsd:attribute name="nil" type="xsd:string"/>
+                                                                           </xsd:extension>
+                                                                        </xsd:simpleContent>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                                  <xsd:element name="WgtSourceTypeID" type="xsd:string"/>
+                                                                  <xsd:element name="WgtTypeCode" type="xsd:string"/>
+                                                                  <xsd:element name="WgtVersionID" type="xsd:integer"/>
+                                                                  <xsd:element name="YardDestinationName">
+                                                                     <xsd:complexType>
+                                                                        <xsd:simpleContent>
+                                                                           <xsd:extension base="xsd:string">
+                                                                              <xsd:attribute name="nil" type="xsd:string"/>
+                                                                           </xsd:extension>
+                                                                        </xsd:simpleContent>
+                                                                     </xsd:complexType>
+                                                                  </xsd:element>
+                                                               </xsd:sequence>
+                                                            </xsd:complexType>
+                                                         </xsd:element>
+                                                      </xsd:sequence>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="QtyShipped" type="xsd:integer"/>
+                                                <xsd:element name="QtyShippedUOM" type="xsd:string"/>
+                                                <xsd:element name="RejectionReasonID">
+                                                   <xsd:complexType>
+                                                      <xsd:attribute name="nil" type="xsd:string"/>
+                                                   </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="ShipLineStatusID" type="xsd:integer"/>
+                                                <xsd:element name="ShipToConsumerRefID"/>
+                                                <xsd:element name="ShipToID" type="xsd:integer"/>
+                                                <xsd:element name="ShipToSettleWeightCode" type="xsd:string"/>
+                                                <xsd:element name="ShipmentID" type="xsd:integer"/>
+                                                <xsd:element name="ShipmentLineID" type="xsd:integer"/>
+                                             </xsd:sequence>
+                                          </xsd:complexType>
+                                       </xsd:element>
+                                    </xsd:sequence>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="PurchaseShipmentHeaderAddtlCharge">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="ShipHeaderStatusId" type="xsd:integer"/>
+                              <xsd:element name="ShipmentGroupId">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="ShipmentGroupOrder">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                              <xsd:element name="ShipmentID" type="xsd:integer"/>
+                              <xsd:element name="ShipmentScenarioID" type="xsd:integer"/>
+                              <xsd:element name="ShipmentType" type="xsd:string"/>
+                              <xsd:element name="ShipmentVersionID" type="xsd:integer"/>
+                              <xsd:element name="SupplierShipmentRefID"/>
+                              <xsd:element name="VehicleNum" type="xsd:string"/>
+                              <xsd:element name="WayBillNum">
+                                 <xsd:complexType>
+                                    <xsd:attribute name="nil" type="xsd:string"/>
+                                 </xsd:complexType>
+                              </xsd:element>
+                           </xsd:sequence>
+                        </xsd:complexType>
+                     </xsd:element>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

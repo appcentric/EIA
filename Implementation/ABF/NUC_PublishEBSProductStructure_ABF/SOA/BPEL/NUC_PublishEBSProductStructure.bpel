@@ -1,0 +1,561 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Dec 03 18:29:35 IST 2015
+  Author:  magujar
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_PublishEBSProductStructure" targetNamespace="http://xmlns.eia.com/NUC_PublishEBSProductStructure"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/NUC_PublishEBSProductStructure"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/aq/Application2/NUC_PublishEBSProductStructure_ABF/AQ_DEQ_XXNUC_COMM_OUTINTF_Q"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://oracle.com/sca/soapservice/Application2/NUC_EBizProductStructure_ABS/EbizProductStructure"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns3="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/jms/Application2/NUC_PublishEBSProductStructure_ABF/JMS_ENQ_NextGen_DistributedTopic"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns5="http://xmlns.oracle.com/xdb/APPS_NE"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://xmlns.eia.com/AO/Ebiz/D2S/ProductStructureAM/1.0"
+         xmlns:ns7="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns8="http://xmlns.eia.com/AO/Ebiz/D2S/ProductStructureAO/1.0" xmlns:ns9="http://nucor.eia.com/common"
+         xmlns:ns10="http://schemas.oracle.com/service/bpel/common">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/Application2/NUC_PublishEBSProductStructure_ABF/AQ_DEQ_XXNUC_COMM_OUTINTF_Q"
+          location="../WSDLs/AQ_DEQ_XXNUC_COMM_OUTINTF_Q.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="AQ_DEQ_XXNUC_COMM_OUTINTF_Q" partnerLinkType="ns1:Dequeue_plt" myRole="Dequeue_role"/>
+    <partnerLink name="NUC_EBizProductStructure_ABS" partnerLinkType="ns2:NUC_EBizProductStructure_ABS"
+                 partnerRole="execute_ptt"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="JMS_ENQ_NextGen_DistributedTopic" partnerLinkType="ns4:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="g_Receive_Dequeue_InputVariable" messageType="ns1:XXNUC_COMM_OUTINTF_OBJ_TYP_msg"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+    <variable name="g_Invoke_queryProductStructure_InputVariable" messageType="ns2:requestMessage"/>
+    <variable name="g_Invoke_queryProductStructure_OutputVariable" messageType="ns2:replyMessage"/>
+    <variable name="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" messageType="ns4:Produce_Message_msg"/>
+    <variable name="g_MillName" type="xsd:string"/>
+    <variable name="g_System" type="xsd:string"/>
+    <variable name="g_Count" type="xsd:int"/>
+    <variable name="g_ParamVar" element="ns10:parameters"/>
+    <variable name="g_ParamCount" element="ns10:parameters"/>
+    <variable name="g_Resource" type="xsd:string"/>
+    <variable name="g_ResourceCount" type="xsd:int"/>
+    <variable name="g_RM1" type="xsd:boolean"/>
+    <variable name="g_RM2" type="xsd:boolean"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="SequenceCatchAll">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_DEQ_Queue" createInstance="yes" partnerLink="AQ_DEQ_XXNUC_COMM_OUTINTF_Q"
+             portType="ns1:Dequeue_ptt" operation="Dequeue" variable="g_Receive_Dequeue_InputVariable"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/BATCH_ID</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'I115'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'OPMProductStructure'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/V_ATTRIBUTE1</from>
+        <to>$g_MillName</to>
+      </copy>
+      <copy>
+        <from>true()</from>
+        <to>$g_RM1</to>
+      </copy>
+      <copy>
+        <from>true()</from>
+        <to>$g_RM2</to>
+      </copy>
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionId))</from>
+        <to>$setTitleVar</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging" operation="process"
+            inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <!--scope name="Scope_Start">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="SequenceStart">
+      </sequence>
+    </scope-->
+    <assign name="Assign_ProductStructure">
+      <copy>
+        <from>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ComponentId</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:ComponentID</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:ServiceName</to>
+      </copy>
+      <copy>
+        <from>'ENG'</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:Language</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionId</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:TransactionIDREF</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionName</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:TransactionName</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:SourceSystem</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:Source</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TargetSystem</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:Target</to>
+      </copy>
+      <copy>
+        <from>xp20:current-dateTime()</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns7:HeaderRq/ns7:TimeStamp</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+        <to>$g_Invoke_queryProductStructure_InputVariable.queryStructureProductReq/ns6:RequestID</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_EbizProductStructure_ABS" bpelx:invokeAsDetail="no" partnerLink="NUC_EBizProductStructure_ABS"
+            portType="ns2:execute_ptt" operation="queryProductStructure"
+            inputVariable="g_Invoke_queryProductStructure_InputVariable"
+            outputVariable="g_Invoke_queryProductStructure_OutputVariable">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizProductStructure_ABS","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="Assign_Resource_SystemDetails">
+      <!--copy>
+        <from>$g_Count</from>
+        <to>$g_ParamCount/ns10:item/ns10:name</to>
+      </copy>
+      <copy>
+        <from>$g_Count</from>
+        <to>$g_ParamCount/ns10:item/ns10:value</to>
+      </copy-->
+      <copy>
+        <from>$g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs/ns8:ProductStructureDetails[1]/ns8:ListOfRecipe/ns8:ResourceName</from>
+        <to>$g_Resource</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Resource,"SYSTEM","","ORG_CODE",$g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs/ns8:ProductStructureDetails[1]/ns8:ListOfRecipe/ns8:OrganizationCode)</from>
+        <to>$g_System</to>
+      </copy>
+    </assign>
+    <!--assign name="Assign_Count">
+      <copy>
+        <from>count($g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs/ns8:ProductStructureDetails)</from>
+        <to>$g_Count</to>
+      </copy>
+    </assign>
+    <while name="While_For_Each_Product_Structure">
+      <condition>$g_Count &gt; 0</condition>
+      <sequence name="Sequence_For_Each_Product">
+        <assign name="Transformation_Each_Resource">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Each_Resource.xsl", $g_ParamCount, "g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs", $g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs)</from>
+            <to variable="g_ParamVar"/>
+          </copy>
+        </assign>
+        <assign name="Assign_ResourceCount_ProductStruc">
+          <copy>
+            <from>count($g_ParamVar/ns10:item)</from>
+            <to>$g_ResourceCount</to>
+          </copy>
+        </assign>
+        <if name="If_Check_For_Resource">
+          <documentation>
+            <![CDATA[Resource_Found]]>
+          </documentation>
+          <condition>$g_ResourceCount != 0</condition>
+          <sequence>
+            <while name="While_ForEach_Resource">
+              <condition>$g_ResourceCount &gt; 0</condition>
+              <sequence name="Sequence_Resource">
+                <assign name="Assign_Resource">
+                  <copy>
+                    <from>$g_ParamVar/ns10:item[$g_ResourceCount]/ns10:value</from>
+                    <to>$g_Resource</to>
+                  </copy>
+                  <copy>
+                    <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Resource ,"SYSTEM","")</from>
+                    <to>$g_System</to>
+                  </copy>
+                </assign>
+                <if name="If_Check_System">
+                  <documentation>
+                    <![CDATA[QMOS]]>
+                  </documentation>
+                  <condition>$g_System = 'QMOS'</condition>
+                  <sequence name="SequenceQMOS">
+                    <if name="If_Check_Resource_System">
+                      <documentation>
+                        <![CDATA[RM1]]>
+                      </documentation>
+                      <condition>$g_Resource = 'RM1' and $g_RM1</condition>
+                      <sequence name="Sequence_RM1">
+                        <assign name="Transformation_DB_JMS">
+                          <bpelx:annotation>
+                            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                          </bpelx:annotation>
+                          <copy>
+                            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_DB_JMS_RM1.xsl", $g_ParamCount, "g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs", $g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs)</from>
+                            <to variable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" part="body"/>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_JMS_ENQ_NextGen" bpelx:invokeAsDetail="no"
+                                partnerLink="JMS_ENQ_NextGen_DistributedTopic" portType="ns4:Produce_Message_ptt"
+                                operation="Produce_Message"
+                                inputVariable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable">
+                          <bpelx:toProperties>
+                            <bpelx:toProperty name="jca.jms.JMSType">'OPMProductStructure'</bpelx:toProperty>
+                            <bpelx:toProperty name="jca.jms.JMSProperty.Resource" variable="g_System"/>
+                          </bpelx:toProperties>
+                        </invoke>
+                        <assign name="Assign_RM1_Send_Flag">
+                          <copy>
+                            <from>false()</from>
+                            <to>$g_RM1</to>
+                          </copy>
+                        </assign>
+                      </sequence>
+                      <elseif>
+                        <documentation>
+                          <![CDATA[RM2]]>
+                        </documentation>
+                        <condition>$g_Resource = 'RM2' and $g_RM2</condition>
+                        <sequence name="Sequence_RM2">
+                          <assign name="Transformation_DB_JMS">
+                            <bpelx:annotation>
+                              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                            </bpelx:annotation>
+                            <copy>
+                              <from>ora:doXSLTransformForDoc("../Transformations/Transformation_DB_JMS_RM2.xsl", $g_ParamCount, "g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs", $g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs)</from>
+                              <to variable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" part="body"/>
+                            </copy>
+                          </assign>
+                          <invoke name="Invoke_JMS_ENQ_NextGen" bpelx:invokeAsDetail="no"
+                                  partnerLink="JMS_ENQ_NextGen_DistributedTopic" portType="ns4:Produce_Message_ptt"
+                                  operation="Produce_Message"
+                                  inputVariable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable">
+                            <bpelx:toProperties>
+                              <bpelx:toProperty name="jca.jms.JMSType">'OPMProductStructure'</bpelx:toProperty>
+                              <bpelx:toProperty name="jca.jms.JMSProperty.Resource" variable="g_System"/>
+                            </bpelx:toProperties>
+                          </invoke>
+                          <assign name="Assign_RM2_Send_Flag">
+                            <copy>
+                              <from>false()</from>
+                              <to>$g_RM2</to>
+                            </copy>
+                          </assign>
+                        </sequence>
+                      </elseif>
+                      <else>
+                        <documentation>
+                          <![CDATA[AlreadySent]]>
+                        </documentation>
+                        <empty name="DoNothing"/>
+                      </else>
+                    </if>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[OtherSystem]]>
+                    </documentation>
+                    <sequence name="NotValidSystem">
+                      <assign name="Assign_CommonLogging">
+                        <copy>
+                          <from>'BMG-155'</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                        </copy>
+                        <copy>
+                          <from>4</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                        </copy>
+                        <copy>
+                          <from>concat($g_Resource,',','QMOS')</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                              portType="ns3:CommonLogging" operation="process"
+                              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </else>
+                </if>
+                <assign name="Assign_ResourceCount">
+                  <copy>
+                    <from>$g_ResourceCount - 1</from>
+                    <to>$g_ResourceCount</to>
+                  </copy>
+                </assign>
+              </sequence>
+            </while>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Resource_Not_Found]]>
+            </documentation>
+            <sequence name="Sequence_Resource_Not_Found">
+              <assign name="Assign_CommonLogging">
+                <copy>
+                  <from>''</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>concat('No primary resource found for receipe ',$g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable.body/ns8:ProductStructureDetails[$g_Count]/ns8:ListOfRecipe/ns8:RecipeNumber)</from>
+                  <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns3:CommonLogging" operation="process"
+                      inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </else>
+        </if>
+        <assign name="Assign_Count">
+          <copy>
+            <from>$g_Count - 1</from>
+            <to>$g_Count</to>
+          </copy>
+          <copy>
+            <from>true()</from>
+            <to>$g_RM1</to>
+          </copy>
+          <copy>
+            <from>true()</from>
+            <to>$g_RM2</to>
+          </copy>
+        </assign>
+      </sequence>
+    </while-->
+    <if name="If_Check_System">
+      <documentation>
+        <![CDATA[CheckSystem]]>
+      </documentation>
+      <condition>$g_System != ''</condition>
+      <sequence name="Sequence_Success">
+        <assign name="Transformation_DB_JMS">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_DB_JMS.xsl", $g_Invoke_queryProductStructure_OutputVariable.queryProductStructureRs)</from>
+            <to variable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" part="body"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_JMS_ENQ_NextGen" partnerLink="JMS_ENQ_NextGen_DistributedTopic"
+                portType="ns4:Produce_Message_ptt" operation="Produce_Message"
+                inputVariable="g_Invoke_JMS_ENQ_NextGen_Produce_Message_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jms.JMSType">'OPMProductStructure'</bpelx:toProperty>
+            <bpelx:toProperty name="jca.jms.JMSProperty.System" variable="g_System"/>
+            <bpelx:toProperty name="jca.jms.JMSProperty.OrgName"
+                              variable="g_Invoke_queryProductStructure_OutputVariable" part="queryProductStructureRs">
+              <bpelx:query>ns8:ProductStructureDetails[1]/ns8:ListOfRecipe/ns8:OrganizationName</bpelx:query>
+            </bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[SystemNotPresent]]>
+        </documentation>
+        <sequence name="Sequence_Error">
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>'BMG-155'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>concat($g_Resource,',','QMOS')</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging"
+                  operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </else>
+    </if>
+    <!--
+    <scope name="Scope2">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"></empty>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="SequenceEnd">
+      </sequence>
+    </scope>
+    -->
+  </sequence>
+</process>

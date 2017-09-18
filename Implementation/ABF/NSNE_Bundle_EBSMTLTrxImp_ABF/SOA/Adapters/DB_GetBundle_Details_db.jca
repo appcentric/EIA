@@ -1,0 +1,14 @@
+<adapter-config name="DB_GetBundle_Details" adapter="db" wsdlLocation="../WSDLs/DB_GetBundle_Details.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="qmos" location="eis/DB/nsneqmos1"/>
+  <endpoint-interaction portType="DB_GetBundle_Details_ptt" operation="DB_GetBundle_DetailsSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_GetBundle_Details.ApiBundleTrans"/>
+      <property name="QueryName" value="DB_GetBundle_DetailsSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_GetBundle_Details-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

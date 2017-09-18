@@ -1,0 +1,33 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="NSNE_Billet_EBSMTLTrxImp_ABF"
+     targetNamespace="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="NSNE_Billet_EBSMTLTrxImp_ABF">
+        <plnk:role name="NSNE_Billet_EBSMTLTrxImp_ABFProvider" portType="client:NSNE_Billet_EBSMTLTrxImp_ABF"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <import namespace="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF" schemaLocation="../Schemas/NSNE_Billet_EBSMTLTrxImp_ABF.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://nucor.eia.com/NSNE_Billet_EBSMTLTrxImp_ABF" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns1="http://schemas.oracle.com/service/bpel/common">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="NSNE_Billet_EBSMTLTrxImp_ABFRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="NSNE_Billet_EBSMTLTrxImp_ABF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:NSNE_Billet_EBSMTLTrxImp_ABFRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

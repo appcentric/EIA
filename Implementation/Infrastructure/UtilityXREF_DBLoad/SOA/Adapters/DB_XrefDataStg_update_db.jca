@@ -1,0 +1,14 @@
+<adapter-config name="DB_XrefDataStg_update" adapter="db" wsdlLocation="../WSDLs/DB_XrefDataStg_update.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1_SOAINFRA" location="eis/DB/SOA"/>
+  <endpoint-interaction portType="DB_XrefDataStg_update_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_XrefDataStg_update.XxnucXrefDataStg"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="DB_XrefDataStg_update-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

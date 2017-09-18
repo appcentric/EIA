@@ -1,0 +1,255 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Feb 03 13:10:30 CST 2016
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process 
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SubscribeProductStructure_EBiz_QMOS"
+         targetNamespace="http://xmlns.nucor.eia/SubscribeProductStructure_EBiz_QMOS"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.nucor.eia/SubscribeProductStructure_EBiz_QMOS"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/Manish/NSSEA_SubscribeProductStructure_EBiz_QMOS_ABF/JMS_DEQ_NextGenDistributedTopic"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSSEA_SubscribeProductStructure_EBiz_QMOS_ABF/DB_Insert_API_RECIPE_ROUTING"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns3="http://nucor.eia.com/common"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns5="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/Ebiz/D2S/ProductStructureAM/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/Ebiz/D2S/ProductStructureAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/CommonLogging" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns8="http://schemas.oracle.com/service/bpel/common">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/Manish/NSSEA_SubscribeProductStructure_EBiz_QMOS_ABF/JMS_DEQ_NextGenDistributedTopic"
+          location="../WSDLs/JMS_DEQ_NextGenDistributedTopic.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMS_DEQ_NextGenDistributedTopic" partnerLinkType="ns1:Consume_Message_plt"
+                 myRole="Consume_Message_role"/>
+    <partnerLink name="DB_Insert_API_RECIPE_ROUTING" partnerLinkType="ns2:DB_Insert_API_RECIPE_ROUTING_plt"
+                 partnerRole="DB_Insert_API_RECIPE_ROUTING_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns7:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="g_Receive_JMS_Deq_Message_InputVariable" messageType="ns1:Consume_Message_msg"/>
+    <variable name="g_Invoke_DB_Insert_API_RECIPE_ROUTING" messageType="ns2:ApiRecipeRoutingCollection_msg"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns7:CommonLoggingRequestMessage"/>
+    <variable name="g_JNDI" type="xsd:string"/>
+    <variable name="g_ParamVar" element="ns8:parameters"/>
+    <variable name="g_System" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="CatchAll">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns7:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_JMS_Deq_Message" createInstance="yes" partnerLink="JMS_DEQ_NextGenDistributedTopic"
+             portType="ns1:Consume_Message_ptt" operation="Consume_Message"
+             variable="g_Receive_JMS_Deq_Message_InputVariable"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>$g_Receive_JMS_Deq_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:ComponentID</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ComponentId</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_JMS_Deq_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionIDREF</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionId</to>
+      </copy>
+      <copy>
+        <from>$g_Receive_JMS_Deq_Message_InputVariable.body/ns5:HeaderRs/ns5:RequestDetails/ns5:TransactionName</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProcessName</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:ProjectName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>21</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+            portType="ns7:CommonLogging" operation="process"
+            inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    
+    <assign name="Assign_JDBCDetails">
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:ResourceName,"JNDI","","ORG_CODE",$g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:OrganizationCode)</from>
+        <to>$g_JNDI</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:ResourceName,"SYSTEM","","ORG_CODE",$g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:OrganizationCode)</from>
+        <to>$g_System</to>
+      </copy>
+      <copy>
+        <from>'JDBCName'</from>
+        <to>$g_ParamVar/ns8:item/ns8:name</to>
+      </copy>
+      <copy>
+        <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/QMOS_MILL_DB_JNDI_MAP.dvm","RESOURCE",$g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:ResourceName,"JDBC","","ORG_CODE",$g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:OrganizationCode)</from>
+        <to>$g_ParamVar/ns8:item/ns8:value</to>
+      </copy>
+    </assign>
+    <if name="If_Check_System">
+      <documentation>
+        <![CDATA[System Found]]>
+      </documentation>
+      <condition>$g_System ='QMOS'</condition>
+      <sequence name="Sequence_System_Found">
+        <assign name="Transformation_JMS_QMOS">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_JMS_QMOS.xsl", $g_Receive_JMS_Deq_Message_InputVariable.body, "g_ParamVar", $g_ParamVar)</from>
+            <to variable="g_Invoke_DB_Insert_API_RECIPE_ROUTING" part="ApiRecipeRoutingCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Insert_API_RECIPE_ROUTING" partnerLink="DB_Insert_API_RECIPE_ROUTING"
+                portType="ns2:DB_Insert_API_RECIPE_ROUTING_ptt" operation="insert"
+                inputVariable="g_Invoke_DB_Insert_API_RECIPE_ROUTING" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                portType="ns7:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[System Not Found]]>
+        </documentation>
+        <sequence name="Sequence_Not_Found">
+        <documentation>
+            <![CDATA[System Not Found]]>
+          </documentation>
+        
+        <assign name="Assign_CommonLogging">
+            <copy>
+              <from>'BMG-155'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageCode</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:LogType</to>
+            </copy>
+            <copy>
+              <from>concat($g_Receive_JMS_Deq_Message_InputVariable.body/ns6:ProductStructureDetails[1]/ns6:ListOfRecipe/ns6:ResourceName,',','QMOS')</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns7:TransactionStatus</to>
+            </copy>
+          </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns7:CommonLogging" operation="process"
+                inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+        
+      </else>
+    </if>
+  </sequence>
+</process>

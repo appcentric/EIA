@@ -1,0 +1,1741 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Jun 13 08:18:33 CDT 2013
+  Author:  Oracle
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="PurchaseOrder_Sync" targetNamespace="http://xmlns.eia.com/ABS/EBiz/P2P/PurchaseOrder/1.0"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/ABS/EBiz/P2P/PurchaseOrder/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         queryLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116"
+         expressionLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116" suppressJoinFailure="no"
+         exitOnStandardFault="no" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns2="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns3="http://xmlns.eia.com/EO/Common/1.0" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EbizPurchaseOrder_ABS/DB_QueryPurchaseOrderEBS"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EbizPurchaseOrder_ABS/OA_PurchaseOrderEBS"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EbizPurchaseOrder_ABS/OA_CancelPurchaseOrderEBS"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EbizPurchaseOrder_ABS/OA_UpdatePurchaseOrderEBS"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_EbizPurchaseOrder_ABS/OA_LaunchPOCreateWrapper"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EbizPurchaseOrder_ABS/OA_Approve_SPO"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_Approve_SPO"
+         xmlns:ns16="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_UpdatePurchaseOrderEBS"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns18="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns19="http://xmlns.eia.com/EO/common/Header/1.0" xmlns:ess="http://xmlns.oracle.com/scheduler">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" location="PurchaseOrderABSWrapper.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/PurchaseOrderABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <partnerLinks>
+    <partnerLink name="PurchaseOrderABS" partnerLinkType="ns1:PurchaseOrderABS" myRole="SyncPortType"/>
+    <partnerLink name="EIASyncError" partnerLinkType="ns2:EIAAsyncErrorHandlingBPELProcess"
+                 partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="DB_QueryPurchaseOrderEBS" partnerLinkType="ns9:DB_QueryPurchaseOrderEBS_plt"
+                 partnerRole="DB_QueryPurchaseOrderEBS_role"/>
+    <partnerLink name="OA_PurchaseOrderEBS" partnerLinkType="ns10:OA_PurchaseOrderEBS_plt"
+                 partnerRole="OA_PurchaseOrderEBS_role"/>
+    <partnerLink name="OA_CancelPurchaseOrderEBS" partnerLinkType="ns11:OA_CancelPurchaseOrderEBS_plt"
+                 partnerRole="OA_CancelPurchaseOrderEBS_role"/>
+    <partnerLink name="OA_UpdatePurchaseOrderEBS" partnerLinkType="ns12:OA_UpdatePurchaseOrderEBS_plt"
+                 partnerRole="OA_UpdatePurchaseOrderEBS_role"/>
+    <partnerLink name="OA_LaunchPOCreateWrapper" partnerLinkType="ns13:OA_LaunchPOCreateWrapper_plt"
+                 partnerRole="OA_LaunchPOCreateWrapper_role"/>
+    <partnerLink name="OA_Approve_SPO" partnerLinkType="ns14:OA_Approve_SPO_plt" partnerRole="OA_Approve_SPO_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns18:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="gbl_operation" type="xsd:string"/>
+    <variable name="gbl_title" type="xsd:string"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns3:ProcessHeader"/>
+    <variable name="EIAFaultMsg" messageType="ns1:EIAFaultMsgType"/>
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg"
+              messageType="ns2:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="CreateListPurchaseOrders_SyncReqMsg" messageType="ns1:CreatePurchaseOrderRequestMessageType"/>
+    <variable name="CreateListPurchaseOrders_SyncReplMsg" messageType="ns1:CreatePurchaseOrderResponseMessageType"/>
+    <variable name="QueryPurchaseOrderByExample_SyncReqMsg" messageType="ns1:QueryPurchaseOrderRequestMessageType"/>
+    <variable name="QueryPurchaseOrderByExample_SyncReplMsg" messageType="ns1:QueryPurchaseOrderResponseMessageType"/>
+    <variable name="UpdatePurchaseOrderLine_SyncReqMsg" messageType="ns1:UpdatePurchaseOrderLineRequestMessageType"/>
+    <variable name="UpdatePurchaseOrderLine_SyncRespMsg" messageType="ns1:UpdatePurchaseOrderLineResponseMessageType"/>
+    <variable name="AddPurchaseOrderLine_SyncReqMsg" messageType="ns1:AddPurchaseOrderLineRequestMessageType"/>
+    <variable name="AddPurchaseOrderLine_SyncRespMsg" messageType="ns1:AddPurchaseOrderLineResponseMessageType"/>
+    <variable name="CancelPurchaseOrderLine_SyncReqMsg" messageType="ns1:CancelPurchaseOrderLineRequestMessageType"/>
+    <variable name="CancelPurchaseOrderLine_SyncRespMsg" messageType="ns1:CancelPurchaseOrderLineResponseMessageType"/>
+    <variable name="DB_QueryPurchaseOrderEBS_ReqMsg" messageType="ns9:PoHeadersAll_msg"/>
+    <variable name="DB_QueryPurchaseOrderEBS_RespMsg" messageType="ns9:PoHeadersAllCollection_msg"/>
+    <variable name="OA_CreatePurchaseOrderEBS_ReqMsg" messageType="ns10:PoHeadersInterfaceCollection_msg"/>
+    <variable name="OA_CancelPurchaseOrderEBS_ReqMsg" messageType="ns11:args_in_msg"/>
+    <variable name="OA_CancelPurchaseOrderEBS_RespMsg" messageType="ns11:args_out_msg"/>
+    <variable name="OA_AddPurchaseOrderEBS_ReqMsg" messageType="ns10:PoHeadersInterfaceCollection_msg"/>
+    <variable name="OA_UpdatePurchaseOrderEBS_ReqMsg" messageType="ns12:args_in_msg"/>
+    <variable name="OA_UpdatePurchaseOrderEBS_RespMsg" messageType="ns12:args_out_msg"/>
+    <variable name="gbl_Counter" type="xsd:int"/>
+    <variable name="gbl_index" type="xsd:int"/>
+    <variable name="POCreateWrapper_ReqMsg" messageType="ns13:args_in_msg"/>
+    <variable name="POCreateWrapperRespMsg" messageType="ns13:args_out_msg"/>
+    <variable name="OA_Approve_SPO_ReqMsg" messageType="ns14:args_in_msg"/>
+    <variable name="OA_Approve_SPO_RespMsg" messageType="ns14:args_out_msg"/>
+    <variable name="gblAppsJNDI" type="xsd:string"/>
+    <variable name="CommonLogging_ReqMsg" messageType="ns18:CommonLoggingRequestMessage"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="ns1:EIAFault" faultVariable="EIAFaultMsg" faultMessageType="ns1:EIAFaultMsgType">
+      <sequence name="Sequence1">
+        <!--scope name="Scope_EIAFault" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <sequence name="Sequence14">
+            <assign name="Transform_EIAFaultCommonLogging">
+              <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("Transformations/XformEIAFault_CommonLogging.xsl", $EIAFaultMsg.Fault)</from>
+                <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                    operation="process" inputVariable="CommonLogging_ReqMsg"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope-->
+        <assign name="XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>&lt;![CDATA[Operation is Create Purchase Order]]&gt;<![CDATA[CreatePurchaseOrder_Sync]]></documentation>
+          <condition>$gbl_operation='CreatePurchaseOrder_Sync'</condition>
+          <sequence name="Sequence2">
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                    portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Assign_Error">
+              <copy>
+                <from>'NextGen'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+              </copy>
+              <copy>
+                <from>concat($EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Code,' ',$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Text)</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                    portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"/>
+            <reply name="Reply_CreatePurchaseOrder_Sync" faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                   partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType"
+                   operation="CreateListPurchaseOrders_Sync"/>
+          </sequence>
+          <elseif>
+            <documentation>
+              <![CDATA[QueryPurchaseOrderByExample_Sync]]>
+            </documentation>
+            <condition>$gbl_operation='QueryPurchaseOrderByExample_Sync'</condition>
+            <sequence name="Sequence5">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                      portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Assign_Error">
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat($EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Code,' ',$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Text)</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"/>
+              <reply name="Reply_QueryPurchaseOrderByExample_Sync" variable="EIAFaultMsg" partnerLink="PurchaseOrderABS"
+                     portType="ns1:SyncPortType" operation="QueryPurchaseOrderByExample_Sync" faultName="ns1:EIAFault"/>
+            </sequence>
+          </elseif>
+          <else>
+            <empty name="AddLater"/>
+          </else>
+        </if>
+        <rethrow name="Rethrow1"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence3">
+        <!--scope name="Scope_CatchAll" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <sequence name="Sequence14">
+            <assign name="Transform_CatchAllCommonLogging">
+              <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("Transformations/CatchAllCommonLogging.xsl", $QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+              </copy>
+            </assign>
+          </sequence>
+        </scope-->
+        <assign name="setEIAFaultMsg">
+          <copy>
+            <from>ora:getFaultName()</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Code</to>
+          </copy>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/setEIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+            <to>$EIAFaultMsg.Fault</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Text</to>
+          </copy>
+          <copy>
+            <from>'1.0'</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Severity</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Stack</to>
+          </copy>
+        </assign>
+        <assign name="XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>&lt;![CDATA[Operation is Create Purchase Order]]&gt;<![CDATA[CreatePurchaseOrder_Sync]]></documentation>
+          <condition>$gbl_operation='CreatePurchaseOrder_Sync'</condition>
+          <sequence name="Sequence4">
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                    portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Assign_Error">
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                    operation="process" inputVariable="CommonLogging_ReqMsg"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_QueryByExample_Sync" faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                   partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType"
+                   operation="CreateListPurchaseOrders_Sync"/>
+          </sequence>
+          <elseif>
+            <documentation>
+              <![CDATA[QueryPurchaseOrderByExample_Sync]]>
+            </documentation>
+            <condition>$gbl_operation='QueryPurchaseOrderByExample_Sync'</condition>
+            <sequence name="Sequence8">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                      portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Assign_Error">
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"/>
+              <reply name="Reply_QueryPurchaseOrderByExample_Sync" variable="EIAFaultMsg" partnerLink="PurchaseOrderABS"
+                     portType="ns1:SyncPortType" operation="QueryPurchaseOrderByExample_Sync" faultName="ns1:EIAFault"
+                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            </sequence>
+          </elseif>
+          <elseif>
+            <documentation>
+              <![CDATA[UpdatePurchaseOrderLine_Sync]]>
+            </documentation>
+            <condition>$gbl_operation='UpdatePurchaseOrderLine_Sync'</condition>
+            <sequence name="Sequence9">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                      portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Assign_Error">
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"/>
+              <reply name="Reply_UpdatePurchaseOrderLine_Sync" variable="EIAFaultMsg" partnerLink="PurchaseOrderABS"
+                     portType="ns1:SyncPortType" operation="UpdatePurchaseOrderLine_Sync" faultName="ns1:EIAFault"
+                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            </sequence>
+          </elseif>
+          <elseif>
+            <documentation>
+              <![CDATA[AddPurchaseOrderLine_Sync]]>
+            </documentation>
+            <condition>$gbl_operation='AddPurchaseOrderLine_Sync'</condition>
+            <sequence name="Sequence10">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                      portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Assign_Error">
+                <copy>
+                  <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+                <copy>
+                  <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"/>
+              <reply name="Reply_AddPurchaseOrderLine_Sync" variable="EIAFaultMsg" partnerLink="PurchaseOrderABS"
+                     portType="ns1:SyncPortType" operation="AddPurchaseOrderLine_Sync" faultName="ns1:EIAFault"
+                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            </sequence>
+          </elseif>
+          <else>
+            <documentation>
+              <![CDATA[CancelPurchaseOrderLine_Sync]]>
+            </documentation>
+            <sequence name="Sequence11">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIASyncError"
+                      portType="ns2:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Assign_Error">
+                <copy>
+                  <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>4</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"/>
+              <reply name="Reply_CancelPurchaseOrderLine_Sync" variable="EIAFaultMsg" partnerLink="PurchaseOrderABS"
+                     portType="ns1:SyncPortType" operation="CancelPurchaseOrderLine_Sync" faultName="ns1:EIAFault"
+                     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            </sequence>
+          </else>
+        </if>
+        <rethrow name="Rethrow2"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="CreateListPurchaseOrders_SyncReqMsg" partnerLink="PurchaseOrderABS"
+                 portType="ns1:SyncPortType" operation="CreateListPurchaseOrders_Sync">
+        <sequence name="Sequence15">
+          <sequence name="CreatePurchaseOrder_Sync">
+            <assign name="SetEHM">
+              <copy>
+                <from>xp20:current-dateTime()</from>
+                <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeInstanceId()</from>
+                <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+              </copy>
+              <copy>
+                <from>$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+              </copy>
+              <copy>
+                <from>ora:getProcessVersion()</from>
+                <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+              </copy>
+              <copy>
+                <from>ora:getProcessId()</from>
+                <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+              </copy>
+            </assign>
+            <scope name="Scope_StartCreateCommonLogging"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <faultHandlers>
+                <catchAll>
+                  <empty name="DoNothing"/>
+                </catchAll>
+              </faultHandlers>
+              <sequence name="Sequence14">
+                <assign name="Transform_SetCreatePOCommonLogging">
+                  <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("Transformations/XformCreatePOReqMsg_CommonLogging.xsl", $CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                        operation="process" inputVariable="CommonLogging_ReqMsg"
+                        xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+            <assign name="setJNDIVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_APPSADAPTER_NON_XA_JNDI.dvm","Org",$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:OrgId,"JNDI","eis/Apps/ebs_nonxa")</from>
+                <to>$gblAppsJNDI</to>
+              </copy>
+            </assign>
+            <assign name="SetCompositeInformation">
+              <copy>
+                <from>'CreatePurchaseOrder_Sync'</from>
+                <to>$gbl_operation</to>
+              </copy>
+              <copy>
+                <from>ora:setCompositeInstanceTitle(concat("Create Purchcase Order  ",$gbl_operation))</from>
+                <to>$gbl_title</to>
+              </copy>
+            </assign>
+            <assign name="Xform_CreateListPurchaseOrder_SyncReqMsg_To_OA_CreatePurchaseOrderEBS_ReqMsg">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_CreateListPurchaseOrder_SyncReqMsg_To_OA_CreatePurchaseOrderEBS_ReqMsg.xsl", $CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage)</from>
+                <to variable="OA_CreatePurchaseOrderEBS_ReqMsg" part="PoHeadersInterfaceCollection"/>
+              </copy>
+            </assign>
+            <!--assign name="Transform1">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Transformation_1.xsl", $CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage)</from>
+              <to variable="OA_CreatePurchaseOrderEBS_ReqMsg"
+                  part="PoHeadersInterfaceCollection"/>
+            </copy>
+          </assign > -->
+            <invoke name="Invoke_OA_PurchaseOrderEBS" partnerLink="OA_PurchaseOrderEBS"
+                    portType="ns10:OA_PurchaseOrderEBS_ptt" operation="insert"
+                    inputVariable="OA_CreatePurchaseOrderEBS_ReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.apps.Username">$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+                <bpelx:toProperty name="jca.apps.Responsibility">$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+                <bpelx:toProperty name="jca.apps.ORG_ID">$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+                <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+                <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <extensionActivity>
+              <bpelx:dehydrate name="Commit"/>
+            </extensionActivity>
+            <assign name="Xform_OAPurchaseOrderEBS_POCreateWrapperReqMsg">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_OAPurchaseOrderEBS_POCreateWrapperReqMsg.xsl", $OA_CreatePurchaseOrderEBS_ReqMsg.PoHeadersInterfaceCollection)</from>
+                <to variable="POCreateWrapper_ReqMsg" part="InputParameters"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_POCreateWrapper" partnerLink="OA_LaunchPOCreateWrapper"
+                    portType="ns13:OA_LaunchPOCreateWrapper_ptt" operation="OA_LaunchPOCreateWrapper"
+                    inputVariable="POCreateWrapper_ReqMsg" outputVariable="POCreateWrapperRespMsg"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.apps.Username">$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+                <bpelx:toProperty name="jca.apps.ORG_ID">$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+                <bpelx:toProperty name="jca.apps.Responsibility">$CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+                <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+                <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Set_CreateListPurchaseOrder_ReplMsg">
+              <copy>
+                <from>'S'</from>
+                <to>$CreateListPurchaseOrders_SyncReplMsg.CreatePurchaseOrderResponseMessage/ns4:OperationResult/ns8:Stats</to>
+              </copy>
+            </assign>
+            <!--assign name="Xform_POCreateWrapperRespMsg_CreateListPOSyncReplMsg">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_POCreateWrapperRespMsg_CreateListPOSyncReplMsg.xsl", $POCreateWrapperRespMsg.OutputParameters)</from>
+                <to variable="CreateListPurchaseOrders_SyncReplMsg" part="CreatePurchaseOrderResponseMessage"/>
+              </copy>
+            </assign-->
+            <assign name="Xform_POCreateWrapperRespMsg_CreateListPOSyncReplMsg">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_POCreateWrapperRespMsg_CreateListPOSyncReplMsg1.xsl", $POCreateWrapperRespMsg.OutputParameters, "CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage", $CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage)</from>
+                <to variable="CreateListPurchaseOrders_SyncReplMsg" part="CreatePurchaseOrderResponseMessage"/>
+              </copy>
+            </assign>
+            <scope name="Scope_EndCreateCommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <faultHandlers>
+                <catchAll>
+                  <empty name="DoNothing"/>
+                </catchAll>
+              </faultHandlers>
+              <sequence name="Sequence14">
+                <assign name="Transform_SetCreatePOCommonLogging">
+                  <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("Transformations/XformCreatePOReqMsg_CommonLogging.xsl", $CreateListPurchaseOrders_SyncReqMsg.CreatePurchaseOrderRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                        operation="process" inputVariable="CommonLogging_ReqMsg"
+                        xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                  <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+            <reply name="Reply_CreatePurchaseOrderSync" variable="CreateListPurchaseOrders_SyncReplMsg"
+                   partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType"
+                   operation="CreateListPurchaseOrders_Sync"/>
+          </sequence>
+        </sequence>
+      </onMessage>
+      <onMessage variable="QueryPurchaseOrderByExample_SyncReqMsg" partnerLink="PurchaseOrderABS"
+                 portType="ns1:SyncPortType" operation="QueryPurchaseOrderByExample_Sync">
+        <sequence name="QueryPurchaseOrderByExample_Sync">
+          <assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <scope name="Scope_StartQueryCommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence14">
+              <assign name="Transform_SetQueryCommonLogging">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("Transformations/XformQueryPOReqMsg_CommonLogging.xsl", $QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                  <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                      operation="process" inputVariable="CommonLogging_ReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="SetCompositeInformation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>'QueryPurchaseOrderByExample_Sync'</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Query PurchaseOrder ByExample  ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <if name="ValidateParameters">
+            <documentation>
+              <![CDATA[ValidateQueryParameters]]>
+            </documentation>
+            <condition>($QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns4:PurchaseOrder/ns6:Poheaderid !="") or($QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns4:PurchaseOrder/ns6:Vendorname !="") or ($QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns4:PurchaseOrder/ns6:Vendornum != "" )or ($QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns4:PurchaseOrder/ns6:Segment1 != "" )or ($QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns4:PurchaseOrder/ns6:Agentname != "")</condition>
+            <sequence>
+              <assign name="Xform_QueryPurchaseOrderByExample_SyncReqMsg_To_DB_QueryPurchaseOrderEBS_ReqMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_QueryPurchaseOrderByExample_SyncReqMsg_To_DB_QueryPurchaseOrderEBS_ReqMsg.xsl", $QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage)</from>
+                  <to variable="DB_QueryPurchaseOrderEBS_ReqMsg" part="PoHeadersAll"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DB_QueryPurchaseOrderEBS" partnerLink="DB_QueryPurchaseOrderEBS"
+                      portType="ns9:DB_QueryPurchaseOrderEBS_ptt" operation="queryByExample" bpelx:invokeAsDetail="no"
+                      inputVariable="DB_QueryPurchaseOrderEBS_ReqMsg"
+                      outputVariable="DB_QueryPurchaseOrderEBS_RespMsg"/>
+              <assign name="Xform_DB_QueryPurchaseOrderEBS_RespMsg_To_QueryPurchaseOrderByExample_SyncReplMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_DB_QueryPurchaseOrderEBS_RespMsg_To_QueryPurchaseOrderByExample_SyncReplMsg.xsl", $DB_QueryPurchaseOrderEBS_RespMsg.PoHeadersAllCollection)</from>
+                  <to variable="QueryPurchaseOrderByExample_SyncReplMsg" part="QueryPurchaseOrderResponseMessage"/>
+                </copy>
+              </assign>
+              <assign name="Assign_ResponseHeader">
+                <copy>
+                  <from>$QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage/ns19:HeaderRq</from>
+                  <to>$QueryPurchaseOrderByExample_SyncReplMsg.QueryPurchaseOrderResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+                </copy>
+              </assign>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[InvalidQueryParameters]]>
+              </documentation>
+              <sequence name="Sequence7">
+                <assign name="Xform_EHM_EIAFaultMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="EIAFaultMsg" part="Fault"/>
+                  </copy>
+                </assign>
+                <throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"
+                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+              </sequence>
+            </else>
+          </if>
+          <scope name="Scope_EndCommonLogging">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence14">
+              <assign name="Transform_QueryCommonLogging">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("Transformations/XformQueryPOReqMsg_CommonLogging.xsl", $QueryPurchaseOrderByExample_SyncReqMsg.QueryPurchaseOrderRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                  <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                      operation="process" inputVariable="CommonLogging_ReqMsg" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_QueryPurchaseOrders_ByExample_Sync" variable="QueryPurchaseOrderByExample_SyncReplMsg"
+                 partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType"
+                 operation="QueryPurchaseOrderByExample_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="UpdatePurchaseOrderLine_SyncReqMsg" partnerLink="PurchaseOrderABS"
+                 portType="ns1:SyncPortType" operation="UpdatePurchaseOrderLine_Sync">
+        <sequence name="UpdatePurchaseOrderLine_Sync">
+          <assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <scope name="StartCommonLogging">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence16">
+              <assign name="Assign_StartLogging">
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="setJNDIVar">
+            <copy>
+              <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_APPSADAPTER_NON_XA_JNDI.dvm","Org",$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId,"JNDI","eis/Apps/ebs_nonxa")</from>
+              <to>$gblAppsJNDI</to>
+            </copy>
+          </assign>
+          <assign name="SetCompositeInformation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>'UpdatePurchaseOrderLine_Sync'</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Update Purchase Order Line  ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <forEach parallel="no" counterName="ForEach1Counter" name="ForEach1">
+            <startCounterValue>1</startCounterValue>
+            <finalCounterValue>count($UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:ListOfPurchaseOrders/ns6:PurchaseOrder)</finalCounterValue>
+            <scope name="Scope1">
+              <variables>
+                <variable name="POCounterParams" element="ns16:parameters"/>
+                <variable name="varPOCounterValue" type="xsd:int"/>
+                <variable name="varPOLineCounterValue" type="xsd:int"/>
+              </variables>
+              <sequence name="Sequence12">
+                <forEach parallel="no" counterName="ForEach2Counter" name="ForEach2">
+                  <startCounterValue>1</startCounterValue>
+                  <finalCounterValue>count($UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:ListOfPurchaseOrders/ns6:PurchaseOrder[$ForEach1Counter]/ns6:ListOfPurchaseOrderLines/ns6:PurchaseOrderLine)</finalCounterValue>
+                  <scope name="Scope2">
+                    <variables>
+                      <variable name="Temp2" type="xsd:int"/>
+                    </variables>
+                    <sequence>
+                      <assign name="SetCounterParameters">
+                        <copy>
+                          <from><literal><ns16:parameters xmlns:ns16="http://schemas.oracle.com/service/bpel/common">
+	<ns16:item>
+		<ns16:name>POCounter</ns16:name>
+		<ns16:value/>
+	</ns16:item>
+	<ns16:item>
+		<ns16:name>POLineCounter</ns16:name>
+		<ns16:value/>
+	</ns16:item>
+</ns16:parameters></literal></from>
+                          <to>$POCounterParams</to>
+                        </copy>
+                        <copy>
+                          <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:ListOfPurchaseOrders/ns6:PurchaseOrder[$ForEach1Counter]/ns6:Documentnum</from>
+                          <to>$POCounterParams/ns16:item[1]/ns16:value</to>
+                        </copy>
+                        <copy>
+                          <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:ListOfPurchaseOrders/ns6:PurchaseOrder[$ForEach1Counter]/ns6:ListOfPurchaseOrderLines/ns6:PurchaseOrderLine[$ForEach2Counter]/ns6:Linenum</from>
+                          <to>$POCounterParams/ns16:item[2]/ns16:value</to>
+                        </copy>
+                      </assign>
+                      <assign name="Xform_UpdatePurchaseOrderLine_SyncReqMsg_To_OA_UpdatePurchaseOrderEBS_ReqMsg">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("xsl/Xform_UpdatePurchaseOrderLine_SyncReqMsg_To_OA_UpdatePurchaseOrderEBS_ReqMsg.xsl", $UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage, "POCounterParams", $POCounterParams)</from>
+                          <to variable="OA_UpdatePurchaseOrderEBS_ReqMsg" part="InputParameters"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_OA_UpdatePurchaseOrderEBS" partnerLink="OA_UpdatePurchaseOrderEBS"
+                              portType="ns12:OA_UpdatePurchaseOrderEBS_ptt" operation="OA_UpdatePurchaseOrderEBS"
+                              inputVariable="OA_UpdatePurchaseOrderEBS_ReqMsg"
+                              outputVariable="OA_UpdatePurchaseOrderEBS_RespMsg" bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="jca.apps.Username">$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+                          <bpelx:toProperty name="jca.apps.Responsibility">$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+                          <bpelx:toProperty name="jca.apps.ORG_ID">$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+                          <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+                          <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                      <if name="IfError">
+                        <documentation>
+                          <![CDATA[Error]]>
+                        </documentation>
+                        <condition>$OA_UpdatePurchaseOrderEBS_RespMsg.OutputParameters/ns17:UPDATE_PO = 0</condition>
+                        <sequence name="Sequence13">
+                          <assign name="Xform_OA_UpdatePurchaseOrderEBS_RespMsg_To_UpdatePurchaseOrderLine_SyncRespMsg"
+                                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                            </bpelx:annotation>
+                            <copy>
+                              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_UpdatePurchaseOrderEBS_RespMsg_To_UpdatePurchaseOrderLine_SyncRespMsg.xsl", $OA_UpdatePurchaseOrderEBS_RespMsg.OutputParameters)</from>
+                              <to variable="UpdatePurchaseOrderLine_SyncRespMsg"
+                                  part="UpdatePurchaseOrderLineResponseMessage"/>
+                            </copy>
+                          </assign>
+                          <assign name="Assign_ResponseHeader">
+                            <copy>
+                              <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq</from>
+                              <to>$UpdatePurchaseOrderLine_SyncRespMsg.UpdatePurchaseOrderLineResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+                            </copy>
+                          </assign>
+                          <reply name="Reply_UpdatePurchaseOrderLine_Sync"
+                                 variable="UpdatePurchaseOrderLine_SyncRespMsg" partnerLink="PurchaseOrderABS"
+                                 portType="ns1:SyncPortType" operation="UpdatePurchaseOrderLine_Sync"
+                                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                          <exit name="Stop"/>
+                        </sequence>
+                      </if>
+                    </sequence>
+                  </scope>
+                </forEach>
+                <extensionActivity xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <bpelx:dehydrate name="Commit" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>
+                </extensionActivity>
+                <assign name="Xform_OA_UpdatePurchaseOrderEBS_RespMsg_To_OA_Approve_SPO_ReqMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_OA_UpdatePurchaseOrderEBS_RespMsg_To_OA_Approve_SPO_ReqMsg.xsl", $UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage)</from>
+                    <to variable="OA_Approve_SPO_ReqMsg" part="InputParameters"/>
+                  </copy>
+                </assign>
+                <invoke name="InvokeApprovePO" partnerLink="OA_Approve_SPO" portType="ns14:OA_Approve_SPO_ptt"
+                        operation="OA_Approve_SPO" inputVariable="OA_Approve_SPO_ReqMsg"
+                        outputVariable="OA_Approve_SPO_RespMsg" bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="jca.apps.Username">$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+                    <bpelx:toProperty name="jca.apps.Responsibility">$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+                    <bpelx:toProperty name="jca.apps.ORG_ID">$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+                    <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+                    <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+              </sequence>
+            </scope>
+          </forEach>
+          <assign name="Xform_OA_UpdatePurchaseOrderEBS_RespMsg_To_UpdatePurchaseOrderLine_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_Approve_SPO_RespMsg_To_UpdatePurchaseOrderLine_SyncRespMsg.xsl", $OA_Approve_SPO_RespMsg.OutputParameters)</from>
+              <to variable="UpdatePurchaseOrderLine_SyncRespMsg" part="UpdatePurchaseOrderLineResponseMessage"/>
+            </copy>
+          </assign>
+          <assign name="Assign_ResponseHeader">
+            <copy>
+              <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq</from>
+              <to>$UpdatePurchaseOrderLine_SyncRespMsg.UpdatePurchaseOrderLineResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+            </copy>
+          </assign>
+          <scope name="Scope_EndLogging">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence17">
+              <assign name="Assign_EndLogging">
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Source</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$UpdatePurchaseOrderLine_SyncReqMsg.UpdatePurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:Target</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$CommonLogging_ReqMsg.CommonLogging/ns18:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                      portType="ns18:CommonLogging" operation="process" inputVariable="CommonLogging_ReqMsg"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_UpdatePurchaseOrderLine_Sync" variable="UpdatePurchaseOrderLine_SyncRespMsg"
+                 partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType" operation="UpdatePurchaseOrderLine_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="AddPurchaseOrderLine_SyncReqMsg" partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType"
+                 operation="AddPurchaseOrderLine_Sync">
+        <sequence name="AddPurchaseOrderLine_Sync">
+          <assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <scope name="Scope_StartAddCommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence14">
+              <assign name="Transform_SetAddPOCommonLogging">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("Transformations/XformAddPOReqMsg_CommonLogging.xsl", $AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                  <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                      operation="process" inputVariable="CommonLogging_ReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="setJNDIVar">
+            <copy>
+              <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_APPSADAPTER_NON_XA_JNDI.dvm","Org",$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId,"JNDI","eis/Apps/ebs_nonxa")</from>
+              <to>$gblAppsJNDI</to>
+            </copy>
+          </assign>
+          <assign name="SetCompositeInformation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>'AddPurchaseOrderLine_Sync'</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Add Purchase Order Line ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="SetCompositeInformation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>'UpdatePurchaseOrderLine_Sync'</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Update Purchase Order Line  ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Xform_AddPurchaseOrderLine_SyncReqMsg_To_OA_AddPurchaseOrderEBS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_AddPurchaseOrderLine_SyncReqMsg_To_OA_AddPurchaseOrderEBS_ReqMsg.xsl", $AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage)</from>
+              <to variable="OA_AddPurchaseOrderEBS_ReqMsg" part="PoHeadersInterfaceCollection"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_AddPurchaseOrderEBS" partnerLink="OA_PurchaseOrderEBS"
+                  portType="ns10:OA_PurchaseOrderEBS_ptt" operation="insert"
+                  inputVariable="OA_AddPurchaseOrderEBS_ReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+              <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <extensionActivity>
+            <bpelx:dehydrate name="Commit"/>
+          </extensionActivity>
+          <assign name="Xform_AddPOOrderLineReqMsg_POCreateWrapperReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_AddPOOrderLineReqMsg_POCreateWrapperReqMsg.xsl", $OA_AddPurchaseOrderEBS_ReqMsg.PoHeadersInterfaceCollection)</from>
+              <to variable="POCreateWrapper_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <assign name="Set_AddPurchaseOrderLine_RespMsg">
+            <copy>
+              <from>'S'</from>
+              <to>$AddPurchaseOrderLine_SyncRespMsg.AddPurchaseOrderLineResponseMessage/ns4:OperationResult/ns8:Stats</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_POCreateWrapper" partnerLink="OA_LaunchPOCreateWrapper"
+                  portType="ns13:OA_LaunchPOCreateWrapper_ptt" operation="OA_LaunchPOCreateWrapper"
+                  inputVariable="POCreateWrapper_ReqMsg" outputVariable="POCreateWrapperRespMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+              <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_POCreateWrapperRespMsg_AddPurchaseOrderLineResplMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_POCreateWrapperRespMsg_AddPurchaseOrderLineResplMsg.xsl", $POCreateWrapperRespMsg.OutputParameters)</from>
+              <to variable="AddPurchaseOrderLine_SyncRespMsg" part="AddPurchaseOrderLineResponseMessage"/>
+            </copy>
+          </assign>
+          <assign name="Assign_ResponseHeader">
+            <copy>
+              <from>$AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage/ns19:HeaderRq</from>
+              <to>$AddPurchaseOrderLine_SyncRespMsg.AddPurchaseOrderLineResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+            </copy>
+          </assign>
+          <scope name="Scope_EndAddCommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence14">
+              <assign name="Transform_SetAddPOCommonLogging">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("Transformations/XformAddPOReqMsg_CommonLogging.xsl", $AddPurchaseOrderLine_SyncReqMsg.AddPurchaseOrderLineRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                  <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                      operation="process" inputVariable="CommonLogging_ReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_AddPurchaseOrderLine_Sync" variable="AddPurchaseOrderLine_SyncRespMsg"
+                 partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType" operation="AddPurchaseOrderLine_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="CancelPurchaseOrderLine_SyncReqMsg" partnerLink="PurchaseOrderABS"
+                 portType="ns1:SyncPortType" operation="CancelPurchaseOrderLine_Sync">
+        <sequence name="CancelPurchaseOrderLine_Sync">
+          <assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <scope name="Scope_StartCancelCommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence14">
+              <assign name="Transform_SetCancelPOCommonLogging">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("Transformations/XformCancelPOReqMsg_CommonLogging.xsl", $CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                  <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                      operation="process" inputVariable="CommonLogging_ReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="setJNDIVar">
+            <!--copy>
+              <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_APPSADAPTER_NON_XA_JNDI.dvm","Org",$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId,"JNDI","eis/Apps/ebs_nonxa")</from>
+              <to>$gblAppsJNDI</to>
+            </copy-->
+            <copy>
+              <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_APPSADAPTER_NON_XA_JNDI.dvm","Org",$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId,"JNDI","eis/Apps/ebs_nonxa")</from>
+              <to>$gblAppsJNDI</to>
+            </copy>
+          </assign>
+          <assign name="SetCompositeInformation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>'CancelPurchaseOrderLine_Sync'</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Cancel Purchase Order Line ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Xform_CancelPurchaseOrderLine_SyncReqMsg_To_OA_CancelPurchaseOrderEBS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CancelPurchaseOrderLine_SyncReqMsg_To_OA_CancelPurchaseOrderEBS_ReqMsg.xsl", $CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage)</from>
+              <to variable="OA_CancelPurchaseOrderEBS_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_CancelPurchaseOrderEBS" partnerLink="OA_CancelPurchaseOrderEBS"
+                  portType="ns11:OA_CancelPurchaseOrderEBS_ptt" operation="OA_CancelPurchaseOrderEBS"
+                  inputVariable="OA_CancelPurchaseOrderEBS_ReqMsg" outputVariable="OA_CancelPurchaseOrderEBS_RespMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns4:AppsContext/ns5:OrgId</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.RespApplication">'PO'</bpelx:toProperty>
+              <bpelx:toProperty name="jca.jndi">$gblAppsJNDI</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_OA_CancelPurchaseOrderEBS_RespMsg_To_CancelPurchaseOrderLine_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_CancelPurchaseOrderEBS_RespMsg_To_CancelPurchaseOrderLine_SyncRespMsg.xsl", $OA_CancelPurchaseOrderEBS_RespMsg.OutputParameters)</from>
+              <to variable="CancelPurchaseOrderLine_SyncRespMsg" part="CancelPurchaseOrderLineResponseMessage"/>
+            </copy>
+          </assign>
+          <assign name="Assign_ResponseHeader">
+            <copy>
+              <from>$CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage/ns19:HeaderRq</from>
+              <to>$CancelPurchaseOrderLine_SyncRespMsg.CancelPurchaseOrderLineResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+            </copy>
+          </assign>
+          <scope name="Scope_EndCancelCommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence14">
+              <assign name="Transform_SetCancelPOCommonLogging">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("Transformations/XformCancelPOReqMsg_CommonLogging.xsl", $CancelPurchaseOrderLine_SyncReqMsg.CancelPurchaseOrderLineRequestMessage, "EIA_HEADER_MESSAGE", $EIA_HEADER_MESSAGE)</from>
+                  <to variable="CommonLogging_ReqMsg" part="CommonLogging"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging" portType="ns18:CommonLogging"
+                      operation="process" inputVariable="CommonLogging_ReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_CancelPurchaseOrderLine_Sync" variable="CancelPurchaseOrderLine_SyncRespMsg"
+                 partnerLink="PurchaseOrderABS" portType="ns1:SyncPortType" operation="CancelPurchaseOrderLine_Sync"/>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

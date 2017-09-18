@@ -1,0 +1,91 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DbCallXXNUC_OMSI_EXTRACTS_PKG" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DbCallXXNUC_OMSI_EXTRACTS_PKG" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <!--Empty Parameter List-->
+      <complexType/>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_LOG_ENTRY" type="db:XXNUC_LOG_ENTRY_TAB_TYPE" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_FREIGHT_LOG_ENTRY" type="db:XXNUC_FREIGHT_ENTRY_TAB_TYPE" db:index="2" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC_FREIGHT_ENTRY_OBJ">
+      <sequence>
+         <element name="LOG_ENTRY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_1" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_2" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_3" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CLIENT_KEY_4" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STOP_SEQUENCE_NUMBER" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DSM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_REF_NUMBER" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_NAME" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_SCAC" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LINE_HAUL_CHARGE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="FUEL_SURCHARGE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CUSTOMER_NUMBER" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CUSTOMER_ORDER_NUMBER" type="db:string255" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PO_NUMBER" type="db:string255" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_NUMBER" type="db:string255" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ACCESSORIAL_CODE" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="EDI_CODE" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ACCESSORIAL_CHARGE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_COMMENT" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_CLAIM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_COMMENT" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="IS_DELIVERED" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="AUDIT_STATUS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_NAME" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_SCAC" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELIVERING_CARRIER_VENDOR_ID" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GL_ITEM_CODE" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PRO_NUMBER" type="db:string255" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="POPU_SIGNING_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="POD_SIGNING_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_LOG_ENTRY_TAB_TYPE">
+      <sequence>
+         <element name="P_LOG_ENTRY_ITEM" type="db:XXNUC_LOG_ENTRY_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_FREIGHT_ENTRY_TAB_TYPE">
+      <sequence>
+         <element name="P_FREIGHT_LOG_ENTRY_ITEM" type="db:XXNUC_FREIGHT_ENTRY_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC_LOG_ENTRY_OBJ">
+      <sequence>
+         <element name="LOG_ENTRY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="OPERATION_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="OPERATION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_CODE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="RESULT_MESSAGE" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="IS_READ" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_TIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string4000">
+      <restriction base="string">
+         <maxLength value="4000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string50">
+      <restriction base="string">
+         <maxLength value="50"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string75">
+      <restriction base="string">
+         <maxLength value="75"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string255">
+      <restriction base="string">
+         <maxLength value="255"/>
+      </restriction>
+   </simpleType>
+</schema>

@@ -1,0 +1,30 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="GLPayroll_SAP_EBS_ABF"
+     targetNamespace="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF"
+     xmlns:ns1="http://www.example.org"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns2="http://nucor.eia.com"
+    >
+    <plnk:partnerLinkType name="GLPayroll_SAP_EBS_ABF">
+        <plnk:role name="GLPayroll_SAP_EBS_ABFProvider" portType="client:GLPayroll_SAP_EBS_ABF"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://nucor.eia.com/GLPayroll_SAP_EBS_ABF" xmlns:ns1="http://www.example.org"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+            <import namespace="http://www.example.org" schemaLocation="../Schemas/ProcessPayroll.xsd"/>
+        </schema>
+        
+    </wsdl:types>
+    <wsdl:message name="GLPayroll_SAP_EBS_ABFRequestMessage">
+        <wsdl:part name="payload" element="ns1:process"/>
+    </wsdl:message>
+    <wsdl:portType name="GLPayroll_SAP_EBS_ABF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:GLPayroll_SAP_EBS_ABFRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

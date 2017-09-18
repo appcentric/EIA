@@ -1,0 +1,132 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Mar 05 14:50:27 IST 2015
+  Author:  DebasishR
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_EBizMeterReading_ABS"
+               targetNamespace="http://xmlns.oracle.com/NUCOR/NUC_EBizMeterReading_ABS/NUC_EBizMeterReading_ABS"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/NUCOR/NUC_EBizMeterReading_ABS/NUC_EBizMeterReading_ABS"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/O2C/MeterABS/1.0"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/NUCOR/NUC_EBizMeterReading_ABS/OA_MeterReadingEBS"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns3="http://xmlns.eia.com/AO/EBiz/O2C/MeterAM/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/O2C/MeterAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_MeterReadingEBS"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <partnerLink name="MeterABS" partnerLinkType="ns1:MeterABS"
+                 myRole="SyncPortType"/>
+    <partnerLink name="OA_MeterReadingEBS"
+                 partnerLinkType="ns2:OA_MeterReadingEBS_plt"
+                 partnerRole="OA_MeterReadingEBS_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="CreateMeterReading_Sync_SyncReqMsg"
+              messageType="ns1:CreateMeterReadingRequestMessageType"/>
+    <variable name="OA_MeterReadingEBS_SyncReqMsg"
+              messageType="ns2:args_in_msg"/>
+    <variable name="OA_MeterReadingEBS_SyncRespMsg"
+              messageType="ns2:args_out_msg"/>
+    <variable name="CreateMeterReading_Sync_SyncRespMsg"
+              messageType="ns1:CreateMeterReadingResponseMessageType"/>
+  </variables>
+  <faultHandlers>
+    <catchAll><assign name="Set_ReplyMsg"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+        <copy>
+          <from>'E'</from>
+          <to>$CreateMeterReading_Sync_SyncRespMsg.CreateMeterReadingResponseMessage/ns3:OperationalResult/ns7:Stats</to>
+        </copy>
+        <copy>
+          <from>concat('MeterId:',$CreateMeterReading_Sync_SyncReqMsg.CreateMeterReadingRequestMessage/ns3:ListOfMeterReading/ns5:MeterReading/ns5:MeterReadingRec/ns5:MeterId)</from>
+          <to>$CreateMeterReading_Sync_SyncRespMsg.CreateMeterReadingResponseMessage/ns3:OperationalResult/ns7:Warnings/ns7:OperationResultWarning</to>
+        </copy>
+        <copy>
+          <from>ora:getFaultAsString()</from>
+          <to>$CreateMeterReading_Sync_SyncRespMsg.CreateMeterReadingResponseMessage/ns3:OperationalResult/ns7:Errors/ns7:OperationResultError</to>
+        </copy>
+      </assign></catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="CreateMeterReading_Sync_SyncReqMsg"
+                 partnerLink="MeterABS" portType="ns1:SyncPortType"
+                 operation="CreateMeterReading_Sync">
+        <sequence name="Sequence1">
+          <assign name="Xform_CreateMeterReading_Sync_ReqMsg_To_OA_MeterReadingEBS_SyncReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateMeterReading_Sync_ReqMsg_To_OA_MeterReadingEBS_SyncReqMsg.xsl", $CreateMeterReading_Sync_SyncReqMsg.CreateMeterReadingRequestMessage)</from>
+              <to variable="OA_MeterReadingEBS_SyncReqMsg"
+                  part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_MeterReading" partnerLink="OA_MeterReadingEBS"
+                  portType="ns2:OA_MeterReadingEBS_ptt"
+                  operation="OA_MeterReadingEBS"
+                  inputVariable="OA_MeterReadingEBS_SyncReqMsg"
+                  outputVariable="OA_MeterReadingEBS_SyncRespMsg"
+                  xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                  bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+         <bpelx:toProperty name="jca.apps.Username">$CreateMeterReading_Sync_SyncReqMsg.CreateMeterReadingRequestMessage/ns3:AppsContext/ns4:UserName</bpelx:toProperty>
+         <bpelx:toProperty name="jca.apps.Responsibility">$CreateMeterReading_Sync_SyncReqMsg.CreateMeterReadingRequestMessage/ns3:AppsContext/ns4:ResponsibilityName</bpelx:toProperty>
+         <bpelx:toProperty name="jca.apps.ORG_ID">$CreateMeterReading_Sync_SyncReqMsg.CreateMeterReadingRequestMessage/ns3:AppsContext/ns4:OrgId</bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke>
+          <assign name="Set_ReplyMsg">
+            <copy>
+              <from>$OA_MeterReadingEBS_SyncRespMsg.OutputParameters/ns6:X_RETURN_STATUS</from>
+              <to>$CreateMeterReading_Sync_SyncRespMsg.CreateMeterReadingResponseMessage/ns3:OperationalResult/ns7:Stats</to>
+            </copy>
+            <copy>
+              <from>concat('MeterReadingId:',$OA_MeterReadingEBS_SyncRespMsg.OutputParameters/ns6:X_METER_READING_ID,',MeterId:',$CreateMeterReading_Sync_SyncReqMsg.CreateMeterReadingRequestMessage/ns3:ListOfMeterReading/ns5:MeterReading/ns5:MeterReadingRec/ns5:MeterId)</from>
+              <to>$CreateMeterReading_Sync_SyncRespMsg.CreateMeterReadingResponseMessage/ns3:OperationalResult/ns7:Warnings/ns7:OperationResultWarning</to>
+            </copy>
+            <copy ignoreMissingFromData="yes">
+              <from>$OA_MeterReadingEBS_SyncRespMsg.OutputParameters/ns6:X_MSG_DATA</from>
+              <to>$CreateMeterReading_Sync_SyncRespMsg.CreateMeterReadingResponseMessage/ns3:OperationalResult/ns7:Errors/ns7:OperationResultError</to>
+            </copy>
+          </assign><reply name="CreateMeter_Reply"
+                                                 variable="CreateMeterReading_Sync_SyncRespMsg"
+                                                 partnerLink="MeterABS"
+                                                 portType="ns1:SyncPortType"
+                                                 operation="CreateMeterReading_Sync"
+                                                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

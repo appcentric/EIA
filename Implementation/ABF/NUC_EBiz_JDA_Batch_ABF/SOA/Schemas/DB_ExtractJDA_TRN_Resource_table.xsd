@@ -1,0 +1,49 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Resource" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Resource" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxnucGmeJdaTrnResourceStgCollection" type="XxnucGmeJdaTrnResourceStgCollection"/>
+   <xs:complexType name="XxnucGmeJdaTrnResourceStgCollection">
+      <xs:sequence>
+         <xs:element name="XxnucGmeJdaTrnResourceStg" type="XxnucGmeJdaTrnResourceStg" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucGmeJdaTrnResourceStg">
+      <xs:sequence>
+         <xs:element name="recordId" type="xs:decimal"/>
+         <xs:element name="organizationId" type="xs:decimal"/>
+         <xs:element name="resourceId" type="string16"/>
+         <xs:element name="granularity" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="mfgOrderId" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="numberOfParallelSubtasks" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="operationId" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="parallelInd" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="pooledNumberUsed" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="resourc" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="routing" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="simultaneousUsage" type="string16" minOccurs="0" nillable="true"/>
+         <xs:element name="stepNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="ind" type="xs:decimal" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_ExtractJDA_TRN_ResourceSelect_vOrgID_vResourceInputParameters" type="DB_ExtractJDA_TRN_ResourceSelect_vOrgID_vResource"/>
+   <xs:complexType name="DB_ExtractJDA_TRN_ResourceSelect_vOrgID_vResource">
+      <xs:sequence>
+         <xs:element name="vOrgID" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="vResource" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string16">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="16"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

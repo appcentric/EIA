@@ -1,0 +1,55 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_HeatSchedule" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_HeatSchedule" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="Heat_Schedule_StgCollection" type="Heat_Schedule_StgCollection"/>
+   <xs:complexType name="Heat_Schedule_StgCollection">
+      <xs:sequence>
+         <xs:element name="Heat_Schedule_Stg" type="Heat_Schedule_Stg" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Heat_Schedule_Stg">
+      <xs:sequence>
+         <xs:element name="id" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="HeatNumber" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="Location" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="Status" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="PlannedTime" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="Tons" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="HeatStatus" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="RevDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="EndProductSize" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="HeatSpec" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="OracleBatchID" type="xs:long" nillable="true"/>
+         <xs:element name="Process_Status" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="Process_Date" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="Error_Msg" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="GradeID" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="EBS_Product_Code" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="OracleBatchNumber" type="xs:integer" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string150">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="150"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

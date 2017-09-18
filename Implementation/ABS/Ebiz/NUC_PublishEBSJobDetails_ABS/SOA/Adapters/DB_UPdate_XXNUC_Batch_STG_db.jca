@@ -1,0 +1,14 @@
+<adapter-config name="DB_UPdate_XXNUC_Batch_STG" adapter="db" wsdlLocation="../WSDLs/DB_UPdate_XXNUC_Batch_STG.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSConnection" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_UPdate_XXNUC_Batch_STG_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_UPdate_XXNUC_Batch_STG.XxnucGmeBatchStg"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="DB_UPdate_XXNUC_Batch_STG-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

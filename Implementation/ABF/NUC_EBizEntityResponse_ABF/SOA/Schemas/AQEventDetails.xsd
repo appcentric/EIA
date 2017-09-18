@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org"
+            targetNamespace="http://xmlns.eia.com/AQ/Event" elementFormDefault="qualified">
+  <xsd:element name="Event">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="EventName" type="xsd:string"/>
+        <xsd:element name="EventId" type="xsd:integer"/>
+        <xsd:element name="EventDate" type="xsd:string"/>
+        <xsd:element name="parameters">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="trx" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="trx_num" type="xsd:integer"/>
+                    <xsd:element name="status" type="xsd:string"/>
+                    <xsd:element name="msg" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

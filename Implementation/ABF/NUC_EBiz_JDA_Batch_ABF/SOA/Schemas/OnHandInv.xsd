@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" xmlns:tns="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/OnHandInventory/1.0" targetNamespace="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/OnHandInventory/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" nxsd:version="NXSD" nxsd:stream="chars" nxsd:encoding="UTF-8" nxsd:hasHeader="true" nxsd:headerLines="1" nxsd:headerLinesTerminatedBy="${eol}">
+
+  <xsd:element name="OnHandItemList">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="OnHandItemHeader">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="part_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="#part_quantity"/>
+              <xsd:element name="part_quantity_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="part_quantity_uom"/>
+              <xsd:element name="part_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="part_number"/>
+              <xsd:element name="priority" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="priority"/>
+              <xsd:element name="purchase_order_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="purchase_order_number"/>
+              <xsd:element name="vendor" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="vendor"/>
+              <xsd:element name="arrival_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1"/>
+              <xsd:element name="arrival_time_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="arrival_time_format"/>
+              <xsd:element name="expiration_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="${eol}"
+                           nxsd:quotedBy='"' maxOccurs="1" fixed="expiration_time"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="OnHandItem" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="part_quantity" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="part_quantity_uom" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="part_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="priority" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="purchase_order_number" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="vendor" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="arrival_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="arrival_time_format" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="|"
+                           nxsd:quotedBy='"'/>
+              <xsd:element name="expiration_time" type="xsd:string" nxsd:style="terminated" nxsd:terminatedBy="${eol}"
+                           nxsd:quotedBy='"'/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=/Users/dikshasawheny/Documents/SHared/UnassignedInv.csv</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=true</xsd:appinfo>
+   </xsd:annotation>
+ 
+</xsd:schema>

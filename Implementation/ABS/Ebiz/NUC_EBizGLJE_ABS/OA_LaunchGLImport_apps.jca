@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_LaunchGLImport" adapter="apps" wsdlLocation="OA_LaunchGLImport.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBSDEVP" UIOracleAppType="DBOBJECT" adapterRef=""/>
+  <endpoint-interaction portType="OA_LaunchGLImport_ptt" operation="OA_LaunchGLImport">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="PLSQL:XXNUC_GL_INTERFACE_WRAPPER_PK:SUBMIT_GL_IMPORT"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_GL_INTERFACE_WRAPPER_PK"/>
+      <property name="ProcedureName" value="SUBMIT_GL_IMPORT"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

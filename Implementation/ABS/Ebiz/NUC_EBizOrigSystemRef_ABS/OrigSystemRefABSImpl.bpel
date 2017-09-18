@@ -1,0 +1,306 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Aug 21 19:17:11 CDT 2013
+  Author:  Oracle
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="OrigSystemRefABSImpl" targetNamespace="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABSImpl/1.0" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:client="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABSImpl/1.0" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/Test/NUC_EBizOrigSystemRef_ABS/OA_CreateOSR" xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/apps/Test/NUC_EBizOrigSystemRef_ABS/OA_UpdateOSR" xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_EBizOrigSystemRef_ABS/DB_GetOrigSystemRef" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/OrigSystemRefAO/1.0" xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/OrigSystemRefAM/1.0" xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns8="http://xmlns.eia.com/EO/Common/1.0" xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0" xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_CreateOSR">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0" location="oramds:/apps/EIAMetadata/EO/common/Common.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/OrigSystemRefABS/1.0" location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/common/OrigSystemRefABS.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <partnerLinks>
+    <partnerLink name="OrigSystemRefABS" partnerLinkType="ns1:OrigSystemRefABS" myRole="SyncPortType"/>
+    <partnerLink name="OA_CreateOSR" partnerLinkType="ns2:OA_CreateOSR_plt" partnerRole="OA_CreateOSR_role"/>
+    <partnerLink name="OA_UpdateOSR" partnerLinkType="ns3:OA_UpdateOSR_plt" partnerRole="OA_UpdateOSR_role"/>
+    <partnerLink name="DB_GetOrigSystemRef" partnerLinkType="ns4:DB_GetOrigSystemRef_plt" partnerRole="DB_GetOrigSystemRef_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="CreateOSR_SyncReqMsg" messageType="ns1:CreateOSRSyncRequestMessageType"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns8:ProcessHeader"/>
+    <variable name="CreateOSR_SyncRespMsg" messageType="ns1:CreateOSRSyncResponseMessageType"/>
+    <variable name="QueryOSRByExample_SyncReqMsg" messageType="ns1:QueryOSRSyncRequestMessageType"/>
+    <variable name="QueryOSRByExample_SyncRespMsg" messageType="ns1:QueryOSRSyncResponseMessageType"/>
+    <variable name="Invoke_CreateOSR_ReqMsg" messageType="ns2:args_in_msg"/>
+    <variable name="Invoke_CreateOSR_RespMsg" messageType="ns2:args_out_msg"/>
+    <variable name="Invoke_UpdateOSR_ReqMsg" messageType="ns3:args_in_msg"/>
+    <variable name="Invoke_UpdateOSR_RespMsg" messageType="ns3:args_out_msg"/>
+    <variable name="Invoke_QueryOSR_ReqMsg" messageType="ns4:HzOrigSysReferences_msg"/>
+    <variable name="Invoke_QueryOSR_RespMsg" messageType="ns4:HzOrigSysReferencesCollection_msg"/>
+    <variable name="UpdateOSR_SyncRespMsg" messageType="ns1:UpdateOSRSyncResponseMessageType"/>
+    <variable name="UpdateOSR_SyncReqMsg" messageType="ns1:UpdateOSRSyncRequestMessageType"/>
+    <variable name="EIAFaultMsg" messageType="ns1:EIAFaultMsgType"/>
+    <variable name="gbl_Operation" type="xsd:string"/>
+    <variable name="gblTitle" type="xsd:string"/>
+    
+  </variables>
+  <sequence name="main">
+    <pick name="Pick_OSRMessage" createInstance="yes">
+      <onMessage variable="CreateOSR_SyncReqMsg" partnerLink="OrigSystemRefABS" portType="ns1:SyncPortType" operation="CreateOSR_Sync">
+        <sequence name="Create"><assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+   <copy>
+         <from>xp20:current-dateTime()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessStartTime</to>
+      </copy><copy>
+         <from>ora:getComponentName()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessName</to>
+      </copy><copy>
+         <from>ora:getComponentInstanceId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessInstanceID</to>
+      </copy><copy>
+         <from>ora:getProcessVersion()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessRevision</to>
+      </copy><copy>
+         <from>ora:getProcessId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessDN</to>
+      </copy></assign><assign name="SetCompositeInfo">
+            <copy>
+              <from>'CreateOSR_Sync'</from>
+              <to>$gbl_Operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Create OrigSystem  ",$gbl_Operation))</from>
+              <to>$gblTitle</to>
+            </copy>
+          </assign>
+          <assign name="Xform_CreateOSRSyncMsg_OACreateReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateOSRSyncMsg_OACreateReqMsg.xsl", $CreateOSR_SyncReqMsg.CreateOSRSyncRequestMessage)</from>
+              <to variable="Invoke_CreateOSR_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CreateOSR" partnerLink="OA_CreateOSR" portType="ns2:OA_CreateOSR_ptt" operation="OA_CreateOSR" inputVariable="Invoke_CreateOSR_ReqMsg" outputVariable="Invoke_CreateOSR_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$CreateOSR_SyncReqMsg.CreateOSRSyncRequestMessage/ns5:AppsContext/ns6:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$CreateOSR_SyncReqMsg.CreateOSRSyncRequestMessage/ns5:AppsContext/ns6:OrgId</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$CreateOSR_SyncReqMsg.CreateOSRSyncRequestMessage/ns5:AppsContext/ns6:ResponsibilityName</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <if name="IF_CHECK_STATUS_E">
+            <documentation>
+              true
+            </documentation>
+            <condition>$Invoke_CreateOSR_RespMsg.OutputParameters/ns10:X_RETURN_STATUS = 'E'</condition>
+            <sequence name="Sequence3">
+              <assign name="SET_EIAFault_Msg">
+                <copy>
+                  <from>'1.0'</from>
+                  <to>$EIAFaultMsg.Fault/ns8:FaultMessage/ns8:Severity</to>
+                </copy>
+                <copy>
+                  <from>$EIA_HEADER_MESSAGE/ns8:ProcessStartTime</from>
+                  <to>$EIAFaultMsg.Fault/ns8:ReportingDateTime</to>
+                </copy>
+                <copy>
+                  <from>$Invoke_CreateOSR_RespMsg.OutputParameters/ns10:X_MSG_DATA/ns10:X_MSG_DATA_ITEM[1]/ns10:MESSAGE_TEXT</from>
+                  <to>$EIAFaultMsg.Fault/ns8:FaultMessage/ns8:Text</to>
+                </copy>
+                <copy>
+                  <from>$EIA_HEADER_MESSAGE/ns8:ProcessDN</from>
+                  <to>$EIAFaultMsg.Fault/ns8:FaultingService/ns8:ID</to>
+                </copy>
+                <copy>
+                  <from>$EIA_HEADER_MESSAGE/ns8:ProcessInstanceID</from>
+                  <to>$EIAFaultMsg.Fault/ns8:FaultingService/ns8:InstanceID</to>
+                </copy>
+                <copy>
+                  <from>$EIA_HEADER_MESSAGE/ns8:ProcessName</from>
+                  <to>$EIAFaultMsg.Fault/ns8:FaultingService/ns8:Process</to>
+                </copy>
+              </assign>
+              <throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"/>
+            </sequence>
+            <else>
+              <empty name="Empty1"/>
+            </else>
+          </if>
+          <assign name="Xform_CreateOSR_RespMsg_To_CreateOSR_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateOSR_RespMsg_To_CreateOSR_SyncRespMsg.xsl", $Invoke_CreateOSR_RespMsg.OutputParameters)</from>
+              <to variable="CreateOSR_SyncRespMsg" part="CreateOSRSyncResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Reply_CreateOSR_SyncRespMsg" variable="CreateOSR_SyncRespMsg" partnerLink="OrigSystemRefABS" portType="ns1:SyncPortType" operation="CreateOSR_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="UpdateOSR_SyncReqMsg" partnerLink="OrigSystemRefABS" portType="ns1:SyncPortType" operation="UpdateOSR_Sync"><sequence name="Update"><assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+   <copy>
+         <from>xp20:current-dateTime()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessStartTime</to>
+      </copy><copy>
+         <from>ora:getComponentName()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessName</to>
+      </copy><copy>
+         <from>ora:getComponentInstanceId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessInstanceID</to>
+      </copy><copy>
+         <from>ora:getProcessVersion()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessRevision</to>
+      </copy><copy>
+         <from>ora:getProcessId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessDN</to>
+      </copy></assign><assign name="SetCompositeInfo" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from>'UpdateOSR_Sync'</from>
+         <to>$gbl_Operation</to>
+      </copy><copy>
+         <from>ora:setCompositeInstanceTitle(concat("Update OrigSystem  ",$gbl_Operation))</from>
+         <to>$gblTitle</to>
+      </copy></assign><assign name="Xform_UpdateOSR_SyncReqMsg_To_Invoke_UpdateOSR_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_UpdateOSR_SyncReqMsg_To_Invoke_UpdateOSR_ReqMsg.xsl", $UpdateOSR_SyncReqMsg.UpdateOSRSyncRequestMessage)</from>
+              <to variable="Invoke_UpdateOSR_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_UpdateOSR" partnerLink="OA_UpdateOSR" portType="ns3:OA_UpdateOSR_ptt" operation="OA_UpdateOSR" inputVariable="Invoke_UpdateOSR_ReqMsg" outputVariable="Invoke_UpdateOSR_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$UpdateOSR_SyncReqMsg.UpdateOSRSyncRequestMessage/ns5:AppsContext/ns6:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$UpdateOSR_SyncReqMsg.UpdateOSRSyncRequestMessage/ns5:AppsContext/ns6:OrgId</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility" variable="UpdateOSR_SyncReqMsg" part="UpdateOSRSyncRequestMessage"><bpelx:query>ns5:AppsContext/ns6:ResponsibilityName</bpelx:query></bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_UpdateOSR_RespMsg_To_UpdateOSR_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_UpdateOSR_RespMsg_To_UpdateOSR_SyncRespMsg.xsl", $Invoke_UpdateOSR_RespMsg.OutputParameters)</from>
+              <to variable="UpdateOSR_SyncRespMsg" part="UpdateOSRSyncResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Reply_UpdateOSR_SyncRespMsg" variable="UpdateOSR_SyncRespMsg" partnerLink="OrigSystemRefABS" portType="ns1:SyncPortType" operation="UpdateOSR_Sync"/>
+        </sequence></onMessage>
+      <onMessage variable="QueryOSRByExample_SyncReqMsg" partnerLink="OrigSystemRefABS" portType="ns1:SyncPortType" operation="QueryOSRByExample_Sync"><sequence name="Query" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"><assign name="SetEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+   <copy>
+         <from>xp20:current-dateTime()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessStartTime</to>
+      </copy><copy>
+         <from>ora:getComponentName()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessName</to>
+      </copy><copy>
+         <from>ora:getComponentInstanceId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessInstanceID</to>
+      </copy><copy>
+         <from>ora:getProcessVersion()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessRevision</to>
+      </copy><copy>
+         <from>ora:getProcessId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns8:ProcessDN</to>
+      </copy></assign><assign name="SetCompositeInfo" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from>'QueryOSRByExample_Sync'</from>
+         <to>$gbl_Operation</to>
+      </copy><copy>
+         <from>ora:setCompositeInstanceTitle(concat("Query OrigSystem By Example ",$gbl_Operation))</from>
+         <to>$gblTitle</to>
+      </copy></assign>
+          <if name="If1">
+            <documentation>
+              Empty Query
+            </documentation>
+            <condition>(($QueryOSRByExample_SyncReqMsg.QueryOSRSyncRequestMessage/ns5:OrigSystemRefs/ns7:BasicOrigSystemRef/ns7:OrigSystem !="") and ($QueryOSRByExample_SyncReqMsg.QueryOSRSyncRequestMessage/ns5:OrigSystemRefs/ns7:BasicOrigSystemRef/ns7:OrigSystemReference !="")) or (($QueryOSRByExample_SyncReqMsg.QueryOSRSyncRequestMessage/ns5:OrigSystemRefs/ns7:ObjectId !="") and ($QueryOSRByExample_SyncReqMsg.QueryOSRSyncRequestMessage/ns5:OrigSystemRefs/ns7:ObjectType !=""))</condition>
+            <sequence name="Sequence2">
+              <assign name="Xform_QuryOSRByExample_SyncReqMsg_To_Invoke_QueryOSR_ReqMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/Xform_QuryOSRByExample_SyncReqMsg_To_Invoke_QueryOSR_ReqMsg.xsl", $QueryOSRByExample_SyncReqMsg.QueryOSRSyncRequestMessage)</from>
+                  <to variable="Invoke_QueryOSR_ReqMsg" part="HzOrigSysReferences"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_QueryOSR" partnerLink="DB_GetOrigSystemRef" portType="ns4:DB_GetOrigSystemRef_ptt" operation="queryByExample" inputVariable="Invoke_QueryOSR_ReqMsg" outputVariable="Invoke_QueryOSR_RespMsg" bpelx:invokeAsDetail="no"/>
+              <assign name="QueryOSR_RespMsg_To_QueryOSRByExample_syncRespMsg">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"/>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("xsl/QueryOSR_RespMsg_To_QueryOSRByExample_syncRespMsg.xsl", $Invoke_QueryOSR_RespMsg.HzOrigSysReferencesCollection)</from>
+                  <to variable="QueryOSRByExample_SyncRespMsg" part="QueryOSRSyncResponseMessage"/>
+                </copy>
+              </assign>
+              <reply name="Reply_QueryOSRByExample_SyncRespMsg" variable="QueryOSRByExample_SyncRespMsg" partnerLink="OrigSystemRefABS" portType="ns1:SyncPortType" operation="QueryOSRByExample_Sync"/>
+            </sequence>
+            <else>
+              <sequence>
+                <assign name="Set_EIAFaultMsg">
+                  <copy>
+                    <from>'Invalid Query Params'</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultMessage/ns8:Code</to>
+                  </copy>
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters"</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultMessage/ns8:Stack</to>
+                  </copy>
+                  <copy>
+                    <from>'1.0'</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultMessage/ns8:Severity</to>
+                  </copy>
+                  <copy>
+                    <from>'Invalid combinations of Query Parameters or Missing Query Parameters'</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultMessage/ns8:Text</to>
+                  </copy>
+                  <copy>
+                    <from>$EIA_HEADER_MESSAGE/ns8:ProcessStartTime</from>
+                    <to>$EIAFaultMsg.Fault/ns8:ReportingDateTime</to>
+                  </copy>
+                  <copy>
+                    <from>$EIA_HEADER_MESSAGE/ns8:ProcessDN</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultingService/ns8:ID</to>
+                  </copy>
+                  <copy>
+                    <from>$EIA_HEADER_MESSAGE/ns8:ProcessInstanceID</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultingService/ns8:InstanceID</to>
+                  </copy>
+                  <copy>
+                    <from>$EIA_HEADER_MESSAGE/ns8:ProcessName</from>
+                    <to>$EIAFaultMsg.Fault/ns8:FaultingService/ns8:Process</to>
+                  </copy>
+                </assign>
+                <throw name="Throw_EIAFault" faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"/>
+              </sequence>
+            </else>
+          </if>
+   </sequence></onMessage>
+    </pick>
+  </sequence>
+</process>

@@ -1,0 +1,33 @@
+<wsdl:definitions
+     name="PL_DB_Call_EBS_PKG"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/MFT/NUC_ePayResponse_MFT_EBiz_ABF/PL_DB_Call_EBS_PKG"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/MFT/NUC_ePayResponse_MFT_EBiz_ABF/PL_DB_Call_EBS_PKG"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/PL_DB_Call_EBS_PKG"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="PL_DB_Call_EBS_PKG_plt" >
+    <plt:role name="PL_DB_Call_EBS_PKG_role" >
+      <plt:portType name="tns:PL_DB_Call_EBS_PKG_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+     <schema xmlns="http://www.w3.org/2001/XMLSchema">
+       <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/PL_DB_Call_EBS_PKG"
+               schemaLocation="../Schemas/PL_DB_Call_EBS_PKG_sp.xsd" />
+     </schema>
+    </wsdl:types>
+    <wsdl:message name="args_in_msg">
+        <wsdl:part name="InputParameters" element="db:InputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="args_out_msg">
+        <wsdl:part name="OutputParameters" element="db:OutputParameters"/>
+    </wsdl:message>
+    <wsdl:portType name="PL_DB_Call_EBS_PKG_ptt">
+        <wsdl:operation name="PL_DB_Call_EBS_PKG">
+            <wsdl:input message="tns:args_in_msg"/>
+            <wsdl:output message="tns:args_out_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,225 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>AP Invoices<spinner [visible]="loading"></spinner></h1>
+            <div *ngIf="warning">
+                <div *ngIf="!form.controls['APInvoice'].valid&&form.controls['APInvoice'].touched" class="alert alert-danger">
+                    Please type a valid invoice number. This will likely be between 5 and 7 digits. Example: "7500000"
+                    <button pButton style="color:#a94442;background-color:#F17676;border-color:#BA2222;" label="Close" (click)="closeWarning()" ></button>
+                </div>
+            </div>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <form class="ui-toolbar-group-left" [formGroup]="form">
+                            <span class="md-inputfield" style="float:left">
+                                <input  type="text" size="30" #invoiceNumber formControlName="APInvoice" id="APInvoice" pInputText>
+                                <label>Invoice Number</label>
+                            </span>
+                            <button pButton icon="ui-icon-send" label="Submit" [disabled]="!form.valid"  (click)="submit(invoiceNumber.value)"></button>
+                        </form>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="ui-widget-header ui-helper-clearfix" style="padding:4px 10px;border-bottom: 0 none">
+                <i class="fa fa-search" style="float:left;margin:4px 4px 0 0"></i>
+                <input type="text" #globalFilter pInputText size="50" style="float:left" placeholder="Global Search">
+                <input type="text" #invoiceNumber pInputText size="20" placeholder="Invoice Number">
+                <button type="button" pButton icon="fa fa-paper-plane" iconPos="left" label="Submit" (click)="submit(invoiceNumber.value)"></button>
+                <button type="button" pButton icon="fa-file-o" iconPos="left" label="Export as CSV" (click)="exportCSV.exportCSV()" style="float:right"></button>
+            </div> -->
+            <!--HAD TO REMOVE resizableColumns="true" as it caused an error with styleClass for Details -->
+            <p-dataTable #exportCSV [value]="APInvoices" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true">
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <p-column field="InvoiceId" header="Invoice ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ShipmentID" header="Shipment ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AccountWgtRefID" header="Scale Connect Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="TotalAmt" header="Total Amount" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MaterialAmt" header="Material Amount" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CommisionAmt" header="Commision Amount" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="InvWgtLB" header="Invoice Weight LB" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <!-- These columns are hidden so that they show up on the ExportCSV. They also have the filter so that they can be searched when multiple invoices are shown-->
+                <p-column field="ChangeVersionID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="InvoiceTypeCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="InvoiceTypeCodeName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AdjCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AdjCodeName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="EntityID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="EntityName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="EntityRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="EntityInvoiceRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="InvoiceDate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DueDate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="InvoiceStatusID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="InvoiceStatusName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ShipmentLine" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="FrtAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DeadFrtAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="FrtDifferential" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MiscChgAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DiscountAmt" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CargoNum" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="Remarks" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeChildTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="BizType" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <template let-APInvoice>
+                    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-grid-row">
+                        <!-- Adds search icon to display Dialog box -->
+            <!--                 <div class="ui-grid-col-3" style="text-align:center">
+                                <i class="fa fa-search" (click)="showAPInvoice(apinvoice)" style="cursor:pointer;float:left;margin-top:40px"></i>
+                            </div> -->
+                            <div class="ui-grid-col-12">
+                                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Invoice ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvoiceId}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Change Version ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.ChangeVersionID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Invoice Type Code: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvoiceTypeCode}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Invoice Type Code Name: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvoiceTypeCodeName}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Adjustment Code: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.AdjCode}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Adjustment Code Name: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.AdjCodeName}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Entity ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.EntityID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Entity Name: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.EntityName}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Entity Ref ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.EntityRefID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Entity Invoice Ref ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.EntityInvoiceRefID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Invoice Date: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvoiceDate | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Due Date: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.DueDate | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Invoice Status ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvoiceStatusID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Invoice Status Name: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvoiceStatusName}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Shipment ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.ShipmentID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Shipment Line: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.ShipmentLine}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Scale Connect Ticket #: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.AccountWgtRefID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Total Amt: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.TotalAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Material Amt: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.MaterialAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Commision Amt: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.CommisionAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Freight Amt: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.FrtAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Dead Freight Amt: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.DeadFrtAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Freight Differential: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.FrtDifferential}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Miscellaneous Charge Amount: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.MiscChgAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Discount Amt: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.DiscountAmt | currency:'USD':true:'1.2-2'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Invoice Weight LB: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.InvWgtLB}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Cargo Num: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.CargoNum}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Remarks: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.Remarks}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Created Date: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.CreatedDate | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Last Updated Date: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.LastUpdatedDate | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Data Change Type ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.DataChangeTypeID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Data Change Child Type ID: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.DataChangeChildTypeID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Biz Type: </div>
+                                        <div class="ui-grid-col-6">{{APInvoice.BizType}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

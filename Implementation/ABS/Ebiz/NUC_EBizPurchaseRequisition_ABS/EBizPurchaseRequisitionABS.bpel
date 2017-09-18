@@ -1,0 +1,215 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Mar 05 23:43:46 IST 2014
+  Author:  nile
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBizPurchaseRequisitionABS" targetNamespace="http://xmlns.eia.com/ABS/EBiz/P2P/PurchaseRequisitionABS/1.0" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:client="http://xmlns.eia.com/ABS/EBiz/P2P/PurchaseRequisitionABS/1.0" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/PurchaseRequisitionABS/1.0" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns2="http://xmlns.eia.com/EO/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/apps/TestApps/NUC_EBizPurchaseRequisition_ABS/OA_CreateRequistionsEBS" xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAM/1.0" xmlns:ns6="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0" xmlns:ns8="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseRequisitionAO/1.0" xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0" location="oramds:/apps/EIAMetadata/EO/common/Common.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="PurchaseRequisitionABS" partnerLinkType="ns1:EBizPurchaseRequisitionABS" myRole="SyncPortType"/>
+    <partnerLink name="OA_CreateRequistionsEBS" partnerLinkType="ns3:OA_CreateRequistionsEBS_plt" partnerRole="OA_CreateRequistionsEBS_role"/>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcessV1" partnerLinkType="ns6:EIAAsyncErrorHandlingBPELProcess" partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="CreatePurchaseRequisition_ReqMsg" messageType="ns1:CreatePurchaseRequisitionRequestMessageType"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="CreatePurchaseRequisition_RespMsg" messageType="ns1:CreatePurchaseRequisitionResponseMessageType"/>
+    <variable name="EIAFaultMsg" messageType="ns1:EIAFaultMsgType"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns2:ProcessHeader"/>
+    <variable name="gbl_operation" type="xsd:string"/>
+    <variable name="gbl_title" type="xsd:string"/>
+    <variable name="Invoke_OA_CreateRequistionsEBS_ReqMsg" messageType="ns3:PoRequisitionsInterfaceAllCollection_msg"/>
+    <variable name="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg" messageType="ns6:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="CancelPurchaseRequisition_Sync_ReqMsg" messageType="ns1:CancelPurchaseRequisitionRequestMessageType"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="ns1:EIAFault" faultVariable="EIAFaultMsg" faultMessageType="ns1:EIAFaultMsgType">
+      <sequence name="Sequence2">
+        <assign name="Xform_EIAFaultMsg_To_Invoke_EIAAsyncErrorHandlingBPELProcess">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/Xform_EIAFaultMsg_To_Invoke_EIAAsyncErrorHandlingBPELProcess.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>
+            Operation is Create Requisition
+          </documentation>
+          <condition>$gbl_operation = "CreateRequisition_Sync"</condition>
+          <sequence name="CreateRequisition_Sync">
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcessV1" bpelx:invokeAsDetail="no" partnerLink="EIAAsyncErrorHandlingBPELProcessV1" portType="ns6:EIAAsyncErrorHandlingBPELProcess" operation="processFault" inputVariable="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg"/>
+            <reply name="Reply1" variable="EIAFaultMsg" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CreatePurchaseRequisition_Sync" faultName="ns1:EIAFault"/>
+          </sequence>
+          <else>
+            <documentation>
+              Operation is Cancel Requisition
+            </documentation>
+            <sequence name="Sequence3"><invoke name="Invoke_EIAAsyncErrorHandlingBPELProcessV1" bpelx:invokeAsDetail="no" partnerLink="EIAAsyncErrorHandlingBPELProcessV1" portType="ns6:EIAAsyncErrorHandlingBPELProcess" operation="processFault" inputVariable="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><reply name="Reply1" variable="EIAFaultMsg" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CreatePurchaseRequisition_Sync" faultName="ns1:EIAFault" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></else>
+        </if>
+      </sequence>
+    </catch>
+    <catchAll><sequence name="Sequence4"><assign name="SetEIAFaultMsg"><copy><from>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</from><to>$EIAFaultMsg.Fault/ns2:ReportingDateTime</to></copy><copy><from>eia:getEIAServiceProperty('NUC_EBizPurchaseRequisitionABS','ERROR_CORRECTION_RECOMMENDATION')</from><to>$EIAFaultMsg.Fault/ns2:CorrectiveAction</to></copy><copy><from>$EIA_HEADER_MESSAGE/ns2:ProcessName</from><to>$EIAFaultMsg.Fault/ns2:FaultingService/ns2:Process</to></copy><copy><from>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</from><to>$EIAFaultMsg.Fault/ns2:FaultingService/ns2:InstanceID</to></copy></assign><assign name="Xform_EIAFaultMsg_To_Invoke_EIAAsyncErrorHandlingBPELProcess" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("xsl/Xform_EIAFaultMsg_To_Invoke_EIAAsyncErrorHandlingBPELProcess.xsl", $EIAFaultMsg.Fault)</from>
+         <to variable="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg" part="FaultMessage"/>
+      </copy>
+   </assign><if name="On_Operation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <documentation>
+         Operation is Create Requisition
+      </documentation>
+      <condition>$gbl_operation = "CreateRequisition_Sync"</condition>
+      <sequence name="CreateRequisition_Sync">
+         <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcessV1" bpelx:invokeAsDetail="no" partnerLink="EIAAsyncErrorHandlingBPELProcessV1" portType="ns6:EIAAsyncErrorHandlingBPELProcess" operation="processFault" inputVariable="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>
+         <reply name="Reply1" variable="EIAFaultMsg" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CreatePurchaseRequisition_Sync" faultName="ns1:EIAFault"/>
+      </sequence>
+      <else>
+         <documentation>
+            Operation is Cancel Requisition
+         </documentation>
+         <sequence name="Sequence3">
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcessV1" bpelx:invokeAsDetail="no" partnerLink="EIAAsyncErrorHandlingBPELProcessV1" portType="ns6:EIAAsyncErrorHandlingBPELProcess" operation="processFault" inputVariable="Invoke_EIAAsyncErrorHandlingBPELProcessV1_ReqMsg" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            <reply name="Reply1" variable="EIAFaultMsg" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CreatePurchaseRequisition_Sync" faultName="ns1:EIAFault" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+         </sequence>
+      </else>
+   </if></sequence></catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in EBizPurchaseRequisitionABS.wsdl) -->
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="CreatePurchaseRequisition_ReqMsg" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CreatePurchaseRequisition_Sync">
+        <sequence name="Create_PurchaseRequisition">
+        <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>"CreateRequisition_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Purchase Requisition ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Xform_CreatePurchaseRequisition_ReqMsg_To_Invoke_OA_CreateRequisitionEBS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreatePurchaseRequisition_ReqMsg_To_Invoke_OA_CreateRequisitionEBS_ReqMsg.xsl", $CreatePurchaseRequisition_ReqMsg.CreatePurchaseRequisitionRequestMessage)</from>
+              <to variable="Invoke_OA_CreateRequistionsEBS_ReqMsg" part="PoRequisitionsInterfaceAllCollection"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_CreateRequistionsEBS" partnerLink="OA_CreateRequistionsEBS" portType="ns3:OA_CreateRequistionsEBS_ptt" operation="insert" inputVariable="Invoke_OA_CreateRequistionsEBS_ReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username" variable="CreatePurchaseRequisition_ReqMsg" part="CreatePurchaseRequisitionRequestMessage"><bpelx:query>ns4:AppsContext/ns7:UserName</bpelx:query></bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID" variable="CreatePurchaseRequisition_ReqMsg" part="CreatePurchaseRequisitionRequestMessage"><bpelx:query>ns4:AppsContext/ns7:OrgId</bpelx:query></bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility" variable="CreatePurchaseRequisition_ReqMsg" part="CreatePurchaseRequisitionRequestMessage"><bpelx:query>ns4:AppsContext/ns7:ResponsibilityName</bpelx:query></bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Set_CreatePurchaseRequisition_RespMsg">
+            <copy>
+              <from>'S'</from>
+              <to>$CreatePurchaseRequisition_RespMsg.CreatePurchaseRequisitionResponseMessage/ns4:OperationResult/ns5:Stats</to>
+            </copy>
+          </assign>
+          <reply name="Reply_CreatePurchaseRequisition" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CreatePurchaseRequisition_Sync" variable="CreatePurchaseRequisition_RespMsg"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="CancelPurchaseRequisition_Sync_ReqMsg" partnerLink="PurchaseRequisitionABS" portType="ns1:SyncPortType" operation="CancelPurchaseRequisition_Sync"><sequence name="Cancel_PurchaseRequisition"><assign name="setEHM" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>xp20:current-dateTime()</from>
+         <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+      </copy>
+      <copy>
+         <from>ora:getCompositeName()</from>
+         <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+      </copy>
+      <copy>
+         <from>ora:getComponentInstanceId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+      </copy>
+      <copy>
+         <from>ora:getProcessVersion()</from>
+         <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+      </copy>
+      <copy>
+         <from>ora:getProcessId()</from>
+         <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+      </copy>
+   </assign><assign name="setCompositeInformation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>"CancelRequisition_Sync"</from>
+         <to>$gbl_operation</to>
+      </copy>
+      <copy>
+         <from>ora:setCompositeInstanceTitle(concat("Purchase Requisition ",$gbl_operation))</from>
+         <to>$gbl_title</to>
+      </copy>
+   </assign>
+          <throw name="Throw_EIAFault" faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"/>
+        </sequence></onMessage>
+    </pick>
+
+    <!-- Generate reply to synchronous request -->
+  </sequence>
+</process>

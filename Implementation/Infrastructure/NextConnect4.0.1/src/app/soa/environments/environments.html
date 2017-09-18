@@ -1,0 +1,76 @@
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>SOA Environments</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button [disabled]="!environments" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <p-dataTable [value]="environments" [responsive]="true" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" #exportCSV #dt>
+                <p-header>
+                    <div style="text-align:left">
+                        <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+                    </div>
+                </p-header>
+                <p-column field="soadomain" header="SOA" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-environment="rowData" pTemplate="body">
+                        <div class="ui-g-12" style="text-align:center">
+                            <div>    
+                                <a href="{{environment.url_prefix}}{{environment.admin_server}}{{environment.nucor_domain}}{{environment.admin_port}}{{environment.em}}" target="_blank">
+                                    <button pButton type="button" label="Enterprise Manager" style="margin-bottom:10px"></button>
+                                </a>
+                            </div>
+                            <div>    
+                                <a href="{{environment.url_prefix}}{{environment.admin_server}}{{environment.nucor_domain}}{{environment.admin_port}}{{environment.console}}" target="_blank">
+                                    <button pButton type="button" label="Weblogic Admin Console" style="margin-bottom:10px"></button>
+                                </a>
+                            </div>
+                            <div>    
+                                <a href="{{environment.url_prefix}}{{environment.soa_server1}}{{environment.nucor_domain}}{{environment.service_port}}{{environment.common_logging}}" target="_blank">
+                                    <button pButton type="button" label="Common Logging" style="margin-bottom:10px"></button>
+                                </a>
+                            </div>
+                            <div>    
+                                <a href="{{environment.url_prefix}}{{environment.soa_server1}}{{environment.nucor_domain}}{{environment.service_port}}{{environment.dvm}}"  target="_blank">
+                                    <button pButton type="button" label="SOA Composer / DVM" style="margin-bottom:10px"></button>
+                                </a>
+                            </div>
+                            <div>    
+                                <a href="{{environment.url_prefix}}{{environment.soa_server1}}{{environment.nucor_domain}}{{environment.service_port}}{{environment.nextconnect}}" target="_blank">
+                                    <button pButton type="button" label="NextConnect" style="margin-bottom:10px"></button>
+                                </a>
+                            </div>
+                        </div>
+                    </ng-template>                    
+                </p-column>
+                <p-column field="ebsdomain" header="EBS" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-environment="rowData" pTemplate="body">
+                         <a href="{{environment.ebs_url}}" target="_blank">{{environment[col.field]}}</a>
+                    </ng-template>
+                </p-column>
+                <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card">
+            <div class="iframe-responsive">
+                <iframe src="https://nucor.app.box.com/embed/s/0t1s8a1nlsytra3t64bv063vq942b4li" width="500" height="281" scrolling="no" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>

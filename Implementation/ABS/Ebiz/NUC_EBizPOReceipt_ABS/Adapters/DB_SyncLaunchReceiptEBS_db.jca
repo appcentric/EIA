@@ -1,0 +1,13 @@
+<adapter-config name="DB_SyncLaunchReceiptEBS" adapter="db" wsdlLocation="../DB_SyncLaunchReceiptEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSDev_Apps" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DB_SyncLaunchReceiptEBS_ptt" operation="DB_SyncLaunchReceiptEBS">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_PO_RCV_CREATION_PKG"/>
+      <property name="ProcedureName" value="SYNC_LAUNCH_ONLINE_RECEIPTS"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

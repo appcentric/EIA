@@ -1,0 +1,30 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="QualityData_QMOS_EBS_ABF"
+     targetNamespace="http://xmlns.eia.com/ABF/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS_ABF"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.eia.com/ABF/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS_ABF"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="QualityData_QMOS_EBS_ABF">
+        <plnk:role name="QualityData_QMOS_EBS_ABFProvider" portType="client:QualityData_QMOS_EBS_ABF"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.eia.com/ABF/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS_ABF"
+                 schemaLocation="../Schemas/QualityData_QMOS_EBS_ABF.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="QualityData_QMOS_EBS_ABFRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="QualityData_QMOS_EBS_ABF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:QualityData_QMOS_EBS_ABFRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

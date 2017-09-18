@@ -1,0 +1,48 @@
+Please execute in the following Sequence 
+
+
+A ) Connect as SYSTEM ( if schema is already created GO TO Section "B" )
+1.xxnuc_comm_schema.sql
+
+
+B) Do a search and replace on <schema_name> with the appropriate Env Schema Name in the following scripts -
+
+1.xxnuc_comm_audit_log_pkg_pkb.sql
+	Look for the line - "SYS.dbms_aq.enqueue(queue_name => '<schema_name>.ALL_NOTIFICATION_Q', enqueue_options => enqueue_options, message_properties => eq_message_properties, payload => P_MESSAGE, msgid => eq_message_handle);"
+
+2.xxnuc_comm_Dequeue_email.sql
+	Look for the line - "SYS.dbms_aq.enqueue ( queue_name => '<schema_name>.EmailNotification_Q', enqueue_options => enqueue_options, message_properties => enq_message_properties, payload => enqueue_message, msgid => enq_message_handle ) ;"
+
+For redeployments only, Stop the schedulers using the below script -
+------------------------------------------------------------
+BEGIN
+dbms_scheduler.stop_job (job_name => 'Dequeue_Audit_Log_job');
+dbms_scheduler.stop_job (job_name => 'Dequeue_email_job');
+END;
+/
+------------------------------------------------------------
+and then execute the sqls mentioned in Step B. (Schedulers will auto start after 30secs)
+
+
+C) Connect as xxnuc_logging
+1.xxnuc_comm_tab.sql
+2.xxnuc_comm_typ.sql
+3.xxnuc_comm_idx.sql
+4.xxnuc_comm_v.sql
+5.xxnuc_comm_seq.sql
+6.xxnuc_multi_replace.sql
+7.xxnuc_token.sql
+8.xxnuc_comm_audit_log_pkg_pks.sql
+9.xxnuc_comm_audit_log_pkg_pkb.sql
+10.xxnuc_comm_inserts_updates.sql
+11.xxnuc_comm_msgs_insert.sql
+12.xxnuc_comm_audit_log.sql
+
+
+D) If required, tune the frequency of the scheduler. Default set to 30 secs. 
+1.xxnuc_comm_Dequeue_Audit_Log.sql
+2.xxnuc_comm_Dequeue_email.sql
+
+----------------------------------------------------------------------------------
+--------------------------------------------------------------------
+

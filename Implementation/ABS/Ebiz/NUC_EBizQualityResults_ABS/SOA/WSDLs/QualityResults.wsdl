@@ -1,0 +1,34 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="QualityResults"
+     targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+     xmlns:ns1="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns2="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="QualityResults">
+        <plnk:role name="QualityResultsProvider" portType="client:QualityResults"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/D2S/V1.0/QualityResultsAM.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="QualityResultsRequestMessage">
+        <wsdl:part name="payload" element="ns1:QualityResultsAddRq"/>
+    </wsdl:message>
+    <wsdl:message name="QualityResultsResponseMessage">
+        <wsdl:part name="payload" element="ns1:QualityResultsAddRs"/>
+    </wsdl:message>
+    <wsdl:portType name="QualityResults">
+        <wsdl:operation name="Create">
+            <wsdl:input message="client:QualityResultsRequestMessage"/>
+            <wsdl:output message="client:QualityResultsResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

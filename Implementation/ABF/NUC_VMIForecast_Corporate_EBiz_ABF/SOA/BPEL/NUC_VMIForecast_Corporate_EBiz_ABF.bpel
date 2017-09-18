@@ -1,0 +1,361 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu May 19 12:36:43 CDT 2016
+  Author:  sreepathi.kuriti
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_VMIForecast_Corporate_EBiz_ABF"
+         targetNamespace="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:ns1="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns2="http://www.nucor.com/scmschemas/VMICustomerForecastLoad.xsd"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.eia.com/ABF/CustForecast_ABF/1.0/CustForecast"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/Test/NUC_VMIForecast_Corporate_EBiz_ABF/DB_LoadVMICustForeCast">
+  <import namespace="http://www.nucor.com/scmschemas/VMICustomerForecastLoad.xsd"
+          location="oramds:/apps/EIAMetadata/AO/Corporate/O2C/Orders/V1.0/VMICustomerForeCast.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true"
+          namespace="http://xmlns.eia.com/Test/NUC_VMIForecast_Corporate_EBiz_ABF/NUC_VMIForecast_Corporate_EBiz_ABF"
+          location="../WSDLs/NUC_VMIForecast_Corporate_EBiz_ABF.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="nuc_vmiforecast_corporate_ebiz_abf_client"
+                 partnerLinkType="client:NUC_VMIForecast_Corporate_EBiz_ABF"
+                 myRole="NUC_VMIForecast_Corporate_EBiz_ABFProvider"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns1:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_LoadVMICustForeCast" partnerLinkType="ns4:DB_LoadVMICustForeCast_plt"
+                 partnerRole="DB_LoadVMICustForeCast_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:NUC_VMIForecast_Corporate_EBiz_ABFRequestMessage"/>
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:NUC_VMIForecast_Corporate_EBiz_ABFResponseMessage"/>
+    <variable name="gParsedVMIItems" element="ns2:forecastitems"/>
+    <variable name="goutput" element="ns2:responsemessage"/>
+    <variable name="Invoke_LoadVMICustForeCast_insert_InputVariable"
+              messageType="ns4:XxnucDemVmifcstInboundStgCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_ErrorLog">
+        <scope name="ScopeCommonLog">
+          <variables>
+            <variable name="Invoke_CommonLogging_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence name="Sequence2">
+            <assign name="Assign_Error">
+              <copy>
+                <from>ora:getComponentInstanceId()</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I047'</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'LoadVMICustForeCastInfo'</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>26</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),' ','Error:',' ',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_Error_CommonLogging" partnerLink="CommonLogging" portType="ns1:CommonLogging"
+                    operation="process" inputVariable="Invoke_CommonLogging_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+        <assign name="Assign_ErrorMessage">
+          <copy>
+            <from>'ERROR'</from>
+            <to>$goutput/status</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$goutput/message</to>
+          </copy>
+          <copy>
+            <from>oraext:get-content-as-string($goutput)</from>
+            <to>$outputVariable.payload</to>
+          </copy>
+        </assign>
+        <reply name="Reply_ErrorMessage" variable="outputVariable"
+               partnerLink="nuc_vmiforecast_corporate_ebiz_abf_client"
+               portType="client:NUC_VMIForecast_Corporate_EBiz_ABF" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in NUC_VMIForecast_Corporate_EBiz_ABF.wsdl) -->
+    <receive name="receiveInput" partnerLink="nuc_vmiforecast_corporate_ebiz_abf_client"
+             portType="client:NUC_VMIForecast_Corporate_EBiz_ABF" operation="process" variable="inputVariable"
+             createInstance="yes"/>
+    <scope name="Scope_StartLog">
+      <variables>
+        <variable name="Invoke_CommonLogging_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="SequenceStartLog">
+        <assign name="Assign_StartLog">
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string(ora:getComponentInstanceId()))</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I047'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'LoadVMICustForeCastInfo'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>26</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke__Start_CommonLogging" partnerLink="CommonLogging" portType="ns1:CommonLogging"
+                operation="process" inputVariable="Invoke_CommonLogging_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Assign_Input">
+      <copy>
+        <from>oraext:parseXML($inputVariable.payload)</from>
+        <to>$gParsedVMIItems</to>
+      </copy>
+    </assign>
+    <assign name="XForm_VMICustForeCast">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/XForm_VMICustForeCast.xsl", $gParsedVMIItems)</from>
+        <to variable="Invoke_LoadVMICustForeCast_insert_InputVariable" part="XxnucDemVmifcstInboundStgCollection"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_LoadVMICustForeCast" partnerLink="DB_LoadVMICustForeCast"
+            portType="ns4:DB_LoadVMICustForeCast_ptt" operation="insert"
+            inputVariable="Invoke_LoadVMICustForeCast_insert_InputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Assign_SuccessMessage">
+      <copy>
+        <from>'SUCCESS'</from>
+        <to>$goutput/status</to>
+      </copy>
+      <copy>
+        <from>oraext:get-content-as-string($goutput)</from>
+        <to>$outputVariable.payload</to>
+      </copy>
+    </assign>
+    <scope name="Scope_EndLog">
+      <variables>
+        <variable name="Invoke_CommonLogging_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="SequenceStartLog">
+        <assign name="Assign_EndLog">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I047'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'LoadVMICustForeCastInfo'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>26</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns1:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_End_CommonLogging" partnerLink="CommonLogging" portType="ns1:CommonLogging"
+                operation="process" inputVariable="Invoke_CommonLogging_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="nuc_vmiforecast_corporate_ebiz_abf_client"
+           portType="client:NUC_VMIForecast_Corporate_EBiz_ABF" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

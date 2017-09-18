@@ -1,0 +1,63 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/FIPosting_SOA_Application/FI_Posting_Project/BPELProcess"
+     xmlns="http://www.w3.org/2001/XMLSchema">
+    <!--include schemaLocation="nuepay_posting.xsd"/-->
+    <element name="process">
+        <complexType>
+            <sequence>
+                <element name="StartDate" type="string"/>
+                <element name="EndDate" type="string"/>
+                <element name="DivCode" type="string"/>
+                <element name="Env" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="processResponse">
+        <complexType>
+            <sequence>
+                <element name="PostingSetList" minOccurs="1" maxOccurs="1">
+                    <complexType>
+                        <sequence>
+                            <element name="PostingSet" minOccurs="0" maxOccurs="unbounded">
+                                <complexType>
+                                    <sequence>
+                                        <element name="Posting" minOccurs="0" maxOccurs="unbounded">
+                                            <annotation>
+                                                <documentation>Individual posting detail element</documentation>
+                                            </annotation>
+                                            <complexType>
+                                                <attribute name="GL" type="string" use="required">
+                                                    <annotation>
+                                                        <documentation>GL Code</documentation>
+                                                    </annotation>
+                                                </attribute>
+                                                <attribute name="Desc" type="string" use="required">
+                                                    <annotation>
+                                                        <documentation>GL Code Description</documentation>
+                                                    </annotation>
+                                                </attribute>
+                                                <attribute name="CostCenter" type="string" use="required">
+                                                    <annotation>
+                                                        <documentation>Cost center identifier</documentation>
+                                                    </annotation>
+                                                </attribute>
+                                                <attribute name="Accrual" type="boolean" use="required">
+                                                    <annotation>
+                                                        <documentation>Boolean indicating if this posting is an accrual or not</documentation>
+                                                    </annotation>
+                                                </attribute>
+                                                <attribute name="DebitAmount" type="decimal" use="required"/>
+                                                <attribute name="CreditAmount" type="decimal" use="required"/>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element name="GroupID" type="integer" minOccurs="0" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

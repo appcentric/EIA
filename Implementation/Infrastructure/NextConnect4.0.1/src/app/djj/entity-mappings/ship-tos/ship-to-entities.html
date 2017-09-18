@@ -1,0 +1,32 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>Ship Tos</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                        <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Refresh" (click)="refreshPage()" ></button>
+                        <button [disabled]="!shipTos" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <load-bar [visible]="loading"></load-bar>
+            <p-dataTable #exportCSV [value]="shipTos" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" [responsive]="true">
+                <p-column field="Num" header="Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="Name" header="Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ParentNum" header="Parent Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ParentName" header="Parent Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SupplementalData" header="Supplemental Data" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

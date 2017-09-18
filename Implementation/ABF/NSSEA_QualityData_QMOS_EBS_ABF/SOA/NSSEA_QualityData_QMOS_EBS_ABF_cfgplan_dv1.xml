@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NSSEA_QualityData_QMOS_EBS_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="qualitydata_qmos_ebs_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/NSNE_SubscribeQualitySpecs_QMOS_ABFApplication/NSUT_QualityData_QMOS_EBS_ABF/QualityData_QMOS_EBS#wsdl.endpoint(qualitydata_qmos_ebs_client_ep/QualityData_QMOS_EBS_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <service name="qualitydata_qmos_ebs_client"/>
+      <property name="compositeID">
+         <replace>04f5cf59-6407-4fc8-ab1c-a54a55cb307c</replace>
+      </property>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="QualityData_QMOS_EBS">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>sync</replace>
+         </property>
+      </component>
+      <reference name="CommonLogging"/>
+      <reference name="DB_QMOS_DATA"/>
+      <reference name="DB_QMOS_READ_UDPATE"/>
+      <reference name="QMOS_CASTLOT_DETAILS"/>
+      <reference name="Invoke_DB_EBS_Process"/>
+      <reference name="DB_UPDATE_QMOS_RSLT"/>
+      <reference name="QMOS_DB_UPD_ERROR"/>
+      <reference name="CommonLogging">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+         </binding>
+      </reference>
+      <reference name="DB_QMOS_DATA">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_QMOS_READ_UDPATE">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="QMOS_CASTLOT_DETAILS">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="Invoke_DB_EBS_Process">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="DB_UPDATE_QMOS_RSLT">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="QMOS_DB_UPD_ERROR">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DB_EBS_Process_QSamples_db.jca|Adapters/DB_QMOS_DATA_db.jca|Adapters/DB_QMOS_READ_UDPATE_db.jca|Adapters/DB_UPDATE_QMOS_RSLT_db.jca|Adapters/Invoke_DB_EBS_Process_db.jca|Adapters/QMOS_CASTLOT_DETAILS_db.jca|Adapters/QMOS_DB_UPD_ERROR_db.jca|Schemas/DB_EBS_Process_QSamples_sp.xsd|Schemas/DB_QMOS_DATA_table.xsd|Schemas/DB_QMOS_READ_UDPATE_table.xsd|Schemas/DB_UPDATE_QMOS_RSLT_table.xsd|Schemas/Invoke_DB_EBS_Process_sp.xsd|Schemas/QMOS_CASTLOT_DETAILS_table.xsd|Schemas/QMOS_DB_UPD_ERROR_table.xsd|Schemas/QualityData_QMOS_EBS.xsd|WSDLs/DB_EBS_Process_QSamples.wsdl|WSDLs/DB_QMOS_DATA.wsdl|WSDLs/DB_QMOS_READ_UDPATE.wsdl|WSDLs/DB_UPDATE_QMOS_RSLT.wsdl|WSDLs/Invoke_DB_EBS_Process.wsdl|WSDLs/QMOS_CASTLOT_DETAILS.wsdl|WSDLs/QMOS_DB_UPD_ERROR.wsdl|WSDLs/QualityData_QMOS_EBS.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

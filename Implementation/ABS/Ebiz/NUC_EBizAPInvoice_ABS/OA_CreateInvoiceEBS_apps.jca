@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_CreateInvoiceEBS" adapter="apps" wsdlLocation="OA_CreateInvoiceEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="apps-schema" UIOracleAppType="DBOBJECT" UIOracleAppObjList="AP.AP_INVOICES_INTERFACE,AP.AP_INVOICE_LINES_INTERFACE" adapterRef=""/>
+  <endpoint-interaction portType="OA_CreateInvoiceEBS_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsTableWriteInteractionSpec">
+      <property name="DescriptorName" value="OA_CreateInvoiceEBS.ApInvoicesInterface"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="OA_CreateInvoiceEBS-or-mappings.xml"/>
+      <property name="DetectOmissions" value="true"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

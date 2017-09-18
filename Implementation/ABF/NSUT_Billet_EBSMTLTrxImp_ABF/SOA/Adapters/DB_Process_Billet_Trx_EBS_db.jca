@@ -1,0 +1,13 @@
+<adapter-config name="DB_Process_Billet_Trx_EBS" adapter="db" wsdlLocation="../WSDLs/DB_Process_Billet_Trx_EBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSDev_Apps" location="eis/DB/ebsapps_nonxa"/>
+  <endpoint-interaction portType="DB_Process_Billet_Trx_EBS_ptt" operation="DB_Process_Billet_Trx_EBS">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_INV_NSUT_QMOS_TRX_PKG"/>
+      <property name="ProcedureName" value="PRC_PROCESS_BILLETS"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

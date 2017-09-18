@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/O2C/OrderABS/1.0" xmlns:core="http://xmlns.eia.com/EO/Common/1.0" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:oam="http://xmlns.eia.com/AO/EBiz/O2C/OrderAM/1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://xmlns.eia.com/ABS/EBiz/O2C/OrderABS/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/OrderAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/O2C/V1.0/OrderAM.xsd"/>
+			<xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="oramds:/apps/EIAMetadata/EO/common/Common.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<!-- Commented for WI_ProcessSalesOrder By Pavan Kumar Boyapati 08-Jun-12. Will be uncommented once the operation is implemented in the process. -->
+	<wsdl:message name="CreateSalesOrderRequestMessageType">
+		<wsdl:part element="oam:CreateSalesOrderRequestMessage" name="CreateSalesOrderRequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="CreateSalesOrderResponseMessageType">
+		<wsdl:part element="oam:CreateSalesOrderResponseMessage" name="CreateSalesOrderResponseMessage"/>
+	</wsdl:message>
+	<wsdl:message name="QuerySalesOrderRequestMessageType">
+		<wsdl:part element="oam:QuerySalesOrderRequestMessage" name="QuerySalesOrderRequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="QuerySalesOrderResponseMessageType">
+		<wsdl:part element="oam:QuerySalesOrderResponseMessage" name="QuerySalesOrderResponseMessage"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteSalesOrderRequestMessageType">
+		<wsdl:part element="oam:DeleteSalesOrderRequestMessage" name="DeleteSalesOrderRequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteSalesOrderResponseMessageType">
+		<wsdl:part element="oam:DeleteSalesOrderResponseMessage" name="DeleteSalesOrderResponseMessage"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateSalesOrderRequestMessageType">
+		<wsdl:part element="oam:UpdateSalesOrderRequestMessage" name="UpdateSalesOrderRequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateSalesOrderResponseMessageType">
+		<wsdl:part element="oam:UpdateSalesOrderResponseMessage" name="UpdateSalesOrderResponseMessage"/>
+	</wsdl:message>
+	<wsdl:message name="ProgressSalesOrderRequestMessageType">
+		<wsdl:part element="oam:ProgressSalesOrderRequestMessage" name="ProgressSalesOrderRequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="ProgressSalesOrderResponseMessageType">
+		<wsdl:part element="oam:ProgressSalesOrderResponseMessage" name="ProgressSalesOrderResponseMessage"/>
+	</wsdl:message>
+
+	<wsdl:message name="QueryBasicSalesOrderRequestMessageType">
+		<wsdl:part element="oam:QueryBasicSalesOrderRequestMessage" name="QueryBasicSalesOrderRequestMessage"/>
+	</wsdl:message>
+	<wsdl:message name="QueryBasicSalesOrderResponseMessageType">
+		<wsdl:part element="oam:QueryBasicSalesOrderResponseMessage" name="QueryBasicSalesOrderResponseMessage"/>
+	</wsdl:message>
+
+
+	<wsdl:message name="EIAFaultMsgType">
+		<wsdl:part element="core:Fault" name="Fault"/>
+	</wsdl:message>
+	<wsdl:portType name="SyncPortType">
+		<wsdl:operation name="CreateOrder_Sync">
+			<wsdl:input message="tns:CreateSalesOrderRequestMessageType"/>
+			<wsdl:output message="tns:CreateSalesOrderResponseMessageType"/>
+			<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="QueryOrderById_Sync">
+			<wsdl:input message="tns:QuerySalesOrderRequestMessageType"/>
+			<wsdl:output message="tns:QuerySalesOrderResponseMessageType"/>
+			<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+		</wsdl:operation>
+		
+
+		<wsdl:operation name="QueryBasicSalesOrderSync">
+			<wsdl:input message="tns:QueryBasicSalesOrderRequestMessageType"/>
+			<wsdl:output message="tns:QueryBasicSalesOrderResponseMessageType"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	    <wsdl:service name="OrderABS">
+        <wsdl:port name="SyncPortTypePort" binding="tns:SyncPort">
+            <soap:address location="http://www.example.com"/>
+        </wsdl:port>
+    </wsdl:service>
+
+
+
+<wsdl:binding name="SyncPort" type="tns:SyncPortType">
+    
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <wsdl:operation name="CreateOrder_Sync">
+            <soap:operation style="document"
+                            soapAction="http://xmlns.oracle.com/ABS/L2C/1.0/OrderABS/CreateOrder_Sync"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="CreateSalesOrderRequestMessage"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="CreateSalesOrderResponseMessage"/>
+            </wsdl:output>
+            <wsdl:fault name="EIAFault">
+                <soap:fault name="EIAFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="QueryOrderById_Sync">
+            <soap:operation style="document"
+                            soapAction="http://xmlns.oracle.com/ABS/L2C/1.0/OrderABS/QueryInvoiceById_Sync"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="QuerySalesOrderRequestMessage"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="QuerySalesOrderResponseMessage"/>
+            </wsdl:output>
+            <wsdl:fault name="EIAFault">
+                <soap:fault name="EIAFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="QueryBasicSalesOrderSync">
+            <soap:operation style="document"
+                            soapAction="http://xmlns.oracle.com/ABS/L2C/1.0/OrderABS/QueryBasicSalesOrderSync"/>
+            <wsdl:input>
+                <soap:body use="literal"
+                           parts="QueryBasicSalesOrderRequestMessage"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"
+                           parts="QueryBasicSalesOrderResponseMessage"/>
+            </wsdl:output>
+        </wsdl:operation>
+        
+       
+    </wsdl:binding>
+
+</wsdl:definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_PurchaseOrderEBS" adapter="apps" wsdlLocation="OA_PurchaseOrderEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs_nonxa" UIConnectionName="EBS" UIOracleAppType="DBOBJECT" UIOracleAppObjList="PO.PO_HEADERS_INTERFACE,PO.PO_LINES_INTERFACE,PO.PO_DISTRIBUTIONS_INTERFACE" adapterRef=""/>
+  <endpoint-interaction portType="OA_PurchaseOrderEBS_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsTableWriteInteractionSpec">
+      <property name="DescriptorName" value="OA_PurchaseOrderEBS.PoHeadersInterface"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="OA_PurchaseOrderEBS-or-mappings.xml"/>
+      <property name="DetectOmissions" value="true"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

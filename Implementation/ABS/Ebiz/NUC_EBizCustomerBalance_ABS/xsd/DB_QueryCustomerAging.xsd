@@ -1,0 +1,38 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryCustomerAging" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryCustomerAging" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="DB_QueryCustomerAgingInput" type="DB_QueryCustomerAgingInput"/>
+   <xs:complexType name="DB_QueryCustomerAgingInput">
+      <xs:sequence>
+         <xs:element name="CustomerId" type="xs:decimal" nillable="true"/>
+         <xs:element name="OrgId" type="xs:decimal" nillable="true"/>
+         <xs:element name="CreditOption" type="xs:string" nillable="true"/>
+         <xs:element name="BucketName" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_QueryCustomerAgingOutputCollection" type="DB_QueryCustomerAgingOutputCollection"/>
+   <xs:complexType name="DB_QueryCustomerAgingOutputCollection">
+      <xs:sequence>
+         <xs:element name="DB_QueryCustomerAgingOutput" type="DB_QueryCustomerAgingOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DB_QueryCustomerAgingOutput">
+      <xs:sequence>
+         <xs:element name="OUTSTANDING_BALANCE" type="xs:decimal" nillable="true"/>
+         <xs:element name="BUCKET_LINE" type="xs:string" nillable="true"/>
+         <xs:element name="AMOUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="CURRENCY" type="xs:string" nillable="true"/>
+         <xs:element name="BUCKET_LINE_ID" type="xs:decimal" nillable="true"/>
+         <xs:element name="BUCKET_SEQ_NUM" type="xs:decimal" nillable="true"/>
+         <xs:element name="COLLECTIBLE_AMOUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="CONSOLIDATED_INVOICES" type="xs:decimal" nillable="true"/>
+         <xs:element name="INVOICE_COUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="INVOICE_AMOUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="DM_COUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="DM_AMOUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="CB_COUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="CB_AMOUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="DISPUTED_TRAN_COUNT" type="xs:decimal" nillable="true"/>
+         <xs:element name="DISPUTED_TRAN_AMOUNT" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

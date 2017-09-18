@@ -1,0 +1,14 @@
+<adapter-config name="JMSConsumePayment" adapter="jms" wsdlLocation="../WSDLs/JMSConsumePayment.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/jms/EBizJMSTopic" UIJmsProvider="WLSJMS" UIConnectionName="DV1"/>
+  <endpoint-activation portType="Consume_Message_ptt" operation="Consume_Message">
+    <activation-spec className="oracle.tip.adapter.jms.inbound.JmsConsumeActivationSpec">
+      <property name="DurableSubscriber" value="PaymentInfoCP"/>
+      <property name="PayloadType" value="TextMessage"/>
+      <property name="MessageSelector" value="JMSType='PaymentInfo'"/>
+      <property name="UseMessageListener" value="false"/>
+      <property name="DestinationName" value="jms/EBizJMSTopic"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

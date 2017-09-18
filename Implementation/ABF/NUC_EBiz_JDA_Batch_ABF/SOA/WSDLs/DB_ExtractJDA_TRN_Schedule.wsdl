@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_ExtractJDA_TRN_Schedule"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Schedule"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Schedule"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Schedule"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_ExtractJDA_TRN_Schedule_plt" >
+    <plt:role name="DB_ExtractJDA_TRN_Schedule_role" >
+      <plt:portType name="tns:DB_ExtractJDA_TRN_Schedule_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Schedule" schemaLocation="../Schemas/DB_ExtractJDA_TRN_Schedule_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_ExtractJDA_TRN_ScheduleSelect_inputParameters">
+        <wsdl:part name="DB_ExtractJDA_TRN_ScheduleSelect_inputParameters" element="top:DB_ExtractJDA_TRN_ScheduleSelect_vOrgId_vResourceInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="XxnucGmeJdaTrnScheduleStgCollection_msg">
+        <wsdl:part name="XxnucGmeJdaTrnScheduleStgCollection" element="top:XxnucGmeJdaTrnScheduleStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_ExtractJDA_TRN_Schedule_ptt">
+        <wsdl:operation name="DB_ExtractJDA_TRN_ScheduleSelect">
+            <wsdl:input message="tns:DB_ExtractJDA_TRN_ScheduleSelect_inputParameters"/>
+            <wsdl:output message="tns:XxnucGmeJdaTrnScheduleStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,11 @@
+<adapter-config name="DB_Update_API_BUNDLE_TRANS" adapter="db" wsdlLocation="../WSDLs/DB_Update_API_BUNDLE_TRANS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_Utah_Dev" location="eis/DB/nsutqmos"/>
+  <endpoint-interaction portType="DB_Update_API_BUNDLE_TRANS_ptt" operation="DB_Update_API_BUNDLE_TRANS">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE API_BUNDLE_TRANS set PROCESSED = #status, ERROR_MESSAGE = #resultmsg, PROCESS_DATE = #currentDate  where Id = #txnId"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

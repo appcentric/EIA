@@ -1,0 +1,21 @@
+<?binding.jca OA_CreateJournal_Sync_apps.jca?>
+<wsdl:definitions name="OA_CreateJournal_Sync" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_EBizGLJE_ABS/OA_CreateJournal_Sync" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_EBizGLJE_ABS/OA_CreateJournal_Sync" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateJournal_Sync">
+    <plt:partnerLinkType name="OA_CreateJournal_Sync_plt">
+        <plt:role name="OA_CreateJournal_Sync_role">
+            <plt:portType name="tns:OA_CreateJournal_Sync_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateJournal_Sync" schemaLocation="xsd/OA_CreateJournal_Sync_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="GlInterfaceCollection_msg">
+        <wsdl:part name="GlInterfaceCollection" element="top:GlInterfaceCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="OA_CreateJournal_Sync_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:GlInterfaceCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,14 @@
+<adapter-config name="DB_UPDATE_QMOS_RSLT" adapter="db" wsdlLocation="../WSDLs/DB_UPDATE_QMOS_RSLT.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOSDB" location="eis/DB/nstxqmos"/>
+  <endpoint-interaction portType="DB_UPDATE_QMOS_RSLT_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_UPDATE_QMOS_RSLT.ApiMetTrans"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="DB_UPDATE_QMOS_RSLT-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

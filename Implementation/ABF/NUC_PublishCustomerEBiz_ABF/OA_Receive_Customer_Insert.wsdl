@@ -1,0 +1,21 @@
+<?binding.jca OA_Receive_Customer_Insert_apps.jca?>
+<wsdl:definitions name="OA_Receive_Customer_Insert" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishCustomerEBiz_ABF/OA_Receive_Customer_Insert" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_PublishCustomerEBiz_ABF/OA_Receive_Customer_Insert" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:imp1="http://xmlns.oracle.com/xdb/APPS/OA_Receive_Customer_Insert" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="DEQUEUE_plt">
+        <plt:role name="DEQUEUE_role">
+            <plt:portType name="tns:DEQUEUE_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/xdb/APPS/OA_Receive_Customer_Insert" schemaLocation="xsd/APPS_WF_EVENT_T_OA_Receive_Customer_Insert.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="WF_EVENT_T_msg">
+        <wsdl:part name="WF_EVENT_T" element="imp1:WF_EVENT_T"/>
+    </wsdl:message>
+    <wsdl:portType name="DEQUEUE_ptt">
+        <wsdl:operation name="DEQUEUE">
+            <wsdl:input message="tns:WF_EVENT_T_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

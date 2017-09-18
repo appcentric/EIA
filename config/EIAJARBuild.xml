@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="EIAJARBuild" default="help" basedir=".">
+    
+    <property environment="env"/>
+
+    <fail message="Please set the EIA_HOME as environment variable">
+        <condition>
+            <not>
+                <isset property="env.EIA_HOME" />
+            </not>
+        </condition>
+	</fail>
+    
+	<fail message="Please set the JAVA_HOME as environment variable">
+        <condition>
+            <not>
+                <isset property="env.JAVA_HOME" />
+            </not>
+        </condition>
+	</fail>
+    
+	<fail message="Please set the ANT_HOME as environment variable">
+        <condition>
+            <not>
+                <isset property="env.ANT_HOME" />
+            </not>
+        </condition>
+	</fail>
+
+
+    <tstamp>
+        <format property="deploy.timestamp"
+        pattern="yyyy-MM-DD-hhmmss.SSS"
+        locale="en,US"/>
+    </tstamp>
+    
+    <!--echo>Deploy Time Stamp ${deploy.timestamp}</echo-->
+    
+    <echo>EIA Home ${env.EIA_HOME}</echo>
+       
+    
+	<property file="${env.EIA_HOME}/config/EIAbuild.properties"/>
+	<property name="java.home" value="${env.JAVA_HOME}"/>
+	<property name="eia.home" value="${env.EIA_HOME}"/>    
+
+
+    <target name="clean" description="Clean the project">
+        <echo>Cleaning up ${classes.output.dir}</echo>
+        <!--delete includeemptydirs="true" >
+            <fileset dir="${classes.output.dir}" includes="**/*"/>
+        </delete-->
+        <delete dir="${classes.output.dir}"/>
+    </target>
+    
+    <path id="classpath">
+        <pathelement location="${wn.bea.home}/oracle_common/modules/oracle.xdk_11.1.0/xmlparserv2.jar"/>
+        <pathelement location="${oracle.home}/soa/modules/oracle.soa.mgmt_11.1.1/soa-infra-mgmt.jar"/>        
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.fabriccommon_11.1.1/fabric-common.jar"/>        
+		<pathelement location="${oracle.home}/soa/modules/oracle.soa.fabric_11.1.1/fabric-runtime.jar"/>        
+	    <pathelement location="${oracle.home}/soa/modules/oracle.soa.bpel_11.1.1/orabpel.jar"/>        
+	    <pathelement location="${oracle.home}/soa/modules/oracle.soa.mediator_11.1.1/mediator_client.jar"/> 
+		<pathelement location="${oracle.home}/soa/modules/oracle.soa.b2b_11.1.1/b2b.jar"/> 		
+	    <pathelement location="${wn.bea.home}/oracle_common/modules/oracle.mds_11.1.1/mdsrt.jar"/>        
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.mds_11.1.1/oramds.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share_11.1.1/adf-share-support.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share_11.1.1/adflogginghandler.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share.ca_11.1.1/adf-share-ca.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share.ca_11.1.1/adf-share-base.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.servlet_1.0.0.0_2-5.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.jsp_1.1.0.0_2-1.jar"/>
+		<pathelement location="${wn.bea.home}/wlserver_10.3/server/ext/jdbc/oracle/11g/ojdbc6.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/jlib/commons-cli-1.0.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share_11.1.1/commons-el.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share_11.1.1/jsp-el-api.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.adf.share_11.1.1/oracle-el.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.bali.share_11.1.1/share.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.xmlef_11.1.1/xmlef.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.dms_11.1.1/dms.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.activation_1.1.0.0_1-1.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.xdk_11.1.0/xml.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.javacache_11.1.1/cache.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.ucp_11.1.0.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.odl_11.1.1/ojdl.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.javatools_11.1.1/javatools-nodeps.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.jmx_11.1.1/jmxframework.jar"/>
+		<pathelement location="${wn.bea.home}/oracle_common/modules/oracle.jmx_11.1.1/jmxspi.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.management_1.2.1.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.management.j2ee_1.0.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.jms_1.1.1.jar"/>
+		<pathelement location="${wn.bea.home}/wlserver_10.3/server/lib/aqapi.jar"/>
+		<pathelement location="${wn.bea.home}/modules/javax.transaction_1.0.0.0_1-1.jar"/>
+		<pathelement location="${eia.home}/lib/quartz-all-1.6.5/quartz-all-1.6.5.jar"/>
+        <pathelement location="${classes.output.dir}"/>
+
+    </path>
+    
+    
+    <target name="compile" description="Compile Java source files">
+	    <mkdir dir="${classes.output.dir}"/>
+        <javac destdir="${classes.output.dir}" classpathref="classpath"
+            debug="${javac.debug}" nowarn="${javac.nowarn}"
+            deprecation="${javac.deprecation}" encoding="Cp1252" source="1.6"
+            target="1.6">
+            <src path="${env.EIA_HOME}/${src.dir}"/>
+        </javac>
+    </target>
+    
+    <target name="copy-xml" description="Copy META-INF to ${classes.output.dir} directory">
+        <mkdir dir="${classes.output.dir}/META-INF"/>
+        <patternset id="copy.patterns">
+            <include name="*.xml"/>
+            <!--include name="MANIFEST.MF"/-->
+        </patternset>
+        <copy todir="${classes.output.dir}/META-INF">
+            <fileset dir="${env.EIA_HOME}/${metainf.xml}">
+                <patternset refid="copy.patterns"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    
+
+    <target name="create-jar" 
+        description="Create EIA JAR">
+		<delete includeemptydirs="true" >
+            <fileset dir="${env.EIA_HOME}/${jar.output.dir}" includes="${jar.file.name}.jar"/>
+        </delete>
+        <jar compress="true" destfile="${env.EIA_HOME}/${jar.output.dir}/${jar.file.name}.jar">
+
+	<manifest>
+        <attribute name="Specification-Title" value="EIAUtils" />
+        <attribute name="Specification-Version" value="1.0" />
+        <attribute name="Implementation-Title" value="EIAUtils" />
+        <attribute name="Implementation-Version" value="1.0" />
+        <attribute name="Implementation-Vendor" value="Oracle" />
+        <attribute name="Extension-Name" value="EIAUtils" />
+   </manifest>
+
+            <fileset dir="${classes.output.dir}">
+                <!-- jdev compiler junk -->
+                <exclude name="*/**/*jdb"/>
+                <exclude name="*/**/*lck"/>
+                <!-- app descriptors -->
+            </fileset>    
+        </jar>
+		<antcall target="clean"/>
+    </target>
+
+    <target name="all" description="Build the EIA JAR " depends="clean,compile,copy-xml,create-jar"/>
+  
+  <target name="help">
+			  <echo message=" ============================================"/>
+			  <echo message="Usage : all"/>
+			  <echo message="    ant -f ${ant.file} all" />
+			  <echo message="    example:"/>
+			  <echo message="    ant -f EIAJARBuild.xml all "/>
+			  <echo message=" ============================================"/>
+	</target>
+
+</project>

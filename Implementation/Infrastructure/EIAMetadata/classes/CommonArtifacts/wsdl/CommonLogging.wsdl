@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CommonLogging" targetNamespace="http://xmlns.eia.com/CommonLogging" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.eia.com/CommonLogging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:documentation>
+        <abstractWSDL>http://rzmkea253.rz.nucorsteel.local:8001/soa-infra/services/common/CommonLogging!1.0/CommonLogging.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="CommonLogging">
+        <plnk:role name="CommonLoggingProvider">
+            <plnk:portType name="client:CommonLogging"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+<!--wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="wss_username_token_service_policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+      <wsp:Policy>
+         <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+            <wsp:Policy>
+               <sp:WssUsernameToken10/>
+            </wsp:Policy>
+         </sp:UsernameToken>
+      </wsp:Policy>
+   </sp:SupportingTokens>
+</wsp:Policy-->    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.eia.com/CommonLogging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.eia.com/CommonLogging" schemaLocation="oramds:/apps/EIAMetadata/EO/common/V1.0/CommonLogging.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="CommonLoggingRequestMessage">
+        <wsdl:part name="CommonLogging" element="client:Input"/>
+    </wsdl:message>
+    <wsdl:portType name="CommonLogging">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:CommonLoggingRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CommonLoggingBinding" type="client:CommonLogging">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+      <!--wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#wss_username_token_service_policy" wsdl:required="false"/-->
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <!--wsdl:service name="CommonLogging_ep">
+        <wsdl:port name="CommonLogging_pt" binding="client:CommonLoggingBinding">
+            <soap:address location="www.example.org"/>
+        </wsdl:port>
+    </wsdl:service-->
+</wsdl:definitions>

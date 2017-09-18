@@ -1,0 +1,25 @@
+<?binding.jca DB_QueryCustomerAging_db.jca?>
+<wsdl:definitions name="DB_QueryCustomerAging" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerAging" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryCustomerAging" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerAging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="DB_QueryCustomerAging_plt">
+        <plt:role name="DB_QueryCustomerAging_role">
+            <plt:portType name="tns:DB_QueryCustomerAging_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_QueryCustomerAging" schemaLocation="xsd/DB_QueryCustomerAging.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_QueryCustomerAgingInput_msg">
+        <wsdl:part name="DB_QueryCustomerAgingInput_msg" element="db:DB_QueryCustomerAgingInput"/>
+    </wsdl:message>
+    <wsdl:message name="DB_QueryCustomerAgingOutputCollection_msg">
+        <wsdl:part name="DB_QueryCustomerAgingOutputCollection" element="db:DB_QueryCustomerAgingOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QueryCustomerAging_ptt">
+        <wsdl:operation name="DB_QueryCustomerAging">
+            <wsdl:input message="tns:DB_QueryCustomerAgingInput_msg"/>
+            <wsdl:output message="tns:DB_QueryCustomerAgingOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

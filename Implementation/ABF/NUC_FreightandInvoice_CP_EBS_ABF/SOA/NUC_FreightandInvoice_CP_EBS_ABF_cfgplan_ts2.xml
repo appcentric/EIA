@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="NUC_FreightandInvoice_CP_EBS_ABF">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="freightandinvoice_cp_ebs_impl_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/DV1Application/NUC_FreightandInvoice_CP_EBS_ABF/FreightandInvoice_CP_EBS_Impl/1.0#wsdl.endpoint(freightandinvoice_cp_ebs_impl_client_ep/FreightandInvoice_CP_EBS_Impl_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <service name="freightandinvoice_cp_ebs_impl_client"/>
+      <property name="productVersion">
+         <replace>12.1.3.0.0</replace>
+      </property>
+      <property name="compositeID">
+         <replace>9170d0ff-de73-45b6-90cc-a6864cb27355</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="FreightandInvoice_CP_EBS_Impl">
+         <property name="bpel.config.oneWayDeliveryPolicy">
+            <replace>async.persist</replace>
+         </property>
+      </component>
+      <reference name="DbCallXXNUC_OMSI_EXTRACTS_PKG"/>
+      <reference name="DbInsertXXNUC_WSH_CP_FREINV_HDR_STG"/>
+      <reference name="CommonLogging_PL"/>
+      <reference name="EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG"/>
+      <reference name="DbCallXXNUC_OMSI_EXTRACTS_PKG">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="jca">
+            <property name="SchemaName">
+               <replace>OMSIPTS_EXTERNAL</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="DbInsertXXNUC_WSH_CP_FREINV_HDR_STG">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+      <reference name="CommonLogging_PL">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.eia.com/CommonLogging#wsdl.endpoint(CommonLogging_ep/CommonLogging_pt)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
+      <reference name="EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG">
+         <property name="jca.retry.count">
+            <replace>4</replace>
+         </property>
+         <property name="jca.retry.interval">
+            <replace>1</replace>
+         </property>
+         <property name="jca.retry.backoff">
+            <replace>2</replace>
+         </property>
+         <property name="jca.retry.maxInterval">
+            <replace>120</replace>
+         </property>
+         <binding type="jca"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Adapters/DbCallXXNUC_OMSI_EXTRACTS_PKG_db.jca|Adapters/DbInsertXXNUC_WSH_CP_FREINV_HDR_STG_db.jca|Adapters/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_apps.jca|Schemas/DbCallXXNUC_OMSI_EXTRACTS_PKG_sp.xsd|Schemas/DbInsertXXNUC_WSH_CP_FREINV_HDR_STG_table.xsd|Schemas/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG_sp.xsd|Schemas/FreightandInvoice_CP_EBS_Impl.xsd|Schemas/NameValuePair.xsd|WSDLs/DbCallXXNUC_OMSI_EXTRACTS_PKG.wsdl|WSDLs/DbInsertXXNUC_WSH_CP_FREINV_HDR_STG.wsdl|WSDLs/EBSCallXXNUC_WSH_FRECOST_INV_WRAP_PKG.wsdl|WSDLs/FreightandInvoice_CP_EBS_Impl.wsdl">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

@@ -1,0 +1,14 @@
+<adapter-config name="DB_GetBillet_Details" adapter="db" wsdlLocation="../WSDLs/DB_GetBillet_Details.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="nsneqmos2" location="eis/DB/nsneqmos2"/>
+  <endpoint-interaction portType="DB_GetBillet_Details_ptt" operation="DB_GetBillet_DetailsSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_GetBillet_Details.ApiBilletTrans"/>
+      <property name="QueryName" value="DB_GetBillet_DetailsSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_GetBillet_Details-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

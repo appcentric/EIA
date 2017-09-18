@@ -1,0 +1,174 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Call_XXNUC_GMD_QMOS_QRSLT_PKG" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Call_XXNUC_GMD_QMOS_QRSLT_PKG" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_MET_TRANS_TBL" type="db:XXNUC.XXNUC_GMD_QMOS_QRSLT_TAB" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_MESSAGE_HDR_OBJ" type="db:APPS_NE.XXNUC_COMM_LOGG_OBJ_TYP" db:index="2" db:type="Struct" minOccurs="0" nillable="true"/>
+            <element name="P_APPS_INIT" type="db:XXNUC.XXNUC_APPS_INIT_OBJ_TYPE" db:index="3" db:type="Struct" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_MET_TRANS_TBL" type="db:XXNUC.XXNUC_GMD_QMOS_QRSLT_TAB" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+            <element name="P_O_PROCESS_FLAG" type="string" db:index="4" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="P_O_ERR_MSG" type="string" db:index="5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_GMD_QMOS_LOT_GEN_TBL">
+      <sequence>
+         <element name="LOT_GENEALOGY_ITEM" type="db:XXNUC.XXNUC_GMD_QMOS_LOT_GEN_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_APPS_INIT_OBJ_TYPE">
+      <sequence>
+         <element name="USER_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="USER_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESPONSIBILITY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QMOS_QRSLT_TAB">
+      <sequence>
+         <element name="P_MET_TRANS_TBL_ITEM" type="db:XXNUC.XXNUC_GMD_QMOS_QRSLT_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QMOS_LOT_GEN_OBJ">
+      <sequence>
+         <element name="HEAT" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="REHEAT" type="db:string12" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CAST_LOT" type="db:string12" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="FG_LOT" type="db:string12" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="WOR_ORDER_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS_NE.XXNUC_COMM_LOGG_OBJ_TYP">
+      <sequence>
+         <element name="TRANSACTION_ID" type="db:string250" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROJECT_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COMPONENT_ID" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_NAME" type="db:string250" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_NAME" type="db:string250" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MESSAGE_SOURCE_SYSTEM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SOURCE_SYSTEM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TARGET_SYSTEM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LOG_TYPE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="MESSAGE_CODE" type="db:string250" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MESSAGE_DESCRIPTION" type="db:string4000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_STATUS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="UPDATED_BY" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="V_ATTRIBUTE1" type="db:string200" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="V_ATTRIBUTE2" type="db:string200" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE1" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="N_ATTRIBUTE2" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QMOS_QRSLT_OBJ">
+      <sequence>
+         <element name="ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="HEAT" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="REHEAT" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SAMPLE_ID" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PART_CODE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHAPE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BILLET_SIZE" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GRADE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_NAME" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_ELEMENT" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_RESULT_TEXT" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_RESULT_NUM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TEST_UNIT" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREW" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIFT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="USER_ID" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="USER_FIRST_NAME" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="USER_LAST_NAME" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="WOR_ORDER_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PROCESSED" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROCESS_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="INVALIDATED" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TEST_RESULT_BOOL" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ERROR_MESSAGE" type="db:string2000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORGANIZATION_CODE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BATCH_NO" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BATCH_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ITEM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="EBS_SAMPLE_ID" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESULT_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LOT_GENEALOGY" type="db:XXNUC.XXNUC_GMD_QMOS_LOT_GEN_TBL" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string15">
+      <restriction base="string">
+         <maxLength value="15"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string20">
+      <restriction base="string">
+         <maxLength value="20"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string25">
+      <restriction base="string">
+         <maxLength value="25"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2000">
+      <restriction base="string">
+         <maxLength value="2000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string12">
+      <restriction base="string">
+         <maxLength value="12"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string250">
+      <restriction base="string">
+         <maxLength value="250"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string30">
+      <restriction base="string">
+         <maxLength value="30"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4000">
+      <restriction base="string">
+         <maxLength value="4000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string50">
+      <restriction base="string">
+         <maxLength value="50"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string200">
+      <restriction base="string">
+         <maxLength value="200"/>
+      </restriction>
+   </simpleType>
+</schema>

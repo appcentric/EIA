@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions
+     name="WshSendDlvyToOtmService"
+     targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendDlvyToOtmService"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:txn="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:client="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendDlvyToOtmService"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <!--documentation>
+        <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/otm/WshSendDlvyToOtmService!1.0/WshSendDlvyToOtmService.wsdl</abstractWSDL>
+    </documentation-->
+    <plnk:partnerLinkType name="WshSendDlvyToOtmService">
+        <plnk:role name="WshSendDlvyToOtmServiceProvider">
+            <plnk:portType name="client:WshSendDlvyToOtmService"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <types>
+        <schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/txn/WshSendDlvyToOtmService"
+             xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/apps/wsh/outbound/util/WshOtmGlobalOutbound"
+                 schemaLocation="../../../../AO/OTM/common/V1.0/WshOtmGlobalOutbound.xsd"/>
+            <element name="WshSendDlvyToOtmServiceProcessRequest">
+                <complexType>
+                    <sequence>
+                        <element name="input" type="txn:tOutboundInput"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="WshSendDlvyToOtmServiceProcessResponse">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="txn:tOutboundOutput"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <message name="WshSendDlvyToOtmServiceRequestMessage">
+        <part name="payload" element="client:WshSendDlvyToOtmServiceProcessRequest"/>
+    </message>
+    <message name="WshSendDlvyToOtmServiceResponseMessage">
+        <part name="payload" element="client:WshSendDlvyToOtmServiceProcessResponse"/>
+    </message>
+    <message name="WshSendDlvyToOtmServiceFaultMessage">
+        <part name="payload" type="xsd:string"/>
+    </message>
+    <portType name="WshSendDlvyToOtmService">
+        <operation name="process">
+            <input message="client:WshSendDlvyToOtmServiceRequestMessage"/>
+            <output message="client:WshSendDlvyToOtmServiceResponseMessage"/>
+            <fault name="faultError" message="client:WshSendDlvyToOtmServiceFaultMessage"/>
+        </operation>
+    </portType>
+    <binding name="WshSendDlvyToOtmServiceBinding" type="client:WshSendDlvyToOtmService">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="faultError">
+                <soap:fault name="faultError" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+    <service name="WshSendDlvyToOtmService">
+        <port name="WshSendDlvyToOtmService" binding="client:WshSendDlvyToOtmServiceBinding">
+            <soap:address location="http://example.org"/>
+        </port>
+    </service>
+</definitions>

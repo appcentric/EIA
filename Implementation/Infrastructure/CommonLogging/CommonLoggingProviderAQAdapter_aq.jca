@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<adapter-config name="CommonLoggingProviderAQAdapter" adapter="aq" wsdlLocation="CommonLoggingProviderAQAdapter.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/AQ/soa_audit" UIConnectionName="DEV_xxnuc_logging" adapterRef=""/>
+   <endpoint-interaction portType="Enqueue_ptt" operation="Enqueue">
+      <interaction-spec className="oracle.tip.adapter.aq.outbound.AQEnqueueInteractionSpec">
+         <property name="RecipientList" value="AuditLog"/>
+         <property name="QueueName" value="AUDIT_LOG_Q"/>
+      </interaction-spec>
+   </endpoint-interaction>
+</adapter-config>

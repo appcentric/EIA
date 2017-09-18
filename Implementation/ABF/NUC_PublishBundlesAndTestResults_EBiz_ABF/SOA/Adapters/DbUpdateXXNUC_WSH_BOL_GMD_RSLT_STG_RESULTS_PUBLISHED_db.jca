@@ -1,0 +1,11 @@
+<adapter-config name="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED" adapter="db" wsdlLocation="../WSDLs/DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="EBSDev_Apps" location="eis/DB/ebsapps"/>
+  <endpoint-interaction portType="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_ptt" operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="UPDATE XXNUC_WSH_BOL_GMD_RSLT_STG SET RESULTS_PUBLISHED = #flag,LAST_UPDATE_DATE = #lastUpdateDate WHERE BOL_NUMBER = #bolNumber"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

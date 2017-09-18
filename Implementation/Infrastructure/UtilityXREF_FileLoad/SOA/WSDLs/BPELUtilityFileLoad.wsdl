@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="BPELUtilityFileLoad"
+     targetNamespace="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    >
+    <plnk:partnerLinkType name="BPELUtilityFileLoad">
+        <plnk:role name="BPELUtilityFileLoadProvider" portType="client:BPELUtilityFileLoad"/>
+
+<!--plnk:role name="BPELUtilityFileLoadRequester" portType="client:BPELUtilityFileLoadCallback"/
+-->
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+                 schemaLocation="../Schemas/BPELUtilityFileLoad.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPELUtilityFileLoadRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="BPELUtilityFileLoadResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPELUtilityFileLoad">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPELUtilityFileLoadRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

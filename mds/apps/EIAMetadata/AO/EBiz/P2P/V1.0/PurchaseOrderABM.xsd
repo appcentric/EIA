@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+            elementFormDefault="qualified" attributeFormDefault="unqualified"
+            version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:poam="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+            xmlns:poao="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0">
+  <xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/PurchaseOrderAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"/>
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"
+              namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/> 
+ <xsd:element name="CreatePurchaseOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRq"/>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+        <xsd:element name="ListOfPurchaseOrders" type="poao:ListOfPurchaseOrderType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="CreatePurchaseOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRs"/>
+        <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+
+ <xsd:element name="AddPurchaseOrderLineRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRq"/>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+        <xsd:element name="ListOfPurchaseOrders" type="poao:ListOfPurchaseOrderType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+ 
+ <xsd:element name="AddPurchaseOrderLineResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+      <xsd:element ref="header:HeaderRs"/>
+        <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="UpdatePurchaseOrderLineRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRq"/>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+        <xsd:element name="ListOfPurchaseOrders" type="poao:ListOfPurchaseOrderType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="UpdatePurchaseOrderLineResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRs"/>
+        <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+
+  <xsd:element name="CancelPurchaseOrderLineRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRq"/>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+        <xsd:element name="ListOfPurchaseOrders" type="poao:ListOfPurchaseOrderType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="CancelPurchaseOrderLineResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRs"/>
+        <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <xsd:element name="QueryPurchaseOrderRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element ref="header:HeaderRq"/>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+        <xsd:element name="PurchaseOrder" type="poao:PurchaseOrderType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="QueryPurchaseOrderResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+          <xsd:element ref="header:HeaderRs"/>
+        <xsd:element name="OperationResult" type="res:OperationResultType"
+                     minOccurs="0" nillable="true" maxOccurs="1"/>
+        <xsd:element name="ListOfPurchaseOrders"
+                     type="poao:ListOfPurchaseOrderType" minOccurs="0"
+                     nillable="true" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

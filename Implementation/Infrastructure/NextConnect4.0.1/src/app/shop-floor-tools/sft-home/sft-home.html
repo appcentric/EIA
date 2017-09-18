@@ -1,0 +1,226 @@
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+        <h1>Shop Floor Tools - Items</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button [disabled]="!sftItems" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <p-dataTable [value]="sftItems" [responsive]="true" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" #exportCSV #dt>
+                <p-column field="OperatingUnitName" header="Operating Unit" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftItem="rowData" pTemplate="body">
+                        <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                            <div>{{Item[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="ItemId" header="Item ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftItem="rowData" pTemplate="body">
+                        <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                            <div>{{Item[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="OrgId" header="Org ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftItem="rowData" pTemplate="body">
+                        <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                            <div>{{Item[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="OrgCode" header="Org Code" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftItem="rowData" pTemplate="body">
+                        <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                            <div>{{Item[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="Item" header="Item" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftItem="rowData" pTemplate="body">
+                        <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                            <div>{{Item[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="ItemType" header="Item Type" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftItem="rowData" pTemplate="body">
+                        <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                            <div>{{Item[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+        <h1>Shop Floor Tools - Batches</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left;margin-right:15px">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button [disabled]="!sftBatches" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <p-dataTable [value]="sftBatches" [responsive]="true" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" #exportCSV #dt>
+                <p-column field="BatchId" header="Batch ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div>{{Batch[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="BatchNo" header="Item ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div>{{Batch[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="OrgId" header="Org ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div>{{Batch[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="OrgCode" header="Org Code" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div>{{Batch[col.field]}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="LineNo" header="Line Number" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="LineNo" header="Line Number" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="LineType" header="Line Type" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="ItemId" header="Item ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="OrgId" header="Org ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="PlanQuantity" header="Plan Quantity" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column field="PlanQuantityUom" header="Plan Quantity UOM" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                    <ng-template let-col let-sftBatch="rowData" pTemplate="body">
+                        <div *ngFor="let Batch of sftBatch.Batch; let i = index; let firstItem = first;">
+                            <div *ngFor="let Material of Batch.Material">
+                                <div>{{Material[col.field]}}</div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
+</div>
+<p-dataTable [value]="sftItems" [responsive]="true" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" #exportCSV #dt>
+    <p-column field="OperatingUnitName" header="Operating Unit" [sortable]="true" [filter]="true" filterMatchMode="contains">
+        <ng-template let-sftItem="rowData" pTemplate="body">
+            <ng-template let-col  *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                <div>{{Item[col.field]}}</div>
+            </ng-template>
+        </ng-template>
+    </p-column>
+    <p-column field="ItemId" header="Item ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+        <ng-template let-col let-sftItem="rowData" pTemplate="body">
+            <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                <div>{{Item[col.field]}}</div>
+            </div>
+        </ng-template>
+    </p-column>
+    <p-column field="OrgId" header="Org ID" [sortable]="true" [filter]="true" filterMatchMode="contains">
+        <ng-template let-col let-sftItem="rowData" pTemplate="body">
+            <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                <div>{{Item[col.field]}}</div>
+            </div>
+        </ng-template>
+    </p-column>
+    <p-column field="OrgCode" header="Org Code" [sortable]="true" [filter]="true" filterMatchMode="contains">
+        <ng-template let-col let-sftItem="rowData" pTemplate="body">
+            <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                <div>{{Item[col.field]}}</div>
+            </div>
+        </ng-template>
+    </p-column>
+    <p-column field="Item" header="Item" [sortable]="true" [filter]="true" filterMatchMode="contains">
+        <ng-template let-col let-sftItem="rowData" pTemplate="body">
+            <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                <div>{{Item[col.field]}}</div>
+            </div>
+        </ng-template>
+    </p-column>
+    <p-column field="ItemType" header="Item Type" [sortable]="true" [filter]="true" filterMatchMode="contains">
+        <ng-template let-col let-sftItem="rowData" pTemplate="body">
+            <div *ngFor="let Item of sftItem.Item; let i = index; let firstItem = first;">
+                <div>{{Item[col.field]}}</div>
+            </div>
+        </ng-template>
+    </p-column>
+</p-dataTable>

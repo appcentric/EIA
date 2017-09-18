@@ -1,0 +1,341 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jun 10 15:55:12 CDT 2013
+  Author:  Vivek Srinivasan
+  Type: BPEL 1.1 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="UtilityXREF"
+               targetNamespace="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+               xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+               xmlns:client="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="wsdlFile">
+        <![CDATA[UtilityXREF.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="processXREF" partnerLinkType="client:UtilityXREF" myRole="UtilityXREFProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="processXREFData_ReqMsg" messageType="client:UtilityXREFRequestMessage"/>
+    <variable name="gbl_populateXREFDataOutcome" type="xsd:string"/>
+    <variable name="columns" element="client:column-node"/>
+    <variable name="gbl_idx" type="xsd:integer"/>
+    <variable name="gbl_count_nodes" type="xsd:integer"/>
+    <variable name="gbl_mode" type="xsd:string"/>
+    <variable name="gbl_ref_value" type="xsd:string"/>
+    <variable name="UtilityXREFQueryReqMsg"
+              messageType="client:UtilityXREFQueryRequestMessage"/>
+    <variable name="UtilityXREFQueryRespMsg"
+              messageType="client:UtilityXREFQueryResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in UtilityXREF.wsdl) -->
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="processXREFData_ReqMsg" partnerLink="processXREF"
+                 portType="client:UtilityXREF" operation="process">
+        <sequence>
+          <assign name="LookupPopulatedColumns">
+            <copy>
+              <from expression="1"/>
+              <to variable="gbl_idx"/>
+            </copy>
+            <copy>
+              <from expression="xref:lookupPopulatedColumns($processXREFData_ReqMsg.payload/client:XREFName,$processXREFData_ReqMsg.payload/client:ReferenceColumn,$processXREFData_ReqMsg.payload/client:ReferenceValue,false())"/>
+              <to variable="columns"/>
+            </copy>
+            <copy>
+              <from expression="ora:countNodes('columns','/client:column-node/column')"/>
+              <to variable="gbl_count_nodes"/>
+            </copy>
+            <copy>
+              <from expression='"LINK"'/>
+              <to variable="gbl_mode"/>
+            </copy>
+          </assign><!--assign name="populateXREF"
+                           xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+      
+   <copy>
+         <from expression="xref:populateXRefRow(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceValue'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue'),'ADD')"/>
+         <to variable="gbl_populateXREFDataOutcome"/>
+      </copy></assign-->
+      <switch name="Switch1">
+            <case condition="bpws:getVariableData('gbl_count_nodes') = 0">
+              <bpelx:annotation>
+                <bpelx:general>
+                  <bpelx:property name="userLabel">
+                    <![CDATA[On-Reference-Missing]]>
+                  </bpelx:property>
+                </bpelx:general>
+              </bpelx:annotation>
+              <sequence name="Sequence2">
+                <assign name="LookupPopulatedColumns"
+                        xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                  <copy>
+                    <from expression="xref:lookupPopulatedColumns($processXREFData_ReqMsg.payload/client:XREFName,$processXREFData_ReqMsg.payload/client:LookupColumn,$processXREFData_ReqMsg.payload/client:LookupValue,false())"/>
+                    <to variable="columns"/>
+                  </copy>
+                  <copy>
+                    <from expression="ora:countNodes('columns','/client:column-node/column')"/>
+                    <to variable="gbl_count_nodes"/>
+                  </copy>
+                </assign>
+                <switch name="Switch5">
+                  <case condition="bpws:getVariableData('gbl_count_nodes') = 0">
+                    <bpelx:annotation>
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">
+                          <![CDATA[On-Lookup-Missing]]>
+                        </bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="SetModeToAdd"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression='"ADD"'/>
+                        <to variable="gbl_mode"/>
+                      </copy>
+                    </assign>
+                  </case>
+                  <otherwise>
+                    <assign name="SetModeToLink"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression='"LINK"'/>
+                        <to variable="gbl_mode"/>
+                      </copy>
+                    </assign>
+                  </otherwise>
+                </switch>
+                <switch name="Switch3"
+                        xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                  <case condition="bpws:getVariableData('gbl_mode') = &quot;ADD&quot;">
+                    <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">
+                          <![CDATA[Add Mode]]>
+                        </bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="populateXREF"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="xref:populateXRefRow(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceValue'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue'),bpws:getVariableData('gbl_mode'))"/>
+                        <to variable="gbl_populateXREFDataOutcome"/>
+                      </copy>
+                    </assign>
+                  </case>
+                  <case condition="bpws:getVariableData('gbl_mode') =&quot;UPDATE&quot;">
+                    <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">
+                          <![CDATA[Update Mode]]>
+                        </bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <sequence name="Sequence4">
+                      <assign name="populateXREF">
+                        <copy>
+                          <from expression="xref:populateXRefRow(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('gbl_ref_value'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceValue'),'UPDATE')"/>
+                          <to variable="gbl_populateXREFDataOutcome"/>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </case>
+                  <otherwise>
+                    <sequence name="Sequence3">
+                      <assign name="populateXREF"
+                              xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                        <copy>
+                          <from expression="xref:populateXRefRow(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceValue'),'LINK')"/>
+                          <to variable="gbl_populateXREFDataOutcome"/>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </otherwise>
+                </switch>
+              </sequence>
+            </case>
+            <otherwise>
+              <sequence>
+                <while name="LoopThroughCols"
+                       condition="bpws:getVariableData('gbl_idx') &lt;= bpws:getVariableData('gbl_count_nodes')">
+                  <sequence name="Sequence5">
+                    <sequence name="Sequence1">
+                      <switch name="Switch2">
+                        <case condition="bpws:getVariableData('columns',concat(&quot;/client:column-node/column[&quot;,bpws:getVariableData('gbl_idx'),&quot;]/@name&quot;)) = bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn')">
+                          <bpelx:annotation>
+                            <bpelx:general>
+                              <bpelx:property name="userLabel">
+                                <![CDATA[OnReferenceColumnFound]]>
+                              </bpelx:property>
+                            </bpelx:general>
+                          </bpelx:annotation>
+                          <sequence>
+                            <switch name="Switch4">
+                              <case condition="bpws:getVariableData('columns',concat(&quot;/client:column-node/column[&quot;,bpws:getVariableData('gbl_idx'),&quot;]/text()&quot;)) = bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue')">
+                                <bpelx:annotation>
+                                  <bpelx:general>
+                                    <bpelx:property name="userLabel">
+                                      <![CDATA[OnReferenceValueFound]]>
+                                    </bpelx:property>
+                                  </bpelx:general>
+                                </bpelx:annotation>
+                                <assign name="SetModeToUpdate">
+                                  <copy>
+                                    <from expression='"UPDATE"'/>
+                                    <to variable="gbl_mode"/>
+                                  </copy>
+                                  <copy>
+                                    <from expression="bpws:getVariableData('columns',concat(&quot;/client:column-node/column[&quot;,bpws:getVariableData('gbl_idx'),&quot;]/text()&quot;)) "/>
+                                    <to variable="gbl_ref_value"/>
+                                  </copy>
+                                </assign>
+                              </case>
+                              <otherwise>
+                                <assign name="SetModeToLink"
+                                        xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                                  <copy>
+                                    <from expression='"LINK"'/>
+                                    <to variable="gbl_mode"/>
+                                  </copy>
+                                  <copy>
+                                    <from expression="bpws:getVariableData('columns',concat(&quot;/client:column-node/column[&quot;,bpws:getVariableData('gbl_idx'),&quot;]/text()&quot;)) "/>
+                                    <to variable="gbl_ref_value"/>
+                                  </copy>
+                                </assign>
+                              </otherwise>
+                            </switch>
+                          </sequence>
+                        </case>
+                      </switch>
+                      <assign name="IncrementCounter">
+                        <copy>
+                          <from expression="bpws:getVariableData('gbl_idx') + 1"/>
+                          <to variable="gbl_idx"/>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </sequence>
+                </while>
+                <switch name="Switch3"
+                        xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                  <case condition="bpws:getVariableData('gbl_mode') = &quot;ADD&quot;">
+                    <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">
+                          <![CDATA[Add Mode]]>
+                        </bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <assign name="populateXREF"
+                            xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                      <copy>
+                        <from expression="xref:populateXRefRow1M(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceValue'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue'),bpws:getVariableData('gbl_mode'))"/>
+                        <to variable="gbl_populateXREFDataOutcome"/>
+                      </copy>
+                    </assign>
+                  </case>
+                  <case condition="bpws:getVariableData('gbl_mode') =&quot;UPDATE&quot;">
+                    <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                      <bpelx:general>
+                        <bpelx:property name="userLabel">
+                          <![CDATA[Update Mode]]>
+                        </bpelx:property>
+                      </bpelx:general>
+                    </bpelx:annotation>
+                    <sequence name="Sequence4">
+                      <assign name="populateXREF">
+                        <copy>
+                          <from expression="xref:populateXRefRow(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('gbl_ref_value'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue'),'UPDATE')"/>
+                          <to variable="gbl_populateXREFDataOutcome"/>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </case>
+                  <otherwise>
+                    <sequence name="Sequence3">
+                      <assign name="populateXREF"
+                              xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                        <copy>
+                          <from expression="xref:populateXRefRow1M(bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:ReferenceValue'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('processXREFData_ReqMsg','payload','/client:processXREFData/client:LookupValue'),'LINK')"/>
+                          <to variable="gbl_populateXREFDataOutcome"/>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </otherwise>
+                </switch>
+              </sequence>
+            </otherwise>
+          </switch>
+        </sequence>
+      </onMessage>
+      <onMessage variable="UtilityXREFQueryReqMsg" partnerLink="processXREF"
+                 portType="client:UtilityXREF" operation="query">
+        <sequence name="Sequence6">
+          <assign name="QueryXREF">
+            <copy>
+              <from expression="xref:lookupXRef(bpws:getVariableData('UtilityXREFQueryReqMsg','payload','/client:processXREFData/client:XREFName'),bpws:getVariableData('UtilityXREFQueryReqMsg','payload','/client:processXREFData/client:LookupColumn'),bpws:getVariableData('UtilityXREFQueryReqMsg','payload','/client:processXREFData/client:LookupValue'),bpws:getVariableData('UtilityXREFQueryReqMsg','payload','/client:processXREFData/client:ReferenceColumn'),false())"/>
+              <to variable="UtilityXREFQueryRespMsg" part="payload"
+                  query="/client:processResult/client:status"/>
+            </copy>
+          </assign>
+          <reply name="Reply1" variable="UtilityXREFQueryRespMsg"
+                 partnerLink="processXREF" portType="client:UtilityXREF"
+                 operation="query"/>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0" xmlns:obj="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0" xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" xmlns:msg="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" elementFormDefault="qualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.1</Version>
+<Definition>Common SOA Composite Process Manufacturing for Results</Definition>
+<Description>This schema defines the objects to create or extract Results in Oracle AP.</Description>
+<Author>Sindhuja Itikala</Author>
+<VersionDate>07-12-2015</VersionDate>
+<VersionDescription>Review and standardization</VersionDescription>
+<ModificationHistory>23-03-2015 Version 1.0 - Initial Development Version
+								07-05-2016 Version 1.1 - Updated AO with the Fields for Quality Results extraction using BOLNumber
+			</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import schemaLocation="../../../../EO/common/V1.0/Header.xsd" namespace="http://xmlns.eia.com/EO/common/Header/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+<xsd:import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/QualityResultsAO.xsd"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+<xsd:element name="QualityResultsAddRq" type="msg:QualityResultsAddRq"/>
+<xsd:element name="QualityResultsAddRs" type="msg:QualityResultsAddRs"/>
+<xsd:element name="QualityResultsUpdateRq" type="msg:QualityResultsUpdateRq"/>
+<xsd:element name="QualityResultsUpdateRs" type="msg:QualityResultsUpdateRs"/>
+<xsd:complexType name="QualityResultsAddRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element ref="obj:GmdResultsPub"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QualityResultsAddRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element ref="obj:QualityResultResponse"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="QueryQAResultsByBolNoRq">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element ref="obj:GmdResultsPub"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="QueryQAResultsByBolNoRs">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="OperationResult" type="res:OperationResultType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element ref="obj:GmdResultsPub"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:complexType name="QualityResultsUpdateRq">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="AppsContext" type="ctx:AppsContextType" minOccurs="0" nillable="true" maxOccurs="1"/>
+<xsd:element ref="obj:GmdResultsPub"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="QualityResultsUpdateRs">
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element ref="obj:QualityResultResponse"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

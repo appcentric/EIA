@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:itmsp="http://apple.com/itunes/importer" targetNamespace="http://apple.com/itunes/importer" version="2.2">
+<xs:element name="provider" type="xs:token"/>
+<xs:element name="language" type="xs:token"/>
+<xs:simpleType name="vendor_id">
+<xs:restriction base="itmsp:String-1-100">
+<xs:annotation>
+<xs:documentation>Vendor identifiers for video must be uppercase alphanumeric
+                    containing no spaces and only underscore as a delimiter.</xs:documentation>
+</xs:annotation>
+<xs:pattern value="[a-zA-Z0-9_\-\.]*"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="grid">
+<xs:restriction base="xs:string">
+<xs:annotation>
+<xs:documentation>Grid for video must be alphanumeric containing no spaces and only
+                    underscore as a delimiter.</xs:documentation>
+</xs:annotation>
+<xs:minLength value="0"/>
+<xs:maxLength value="100"/>
+<xs:pattern value="[a-zA-Z0-9_\-]*"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="isan">
+<xs:restriction base="xs:string">
+<xs:pattern value="[A-Z0-9\-]{21}|[A-Z0-9\-\.]{33}"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="upc">
+<xs:restriction base="xs:string">
+<xs:pattern value="[\d]{10,14}"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="isrc">
+<xs:restriction base="itmsp:String-1-100">
+<xs:annotation>
+<xs:documentation>ISRCs must not include dashes and should remain only letters and
+                    numbers.</xs:documentation>
+</xs:annotation>
+<xs:pattern value="[a-zA-Z0-9\.]*"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="title">
+<xs:simpleContent>
+<xs:extension base="itmsp:String-1-255">
+<xs:attribute name="translation" type="xs:string"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:simpleType name="release_date">
+<xs:restriction base="xs:date">
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="original_release_year">
+<xs:restriction base="xs:gYear"/>
+</xs:simpleType>
+<xs:simpleType name="label_name">
+<xs:restriction base="itmsp:String-1-255"/>
+</xs:simpleType>
+<xs:simpleType name="copyright_cline">
+<xs:restriction base="itmsp:String-0-1000"/>
+</xs:simpleType>
+<xs:simpleType name="copyright_pline">
+<xs:restriction base="itmsp:String-0-1000"/>
+</xs:simpleType>
+<xs:complexType name="title_version">
+<xs:simpleContent>
+<xs:extension base="xs:string">
+<xs:attribute name="translation" type="xs:string"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:simpleType name="explicit_lyrics">
+<xs:restriction base="xs:token"/>
+</xs:simpleType>
+<xs:complexType name="genres">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="itmsp:genre"/>
+</xs:choice>
+</xs:complexType>
+<xs:element name="genre" type="xs:string"/>
+<xs:complexType name="ratings">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="itmsp:rating"/>
+<xs:element ref="itmsp:advisory"/>
+</xs:choice>
+</xs:complexType>
+<xs:element name="rating">
+<xs:complexType>
+<xs:simpleContent>
+<xs:extension base="xs:NCName">
+<xs:attribute name="system" use="required" type="xs:token"/>
+<xs:attribute name="reason" use="optional" type="xs:token"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+</xs:element>
+<xs:element name="advisory">
+<xs:complexType>
+<xs:simpleContent>
+<xs:extension base="xs:NCName">
+<xs:attribute name="system" use="required" type="xs:token"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+</xs:element>
+<xs:element name="checksum">
+<xs:complexType>
+<xs:simpleContent>
+<xs:extension base="itmsp:Checksum-MD5-Value">
+<xs:attribute name="type" type="xs:string" use="optional"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="data_file">
+<xs:all>
+<xs:element ref="itmsp:file_name"/>
+<xs:element ref="itmsp:size" minOccurs="0"/>
+<xs:element ref="itmsp:checksum"/>
+</xs:all>
+</xs:complexType>
+<xs:element name="file_name" type="xs:token"/>
+<xs:element name="size" type="xs:unsignedLong"/>
+<xs:complexType name="artwork_files">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element name="file" type="itmsp:file"/>
+</xs:choice>
+</xs:complexType>
+<xs:complexType name="file">
+<xs:all>
+<xs:element name="file_name" type="xs:token"/>
+<xs:element name="size" type="xs:unsignedLong" minOccurs="0"/>
+<xs:element ref="itmsp:checksum"/>
+</xs:all>
+</xs:complexType>
+<xs:complexType name="products">
+<xs:sequence>
+<xs:element ref="itmsp:product" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="products" type="itmsp:products">
+<xs:key name="Product-Territories-Unique">
+<xs:annotation>
+<xs:documentation>There may be only one product per territory.</xs:documentation>
+</xs:annotation>
+<xs:selector xpath="*"/>
+<xs:field xpath="territory"/>
+</xs:key>
+</xs:element>
+<xs:element name="territory" type="xs:token"/>
+<xs:element name="wholesale_price_tier" type="xs:token"/>
+<xs:element name="sales_start_date" type="itmsp:Optional-Date"/>
+<xs:element name="sales_end_date" type="itmsp:Optional-Date"/>
+<xs:element name="cleared_for_sale" type="xs:boolean"/>
+<xs:element name="preorder_sales_start_date" type="itmsp:Optional-Date"/>
+<xs:complexType name="artists">
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="itmsp:artist"/>
+</xs:choice>
+</xs:complexType>
+<xs:element name="artist">
+<xs:complexType>
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element name="name" type="itmsp:name"/>
+<xs:element ref="itmsp:roles"/>
+<xs:element ref="itmsp:primary"/>
+</xs:choice>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="name">
+<xs:simpleContent>
+<xs:extension base="xs:string">
+<xs:attribute name="translation" type="xs:string"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:element name="roles">
+<xs:complexType>
+<xs:all>
+<xs:element ref="itmsp:role"/>
+</xs:all>
+</xs:complexType>
+</xs:element>
+<xs:element name="primary" type="xs:boolean"/>
+<xs:element name="role" type="itmsp:String-1-255"/>
+<xs:element name="chapters">
+<xs:complexType>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="itmsp:chapter"/>
+</xs:choice>
+</xs:complexType>
+</xs:element>
+<xs:element name="chapter">
+<xs:complexType>
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="itmsp:chapter_start_time"/>
+<xs:element ref="itmsp:chapter_title"/>
+<xs:element ref="itmsp:artwork_file"/>
+</xs:choice>
+</xs:complexType>
+</xs:element>
+<xs:element name="chapter_start_time" type="itmsp:HHMMSSMMMTime"/>
+<xs:element name="chapter_title" type="itmsp:String-1-255"/>
+<xs:element name="artwork_file">
+<xs:complexType>
+<xs:all>
+<xs:element name="file_name" type="xs:token"/>
+<xs:element name="size" type="xs:unsignedLong" minOccurs="0"/>
+<xs:element ref="itmsp:checksum"/>
+</xs:all>
+</xs:complexType>
+</xs:element>
+<xs:element name="album_liner_notes" type="itmsp:String-0-255"/>
+<xs:element name="album_description_short" type="itmsp:String-0-255"/>
+<xs:element name="album_description_long" type="itmsp:String-0-4000"/>
+<xs:element name="description" type="itmsp:String-0-1000"/>
+<xs:element name="album_track_count" type="xs:positiveInteger"/>
+<xs:element name="album_volume_count" type="xs:positiveInteger"/>
+<xs:element name="album_related_albums">
+<xs:complexType>
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="itmsp:album_relationship"/>
+</xs:choice>
+</xs:complexType>
+</xs:element>
+<xs:element name="album_relationship">
+<xs:complexType>
+<xs:all>
+<xs:element name="album_vendor_id" type="itmsp:vendor_id"/>
+<xs:element ref="itmsp:description"/>
+</xs:all>
+</xs:complexType>
+</xs:element>
+<xs:element name="track_gapless_play" type="xs:boolean"/>
+<xs:element name="track_lyrics" type="xs:string"/>
+<xs:element name="track_liner_notes" type="xs:string"/>
+<xs:element name="track_volume_number" type="xs:positiveInteger"/>
+<xs:element name="track_track_number" type="xs:positiveInteger"/>
+<xs:element name="track_beats_per_minute" nillable="true" type="itmsp:Optional-Number"/>
+<xs:element name="track_preview_start_index" nillable="true" type="itmsp:Optional-Number"/>
+<xs:element name="track_audio_file">
+<xs:complexType>
+<xs:all>
+<xs:element name="file_name" type="xs:token"/>
+<xs:element ref="itmsp:checksum"/>
+</xs:all>
+</xs:complexType>
+</xs:element>
+<xs:element name="track_artists">
+<xs:complexType>
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element ref="itmsp:artist"/>
+</xs:choice>
+</xs:complexType>
+</xs:element>
+<xs:simpleType name="Optional-Date">
+<xs:annotation>
+<xs:documentation>This type allows either an empty element or a date.</xs:documentation>
+</xs:annotation>
+<xs:union>
+<xs:simpleType>
+<xs:restriction base="xs:string">
+<xs:maxLength value="0"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType>
+<xs:restriction base="xs:date"/>
+</xs:simpleType>
+</xs:union>
+</xs:simpleType>
+<xs:simpleType name="Optional-Number">
+<xs:annotation>
+<xs:documentation>This type allows either an empty element or a date.</xs:documentation>
+</xs:annotation>
+<xs:union>
+<xs:simpleType>
+<xs:restriction base="xs:string">
+<xs:maxLength value="0"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType>
+<xs:restriction base="xs:positiveInteger"/>
+</xs:simpleType>
+</xs:union>
+</xs:simpleType>
+<xs:simpleType name="Checksum-MD5-Value">
+<xs:restriction base="xs:token">
+<xs:pattern value="[0-9a-fA-F]{32}"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-1-100">
+<xs:restriction base="xs:string">
+<xs:minLength value="1"/>
+<xs:maxLength value="100"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-1-255">
+<xs:restriction base="xs:string">
+<xs:minLength value="1"/>
+<xs:maxLength value="255"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-1-1000">
+<xs:restriction base="xs:string">
+<xs:minLength value="1"/>
+<xs:maxLength value="1000"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-1-4000">
+<xs:restriction base="xs:string">
+<xs:minLength value="1"/>
+<xs:maxLength value="4000"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-0-100">
+<xs:restriction base="xs:string">
+<xs:minLength value="0"/>
+<xs:maxLength value="100"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-0-255">
+<xs:restriction base="xs:string">
+<xs:minLength value="0"/>
+<xs:maxLength value="255"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-0-1000">
+<xs:restriction base="xs:string">
+<xs:minLength value="0"/>
+<xs:maxLength value="1000"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="String-0-4000">
+<xs:restriction base="xs:string">
+<xs:minLength value="0"/>
+<xs:maxLength value="4000"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="HHMMSSMMMTime">
+<xs:restriction base="xs:string">
+<xs:annotation>
+<xs:documentation>Chapter Timing must be Numeric containing no spaces and separated by a : and a . .</xs:documentation>
+</xs:annotation>
+<xs:minLength value="10"/>
+<xs:maxLength value="12"/>
+<xs:pattern value="\d{2}:\d{2}:\d{2}.\d{1,3}"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,23 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Select_API_WorkOrder_Status" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Select_API_WorkOrder_Status" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="DB_Select_API_WorkOrder_StatusInput" type="DB_Select_API_WorkOrder_StatusInput"/>
+   <xs:complexType name="DB_Select_API_WorkOrder_StatusInput">
+      <xs:sequence>
+         <xs:element name="rownumValue" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_Select_API_WorkOrder_StatusOutputCollection" type="DB_Select_API_WorkOrder_StatusOutputCollection"/>
+   <xs:complexType name="DB_Select_API_WorkOrder_StatusOutputCollection">
+      <xs:sequence>
+         <xs:element name="DB_Select_API_WorkOrder_StatusOutput" type="DB_Select_API_WorkOrder_StatusOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DB_Select_API_WorkOrder_StatusOutput">
+      <xs:sequence>
+         <xs:element name="ID" type="xs:decimal" nillable="true"/>
+         <xs:element name="TRANSACTION_TYPE" type="xs:string" nillable="true"/>
+         <xs:element name="ORDER_NUMBER" type="xs:decimal" nillable="true"/>
+         <xs:element name="TRANSACTION_DATE" type="xs:dateTime" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

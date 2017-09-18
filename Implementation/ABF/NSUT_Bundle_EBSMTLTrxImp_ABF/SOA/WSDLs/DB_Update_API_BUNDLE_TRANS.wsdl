@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Update_API_BUNDLE_TRANS"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Update_API_BUNDLE_TRANS"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Update_API_BUNDLE_TRANS"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_BUNDLE_TRANS"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Update_API_BUNDLE_TRANS_plt" >
+    <plt:role name="DB_Update_API_BUNDLE_TRANS_role" >
+      <plt:portType name="tns:DB_Update_API_BUNDLE_TRANS_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_BUNDLE_TRANS" schemaLocation="../Schemas/DB_Update_API_BUNDLE_TRANS.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_Update_API_BUNDLE_TRANSInput_msg">
+        <wsdl:part name="DB_Update_API_BUNDLE_TRANSInput_msg" element="db:DB_Update_API_BUNDLE_TRANSInput"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Update_API_BUNDLE_TRANS_ptt">
+        <wsdl:operation name="DB_Update_API_BUNDLE_TRANS">
+            <wsdl:input message="tns:DB_Update_API_BUNDLE_TRANSInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

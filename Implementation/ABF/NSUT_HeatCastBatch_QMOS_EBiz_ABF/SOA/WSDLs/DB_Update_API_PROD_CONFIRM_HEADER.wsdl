@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Update_API_PROD_CONFIRM_HEADER"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Update_API_PROD_CONFIRM_HEADER"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Update_API_PROD_CONFIRM_HEADER"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_PROD_CONFIRM_HEADER"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Update_API_PROD_CONFIRM_HEADER_plt" >
+    <plt:role name="DB_Update_API_PROD_CONFIRM_HEADER_role" >
+      <plt:portType name="tns:DB_Update_API_PROD_CONFIRM_HEADER_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_PROD_CONFIRM_HEADER" schemaLocation="../Schemas/DB_Update_API_PROD_CONFIRM_HEADER_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="ApiProdConfirmHeaderCollection_msg">
+        <wsdl:part name="ApiProdConfirmHeaderCollection" element="top:ApiProdConfirmHeaderCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Update_API_PROD_CONFIRM_HEADER_ptt">
+        <wsdl:operation name="update">
+            <wsdl:input message="tns:ApiProdConfirmHeaderCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

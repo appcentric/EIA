@@ -1,0 +1,236 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Proc_GetQualitySpecDetails" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Proc_GetQualitySpecDetails" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_IN_EVENT_ID" type="decimal" db:index="2" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_IN_REQUEST_ID" type="decimal" db:index="3" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_OUT_QSPEC_PAYLOAD" type="db:XXNUC.XXNUC_GMD_QSPEC_TAB_TYPE" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_GMD_QSPEC_OBJ">
+      <sequence>
+         <element name="SPEC_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SPEC_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SPEC_VERS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SPEC_STATUS" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DESCRIPTION" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SPEC_TYPE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OVERLAY_IND" type="db:string2" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BASE_SPEC" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BASE_SPEC_VERSION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORGANIZATION_CODE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ITEM_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_REVISION" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_TYPE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_DESCRIPTION" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GRADE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OWNER_ORGANIZATION_CODE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OWNER_ORGANIZATION_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OWNER_NAME" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE_CATEGORY" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE1" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE2" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE3" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE4" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE5" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE6" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE7" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE8" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE9" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE10" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATED_BY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="QSPEC_TESTS" type="db:XXNUC.XXNUC_GMD_QSPEC_TESTS_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="QSPEC_VALIDITY_RULE" type="db:XXNUC.XXNUC_GMD_QSPEC_VR_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QSPEC_TESTS_TAB_TYPE">
+      <sequence>
+         <element name="QSPEC_TESTS_ITEM" type="db:XXNUC.XXNUC_GMD_QSPEC_TESTS_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QSPEC_TESTS_OBJ">
+      <sequence>
+         <element name="SPEC_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SPEC_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SEQ" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TEST_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TEST_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_CLASS" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_METHOD" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TARGET_VALUE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MINIMUM_VALUE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MAXIMUM_VALUE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_UNIT" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_QTY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TEST_QTY_UOM" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_REPLICATE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_PRIORITY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OPTIONAL_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RETEST_LOT_EXPIRY_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OUT_OF_SPEC_ACTION" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CHECK_RESULT_INTERVAL" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BELOW_SPEC_MIN" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BELOW_MIN_ACTION_CODE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ABOVE_SPEC_MIN" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ABOVE_MIN_ACTION_CODE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BELOW_SPEC_MAX" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BELOW_MAX_ACTION_CODE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ABOVE_SPEC_MAX" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ABOVE_MAX_ACTION_CODE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TEST_DISPLAY" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PRINT_SPEC_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PRINT_RESULT_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DISPLAY_PRECISION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="REPORT_PRECISION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DAYS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="HOURS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="MINUTES" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SECONDS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="FROM_BASE_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="EXCLUDE_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="MODIFIED_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CALC_UOM_CONV_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TO_QTY_UOM" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE_CATEGORY" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE1" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE2" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE3" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE4" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE5" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE6" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE7" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE8" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE9" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE10" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATED_BY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_LOGIN" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QSPEC_VR_TAB_TYPE">
+      <sequence>
+         <element name="QSPEC_VALIDITY_RULE_ITEM" type="db:XXNUC.XXNUC_GMD_QSPEC_VR_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QSPEC_VR_OBJ">
+      <sequence>
+         <element name="SPEC_VR_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SPEC_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SPEC_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORGANIZATION_CODE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SPEC_VR_TYPE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SPEC_VR_STATUS" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="START_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="END_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="SAMPLING_PLAN_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COA_TYPE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COA_AT_SHIP_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COA_AT_INVOICE_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COA_FROM_SUPPLIER_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_OPTIONAL_ON_SAMPLE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="AUTO_SAMPLE_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELAYED_LOT_ENTRY" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DELAYED_LPN_ENTRY" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CONTROL_LOT_ATTRB_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="IN_SPEC_LOT_STATUS" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OUT_OF_SPEC_LOT_STATUS" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SAMPLE_INV_TRANS_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OPERATING_UNIT" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PARENT_LOT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUBINVENTORY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_LOCATOR" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BATCH_NO" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RECIPE_NO" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RECIPE_VERS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="FORMULA_NO" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="FORMULA_VERS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="FORMULALINE_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ROUTING_NO" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ROUTING_VERS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="STEP_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CHARGE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="OPRN_NO" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="OPRN_VERS" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CONTROL_BATCH_STEP_IND" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="AUTO_COMPLETE_BATCH_STEP" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CUSTOMER_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPTO_LOCATION" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORDER_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORDER_TYPE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORDER_LINE_NUM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SUPPLIER_NO" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPPLIER_SITE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PO_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PO_LINE_NUM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE_CATEGORY" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE1" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE2" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE3" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE4" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE5" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE6" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE7" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE8" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE9" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE10" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATED_BY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_GMD_QSPEC_TAB_TYPE">
+      <sequence>
+         <element name="P_OUT_QSPEC_PAYLOAD_ITEM" type="db:XXNUC.XXNUC_GMD_QSPEC_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string240">
+      <restriction base="string">
+         <maxLength value="240"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string30">
+      <restriction base="string">
+         <maxLength value="30"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2">
+      <restriction base="string">
+         <maxLength value="2"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string5">
+      <restriction base="string">
+         <maxLength value="5"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+</schema>

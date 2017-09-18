@@ -1,0 +1,32 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xs:schema attributeFormDefault="unqualified" 
+targetNamespace="http://www.nucor.com/scmschemas/label.xsd" 
+elementFormDefault="qualified" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="labels">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="label">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="variable" maxOccurs="unbounded" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute type="xs:string" name="name" use="optional"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="_FORMAT"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="_FORMAT"/>
+            <xs:attribute type="xs:byte" name="_QUANTITY"/>
+            <xs:attribute type="xs:string" name="_PRINTERNAME"/>
+            <xs:attribute type="xs:short" name="_JOBNAME"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

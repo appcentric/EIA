@@ -1,0 +1,14 @@
+<adapter-config name="DB_QMOS_DATA" adapter="db" wsdlLocation="../WSDLs/DB_QMOS_DATA.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="nsutqmos" location="eis/DB/nstxqmos"/>
+  <endpoint-interaction portType="DB_QMOS_DATA_ptt" operation="DB_QMOS_DATASelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_QMOS_DATA.ApiMetTrans"/>
+      <property name="QueryName" value="DB_QMOS_DATASelect"/>
+      <property name="MappingsMetaDataURL" value="DB_QMOS_DATA-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

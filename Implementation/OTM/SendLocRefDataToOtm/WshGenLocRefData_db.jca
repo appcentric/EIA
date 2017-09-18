@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="WshGenLocRefData" adapter="db" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="glgc2dv1" adapterRef="">
+    <!--<non-managed-connection managedConnectionFactoryClassName="oracle.tip.adapter.db.DBManagedConnectionFactory">
+      <property name="DriverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+      <property name="PlatformClassName" value="oracle.toplink.internal.databaseaccess.Oracle9Platform"/>
+      <property name="ConnectionString" value="jdbc:oracle:thin:@ap650sdb:3935:glgc2dv1"/>
+      <property name="UserName" value="apps"/>
+      <property name="Password" value="53CB0F044A0D3DD2C063679F18F89870"/>
+    </non-managed-connection>-->
+  </connection-factory>
+
+  <endpoint-interaction portType="WshGenLocRefData_ptt" operation="WshGenLocRefData">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="WSH_OTM_REF_DATA_GEN_PKG"/>
+      <property name="ProcedureName" value="SEND_LOCATIONS"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

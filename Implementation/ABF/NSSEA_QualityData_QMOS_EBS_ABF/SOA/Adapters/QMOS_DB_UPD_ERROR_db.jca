@@ -1,0 +1,14 @@
+<adapter-config name="QMOS_DB_UPD_ERROR" adapter="db" wsdlLocation="../WSDLs/QMOS_DB_UPD_ERROR.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOSDB" location="eis/DB/nsseaqmos"/>
+  <endpoint-interaction portType="QMOS_DB_UPD_ERROR_ptt" operation="update">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="QMOS_DB_UPD_ERROR.ApiMetTrans"/>
+      <property name="DmlType" value="update"/>
+      <property name="MappingsMetaDataURL" value="QMOS_DB_UPD_ERROR-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

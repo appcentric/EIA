@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+            targetNamespace="http://xmlns.oracle.com/apps/wsh/outbound/ref/WshSendLocRefDataToOtm"
+            elementFormDefault="qualified">
+   <xsd:complexType name="WSH_OTM_RD_NUM_TBL_TYPE">
+      <xsd:sequence>
+         <xsd:element name="ENTITY_ID_TBL_ITEM" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="WSH_OTM_ENTITY_REC_TYPE">
+      <xsd:sequence>
+         <xsd:element name="ENTITY_TYPE" minOccurs="0" nillable="true">
+         </xsd:element>
+         <xsd:element name="ENTITY_ID_TBL" type="WSH_OTM_RD_NUM_TBL_TYPE" minOccurs="0" nillable="true"/>
+         <xsd:element name="PARENT_ENTITY_ID_TBL" type="WSH_OTM_RD_NUM_TBL_TYPE" minOccurs="0" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="SECURITY_INPUT_TYPE">
+      <xsd:sequence>
+         <xsd:element name="refTktKey" minOccurs="0" nillable="true"/>
+         <xsd:element name="refOpCode" minOccurs="0" nillable="true"/>         
+         <xsd:element name="refArgKey" minOccurs="0" nillable="true"/>          
+      </xsd:sequence>
+   </xsd:complexType>
+  <xsd:element name="InputParameters">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="EntityInput" minOccurs="0" nillable="true">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="entityType" type="xsd:string"/>
+                     <xsd:element name="entityIdTbl" type="xsd:long" minOccurs="1" maxOccurs="unbounded"/>
+                     <xsd:element name="parentEntityIdTbl" maxOccurs="unbounded" type="xsd:long" minOccurs="0"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+        <xsd:element name="SecurityInput" minOccurs="0" nillable="true">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="refTktKey"/>
+                     <xsd:element name="refOpCode"/>
+                     <xsd:element name="refArgKey"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+   <xsd:element name="OutputParameters"/>
+
+</xsd:schema>
+

@@ -1,0 +1,1617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_Extract_EBIZ_Batch_Details-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaBomExtV</class>
+         <alias>XXNUC_GME_JDA_BOM_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_BOM_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_BOM_EXT_V" name="ROUTING" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_Extract_EBIZ_Batch_DetailsSelect" xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaBomExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>consumedPartNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="CONSUMED_PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>consumedQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="CONSUMED_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>consumedQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="CONSUMED_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>routing</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="ROUTING" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>producedPartNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="PRODUCED_PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>producedQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="PRODUCED_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>producedQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="PRODUCED_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>primaryResource</attribute-name>
+               <field table="XXNUC_GME_JDA_BOM_EXT_V" name="PRIMARY_RESOURCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_BOM_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaMopExtV</class>
+         <alias>XXNUC_GME_JDA_MOP_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_MOP_EXT_V" name="CONSUMED_ORDER" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_MOP_EXT_V" name="PRODUCED_ORDER" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>consumedOrder</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="CONSUMED_ORDER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>consumedPart</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="CONSUMED_PART" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandOrderP</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="DEMAND_ORDER_P" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>actualQuantityFed</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="ACTUAL_QUANTITY_FED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandsLockedP</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="DEMANDS_LOCKED_P" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operation</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="OPERATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>producedOrder</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="PRODUCED_ORDER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>quantityFed</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="QUANTITY_FED" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stepNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="STEP_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stockOrder</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="STOCK_ORDER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>surplus</attribute-name>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="SURPLUS" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_MOP_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_MOP_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaOnhandExtV</class>
+         <alias>XXNUC_GME_JDA_ONHAND_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="BATCH_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>arrivalTime</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="ARRIVAL_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>arrivalTimeFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="ARRIVAL_TIME_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>expirationTime</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="EXPIRATION_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="PART_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="PART_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>priority</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>purchaseOrderNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="PURCHASE_ORDER_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendor</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="VENDOR" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>itemType</attribute-name>
+               <field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="ITEM_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_ONHAND_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaResourcesExtV</class>
+         <alias>XXNUC_GME_JDA_RESOURCES_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="NAME" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defaultSetupTime</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="DEFAULT_SETUP_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>defaultSetupTimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="DEFAULT_SETUP_TIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>earlinessTolerance</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="EARLINESS_TOLERANCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>earlinessToleranceUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="EARLINESS_TOLERANCE_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>estimatedQueueTime</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="ESTIMATED_QUEUE_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>estimatedQueueTimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="ESTIMATED_QUEUE_TIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>latenessTolerance</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="LATENESS_TOLERANCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>latenessToleranceUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="LATENESS_TOLERANCE_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>location</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="LOCATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>maxQueueSize</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="MAX_QUEUE_SIZE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>minimumQueueTime</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="MINIMUM_QUEUE_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>minimumQueueTimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="MINIMUM_QUEUE_TIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>name</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>queueSizeMode</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="QUEUE_SIZE_MODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>queueSizeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="QUEUE_SIZE_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>scheduleFreezeHorizon</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SCHEDULE_FREEZE_HORIZON" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>scheduleFreezeHorizonUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SCHEDULE_FREEZE_HORIZON_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>scheduleLockHorizon</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SCHEDULE_LOCK_HORIZON" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>scheduleLockHorizonUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SCHEDULE_LOCK_HORIZON_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>schedulingCriticality</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SCHEDULING_CRITICALITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setupMatrixId</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP_MATRIX_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setupSequenceGoBackEnable</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP_SEQUENCE_GO_BACK_ENABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setupSequenceId</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP_SEQUENCE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setup2MatrixId</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP2_MATRIX_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setup2SequenceGoBackEnable</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP2_SEQUENCE_GO_BACK_ENABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setup2SequenceId</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP2_SEQUENCE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setup3MatrixId</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP3_MATRIX_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setup3SequenceGoBackEnable</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP3_SEQUENCE_GO_BACK_ENABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setup3SequenceId</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SETUP3_SEQUENCE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>simultaneousHierarchicalSet</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="SIMULTANEOUS_HIERARCHICAL_SET" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taskCutoffHorizon</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="TASK_CUTOFF_HORIZON" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>taskCutoffHorizonUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="TASK_CUTOFF_HORIZON_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>trueFreezeHorizon</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="TRUE_FREEZE_HORIZON" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>trueFreezeHorizonUom</attribute-name>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="TRUE_FREEZE_HORIZON_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_RESOURCES_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaRoutingsExtV</class>
+         <alias>XXNUC_GME_JDA_ROUTINGS_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="ROUTING" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="OPERATION" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>baseMachineResource</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="BASE_MACHINE_RESOURCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>baseYield</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="BASE_YIELD" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>displayQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="DISPLAY_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>earlySetup</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="EARLY_SETUP" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>interruptible</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="INTERRUPTIBLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>minOperationTime</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="MIN_OPERATION_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>minOperationTimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="MIN_OPERATION_TIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operation</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="OPERATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>preopTime</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="PREOP_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>preopTimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="PREOP_TIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>routing</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="ROUTING" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>runRate</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="RUN_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>runRatePer</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="RUN_RATE_PER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>runRateUom</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="RUN_RATE_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sameDemandSameSetupRun</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="SAME_DEMAND_SAME_SETUP_RUN" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sequenceDependentSetupType</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="SEQUENCE_DEPENDENT_SETUP_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sequenceDependentSetupType2</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="SEQUENCE_DEPENDENT_SETUP_TYPE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sequenceDependentSetupType3</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="SEQUENCE_DEPENDENT_SETUP_TYPE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stepNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="STEP_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unitRuntime</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="UNIT_RUNTIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unitRuntimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="UNIT_RUNTIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>primRsrcInd</attribute-name>
+               <field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="PRIM_RSRC_IND" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_ROUTINGS_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaWipDataExtV</class>
+         <alias>XXNUC_GME_JDA_WIP_DATA_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="BATCH_ID" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>completionTime</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="COMPLETION_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>completionTimeFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="COMPLETION_TIME_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>elapsedRuntime</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="ELAPSED_RUNTIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>elapsedRuntimeUom</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="ELAPSED_RUNTIME_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>finishedQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="FINISHED_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>finishedQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="FINISHED_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>finishedPartNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="FINISHED_PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>manufacturingOrder</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="MANUFACTURING_ORDER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operation</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="OPERATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>operationComplete</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="OPERATION_COMPLETE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>routing</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="ROUTING" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>setTaskToEpstP</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="SET_TASK_TO_EPST_P" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>startTime</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="START_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>startTimeFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="START_TIME_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stepNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="STEP_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unfinishedQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="UNFINISHED_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unfinishedQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="UNFINISHED_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>unfinishedPartNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="UNFINISHED_PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>primaryResource</attribute-name>
+               <field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="PRIMARY_RESOURCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_WIP_DATA_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaPartExtV</class>
+         <alias>XXNUC_GME_JDA_PART_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_PART_EXT_V" name="MATERIAL_DETAIL_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createAutoAto</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="CREATE_AUTO_ATO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>customerName</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="CUSTOMER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandPartNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="DEMAND_PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>description</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="DESCRIPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partBufferStyle</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PART_BUFFER_STYLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partNumberType</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PART_NUMBER_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>planTimeInterval</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PLAN_TIME_INTERVAL" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>planTimeIntervalUom</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PLAN_TIME_INTERVAL_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productFamily</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PRODUCT_FAMILY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sellable</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="SELLABLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stockPart</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="STOCK_PART" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>grade</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="GRADE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>width</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="WIDTH" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>length</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="LENGTH" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>gauge</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="GAUGE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>dimension</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="DIMENSION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>spec</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="SPEC" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productType</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="PRODUCT_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>inventoryItemId</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="INVENTORY_ITEM_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lineType</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="LINE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attrXml</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="ATTR_XML" xsi:type="column"/>
+               <attribute-classification>java.lang.Object</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>materialDetailId</attribute-name>
+               <field table="XXNUC_GME_JDA_PART_EXT_V" name="MATERIAL_DETAIL_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_PART_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaSoExtV</class>
+         <alias>XXNUC_GME_JDA_SO_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_SO_EXT_V" name="DEMAND_ORDER_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>acmFlag</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="ACM_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>allowInventoryConsumption</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="ALLOW_INVENTORY_CONSUMPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>category</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>crsd</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="CRSD" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>crsdFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="CRSD_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>customer</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="CUSTOMER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandLocation</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="DEMAND_LOCATION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandTypePriority</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="DEMAND_TYPE_PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>doNotSchedule</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="DO_NOT_SCHEDULE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>makeToStockP</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="MAKE_TO_STOCK_P" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="PART_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partQuantityUom</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="PART_QUANTITY_UOM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="PART_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>demandOrderId</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="DEMAND_ORDER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>priority</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>promiseDate</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="PROMISE_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>promiseDateFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="PROMISE_DATE_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>replanOrderP</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="REPLAN_ORDER_P" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>salesDueDate</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="SALES_DUE_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>salesDueDateFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="SALES_DUE_DATE_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>salesRep</attribute-name>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="SALES_REP" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="XXNUC_GME_JDA_SO_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_SO_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaBatchExtV</class>
+         <alias>XXNUC_GME_JDA_BATCH_EXT_V</alias>
+         <primary-key>
+            <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+            <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_Extract_EBIZ_Batch_DetailsSelect" xsi:type="read-all-query">
+                  <criteria operator="and" xsi:type="logic-expression">
+                     <left operator="equal" xsi:type="relation-expression">
+                        <left name="organizationId" xsi:type="query-key-expression">
+                           <base xsi:type="base-expression"/>
+                        </left>
+                        <right xsi:type="parameter-expression">
+                           <parameter name="vOrgId" xsi:type="column"/>
+                        </right>
+                     </left>
+                     <right operator="equal" xsi:type="relation-expression">
+                        <left name="primaryResource" xsi:type="query-key-expression">
+                           <base xsi:type="base-expression"/>
+                        </left>
+                        <right xsi:type="parameter-expression">
+                           <parameter name="vResource" xsi:type="column"/>
+                        </right>
+                     </right>
+                  </criteria>
+                  <arguments>
+                     <argument name="vOrgId">
+                        <type>java.lang.String</type>
+                     </argument>
+                     <argument name="vResource">
+                        <type>java.lang.String</type>
+                     </argument>
+                  </arguments>
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaBatchExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>epstFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="EPST_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>feedsLocked</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="FEEDS_LOCKED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>firstOperationEpst</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="FIRST_OPERATION_EPST" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>firstOperationPst</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="FIRST_OPERATION_PST" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>futureOperationForHold</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="FUTURE_OPERATION_FOR_HOLD" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastOperationLpst</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="LAST_OPERATION_LPST" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastOperationPst</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="LAST_OPERATION_PST" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lpstFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="LPST_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>maintainQuantityLocked</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="MAINTAIN_QUANTITY_LOCKED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>manufacturingOrder</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="MANUFACTURING_ORDER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mfgHoldDate</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="MFG_HOLD_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mfgHoldDateFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="MFG_HOLD_DATE_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mfgPlantId</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="MFG_PLANT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>orderQuantitySatisfied</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORDER_QUANTITY_SATISFIED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>routing</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ROUTING" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pstFormat</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="PST_FORMAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>quantityLocked</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="QUANTITY_LOCKED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>quantityProduced</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="QUANTITY_PRODUCED" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>previousQuantityProduced</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="PREVIOUS_QUANTITY_PRODUCED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>routingLocked</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ROUTING_LOCKED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sortPriority</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="SORT_PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>specificRoutingId</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="SPECIFIC_ROUTING_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>splitQuantity</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="SPLIT_QUANTITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stepNumber</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="STEP_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createAutoAto</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="CREATE_AUTO_ATO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchId</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>organizationId</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>batchStatus</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_STATUS" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>primaryResource</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="PRIMARY_RESOURCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>origScheduleDate</attribute-name>
+               <field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORIG_SCHEDULE_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaResourcesExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaResourcesExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_RESOURCES_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaResourcesExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaSoExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaSoExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_SO_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_SO_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaSoExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaBomExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaBomExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_BOM_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_BOM_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaBomExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaMopExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaMopExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_MOP_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_MOP_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaMopExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaRoutingsExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaRoutingsExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_ROUTINGS_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaRoutingsExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaWipDataExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaWipDataExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_WIP_DATA_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaWipDataExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaOnhandExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaOnhandExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_ONHAND_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaOnhandExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>xxnucGmeJdaPartExtVCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaPartExtV</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_PART_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="BATCH_ID" xsi:type="column"/>
+                  </field-reference>
+                  <field-reference>
+                     <source-field table="XXNUC_GME_JDA_PART_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                     <target-field table="XXNUC_GME_JDA_BATCH_EXT_V" name="ORGANIZATION_ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_Extract_EBIZ_Batch_Details.XxnucGmeJdaPartExtV</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="XXNUC_GME_JDA_BATCH_EXT_V"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

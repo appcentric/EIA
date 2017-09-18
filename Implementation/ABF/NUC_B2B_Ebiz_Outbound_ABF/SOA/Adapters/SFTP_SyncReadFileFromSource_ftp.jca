@@ -1,0 +1,13 @@
+<adapter-config name="SFTP_SyncReadFileFromSource" adapter="ftp" wsdlLocation="../WSDLs/SFTP_SyncReadFileFromSource.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/FtpAdapter"/>
+  <endpoint-interaction portType="SynchRead_ptt" operation="SynchRead">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPReadInteractionSpec">
+      <property name="DeleteFile" value="false"/>
+      <property name="PhysicalDirectory" value="/data/SOA/ftpzone"/>
+      <property name="FileName" value="filename"/>
+      <property name="FileType" value="ascii"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

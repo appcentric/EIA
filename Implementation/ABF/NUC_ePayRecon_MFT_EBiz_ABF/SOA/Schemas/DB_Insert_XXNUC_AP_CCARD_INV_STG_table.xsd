@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_XXNUC_AP_CCARD_INV_STG" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_XXNUC_AP_CCARD_INV_STG" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxnucApCcardInvStgCollection" type="XxnucApCcardInvStgCollection"/>
+   <xs:complexType name="XxnucApCcardInvStgCollection">
+      <xs:sequence>
+         <xs:element name="XxnucApCcardInvStg" type="XxnucApCcardInvStg" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxnucApCcardInvStg">
+      <xs:sequence>
+         <xs:element name="accountPoolDescription" type="string100" minOccurs="0" nillable="true"/>
+         <xs:element name="accPoolId" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="beginDate" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="endDate" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="entryDate" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="merchantName" type="string80" minOccurs="0" nillable="true"/>
+         <xs:element name="merchantNumber" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="postedDate" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="totalAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="trxAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="transactionDate" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="transactionId" type="xs:decimal"/>
+         <xs:element name="orgId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="concRequestId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="sourceFileName" type="string100" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="errorFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="errorMessage" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="paymentDocumentNumber" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierSiteCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierName" type="string50" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string100">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string80">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="80"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

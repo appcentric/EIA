@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:eamm="http://xmlns.eia.com/AO/EBiz/O2C/MeterAM/1.0"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/MeterAM/1.0"
+            xmlns:eamo="http://xmlns.eia.com/AO/EBiz/O2C/MeterAO/1.0"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+            elementFormDefault="qualified">
+  <xsd:import schemaLocation="../../../../AO/EBiz/O2C/V1.0/MeterAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/O2C/MeterAO/1.0" />
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" />
+  <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0" />
+  <xsd:element name="CreateMeterReadingRequestMessage">
+    <xsd:annotation>
+      <xsd:documentation>
+        A sample element
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="AppsContext" type="ctx:AppsContextType"
+                     maxOccurs="1" minOccurs="0"/>
+        <xsd:element name="ListOfMeterReading"
+                     type="eamo:ListOfMeterReadingTypes"
+                     maxOccurs="1" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="CreateMeterReadingResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="OperationalResult"
+                     type="res:OperationResultType" maxOccurs="unbounded"
+                     minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

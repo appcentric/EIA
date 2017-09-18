@@ -1,0 +1,132 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Mar 06 15:10:42 CST 2015
+  Author:  Brian.Lowe
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="QA_DelayResults"
+               targetNamespace="http://xmlns.oracle.com/NucorPordSup/NUC_EBizQAResults_ABS/QA_DelayResults"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/NucorPordSup/NUC_EBizQAResults_ABS/QA_DelayResults"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_EBizQAResults_ABS/QA_Delay_Results"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.eia.com/ABS/EBiz/O2C/QAResultsABS/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/O2C/QACollectionAM/1.0">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0"
+          location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="QA_Delay_Results"
+                 partnerLinkType="ns1:QA_Delay_Results_plt"
+                 partnerRole="QA_Delay_Results_role"/>
+    <partnerLink name="QAResultsABS" partnerLinkType="ns3:QAResultsABS"
+                 myRole="SyncPortType"/>
+  </partnerLinks>
+  <variables>
+    <variable name="EIA_HEADER_MESSAGE" element="ns2:ProcessHeader"/>
+    <variable name="CreateListQAResults_SyncReqMsg"
+              messageType="ns3:CreateQaCollectionRequestMessageType"/>
+    <variable name="DB_CreateQAResultsEBS_ReqMsg"
+              messageType="ns1:QaResultsInterfaceCollection_msg"/>
+    <variable name="CreateListQAResults_syncRespMsg"
+              messageType="ns3:CreateQaCollectionResponseMessageType"/>
+  </variables>
+  <faultHandlers>
+    <catchAll><sequence name="Sequence1"><assign name="Set_Reply"><copy><from>"E"</from><to>$CreateListQAResults_syncRespMsg.CreateQaCollectionResponseMessage/ns4:OperationalResult/ns5:Stats</to></copy><copy><from>ora:getFaultAsString()</from><to>$CreateListQAResults_syncRespMsg.CreateQaCollectionResponseMessage/ns4:OperationalResult/ns5:Errors/ns5:OperationResultError</to></copy></assign><reply name="Create_DownTime_Reply"
+                                                                                                                                                                                                                                                                                                                                                                                                               variable="CreateListQAResults_syncRespMsg"
+                                                                                                                                                                                                                                                                                                                                                                                                               partnerLink="QAResultsABS"
+                                                                                                                                                                                                                                                                                                                                                                                                               portType="ns3:SyncPortType"
+                                                                                                                                                                                                                                                                                                                                                                                                               operation="CreateQaCollection_Sync"
+                                                                                                                                                                                                                                                                                                                                                                                                               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="CreateListQAResults_SyncReqMsg"
+                 partnerLink="QAResultsABS" portType="ns3:SyncPortType"
+                 operation="CreateQaCollection_Sync">
+        <sequence name="createDowntimeEvents">
+          <assign name="SetEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getRevision()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessURL()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="Xform_CreateListQAResults_SyncReqMsg_To_DB_CreateQAResultsEBS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateListQAResults_SyncReqMsg_To_DB_CreateQAResultsEBS_ReqMsg.xsl", $CreateListQAResults_SyncReqMsg.CreateQaCollectionRequestMessage)</from>
+              <to variable="DB_CreateQAResultsEBS_ReqMsg"
+                  part="QaResultsInterfaceCollection"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_QA_DelayResults"
+                  partnerLink="QA_Delay_Results"
+                  portType="ns1:QA_Delay_Results_ptt" operation="insert"
+                  inputVariable="DB_CreateQAResultsEBS_ReqMsg"
+                  bpelx:invokeAsDetail="no"/>
+          <assign name="Xform_CreateListQAResults_SyncReqMsg_To_CreateListQAResults_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateListQAResults_SyncReqMsg_To_CreateListQAResults_SyncRespMsg.xsl", $CreateListQAResults_SyncReqMsg.CreateQaCollectionRequestMessage)</from>
+              <to variable="CreateListQAResults_syncRespMsg"
+                  part="CreateQaCollectionResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Create_DownTime_Reply"
+                 variable="CreateListQAResults_syncRespMsg"
+                 partnerLink="QAResultsABS" portType="ns3:SyncPortType"
+                 operation="CreateQaCollection_Sync"/>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

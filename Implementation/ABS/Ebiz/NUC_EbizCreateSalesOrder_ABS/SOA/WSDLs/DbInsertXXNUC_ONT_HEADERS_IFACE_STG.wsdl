@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DbInsertXXNUC_ONT_HEADERS_IFACE_STG"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/I101FreightPayment/NUC_CreateEBSSalesOrderABS/DbInsertXXNUC_ONT_HEADERS_IFACE_STG"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/I101FreightPayment/NUC_CreateEBSSalesOrderABS/DbInsertXXNUC_ONT_HEADERS_IFACE_STG"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DbInsertXXNUC_ONT_HEADERS_IFACE_STG"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DbInsertXXNUC_ONT_HEADERS_IFACE_STG_plt" >
+    <plt:role name="DbInsertXXNUC_ONT_HEADERS_IFACE_STG_role" >
+      <plt:portType name="tns:DbInsertXXNUC_ONT_HEADERS_IFACE_STG_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DbInsertXXNUC_ONT_HEADERS_IFACE_STG" schemaLocation="../Schemas/DbInsertXXNUC_ONT_HEADERS_IFACE_STG_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucOntHeadersIfaceStgCollection_msg">
+        <wsdl:part name="XxnucOntHeadersIfaceStgCollection" element="top:XxnucOntHeadersIfaceStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DbInsertXXNUC_ONT_HEADERS_IFACE_STG_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:XxnucOntHeadersIfaceStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

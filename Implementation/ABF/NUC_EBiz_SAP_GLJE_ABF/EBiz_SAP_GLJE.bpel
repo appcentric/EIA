@@ -1,0 +1,346 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Jun 24 16:46:36 CDT 2013
+  Author:  brian
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBiz_SAP_GLJE" targetNamespace="http://xmlns.oracle.com/NucorSOA/NUC_EBiz_SAP_GLJE_ABF/EBiz_SAP_GLJE"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/NucorSOA/NUC_EBiz_SAP_GLJE_ABF/EBiz_SAP_GLJE"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns2="www.Nucor.com"
+         xmlns:ns3="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+         xmlns:ns4="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns5="http://xmlns.eia.com/EO/Common/1.0" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/A2R/JournalAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/A2R/JournalAM/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns9="http://xmlns.oracle.com/FIPosting_SOA_Application/FI_Posting_Project/BPELProcess"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns11="http://nucor.eia.com/CommonLogging"
+         xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:ns12="http://xmlns.eia.com/CommonArtifacts/wsdl/EIAFault/1.0"
+         xmlns:ns13="http://xmlns.eia.com/CommonLogging" xmlns:ns14="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns15="http://www.nucor.com/General">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/bpel/extension" location="WSDLs/RuntimeFault.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/CommonArtifacts/wsdl/EIAFault/1.0"
+          location="oramds:/apps/EIAMetadata/CommonArtifacts/wsdl/EIAFault.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0" location="NUC_EBiz_SAP_GLJE_ABFWrapper.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0" location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import location="oramds:/apps/EIAMetadata/AO/SAP/common/V1.0/nuepay_posting.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <partnerLink name="ProcessPayroll" partnerLinkType="ns1:ProcessPayroll" myRole="SyncPort"/>
+    <partnerLink name="SAP_FI_Posting_Service" partnerLinkType="ns2:SAP_FI_Posting_Service" partnerRole="SapDataSoap"/>
+    <partnerLink name="JournalABS" partnerLinkType="ns3:JournalABS" partnerRole="SyncPortType"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns13:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="SapFiPostingServiceReqMsg" messageType="ns2:Get_SAP_FIPostingSoapIn"/>
+    <variable name="SapFiPostingServiceRespMsg" messageType="ns2:Get_SAP_FIPostingSoapOut"/>
+    <variable name="ReceiveProcessPayroll" messageType="ns1:requestMessage"/>
+    <variable name="ReplyProcessPayroll" messageType="ns1:replyMessage"/>
+    <variable name="SapFiPostingServiceOutputMsg" element="Envelope"/>
+    <variable name="CreateListOfJournalsRespMessage" messageType="ns3:CreateListOfJournalsResponseMessageType"/>
+    <variable name="CreateListOfJournalsReqMessage" messageType="ns3:CreateListOfJournalsRequestMessageType"/>
+    <variable name="EIAFaultMsg" element="ns5:Fault"/>
+    <variable name="g_Invoke_CommonLogging_PL_process_InputVariable" messageType="ns13:CommonLoggingRequestMessage"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+    <variable name="g_Fault" messageType="bpelx:RuntimeFaultMessage"/>
+  </variables>
+  <faultHandlers>
+    <catch bpelx:name="EIAFault" faultName="ns3:EIAFault" faultVariable="EIAFaultMsg" faultElement="ns5:Fault">
+      <sequence name="Sequence3">
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:LogType</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns13:CommonLogging"
+                operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <reply name="Reply1" variable="ReplyProcessPayroll" partnerLink="ProcessPayroll" portType="ns1:SyncPort"
+               operation="ProcessPayroll_Sync" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:LogType</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns13:CommonLogging"
+                operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <reply name="Reply1" variable="ReplyProcessPayroll" partnerLink="ProcessPayroll" portType="ns1:SyncPort"
+               operation="ProcessPayroll_Sync"/>
+        <rethrow name="Rethrow1"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_ProcessPayroll" createInstance="yes" partnerLink="ProcessPayroll" portType="ns1:SyncPort"
+             operation="ProcessPayroll_Sync" variable="ReceiveProcessPayroll"/>
+    <scope name="Scope1">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence>
+        <assign name="Assign_CommonLogging_PL">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I001'</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'GeneralLedger'</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>3</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionId))</from>
+            <to>$setTitleVar</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns13:CommonLogging"
+                operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="Xform_ReceiveMsg_SapFiPostingServiceReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_ReceiveMsg_SapFiPostingServiceReqMsg.xsl", $ReceiveProcessPayroll.part1)</from>
+        <to variable="SapFiPostingServiceReqMsg" part="parameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke_SapFiPostingService" partnerLink="SAP_FI_Posting_Service" portType="ns2:SapDataSoap"
+            operation="Get_SAP_FIPosting" inputVariable="SapFiPostingServiceReqMsg"
+            outputVariable="SapFiPostingServiceRespMsg" bpelx:invokeAsDetail="no"/>
+    <if name="If_Check_SAP_Status">
+      <documentation>
+        <![CDATA[Error]]>
+      </documentation>
+      <condition>$SapFiPostingServiceRespMsg.parameters/ns2:Get_SAP_FIPostingResult/ns15:Root/ns15:Errors/ns15:Error !=''</condition>
+      <sequence name="Sequence5">
+        <assign name="Assign_Error">
+          <copy>
+            <from>$SapFiPostingServiceRespMsg.parameters/ns2:Get_SAP_FIPostingResult</from>
+            <to>$g_Fault.summary</to>
+          </copy>
+          <copy>
+            <from>$SapFiPostingServiceRespMsg.parameters/ns2:Get_SAP_FIPostingResult</from>
+            <to>$g_Fault.detail</to>
+          </copy>
+        </assign>
+        <throw name="Throw_SAP_Error" faultName="bpelx:remoteFault" faultVariable="g_Fault"/>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[DoNothing]]>
+        </documentation>
+        <empty name="DoNothing"/>
+      </else>
+    </if>
+    <assign name="SetSapFiPostingServiceOutput">
+      <copy>
+        <from>$SapFiPostingServiceRespMsg.parameters/ns2:Get_SAP_FIPostingResult/Envelope</from>
+        <to>$SapFiPostingServiceOutputMsg</to>
+      </copy>
+    </assign>
+    <assign name="Xform_ProcessPayrollReqMsg_CreateListOfJournalReqMsg">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/Xform_ProcessPayrollReqMsg_CreateListOfJournalReqMsg.xsl", $SapFiPostingServiceOutputMsg)</from>
+        <to variable="CreateListOfJournalsReqMessage" part="CreateListOfJournalsRequestMessage"/>
+      </copy>
+    </assign>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionId</from>
+        <to>$CreateListOfJournalsReqMessage.CreateListOfJournalsRequestMessage/ns14:HeaderRq/ns14:TransactionRequestID</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:ComponentId</from>
+        <to>$CreateListOfJournalsReqMessage.CreateListOfJournalsRequestMessage/ns14:HeaderRq/ns14:ComponentID</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionName</from>
+        <to>$CreateListOfJournalsReqMessage.CreateListOfJournalsRequestMessage/ns14:HeaderRq/ns14:TransactionName</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:SourceSystem</from>
+        <to>$CreateListOfJournalsReqMessage.CreateListOfJournalsRequestMessage/ns14:HeaderRq/ns14:Source</to>
+      </copy>
+      <copy>
+        <from>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TargetSystem</from>
+        <to>$CreateListOfJournalsReqMessage.CreateListOfJournalsRequestMessage/ns14:HeaderRq/ns14:Target</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_CreateListOfJournals_sync" partnerLink="JournalABS" portType="ns3:SyncPortType"
+            operation="CreateListOfJournals_Sync" inputVariable="CreateListOfJournalsReqMessage"
+            outputVariable="CreateListOfJournalsRespMessage" bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizGLJE_ABS","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+    <if name="If_Check_Status">
+      <documentation>
+        <![CDATA[Failure]]>
+      </documentation>
+      <condition>$CreateListOfJournalsRespMessage.CreateListOfJournalsResponseMessage/ns6:OperationResult/ns10:Stats!="S"</condition>
+      <sequence name="Sequence2">
+        <throw name="Throw_EIA_Fault" faultName="ns3:EIAFault" faultVariable="EIAFaultMsg"/>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[Success]]>
+        </documentation>
+        <sequence name="Sequence4">
+          <scope name="Scope2">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns13:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>$CreateListOfJournalsReqMessage.CreateListOfJournalsRequestMessage/ns6:Journal/ns8:Journal[1]/ns8:GroupId</from>
+                  <to>$ReplyProcessPayroll.part1/ns9:GroupID</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns13:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </else>
+    </if>
+    <reply name="Reply_ProcessPayroll" variable="ReplyProcessPayroll" partnerLink="ProcessPayroll"
+           portType="ns1:SyncPort" operation="ProcessPayroll_Sync"/>
+  </sequence>
+</process>

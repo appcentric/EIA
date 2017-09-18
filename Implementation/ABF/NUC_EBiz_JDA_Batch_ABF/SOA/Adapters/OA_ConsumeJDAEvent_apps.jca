@@ -1,0 +1,15 @@
+<adapter-config name="OA_ConsumeJDAEvent" adapter="apps" wsdlLocation="../WSDLs/OA_ConsumeJDAEvent.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="SMGPDEV1" UIOracleAppType="WFBES" UIWfEventName="xxnuc.oracle.apps.gme.jda.download" adapterRef=""/>
+   <endpoint-activation portType="DEQUEUE_ptt" operation="DEQUEUE">
+    <activation-spec className="oracle.tip.adapter.apps.AppsWFBesQueueDequeueActivationSpec">
+      <property name="QueueName" value="WF_BPEL_Q"/>
+      <property name="DatabaseSchema" value="APPS"/>
+      <property name="Consumer" value="ORA_6ko4aea46kqj0g9l650j4e1o8l"/>
+      <property name="MessageSelectorRule" value="tab.user_data.event_name = 'xxnuc.oracle.apps.gme.jda.download' AND tab.user_data.getvalueforparameter('GROUP') IS NULL"/>
+      <property name="AppsEventSchema" value="NO_SCHEMA"/>
+      <property name="OpaqueSchema" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

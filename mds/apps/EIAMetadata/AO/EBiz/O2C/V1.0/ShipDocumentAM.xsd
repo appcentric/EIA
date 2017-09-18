@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAM/1.0" version="1.00"
+            xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:sam="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAM/1.0"
+            xmlns:sao="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0">
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/ShipDocumentAO/1.0"
+              schemaLocation="../../../../AO/EBiz/O2C/V1.0/ShipDocumentAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0"
+              schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+
+  <xsd:element name="QueryShipDocumentRequestMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="header:HeaderRq"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="AppsContext" nillable="true" type="ctx:AppsContextType"/>
+        
+        <xsd:element maxOccurs="1" minOccurs="0" name="ShipDocument" nillable="true">
+          <xsd:complexType>
+            <xsd:complexContent>
+              <xsd:restriction base="sao:ShipDocumentType">
+              <xsd:sequence>
+                      <xsd:element maxOccurs="1" minOccurs="0" name="OrganizationId"
+                   nillable="true" type="xsd:decimal"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="OrganizationCode"
+                   nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="DocumentNumber"
+                   nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="DocumentType"
+                   nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="Status" nillable="true"
+                   type="xsd:string"/>
+                   </xsd:sequence>
+              </xsd:restriction>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+        
+      </xsd:sequence>
+      <xsd:attribute name="numRows" type="xsd:integer" use="optional" default="10"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="QueryShipDocumentResponseMessage">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="header:HeaderRs"/>
+        <xsd:element maxOccurs="1" minOccurs="0" name="OperationResult" nillable="true" type="res:OperationResultType"/>
+         
+         
+         <xsd:element name="ListOfShipDocuments" minOccurs="0" nillable="true" maxOccurs="1">
+        <xsd:complexType>
+        <xsd:sequence>
+        <xsd:element name="ShipDocument" minOccurs="0" nillable="true" maxOccurs="unbounded">
+          <xsd:complexType >
+            <xsd:complexContent>
+              <xsd:extension base="sao:ShipDocumentType">
+                <xsd:sequence>
+                  <xsd:element maxOccurs="1" minOccurs="0" name="DeliveryInformation" nillable="true" type="sao:ListOfBasicDeliveryInfoType"/>
+                <xsd:element maxOccurs="1" minOccurs="0" name="TripInformation" nillable="true" type="sao:ListOfBasicTripInfoType"/>
+                </xsd:sequence>
+              </xsd:extension>
+            </xsd:complexContent>
+          </xsd:complexType>
+        </xsd:element>
+        </xsd:sequence>
+        </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

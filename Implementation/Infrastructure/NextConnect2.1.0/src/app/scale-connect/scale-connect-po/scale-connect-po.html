@@ -1,0 +1,325 @@
+<!--  This contains the header with title of the page and loading symbol -->
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>ScaleConnect PO</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                        <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button pButton type="button" icon="ui-icon-update" label="Update" (click)="updateTable()" ></button>
+                        <button [disabled]="!POs" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <load-bar [visible]="loading"></load-bar>
+            <!--HAD TO REMOVE resizableColumns="true" as it caused an error with styleClass for Details -->
+            <p-dataTable #exportCSV #dt [value]="POs" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" sortField="LastUpdatedDate" sortOrder="-1" [responsive]="true">
+                <!--<p-header>
+                    <div style="text-align:left">
+                        <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+                    </div>
+                </p-header>-->
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <!--<p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>-->
+                <p-column field="MillContractNum" header="PO Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SupplierName" header="Supplier Name" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MillGradeCode" header="Grade Code" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="GradeDescription" header="Grade Description" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="Quantity" header="Quantity" [sortable]="true" [filter]="true" filterMatchMode="contains">
+                     <ng-template let-PO="rowData" pTemplate>
+                        {{PO.Quantity | number:'1.0-0'}}
+                    </ng-template>
+                </p-column>
+                <p-column field="QtyOrderedUOMCode" header="Quantity UOM" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-multiSelect [disabled]="!POs" [options]="quantityUOMCodes" [(ngModel)]="quantityUOMCodesFilter" defaultLabel="All UOMs" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+                    </ng-template>
+                </p-column>
+                <p-column field="TicketTypeCode" header="Type Code" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-multiSelect [disabled]="!POs" [options]="typeCodes" [(ngModel)]="typeCodesFilter" defaultLabel="All Type Codes" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+                    </ng-template>
+                </p-column>
+                <p-column field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!POs" [(ngModel)]="createdDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=createdDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-PO="rowData" pTemplate>
+                        {{PO.CreatedDate | date:'medium'}}
+                    </ng-template>
+                </p-column>
+                <p-column field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!POs" [(ngModel)]="lastUpdatedDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=lastUpdatedDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-PO="rowData" pTemplate>
+                        {{PO.LastUpdatedDate | date:'medium'}}
+                    </ng-template>
+                </p-column>
+                <!-- hidden columns -->
+                <p-column field="MillContractNumBase" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MillContractLine" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SupplierNumber" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SupplierDescription" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="GradeCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="TicketTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="TicketTypeDescription" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="IsNonScrapMillWeights" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="Active" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CustomerRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="QtyOrderedUOMCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="Quantity" hidden="true" header="Quantity" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="PriceRate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="PriceRateUOMCode" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="EffectiveDate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ExpirationDate" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ScaleOperatorComment" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                    <ng-template let-PO pTemplate="rowexpansion">
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <h2>ScaleConnect PO Details: {{PO.MillContractNum}}</h2>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">PO Number: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.MillContractNumBase}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">PO Line Number: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.MillContractLine}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Contract Active: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.Active}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Shipping Notice Active: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.MillShippingNoticeActive}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Supplier Name: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.SupplierName}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Supplier Description: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.SupplierDescription}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Supplier Number: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.SupplierNumber}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Oracle Item ID: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.MillGradeCode}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Item Description: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.GradeDescription}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Quantity: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.Quantity}} {{PO.QtyOrderedUOMCode}} 
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Price Rate: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.PriceRate}} {{PO.PriceRateUOMCode}} 
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Packaged: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.Packaged}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Send Receipt: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.SendReceipt}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Scale Operator Comment: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.ScaleOperatorComment}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-lg-4">
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Contract Type: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.ContractTypeDescription}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Effective Date: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.EffectiveDate | date}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Effective Date: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.ExpirationDate | date}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Created Date: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.CreatedDate | date:'medium'}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Last Updated Date: </div>
+                                        <div class="ui-g-8">
+                                            {{PO.LastUpdatedDate | date:'medium'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<!--
+
+                        <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-12">
+                                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Mill Contract Num: </div>
+                                            <div class="ui-grid-col-6">{{PO.MillContractNum}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Mill Contract Num Base: </div>
+                                            <div class="ui-grid-col-6">{{PO.MillContractNumBase}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Mill Contract Line: </div>
+                                            <div class="ui-grid-col-6">{{PO.MillContractLine}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Supplier Name: </div>
+                                            <div class="ui-grid-col-6">{{PO.SupplierName}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Supplier Number: </div>
+                                            <div class="ui-grid-col-6">{{PO.SupplierNumber}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Supplier Description: </div>
+                                            <div class="ui-grid-col-6">{{PO.SupplierDescription}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Grade Code: </div>
+                                            <div class="ui-grid-col-6">{{PO.GradeCode}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Mill Grade Code: </div>
+                                            <div class="ui-grid-col-6">{{PO.MillGradeCode}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Grade Description: </div>
+                                            <div class="ui-grid-col-6">{{PO.GradeDescription}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Ticket Type ID: </div>
+                                            <div class="ui-grid-col-6">{{PO.TicketTypeID}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Ticket Type Code: </div>
+                                            <div class="ui-grid-col-6">{{PO.TicketTypeCode}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Ticket Type Description: </div>
+                                            <div class="ui-grid-col-6">{{PO.TicketTypeDescription}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Is Non Scrap Mill Weights: </div>
+                                            <div class="ui-grid-col-6">{{PO.IsNonScrapMillWeights}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Active: </div>
+                                            <div class="ui-grid-col-6">{{PO.Active}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Customer Ref ID: </div>
+                                            <div class="ui-grid-col-6">{{PO.CustomerRefID}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Quantity: </div>
+                                            <div class="ui-grid-col-6">{{PO.Quantity | number:'1.0-0'}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Quantity UOM: </div>
+                                            <div class="ui-grid-col-6">{{PO.QtyOrderedUOMCode}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">PriceRate: </div>
+                                            <div class="ui-grid-col-6">{{PO.PriceRate}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Price Rate UOM Code: </div>
+                                            <div class="ui-grid-col-6">{{PO.PriceRateUOMCode}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Effective Date: </div>
+                                            <div class="ui-grid-col-6">{{PO.EffectiveDate | date}}</div>
+                                        </div>
+                                        <div class="ui-grid-row ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Expiration Date: </div>
+                                            <div class="ui-grid-col-6">{{PO.ExpirationDate | date}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Scale Operator Comment: </div>
+                                            <div class="ui-grid-col-6">{{PO.ScaleOperatorComment}}</div>
+                                        </div>
+                                        <div class="ui-grid-row  ui-expander-row-odd">
+                                            <div class="ui-grid-col-5 detail-label">Created Date: </div>
+                                            <div class="ui-grid-col-6">{{PO.CreatedDate | date:'medium'}}</div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-5 detail-label">Last Updated Date: </div>
+                                            <div class="ui-grid-col-6">{{PO.LastUpdatedDate | date:'medium'}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </ng-template>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

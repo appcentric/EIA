@@ -1,0 +1,15 @@
+<adapter-config name="EBiz_LPNCreation" adapter="apps" wsdlLocation="../WSDLs/EBiz_LPNCreation.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="AppsDBdev" location="eis/Apps/ebs" UIConcurrentPgmName="" UIOracleAppType="DBOBJECT"/>
+  <endpoint-interaction portType="EBiz_LPNCreation_ptt" operation="EBiz_LPNCreation">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_PO_ASN_LOT_CREATION_PKG"/>
+      <property name="ProcedureName" value="LPN_CREATION"/>
+      <property name="IRepInternalName" value="PLSQL:XXNUC_PO_ASN_LOT_CREATION_PKG:LPN_CREATION"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

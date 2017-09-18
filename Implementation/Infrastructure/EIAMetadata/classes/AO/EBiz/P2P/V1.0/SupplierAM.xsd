@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAM/1.0"
+	xmlns="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAM/1.0"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:commonao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+	xmlns:amtao="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+	xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+	xmlns:uomao="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+	xmlns:suplao="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+	xmlns:ssiteao="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+	xmlns:suplam="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAM/1.0">
+
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0" />
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/WhoAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0" />
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/UomAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0" />
+
+	<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/SupplierAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0" />
+
+	<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/SupplierSiteAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0" />
+
+	<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AmountAO.xsd"
+		namespace="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0" />
+
+
+<xsd:element name="QueryByOrigSystemRef_BasicSupplierRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="SupplierOrigSystemInfo" type="suplao:OrigSystemType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+
+<xsd:element name="QueryByOrigSystemRef_BasicSupplierResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="BasicSupplier" type="suplao:BasicSupplierType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+
+
+<xsd:element name="QueryByOrigSystemRef_BasicSupplierSiteRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="SupplierSiteOrigSystemInfo" type="ssiteao:OrigSystemType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+
+<xsd:element name="QueryByOrigSystemRef_BasicSupplierSiteResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="BasicSupplierSite" type="ssiteao:BasicSupplierSiteType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+
+
+</xsd:schema>
+

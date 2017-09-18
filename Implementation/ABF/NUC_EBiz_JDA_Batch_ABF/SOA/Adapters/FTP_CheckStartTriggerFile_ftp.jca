@@ -1,0 +1,12 @@
+<adapter-config name="FTP_CheckStartTriggerFile" adapter="ftp" wsdlLocation="../WSDLs/FTP_CheckStartTriggerFile.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIincludeWildcard="*" location="eis/Ftp/JDA"/>
+  <endpoint-interaction portType="FileListing_ptt" operation="FileListing">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPListInteractionSpec">
+      <property name="PhysicalDirectory" value="/FP_Triggers"/>
+      <property name="Recursive" value="false"/>
+      <property name="IncludeFiles" value=".*"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

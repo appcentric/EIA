@@ -1,0 +1,327 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Nov 18 02:34:59 CST 2015
+  Author:  sreepathi.kuriti
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="NUC_APInvoice_OTM_EBiz_ABF"
+         targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/Implementation/ABF/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns1="http://oracle.com/sca/soapservice/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/OTMGetAPInvoice_client"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ns2="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns3="http://xmlns.oracle.com/apps/otm" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns4="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns13="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://oracle.com/sca/soapservice/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/OTMGetAPInvoice_client"
+          location="../WSDLs/OTMGetAPInvoice_client.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://oracle.com/sca/soapservice/NUC_APInvoice_OTM_EBiz_ABF/NUC_APInvoice_OTM_EBiz_ABF/OTMGetAPInvoice_client"
+          location="../WSDLs/OTMGetAPInvoice_clientWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="OTMGetAPInvoice_client" partnerLinkType="ns1:OTMGetAPInvoice_client" myRole="execute_ptt"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="InvoiceABS" partnerLinkType="ns4:InvoiceABS" partnerRole="SyncPortType"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_OTMAPInvoice_execute_InputVariable" messageType="ns1:requestMessage"/>
+    <!--<variable name="Invoke_Start_CommonLogging_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>-->
+    <variable name="Invoke_CreateAPInvoices_CreateInvoice_Sync_InputVariable"
+              messageType="ns4:CreateInvoiceRequestMessageType"/>
+    <variable name="Invoke_CreateAPInvoices_CreateInvoice_Sync_OutputVariable"
+              messageType="ns4:CreateInvoiceResponseMessageType"/>
+    <!--<variable name="Invoke_End_CommonLogging_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>-->
+    <!--<variable name="Invoke_Error_Log_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>-->
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="Scope4">
+        <variables>
+          <variable name="Invoke_Error_Log_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+        </variables>
+        <sequence name="Sequence4">
+          <assign name="Assign_Error_Log">
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I129'</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+            </copy>
+            <copy>
+              <from>'APInvoices'</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>31</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:LogType</to>
+            </copy>
+            <copy>
+              <from>concat('FlowId: ',ora:getFlowId(),' Error ',ora:getFaultAsString())</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_Error_Log_process_InputVariable.CommonLogging/ns2:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Error_Log" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                  inputVariable="Invoke_Error_Log_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_OTMAPInvoice" createInstance="yes" partnerLink="OTMGetAPInvoice_client"
+             portType="ns1:execute_ptt" operation="execute" variable="Receive_OTMAPInvoice_execute_InputVariable"/>
+    <scope name="Scope1">
+      <variables>
+        <variable name="Invoke_Start_CommonLogging_process_InputVariable"
+                  messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="ThrowEmptyError"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_Start_CommonLogging">
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string(ora:getComponentInstanceId()))</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'I129'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>'APInvoices'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_Start_CommonLogging_process_InputVariable.CommonLogging/ns2:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_Start_CommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                operation="process" inputVariable="Invoke_Start_CommonLogging_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <scope name="Scope2">
+      <sequence name="Sequence2">
+        <assign name="Xform_OTMGetAPInvoiceRespMsg_EBiz">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Xform_OTMGetAPInvoiceRespMsg_EBizInvoiceABS_ReqMsg.xsl", $Receive_OTMAPInvoice_execute_InputVariable.part1)</from>
+            <to variable="Invoke_CreateAPInvoices_CreateInvoice_Sync_InputVariable" part="CreateInvoiceRequestMessage"/>
+          </copy>
+        </assign>
+        <assign name="Assign_Header">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_CreateAPInvoices_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns8:HeaderRq/ns8:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CreateAPInvoices_CreateInvoice_Sync_InputVariable.CreateInvoiceRequestMessage/ns8:HeaderRq/ns8:ServiceName</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CreateAPInvoices" partnerLink="InvoiceABS" portType="ns4:SyncPortType"
+                operation="CreateInvoice_Sync" inputVariable="Invoke_CreateAPInvoices_CreateInvoice_Sync_InputVariable"
+                outputVariable="Invoke_CreateAPInvoices_CreateInvoice_Sync_OutputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizAPInvoice_ABS","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <scope name="Scope3">
+      <variables>
+        <variable name="Invoke_End_CommonLogging_process_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="ThrowEmptyError"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence3">
+        <assign name="Assign_End_CommonLogging">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I129'</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'APInvoices'</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_End_CommonLogging_process_InputVariable.CommonLogging/ns2:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_End_CommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                operation="process" inputVariable="Invoke_End_CommonLogging_process_InputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

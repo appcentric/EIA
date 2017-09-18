@@ -1,0 +1,23 @@
+<adapter-config name="DB_XREF_Polling" adapter="db" wsdlLocation="../WSDLs/DB_XREF_Polling.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="smg_xref" location="eis/DB/smg_xref"/>
+  <endpoint-activation portType="DB_XREF_Polling_ptt" operation="receive">
+    <activation-spec className="oracle.tip.adapter.db.DBActivationSpec">
+      <property name="DescriptorName" value="DB_XREF_Polling.XxnucXrefDataStg"/>
+      <property name="QueryName" value="DB_XREF_PollingSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_XREF_Polling-or-mappings.xml"/>
+      <property name="PollingStrategy" value="LogicalDeletePollingStrategy"/>
+      <property name="MarkReadColumn" value="PROCESSED"/>
+      <property name="MarkReadValue" value="PROCESSED"/>
+      <property name="MarkReservedValue" value="R${weblogic.Name-2}-${IP-2}"/>
+      <property name="MarkUnreadValue" value="NEW"/>
+      <property name="PollingInterval" value="2"/>
+      <property name="MaxRaiseSize" value="1"/>
+      <property name="MaxTransactionSize" value="1"/>
+      <property name="RowsPerPollingInterval" value="1"/>
+      <property name="NumberOfThreads" value="1"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

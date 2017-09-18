@@ -1,0 +1,1099 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Dec 09 00:02:39 CST 2015
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="CreateTrips"
+         targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_SubscribeTrips_CP_ABS/CreateTrips"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_SubscribeTrips_CP_ABS/CreateTrips"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/I028NewDesign/NUC_SubscribeTrips_CP_ABS/JMS_SubscribeTrips"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_SelectStatusFromOMSI"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/O2C/TripsAO/1.0"
+         xmlns:ns3="http://xmlns.eia.com/AO/EBiz/O2C/TripsAM/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_SelectStatusFromOMSI"
+         xmlns:ns4="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_InsertInto_Op_Ship_DF"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_OP_100_Op_Ship"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_GetOMSI_SEQ"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/DB_GetOMSI_SEQ"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Stop"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Commodity"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Door_Preference"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Update_Op_Ship"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Op_Ship"
+         xmlns:ns16="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Update_Stop"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Update_Commodity"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Stop"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Commodity"
+         xmlns:ns20="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Update_Door_Preference"
+         xmlns:ns21="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_Door_Preference"
+         xmlns:ns22="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns23="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Appointment_Logging"
+         xmlns:ns24="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Pick_Del_Confirmation"
+         xmlns:ns25="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_OP_100_Op_Ship"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:ns26="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns27="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_SubscribeTrips_CP_ABS/DB_InsertForceDispatch">
+  <!--xmlns:ns27="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_SubscribeTrips_CP_ABS/DB_SelectFromOMSI_AppointmentLogging"
+         xmlns:ns28="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_SelectFromOMSI/AppointmentLogging"
+         xmlns:ns29="http://xmlns.oracle.com/pcbpel/adapter/db/I028/NUC_SubscribeTrips_CP_ABS/DB_Update_OMSI_AppointmentLogging"-->
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/I028NewDesign/NUC_SubscribeTrips_CP_ABS/JMS_SubscribeTrips"
+          location="../WSDLs/JMS_SubscribeTrips.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMS_SubscribeTrips" partnerLinkType="ns1:Consume_Message_plt" myRole="Consume_Message_role"/>
+    <partnerLink name="DB_SelectStatusFromOMSI" partnerLinkType="ns2:DB_SelectStatusFromOMSI_plt"
+                 partnerRole="DB_SelectStatusFromOMSI_role"/>
+    <partnerLink name="DB_Insert_OP_100_Op_Ship" partnerLinkType="ns8:DB_Insert_OP_100_Op_Ship_plt"
+                 partnerRole="DB_Insert_OP_100_Op_Ship_role"/>
+    <partnerLink name="DB_Insert_Stop" partnerLinkType="ns11:DB_Insert_Stop_plt" partnerRole="DB_Insert_Stop_role"/>
+    <partnerLink name="DB_Insert_Commodity" partnerLinkType="ns12:DB_Insert_Commodity_plt"
+                 partnerRole="DB_Insert_Commodity_role"/>
+    <partnerLink name="DB_Insert_Door_Preference" partnerLinkType="ns13:DB_Insert_Door_Preference_plt"
+                 partnerRole="DB_Insert_Door_Preference_role"/>
+    <partnerLink name="DB_Update_Op_Ship" partnerLinkType="ns14:DB_Update_Op_Ship_plt"
+                 partnerRole="DB_Update_Op_Ship_role"/>
+    <partnerLink name="DB_Update_Stop" partnerLinkType="ns16:DB_Update_Stop_plt" partnerRole="DB_Update_Stop_role"/>
+    <partnerLink name="DB_Update_Commodity" partnerLinkType="ns17:DB_Update_Commodity_plt"
+                 partnerRole="DB_Update_Commodity_role"/>
+    <partnerLink name="DB_Update_Door_Preference" partnerLinkType="ns20:DB_Update_Door_Preference_plt"
+                 partnerRole="DB_Update_Door_Preference_role"/>
+    <partnerLink name="DB_Insert_Appointment_Logging" partnerLinkType="ns23:DB_Insert_Appointment_Logging_plt"
+                 partnerRole="DB_Insert_Appointment_Logging_role"/>
+    <partnerLink name="DB_Insert_Pick_Del_Confirmation" partnerLinkType="ns24:DB_Insert_Pick_Del_Confirmation_plt"
+                 partnerRole="DB_Insert_Pick_Del_Confirmation_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns26:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_InsertForceDispatch" partnerLinkType="ns27:DB_InsertForceDispatch_plt"
+                 partnerRole="DB_InsertForceDispatch_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ReceiveTrips_Consume_Message_InputVariable" messageType="ns1:Consume_Message_msg"/>
+    <variable name="Invoke_DB_SelectStatusFromOMSI_InputVariable"
+              messageType="ns2:DB_SelectStatusFromOMSISelect_inputParameters"/>
+    <variable name="Invoke_DB_SelectStatusFromOMSI__OutputVariable" messageType="ns2:OperationCollection_msg"/>
+    <variable name="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" messageType="ns8:OperationCollection_msg"/>
+   <!-- <variable name="InvokeGetSeqNextVal_OutputVariable" messageType="ns9:DB_GetOMSI_SEQOutputCollection_msg"/>
+    <variable name="InvokeGetSeqNextVal_InputVariable" messageType="ns9:DB_GetOMSI_SEQInput_msg"/>-->
+    <variable name="Invoke_Insert_Stop_InputVariable" messageType="ns11:StopCollection_msg"/>
+    <variable name="Invoke_Insert_Commodity_InputVariable" messageType="ns12:CommodityCollection_msg"/>
+    <variable name="Invoke_Insert_Door_Preference_InputVariable" messageType="ns13:DoorPreferenceCollection_msg"/>
+    <variable name="Invoke_Update_Op_Ship_InputVariable" messageType="ns14:OperationCollection_msg"/>
+    <variable name="Invoke_Update_Stop_InputVariable" messageType="ns16:StopCollection_msg"/>
+    <variable name="Invoke_Update_Commodity_InputVariable" messageType="ns17:CommodityCollection_msg"/>
+    <variable name="Invoke_Update_DF_InputVariable" messageType="ns20:DoorPreferenceCollection_msg"/>
+    <variable name="Invoke_Insert_Ap_Log_InputVariable" messageType="ns23:OperationCollection_msg"/>
+    <variable name="Invoke_Insert_Pick_Del_Confirmation_InputVariable" messageType="ns24:OperationCollection_msg"/>
+    <!-- <variable name="QueryAppointmentLogInputVar"
+              messageType="ns27:DB_SelectFromOMSI.AppointmentLoggingSelect_inputParameters"/>
+    <variable name="SelectFromAppLoggingOutputVar" messageType="ns27:AppointmentLoggingCollection_msg"/>-->
+    <variable name="Invoke_InsertAppLog_DockIn_InputVariable" messageType="ns23:OperationCollection_msg"/>
+    <variable name="InvokeInsertAppLog_DockOut_GateOut_InputVariable" messageType="ns23:OperationCollection_msg"/>
+    <variable name="Invoke_Insert_PickUpconfirm_InputVariable" messageType="ns24:OperationCollection_msg"/>
+    <variable name="InvokeDeliveryConfirm_InputVariable" messageType="ns24:OperationCollection_msg"/>
+    <variable name="GetSeqNextVal" element="ns22:parameters"/>
+    <variable name="Invoke_ForceDispatchDBAdapter_InputVariable" messageType="ns27:OperationCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="ErrorLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+        <variables>
+          <variable name="LogVar" messageType="ns26:CommonLoggingRequestMessage"/>
+        </variables>
+        <sequence name="Sequence11">
+          <assign name="AssignLogVar">
+            <copy>
+              <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:TransactionRequestID</from>
+              <to>$LogVar.CommonLogging/ns26:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$LogVar.CommonLogging/ns26:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:ComponentID</from>
+              <to>$LogVar.CommonLogging/ns26:ComponentId</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$LogVar.CommonLogging/ns26:ProcessName</to>
+            </copy>
+            <copy>
+              <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:TransactionIDREF</from>
+              <to>$LogVar.CommonLogging/ns26:TransactionName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$LogVar.CommonLogging/ns26:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$LogVar.CommonLogging/ns26:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>5</from>
+              <to>$LogVar.CommonLogging/ns26:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$LogVar.CommonLogging/ns26:LogType</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$LogVar.CommonLogging/ns26:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>concat('FlowID:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+              <to>$LogVar.CommonLogging/ns26:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$LogVar.CommonLogging/ns26:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$LogVar.CommonLogging/ns26:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="InvokeErrorLog" partnerLink="CommonLogging" portType="ns26:CommonLogging" operation="process"
+                  inputVariable="LogVar" bpelx:invokeAsDetail="no"
+                  xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="ReceiveTrips" partnerLink="JMS_SubscribeTrips" portType="ns1:Consume_Message_ptt"
+             operation="Consume_Message" variable="ReceiveTrips_Consume_Message_InputVariable" createInstance="yes"/>
+    <scope name="StartLog">
+      <variables>
+        <variable name="LogVar" messageType="ns26:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence11">
+        <assign name="AssignLogVar">
+          <copy>
+            <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:TransactionRequestID</from>
+            <to>$LogVar.CommonLogging/ns26:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$LogVar.CommonLogging/ns26:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:ComponentID</from>
+            <to>$LogVar.CommonLogging/ns26:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$LogVar.CommonLogging/ns26:ProcessName</to>
+          </copy>
+          <copy>
+            <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:TransactionIDREF</from>
+            <to>$LogVar.CommonLogging/ns26:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns26:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$LogVar.CommonLogging/ns26:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$LogVar.CommonLogging/ns26:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns26:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$LogVar.CommonLogging/ns26:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns26:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns26:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns26:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeStarLog" partnerLink="CommonLogging" portType="ns26:CommonLogging" operation="process"
+                inputVariable="LogVar" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="AssignGetSeqNextVal">
+      <copy>
+        <from>'nextVal'</from>
+        <to>$GetSeqNextVal/ns22:item/ns22:name</to>
+      </copy>
+      <copy>
+        <from>oraext:sequence-next-val('OPERATION_SEQ','jdbc/omsi')</from>
+        <to>$GetSeqNextVal/ns22:item/ns22:value</to>
+      </copy>
+    </assign>
+    <if name="If_OP_100">
+      <documentation>
+        <![CDATA[OP_100]]>
+      </documentation>
+      <condition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute2 = 100</condition>
+      <sequence name="Sequence2">
+        <scope name="Scope_OP_100">
+          <sequence>
+            <!--<assign name="Xform__100_ReceiveTrips_Insert_OP_Ship">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform__100_ReceiveTrips_Insert_OP_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                <to variable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" part="OperationCollection"/>
+              </copy>
+            </assign>-->
+            <assign name="Xform__100_ReceiveTrips_Insert_OP_Ship">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform__100_ReceiveTrips_Insert_OP_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                <to variable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" part="OperationCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_Insert_OP_100_Op_Ship" partnerLink="DB_Insert_OP_100_Op_Ship"
+                    portType="ns8:DB_Insert_OP_100_Op_Ship_ptt" operation="insert"
+                    inputVariable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"/>
+            <!--<assign name="Assign_GetSeq">
+              <copy>
+                <from>1</from>
+                <to>$InvokeGetSeqNextVal_InputVariable.DB_GetOMSI_SEQInput_msg</to>
+              </copy>
+            </assign>
+            <invoke name="InvokeGetSeqCurrVal" partnerLink="DB_GetOMSI_SEQ" portType="ns9:DB_GetOMSI_SEQ_ptt"
+                    operation="DB_GetOMSI_SEQ" inputVariable="InvokeGetSeqNextVal_InputVariable"
+                    outputVariable="InvokeGetSeqNextVal_OutputVariable" bpelx:invokeAsDetail="no"/>
+            <assign name="Xform_ReceiveTrips_Insert_Stops">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_ReceiveTrips_Insert_Stops.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection", $InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection)</from>
+                <to variable="Invoke_Insert_Stop_InputVariable" part="StopCollection"/>
+              </copy>
+            </assign>-->
+            <assign name="Xform_ReceiveTrips_Insert_Stops">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_ReceiveTrips_Insert_Stops.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                <to variable="Invoke_Insert_Stop_InputVariable" part="StopCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_Insert_Stop" partnerLink="DB_Insert_Stop" portType="ns11:DB_Insert_Stop_ptt"
+                    operation="insert" inputVariable="Invoke_Insert_Stop_InputVariable" bpelx:invokeAsDetail="no"/>
+           <!-- <assign name="Xform_Trips_Commodity">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Commodity.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection", $InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection)</from>
+                <to variable="Invoke_Insert_Commodity_InputVariable" part="CommodityCollection"/>
+              </copy>
+            </assign>-->
+            <assign name="Xform_Trips_Commodity">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Commodity.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                <to variable="Invoke_Insert_Commodity_InputVariable" part="CommodityCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_Insert_Commodity" partnerLink="DB_Insert_Commodity"
+                    portType="ns12:DB_Insert_Commodity_ptt" operation="insert"
+                    inputVariable="Invoke_Insert_Commodity_InputVariable" bpelx:invokeAsDetail="no"/>
+            <!--<assign name="Xform_Trips_Door_Preference">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Door_Preference.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection", $InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection)</from>
+                <to variable="Invoke_Insert_Door_Preference_InputVariable" part="DoorPreferenceCollection"/>
+              </copy>
+            </assign>-->
+            <assign name="Xform_Trips_Door_Preference">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Door_Preference.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                <to variable="Invoke_Insert_Door_Preference_InputVariable" part="DoorPreferenceCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_Insert_Door_Preference" partnerLink="DB_Insert_Door_Preference"
+                    portType="ns13:DB_Insert_Door_Preference_ptt" operation="insert"
+                    inputVariable="Invoke_Insert_Door_Preference_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 = 'New Adhoc Shipment'</bpelx:skipCondition>
+            </invoke>
+          </sequence>
+        </scope>
+       <!-- <if name="IfAdhocShipment">
+          <documentation>
+            <![CDATA[Insert2100_AND_2200]]>
+          </documentation>
+          <condition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 = 'New Adhoc Shipment'</condition><sequence name="Sequence19">
+            <assign name="Xform_Pick_Confirm_AdhocShipment">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Pick_Confirm_AdhocShipment.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                <to variable="InvokeDeliveryConfirm_InputVariable" part="OperationCollection"/>
+              </copy>
+            </assign>
+            <invoke name="InvokePickUpConfirm" partnerLink="DB_Insert_Pick_Del_Confirmation"
+                    portType="ns24:DB_Insert_Pick_Del_Confirmation_ptt" operation="insert"
+                    inputVariable="InvokeDeliveryConfirm_InputVariable"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no"/>
+            <assign name="Xform_Insert_DeliveryConfirm"
+                                                                                                                                                                                                                                                         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Insert_PickUpConfirm.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+         <to variable="Invoke_Insert_PickUpconfirm_InputVariable" part="OperationCollection"/>
+      </copy>
+   </assign><invoke name="InvokeDelconfirm" partnerLink="DB_Insert_Pick_Del_Confirmation"
+                    portType="ns24:DB_Insert_Pick_Del_Confirmation_ptt" operation="insert"
+                    inputVariable="Invoke_Insert_PickUpconfirm_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence><else>
+            <documentation>
+              <![CDATA[DoNothing]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>-->
+     </sequence>
+      <elseif>
+        <documentation>
+          <![CDATA[If_OP_200_300]]>
+        </documentation>
+        <condition>($ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute2 = 200) or ($ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute2 = 300)</condition>
+        <sequence>
+          <scope name="Scope_Op_200_300">
+            <variables>
+              <variable name="Op_Id" type="xsd:string"/>
+              <variable name="params" element="ns22:parameters"/>
+            </variables>
+            <sequence>
+              <assign name="AssignQueryKeys">
+                <copy>
+                  <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:tripId</from>
+                  <to>$Invoke_DB_SelectStatusFromOMSI_InputVariable.DB_SelectStatusFromOMSISelect_inputParameters/ns6:clientKey2</to>
+                </copy>
+                <copy>
+                  <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:clientKey1</from>
+                  <to>$Invoke_DB_SelectStatusFromOMSI_InputVariable.DB_SelectStatusFromOMSISelect_inputParameters/ns6:clientKey1</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DB_SelectStatusFromOMSI" partnerLink="DB_SelectStatusFromOMSI"
+                      portType="ns2:DB_SelectStatusFromOMSI_ptt" operation="DB_SelectStatusFromOMSISelect"
+                      inputVariable="Invoke_DB_SelectStatusFromOMSI_InputVariable"
+                      outputVariable="Invoke_DB_SelectStatusFromOMSI__OutputVariable" bpelx:invokeAsDetail="no"/>
+              <assign name="XformQueriedOMSIRecord_GetOperationIDNameValue">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/XformQueriedOMSIRecord_GetOperationIDNameValue.xsl", $Invoke_DB_SelectStatusFromOMSI__OutputVariable.OperationCollection)</from>
+                  <to variable="params"/>
+                </copy>
+              </assign>
+              <if name="IfIsRead0">
+                <documentation>
+                  <![CDATA[Update]]>
+                </documentation>
+                <condition>count($params/ns22:item[ ns22:msg = 0]) &gt; 0</condition>
+                <sequence name="Sequence12">
+                  <assign name="Xform_Update_Operation_Shipipment">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Operation_Shipipment.xsl", $params, "ReceiveTrips_Consume_Message_InputVariable.body", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                      <to variable="Invoke_Update_Op_Ship_InputVariable" part="OperationCollection"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_Update_Op_Ship" partnerLink="DB_Update_Op_Ship"
+                          portType="ns14:DB_Update_Op_Ship_ptt" operation="update"
+                          inputVariable="Invoke_Update_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"
+                          xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                  <assign name="Xform_Update_Stop">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_UpdateStop.xsl", $params, "ReceiveTrips_Consume_Message_InputVariable.body", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                      <to variable="Invoke_Update_Stop_InputVariable" part="StopCollection"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_Update_Stop" bpelx:invokeAsDetail="no" partnerLink="DB_Update_Stop"
+                          portType="ns16:DB_Update_Stop_ptt" operation="update"
+                          inputVariable="Invoke_Update_Stop_InputVariable"
+                          xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                  <assign name="Xform_Update_Commodity">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_UpdateCommodity.xsl", $params, "ReceiveTrips_Consume_Message_InputVariable.body", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                      <to variable="Invoke_Update_Commodity_InputVariable" part="CommodityCollection"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_Update_Commodity" partnerLink="DB_Update_Commodity"
+                          portType="ns17:DB_Update_Commodity_ptt" operation="update"
+                          inputVariable="Invoke_Update_Commodity_InputVariable" bpelx:invokeAsDetail="no"
+                          xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                  <assign name="Xform_Update_DF">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_UpdateDoorPreference.xsl", $params, "ReceiveTrips_Consume_Message_InputVariable.body", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                      <to variable="Invoke_Update_DF_InputVariable" part="DoorPreferenceCollection"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_Update_DF" partnerLink="DB_Update_Door_Preference"
+                          portType="ns20:DB_Update_Door_Preference_ptt" operation="update"
+                          inputVariable="Invoke_Update_DF_InputVariable"
+                          xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                    <bpelx:skipCondition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 = 'New Adhoc Shipment'</bpelx:skipCondition>
+                  </invoke>
+                </sequence>
+                <else>
+                  <documentation>
+                    <![CDATA[Insert]]>
+                  </documentation>
+                  <sequence name="Sequence13">
+                    <sequence name="Sequence6" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                      <assign name="Xform__200_ReceiveTrips_Insert_OP_Ship"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Xform__100_ReceiveTrips_Insert_OP_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                          <to variable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" part="OperationCollection"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DB_Insert_OP_100_Op_Ship" partnerLink="DB_Insert_OP_100_Op_Ship"
+                              portType="ns8:DB_Insert_OP_100_Op_Ship_ptt" operation="insert"
+                              inputVariable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"
+                              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                     <!--<assign name="Assign_GetSeq" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <copy>
+                          <from>1</from>
+                          <to>$InvokeGetSeqNextVal_InputVariable.DB_GetOMSI_SEQInput_msg</to>
+                        </copy>
+                      </assign>
+                      <invoke name="InvokeGetSeqCurrVal" partnerLink="DB_GetOMSI_SEQ" portType="ns9:DB_GetOMSI_SEQ_ptt"
+                              operation="DB_GetOMSI_SEQ" inputVariable="InvokeGetSeqNextVal_InputVariable"
+                              outputVariable="InvokeGetSeqNextVal_OutputVariable" bpelx:invokeAsDetail="no"
+                              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>-->
+                      <assign name="Xform_ReceiveTrips_Insert_Stops"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Xform_ReceiveTrips_Insert_Stops.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                          <to variable="Invoke_Insert_Stop_InputVariable" part="StopCollection"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Insert_Stop" partnerLink="DB_Insert_Stop" portType="ns11:DB_Insert_Stop_ptt"
+                              operation="insert" inputVariable="Invoke_Insert_Stop_InputVariable"
+                              bpelx:invokeAsDetail="no" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                      <assign name="Xform_Trips_Commodity"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Commodity.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                          <to variable="Invoke_Insert_Commodity_InputVariable" part="CommodityCollection"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Insert_Commodity" partnerLink="DB_Insert_Commodity"
+                              portType="ns12:DB_Insert_Commodity_ptt" operation="insert"
+                              inputVariable="Invoke_Insert_Commodity_InputVariable" bpelx:invokeAsDetail="no"
+                              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                      <assign name="Xform_Trips_Door_Preference"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Door_Preference.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+                          <to variable="Invoke_Insert_Door_Preference_InputVariable" part="DoorPreferenceCollection"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_Insert_Door_Preference" partnerLink="DB_Insert_Door_Preference"
+                              portType="ns13:DB_Insert_Door_Preference_ptt" operation="insert"
+                              inputVariable="Invoke_Insert_Door_Preference_InputVariable"
+                              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:skipCondition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 = 'New Adhoc Shipment'</bpelx:skipCondition>
+                      </invoke>
+                    </sequence>
+                  </sequence>
+                </else>
+              </if>
+              <!-- <if name="If_IS_READ_0">
+                <documentation>
+                  <![CDATA[IS_READ_0]]>
+                </documentation>
+                <condition>$Invoke_DB_SelectStatusFromOMSI__OutputVariable.OperationCollection/ns6:Operation/ns6:isRead = 0</condition>
+                <sequence name="Sequence7">
+                <assign name="Xform_Update_Op_Ship">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Op_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                      <to variable="Invoke_Update_Op_Ship_InputVariable" part="OperationCollection"/>
+                    </copy>
+                  </assign>
+                  <assign name="AssignOp_Ship_OpId">
+                    <copy>
+                      <from>$Op_Id</from>
+                      <to>$Invoke_Update_Op_Ship_InputVariable.OperationCollection/ns15:Operation/ns15:operationId</to>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_Update_Op_Ship" partnerLink="DB_Update_Op_Ship"
+                          portType="ns14:DB_Update_Op_Ship_ptt" operation="update"
+                          inputVariable="Invoke_Update_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"/>
+                  <assign name="Xform_Update_Stop">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Stop_1.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "params", $params)</from>
+                      <to variable="Invoke_Update_Stop_InputVariable" part="StopCollection"/>
+                    </copy>
+                  </assign>
+                  
+                  <invoke name="Invoke_Update_Stop" bpelx:invokeAsDetail="no" partnerLink="DB_Update_Stop"
+                          portType="ns16:DB_Update_Stop_ptt" operation="update"
+                          inputVariable="Invoke_Update_Stop_InputVariable"/>
+                  <assign name="Xfom_Update_Commodity">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Commodity_1.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "params", $params)</from>
+                      <to variable="Invoke_Update_Commodity_InputVariable" part="CommodityCollection"/>
+                    </copy>
+                  </assign>
+                
+                  <invoke name="Invoke_Update_Commodity" partnerLink="DB_Update_Commodity"
+                          portType="ns17:DB_Update_Commodity_ptt" operation="update"
+                          inputVariable="Invoke_Update_Commodity_InputVariable" bpelx:invokeAsDetail="no"/>
+                  <assign name="Xform_Update_DF">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_DF_1.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "params", $params)</from>
+                      <to variable="Invoke_Update_DF_InputVariable" part="DoorPreferenceCollection"/>
+                    </copy>
+                  </assign>
+                
+                  <invoke name="Invoke_Update_DF" partnerLink="DB_Update_Door_Preference"
+                          portType="ns20:DB_Update_Door_Preference_ptt" operation="update"
+                          inputVariable="Invoke_Update_DF_InputVariable" bpelx:invokeAsDetail="no"/>
+                </sequence>
+                <else>
+                  <documentation>
+                    <![CDATA[IS_READ_1]]>
+                  </documentation>
+                  <if name="If_RESULT_CODE_1">
+                    <documentation>
+                      <![CDATA[IF_RESULT_CODE_1]]>
+                    </documentation>
+                    <condition>$Invoke_DB_SelectStatusFromOMSI__OutputVariable.OperationCollection/ns6:Operation/ns6:resultCode = 1</condition><sequence name="Sequence8"><assign name="Xform_Update_Op_Ship"
+                                                                             xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Op_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+         <to variable="Invoke_Update_Op_Ship_InputVariable" part="OperationCollection"/>
+      </copy>
+   </assign><assign name="AssignOp_Ship_OpId" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>$Op_Id</from>
+         <to>$Invoke_Update_Op_Ship_InputVariable.OperationCollection/ns15:Operation/ns15:operationId</to>
+      </copy>
+   </assign><invoke name="Invoke_Update_Op_Ship" partnerLink="DB_Update_Op_Ship" portType="ns14:DB_Update_Op_Ship_ptt"
+                    operation="update" inputVariable="Invoke_Update_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xform_Update_Stop"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Stop_1.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "params", $params)</from>
+         <to variable="Invoke_Update_Stop_InputVariable" part="StopCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Update_Stop" bpelx:invokeAsDetail="no" partnerLink="DB_Update_Stop"
+                    portType="ns16:DB_Update_Stop_ptt" operation="update"
+                    inputVariable="Invoke_Update_Stop_InputVariable"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xfom_Update_Commodity"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_Commodity_1.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "params", $params)</from>
+         <to variable="Invoke_Update_Commodity_InputVariable" part="CommodityCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Update_Commodity" partnerLink="DB_Update_Commodity"
+                    portType="ns17:DB_Update_Commodity_ptt" operation="update"
+                    inputVariable="Invoke_Update_Commodity_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xform_Update_DF"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Update_DF_1.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "params", $params)</from>
+         <to variable="Invoke_Update_DF_InputVariable" part="DoorPreferenceCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Update_DF" partnerLink="DB_Update_Door_Preference"
+                    portType="ns20:DB_Update_Door_Preference_ptt" operation="update"
+                    inputVariable="Invoke_Update_DF_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence><else>
+                      <documentation>
+                        <![CDATA[RESULT_CODE_0]]>
+                      </documentation><sequence name="Sequence6"><assign name="Xform__200_ReceiveTrips_Insert_OP_Ship"
+                                                                         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform__100_ReceiveTrips_Insert_OP_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+         <to variable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" part="OperationCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_DB_Insert_OP_100_Op_Ship" partnerLink="DB_Insert_OP_100_Op_Ship"
+                    portType="ns8:DB_Insert_OP_100_Op_Ship_ptt" operation="insert"
+                    inputVariable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Assign_GetSeq"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>1</from>
+         <to>$InvokeGetSeqNextVal_InputVariable.DB_GetOMSI_SEQInput_msg</to>
+      </copy>
+   </assign><invoke name="InvokeGetSeqCurrVal" partnerLink="DB_GetOMSI_SEQ" portType="ns9:DB_GetOMSI_SEQ_ptt"
+                    operation="DB_GetOMSI_SEQ" inputVariable="InvokeGetSeqNextVal_InputVariable"
+                    outputVariable="InvokeGetSeqNextVal_OutputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xform_ReceiveTrips_Insert_Stops"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_ReceiveTrips_Insert_Stops.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection", $InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection)</from>
+         <to variable="Invoke_Insert_Stop_InputVariable" part="StopCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Insert_Stop" partnerLink="DB_Insert_Stop" portType="ns11:DB_Insert_Stop_ptt"
+                    operation="insert" inputVariable="Invoke_Insert_Stop_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xform_Trips_Commodity"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Commodity.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection", $InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection)</from>
+         <to variable="Invoke_Insert_Commodity_InputVariable" part="CommodityCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Insert_Commodity" partnerLink="DB_Insert_Commodity"
+                    portType="ns12:DB_Insert_Commodity_ptt" operation="insert"
+                    inputVariable="Invoke_Insert_Commodity_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xform_Trips_Door_Preference"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Door_Preference.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection", $InvokeGetSeqNextVal_OutputVariable.DB_GetOMSI_SEQOutputCollection)</from>
+         <to variable="Invoke_Insert_Door_Preference_InputVariable" part="DoorPreferenceCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Insert_Door_Preference" partnerLink="DB_Insert_Door_Preference"
+                    portType="ns13:DB_Insert_Door_Preference_ptt" operation="insert"
+                    inputVariable="Invoke_Insert_Door_Preference_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></else>
+                  </if>
+                </else>
+              </if>-->
+            </sequence>
+          </scope>
+        </sequence>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[If_OP_1400]]>
+        </documentation>
+        <condition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute2 = 1400</condition>
+        <sequence name="Sequence_Op1400">
+          <if name="IfDockIn">
+            <documentation>
+              <![CDATA[DockIn]]>
+            </documentation>
+            <condition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:WshTripStps/ns5:Wsh_TripStps[ns5:stopType = 'Pick-up' or ns5:stopType = 'Picked-up']/ns5:attribute8 = 'Dock In'</condition>
+            <sequence name="Sequence14">
+              <assign name="Xform_Insert_Ap_Log" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/Xform_Ap_Log.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                  <to variable="Invoke_Insert_Ap_Log_InputVariable" part="OperationCollection"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_Insert_Ap_Log_GateIn" partnerLink="DB_Insert_Appointment_Logging"
+                      portType="ns23:DB_Insert_Appointment_Logging_ptt" operation="insert"
+                      inputVariable="Invoke_Insert_Ap_Log_InputVariable"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no"/>
+              <assign name="Xform_AppLog_DockIn">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/Xform_AppLog_DockIn.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                  <to variable="Invoke_InsertAppLog_DockIn_InputVariable" part="OperationCollection"/>
+                </copy>
+              </assign>
+              <invoke name="Invoke_InsertAppLog_DockIn" partnerLink="DB_Insert_Appointment_Logging"
+                      portType="ns23:DB_Insert_Appointment_Logging_ptt" operation="insert"
+                      inputVariable="Invoke_InsertAppLog_DockIn_InputVariable" bpelx:invokeAsDetail="no"/>
+            </sequence>
+            <elseif>
+              <documentation>
+                <![CDATA[GateIn]]>
+              </documentation>
+              <condition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:WshTripStps/ns5:Wsh_TripStps[ns5:stopType = 'Pick-up' or ns5:stopType = 'Picked-up']/ns5:attribute8 = 'Gate In'</condition>
+              <sequence name="Sequence15">
+                <assign name="Xform_AppLog_GateIn" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("../Transformations/Xform_Ap_Log.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                    <to variable="Invoke_InsertAppLog_DockIn_InputVariable" part="OperationCollection"/>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_InsertAppLog_GateIn" partnerLink="DB_Insert_Appointment_Logging"
+                        portType="ns23:DB_Insert_Appointment_Logging_ptt" operation="insert"
+                        inputVariable="Invoke_InsertAppLog_DockIn_InputVariable" bpelx:invokeAsDetail="no"
+                        xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+              </sequence>
+            </elseif>
+            <else>
+              <documentation>
+                <![CDATA[DockOut_GateOut]]>
+              </documentation>
+              <sequence name="Sequence17">
+                <assign name="Xform_Insert_AppLog_DockOut_GateOut">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("../Transformations/Xform_Insert_AppLog_DockOut_GateOut.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                    <to variable="InvokeInsertAppLog_DockOut_GateOut_InputVariable" part="OperationCollection"/>
+                  </copy>
+                </assign>
+                <sequence name="Sequence16">
+                  <invoke name="InvokeInsertAppLog_DockOut_GateOut" partnerLink="DB_Insert_Appointment_Logging"
+                          portType="ns23:DB_Insert_Appointment_Logging_ptt" operation="insert"
+                          inputVariable="InvokeInsertAppLog_DockOut_GateOut_InputVariable" bpelx:invokeAsDetail="no"/>
+                </sequence>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[Op_2100_2200]]>
+        </documentation>
+        <condition>($ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute2 = 2100) or ($ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute2 = 2200)</condition>
+        <sequence name="Sequence2100_2200">
+          <assign name="Xform_Insert_ForceDispatch">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Xform_Insert_ForceDispatch.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+              <to variable="Invoke_ForceDispatchDBAdapter_InputVariable" part="OperationCollection"/>
+            </copy>
+          </assign>
+          <invoke name="InvokeForceDispatchDBAdapter" partnerLink="DB_InsertForceDispatch"
+                  portType="ns27:DB_InsertForceDispatch_ptt" operation="insert"
+                  inputVariable="Invoke_ForceDispatchDBAdapter_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 != 'New Adhoc Shipment'</bpelx:skipCondition>
+          </invoke>
+          <assign name="Xform_Insert_Pick_Del_Confirm">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/Xform_Pick_Del_Confirm.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+              <to variable="Invoke_Insert_Pick_Del_Confirmation_InputVariable" part="OperationCollection"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_Insert_Pick_Del_Confirmation" partnerLink="DB_Insert_Pick_Del_Confirmation"
+                  portType="ns24:DB_Insert_Pick_Del_Confirmation_ptt" operation="insert"
+                  inputVariable="Invoke_Insert_Pick_Del_Confirmation_InputVariable" bpelx:invokeAsDetail="no"/>
+          <if name="IfOp2200WithCPU_COLLECTOrAdhocShip" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <documentation>
+              <![CDATA[2100_CPU_COLLECT]]>
+            </documentation>
+            <condition>(count($ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips[(ns5:freightTermsCode = 'COLLECT' or ns5:freightTermsCode = 'COL' or ns5:freightTermsCode = 'CPU') and ns5:attribute2 = 2100]) &gt;0) or ($ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 = 'New Adhoc Shipment')</condition>
+            <sequence name="Sequence18">
+              <assign name="Xform_Insert_PickUpConfirm">
+                <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/Xform_Pick_Confirm_AdhocShipment.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                  <to variable="Invoke_Insert_PickUpconfirm_InputVariable" part="OperationCollection"/>
+                </copy>
+              </assign>
+              <invoke name="InvokePickUpconfirm" partnerLink="DB_Insert_Pick_Del_Confirmation"
+                      portType="ns24:DB_Insert_Pick_Del_Confirmation_ptt" operation="insert"
+                      inputVariable="Invoke_Insert_PickUpconfirm_InputVariable" bpelx:invokeAsDetail="no"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[GoTo1400]]>
+              </documentation>
+              <empty name="GoTo1400"/>
+            </else>
+          </if>
+          <sequence>
+            <assign name="Xform_Insert_AppLog_DockOut_GateOut"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Xform_Insert_AppLog_DockOut_GateOut.xsl", $ReceiveTrips_Consume_Message_InputVariable.body)</from>
+                <to variable="InvokeInsertAppLog_DockOut_GateOut_InputVariable" part="OperationCollection"/>
+              </copy>
+            </assign>
+            <invoke name="InvokeInsertAppLog_DockOut_GateOut" partnerLink="DB_Insert_Appointment_Logging"
+                    portType="ns23:DB_Insert_Appointment_Logging_ptt" operation="insert"
+                    inputVariable="InvokeInsertAppLog_DockOut_GateOut_InputVariable"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>$ReceiveTrips_Consume_Message_InputVariable.body/ns5:Trips/ns5:Trips/ns5:attribute4 = 'New Adhoc Shipment'</bpelx:skipCondition>
+            </invoke><assign name="Xform__200_ReceiveTrips_Insert_OP_Ship_temp"
+                             xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform__100_ReceiveTrips_Insert_OP_Ship.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+         <to variable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" part="OperationCollection"/>
+      </copy>
+   </assign><assign name="Assign_Op_200">
+              <copy>
+                <from>200</from>
+                <to>$Invoke_DB_Insert_OP_100_Op_Ship_InputVariable.OperationCollection/ns25:Operation/ns25:operation</to>
+              </copy>
+            </assign><invoke name="Invoke_DB_Insert_OP_100_Op_Ship" partnerLink="DB_Insert_OP_100_Op_Ship"
+                    portType="ns8:DB_Insert_OP_100_Op_Ship_ptt" operation="insert"
+                    inputVariable="Invoke_DB_Insert_OP_100_Op_Ship_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            <assign name="Xform_ReceiveTrips_Insert_Stops"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_ReceiveTrips_Insert_Stops.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+         <to variable="Invoke_Insert_Stop_InputVariable" part="StopCollection"/>
+      </copy>
+   </assign>
+            <invoke name="Invoke_Insert_Stop" partnerLink="DB_Insert_Stop" portType="ns11:DB_Insert_Stop_ptt"
+                    operation="insert" inputVariable="Invoke_Insert_Stop_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/><assign name="Xform_Trips_Commodity"
+                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+         <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+         <from>ora:doXSLTransformForDoc("../Transformations/Xform_Trips_Commodity.xsl", $ReceiveTrips_Consume_Message_InputVariable.body, "GetSeqNextVal", $GetSeqNextVal)</from>
+         <to variable="Invoke_Insert_Commodity_InputVariable" part="CommodityCollection"/>
+      </copy>
+   </assign><invoke name="Invoke_Insert_Commodity" partnerLink="DB_Insert_Commodity"
+                    portType="ns12:DB_Insert_Commodity_ptt" operation="insert"
+                    inputVariable="Invoke_Insert_Commodity_InputVariable" bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence>
+        </sequence>
+      </elseif>
+      <!--<sequence>
+        <empty name="DoNothing"/>
+      </sequence>-->
+    </if>
+    <scope name="EndLog">
+      <variables>
+        <variable name="LogVar" messageType="ns26:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence11">
+        <assign name="AssignLogVar">
+          <copy>
+            <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:TransactionRequestID</from>
+            <to>$LogVar.CommonLogging/ns26:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$LogVar.CommonLogging/ns26:ProjectName</to>
+          </copy>
+          <copy>
+            <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:ComponentID</from>
+            <to>$LogVar.CommonLogging/ns26:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$LogVar.CommonLogging/ns26:ProcessName</to>
+          </copy>
+          <copy>
+            <from>$ReceiveTrips_Consume_Message_InputVariable.body/ns4:HeaderRq/ns4:TransactionIDREF</from>
+            <to>$LogVar.CommonLogging/ns26:TransactionName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns26:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$LogVar.CommonLogging/ns26:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$LogVar.CommonLogging/ns26:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$LogVar.CommonLogging/ns26:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$LogVar.CommonLogging/ns26:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$LogVar.CommonLogging/ns26:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns26:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$LogVar.CommonLogging/ns26:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns26:CommonLogging" operation="process"
+                inputVariable="LogVar" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

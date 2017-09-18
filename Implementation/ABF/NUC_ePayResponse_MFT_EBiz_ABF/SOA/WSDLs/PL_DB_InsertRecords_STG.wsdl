@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="PL_DB_InsertRecords_STG"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/MFT/NUC_ePayResponse_MFT_EBiz_ABF/PL_DB_InsertRecords_STG"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/MFT/NUC_ePayResponse_MFT_EBiz_ABF/PL_DB_InsertRecords_STG"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/PL_DB_InsertRecords_STG"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="PL_DB_InsertRecords_STG_plt" >
+    <plt:role name="PL_DB_InsertRecords_STG_role" >
+      <plt:portType name="tns:PL_DB_InsertRecords_STG_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/PL_DB_InsertRecords_STG" schemaLocation="../Schemas/PL_DB_InsertRecords_STG_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucApJpmcEpayStgCollection_msg">
+        <wsdl:part name="XxnucApJpmcEpayStgCollection" element="top:XxnucApJpmcEpayStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="PL_DB_InsertRecords_STG_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:XxnucApJpmcEpayStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

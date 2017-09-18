@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAO/1.0"
+            elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:paymentao="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAO/1.0"
+            xmlns:ssiteao="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+            xmlns:invao="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"
+            xmlns:poao="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+            xmlns:commonao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+            xmlns:amtao="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+            xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+            xmlns:suplao="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0">
+ <xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/SupplierAO.xsd"
+             namespace="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"></xsd:import>
+ <xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/SupplierSiteAO.xsd"
+             namespace="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"></xsd:import>
+ <xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd"
+             namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"/>
+ <xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/InvoiceAO.xsd"
+             namespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"></xsd:import>
+ <xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/PurchaseOrderAO.xsd"
+             namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"></xsd:import>
+ 
+ <xsd:element name="BasicPayment" type="paymentao:BasicPaymentType"></xsd:element>
+ <xsd:complexType name="BasicPaymentType">
+  <xsd:sequence>
+   <xsd:element name="Identifier" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaymentMethodCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaymentAmount" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaymentDate" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaymentCurrencyCode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaymentReferenceNumber" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="PaperDocumentNumber" minOccurs="0" type="xsd:string"></xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:element name="Payment" type="paymentao:PaymentType"></xsd:element>
+ 
+ <xsd:complexType name="PaymentType">
+  <xsd:sequence>
+   <xsd:element ref="paymentao:BasicPayment" minOccurs="0" maxOccurs="1"/>
+   <xsd:element name="Paymentservicerequestid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Processtype" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentstatus" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentscompleteflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentfunction" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentamount" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Billpayableflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Exclusivepaymentflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Separateremitadvicereqflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Internalbankaccountid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Orgid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Orgtype" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Legalentityid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Declarepaymentflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Deliverychannelcode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Extpayeeid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentinstructionid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentprofileid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Pregroupedpaymentflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Stopconfirmedflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Stopreleasedflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Stoprequestplacedflag" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Createdby" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Creationdate" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Lastupdatedby" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Lastupdatelogin" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Lastupdatedate" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Objectversionnumber" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Payeepartyid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Partysiteid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Suppliersiteid" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentreasoncode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentreasoncomments" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Anticipatedvaluedate" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Declarationamount" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Declarationcurrencycode" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Discountamounttaken" minOccurs="0" type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentdetails" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankchargebearer" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankchargeamount" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Settlementpriority" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remittancemessage1" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remittancemessage2" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remittancemessage3" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankassignedrefcode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Externalbankaccountid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Uniqueremittanceidentifier" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Uricheckdigit" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankinstruction1code" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankinstruction2code" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankinstructiondetails" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymenttextmessage1" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymenttextmessage2" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymenttextmessage3" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Maturitydate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentduedate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Documentcategorycode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Documentsequenceid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Documentsequencevalue" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Beneficiaryparty" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopconfirmedby" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopconfirmdate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopconfirmreason" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopconfirmreference" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopreleasedby" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopreleasedate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopreleasereason" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stopreleasereference" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stoprequestdate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stoprequestplacedby" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stoprequestreason" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Stoprequestreference" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Voidedby" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Voiddate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Voidreason" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remittolocationid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Completedpmtsgroupid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbranchnumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbanknumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaccountname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaccountnumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaccounttype" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaccountibannumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeaddress1" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeaddress2" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeaddress3" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeaddress4" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeecity" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeepostalcode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeestate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeprovince" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeecounty" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeecountry" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remitadvicedeliverymethod" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remitadviceemail" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Remitadvicefax" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentprofilesysname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentprofileacctname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentprocessrequestname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Sourceproduct" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Paymentreasonformatvalue" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Declarationexchratetype" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Declarationformat" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Deliverychannelformatvalue" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankinstruction1formatvalue" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Bankinstruction2formatvalue" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Sradeliverymethod" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbanknumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Inteftswiftcode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbranchname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbranchnumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankaccountname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankaccountnumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankaccountiban" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Exteftswiftcode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankbranchname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Orgname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerlegalentityname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerleregistrationnum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payertaxregistrationnum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeepartyname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeleregistrationnum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeetaxregistrationnum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerpartysitename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeaddressconcat" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Beneficiaryname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerpartynumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeepartynumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeealternatename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeesitealternatename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeesuppliernumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeefirstpartyreference" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbranchrfcidentifier" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankacctagencyloccode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerabbreviatedagencycode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerfederalusemployerid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankacctownerpartyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankacctpmtfactorflag" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Addresssource" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Employeeaddresscode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Employeepersonid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Employeepaymentflag" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Employeeaddressid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Requestid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankbranchpartyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaltname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankbranchaltname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaccountaltname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankaccountnumelec" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankbranchlocationid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbankacctownerpartyname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbranchpartyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankaltname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbranchaltname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankaccountaltname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankaccountnumelec" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbranchlocationid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Intbankbrancheftusernum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerpartyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerlocationid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerpartyattrcategory" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payerleattrcategory" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeepartyattrcategory" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeesupplierattrcategory" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeespplrsiteattrcategory" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeesuppliersitename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeesuppliersitealtname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeesupplierid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Logicalgroupreference" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Positivepayfilecreatedflag" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extinvpayeeid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeepartyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpartysiteid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invsuppliersiteid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invbeneficiaryparty" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeaddress1" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeaddress2" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeaddress3" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeaddress4" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeecity" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeepostalcode" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeestate" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeprovince" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeecounty" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeecountry" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeepartyname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeleregnum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeetaxregnum" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeeaddressconcat" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invbeneficiaryname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeepartynumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeealternatename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeesitealtname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeesuppliernumber" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeefirstpartyref" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbnkacctownrinvprtyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbnkbranchinvprtyid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Extbnkacctownrinvprtynme" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeepartyattrcat" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeesupplierattrcat" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeespplrsiteattrcat" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeesuppliersitename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeespplrsitealtname" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeesupplierid" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeeaddressee" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Payeepartysitename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="Invpayeepartysitename" minOccurs="0"  type="xsd:string"></xsd:element>
+   <xsd:element name="PaymentDFF" type="commonao:CommonDFFType" minOccurs="0"
+                maxOccurs="1" nillable="true"/>
+   <xsd:element name="SupplierInfo" type="suplao:BasicSupplierType" minOccurs="0"
+                maxOccurs="1" nillable="true"/>
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:element name="ListOfPayments" type="paymentao:ListOfPaymentType"/>
+
+ <xsd:complexType name="ListOfPaymentType">
+  <xsd:sequence> <xsd:element name="Payment" type="paymentao:PaymentType" minOccurs="0"
+                maxOccurs="unbounded"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>

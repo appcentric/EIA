@@ -1,0 +1,2286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cica="cica" targetNamespace="cica">
+	<!-- BEGIN Assembly_Party *****************************************************************-->
+	<xsd:complexType name="Assembly_Party">
+		<xsd:annotation>
+			<xsd:documentation>
+				This is the Party_Assembly.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="cica:Text_PartyName" minOccurs="0" maxOccurs="5"/>
+			<!-- Identifier used to specify a particular Nucor Division or Customer location -->
+			<xsd:element name="Identifier" type="cica:Code_Indentifier" minOccurs="1" maxOccurs="5"/>
+			<xsd:element name="PhysicalLocation" type="cica:Component_PhysicalLocation" minOccurs="0" maxOccurs="3"/>
+			<xsd:element name="Contact" type="cica:Block_Contact" minOccurs="0" maxOccurs="10"/>
+		</xsd:sequence>
+		<xsd:attribute name="TypeCode" type="cica:Code_Party" use="required"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="Number_Line">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Code_Party">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="0"/>
+			<xsd:enumeration value="SU"/> <!--Supplier/Manufacturer-->
+			<xsd:enumeration value="ST"/> <!--Ship TO-->
+			<xsd:enumeration value="SE"/> <!--Selling-->
+			<xsd:enumeration value="SF"/> <!--Ship FROM-->
+			<xsd:enumeration value="AC"/> <!--Air Cargo Company-->
+			<xsd:enumeration value="MA"/> <!--Party for whom Item is Ultimately Intended-->
+			<xsd:enumeration value="BD"/> <!--Bill-to Party for Diversion Charges-->
+			<xsd:enumeration value="BT"/> <!--Bill TO-->
+			<xsd:enumeration value="BS"/> <!--Bill TO Party AND Ship TO party-->
+			<xsd:enumeration value="RI"/> <!--Remit TO-->
+			<xsd:enumeration value="RC"/> <!--Receiving Location-->
+			<xsd:enumeration value="VN"/> <!--Vendor-->
+			<xsd:enumeration value="8P"/> <!--Producer-->
+			<xsd:enumeration value="BY"/> <!--Buying party or Purchaser-->
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="Code_Country">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="0"/>
+			<!--AFGHANISTAN--><xsd:enumeration value="AF" />
+			<!--ALAND ISLANDS--><xsd:enumeration value="AX" />
+			<!--ALBANIA--><xsd:enumeration value="AL" />
+			<!--ALGERIA--><xsd:enumeration value="DZ" />
+			<!--AMERICAN SAMOA--><xsd:enumeration value="AS" />
+			<!--ANDORRA--><xsd:enumeration value="AD" />
+			<!--ANGOLA--><xsd:enumeration value="AO" />
+			<!--ANGUILLA--><xsd:enumeration value="AI" />
+			<!--ANTARCTICA--><xsd:enumeration value="AQ" />
+			<!--ANTIGUA AND BARBUDA--><xsd:enumeration value="AG" />
+			<!--ARGENTINA--><xsd:enumeration value="AR" />
+			<!--ARMENIA--><xsd:enumeration value="AM" />
+			<!--ARUBA--><xsd:enumeration value="AW" />
+			<!--AUSTRALIA--><xsd:enumeration value="AU" />
+			<!--AUSTRIA--><xsd:enumeration value="AT" />
+			<!--AZERBAIJAN--><xsd:enumeration value="AZ" />
+			<!--BAHAMAS--><xsd:enumeration value="BS" />
+			<!--BAHRAIN--><xsd:enumeration value="BH" />
+			<!--BANGLADESH--><xsd:enumeration value="BD" />
+			<!--BARBADOS--><xsd:enumeration value="BB" />
+			<!--BELARUS--><xsd:enumeration value="BY" />
+			<!--BELGIUM--><xsd:enumeration value="BE" />
+			<!--BELIZE--><xsd:enumeration value="BZ" />
+			<!--BENIN--><xsd:enumeration value="BJ" />
+			<!--BERMUDA--><xsd:enumeration value="BM" />
+			<!--BHUTAN--><xsd:enumeration value="BT" />
+			<!--BOLIVIA, PLURINATIONAL STATE OF--><xsd:enumeration value="BO" />
+			<!--BOSNIA AND HERZEGOVINA--><xsd:enumeration value="BA" />
+			<!--BOTSWANA--><xsd:enumeration value="BW" />
+			<!--BOUVET ISLAND--><xsd:enumeration value="BV" />
+			<!--BRAZIL--><xsd:enumeration value="BR" />
+			<!--BRITISH INDIAN OCEAN TERRITORY--><xsd:enumeration value="IO" />
+			<!--BRUNEI DARUSSALAM--><xsd:enumeration value="BN" />
+			<!--BULGARIA--><xsd:enumeration value="BG" />
+			<!--BURKINA FASO--><xsd:enumeration value="BF" />
+			<!--BURUNDI--><xsd:enumeration value="BI" />
+			<!--CAMBODIA--><xsd:enumeration value="KH" />
+			<!--CAMEROON--><xsd:enumeration value="CM" />
+			<!--CANADA--><xsd:enumeration value="CA" />
+			<!--CAPE VERDE--><xsd:enumeration value="CV" />
+			<!--CAYMAN ISLANDS--><xsd:enumeration value="KY" />
+			<!--CENTRAL AFRICAN REPUBLIC--><xsd:enumeration value="CF" />
+			<!--CHAD--><xsd:enumeration value="TD" />
+			<!--CHILE--><xsd:enumeration value="CL" />
+			<!--CHINA--><xsd:enumeration value="CN" />
+			<!--CHRISTMAS ISLAND--><xsd:enumeration value="CX" />
+			<!--COCOS (KEELING) ISLANDS--><xsd:enumeration value="CC" />
+			<!--COLOMBIA--><xsd:enumeration value="CO" />
+			<!--COMOROS--><xsd:enumeration value="KM" />
+			<!--CONGO--><xsd:enumeration value="CG" />
+			<!--CONGO, THE DEMOCRATIC REPUBLIC OF THE--><xsd:enumeration value="CD" />
+			<!--COOK ISLANDS--><xsd:enumeration value="CK" />
+			<!--COSTA RICA--><xsd:enumeration value="CR" />
+			<!--C�TE D'IVOIRE--><xsd:enumeration value="CI" />
+			<!--CROATIA--><xsd:enumeration value="HR" />
+			<!--CUBA--><xsd:enumeration value="CU" />
+			<!--CYPRUS--><xsd:enumeration value="CY" />
+			<!--CZECH REPUBLIC--><xsd:enumeration value="CZ" />
+			<!--DENMARK--><xsd:enumeration value="DK" />
+			<!--DJIBOUTI--><xsd:enumeration value="DJ" />
+			<!--DOMINICA--><xsd:enumeration value="DM" />
+			<!--DOMINICAN REPUBLIC--><xsd:enumeration value="DO" />
+			<!--ECUADOR--><xsd:enumeration value="EC" />
+			<!--EGYPT--><xsd:enumeration value="EG" />
+			<!--EL SALVADOR--><xsd:enumeration value="SV" />
+			<!--EQUATORIAL GUINEA--><xsd:enumeration value="GQ" />
+			<!--ERITREA--><xsd:enumeration value="ER" />
+			<!--ESTONIA--><xsd:enumeration value="EE" />
+			<!--ETHIOPIA--><xsd:enumeration value="ET" />
+			<!--FALKLAND ISLANDS (MALVINAS)--><xsd:enumeration value="FK" />
+			<!--FAROE ISLANDS--><xsd:enumeration value="FO" />
+			<!--FIJI--><xsd:enumeration value="FJ" />
+			<!--FINLAND--><xsd:enumeration value="FI" />
+			<!--FRANCE--><xsd:enumeration value="FR" />
+			<!--FRENCH GUIANA--><xsd:enumeration value="GF" />
+			<!--FRENCH POLYNESIA--><xsd:enumeration value="PF" />
+			<!--FRENCH SOUTHERN TERRITORIES--><xsd:enumeration value="TF" />
+			<!--GABON--><xsd:enumeration value="GA" />
+			<!--GAMBIA--><xsd:enumeration value="GM" />
+			<!--GEORGIA--><xsd:enumeration value="GE" />
+			<!--GERMANY--><xsd:enumeration value="DE" />
+			<!--GHANA--><xsd:enumeration value="GH" />
+			<!--GIBRALTAR--><xsd:enumeration value="GI" />
+			<!--GREECE--><xsd:enumeration value="GR" />
+			<!--GREENLAND--><xsd:enumeration value="GL" />
+			<!--GRENADA--><xsd:enumeration value="GD" />
+			<!--GUADELOUPE--><xsd:enumeration value="GP" />
+			<!--GUAM--><xsd:enumeration value="GU" />
+			<!--GUATEMALA--><xsd:enumeration value="GT" />
+			<!--GUERNSEY--><xsd:enumeration value="GG" />
+			<!--GUINEA--><xsd:enumeration value="GN" />
+			<!--GUINEA-BISSAU--><xsd:enumeration value="GW" />
+			<!--GUYANA--><xsd:enumeration value="GY" />
+			<!--HAITI--><xsd:enumeration value="HT" />
+			<!--HEARD ISLAND AND MCDONALD ISLANDS--><xsd:enumeration value="HM" />
+			<!--HOLY SEE (VATICAN CITY STATE)--><xsd:enumeration value="VA" />
+			<!--HONDURAS--><xsd:enumeration value="HN" />
+			<!--HONG KONG--><xsd:enumeration value="HK" />
+			<!--HUNGARY--><xsd:enumeration value="HU" />
+			<!--ICELAND--><xsd:enumeration value="IS" />
+			<!--INDIA--><xsd:enumeration value="IN" />
+			<!--INDONESIA--><xsd:enumeration value="ID" />
+			<!--IRAN, ISLAMIC REPUBLIC OF--><xsd:enumeration value="IR" />
+			<!--IRAQ--><xsd:enumeration value="IQ" />
+			<!--IRELAND--><xsd:enumeration value="IE" />
+			<!--ISLE OF MAN--><xsd:enumeration value="IM" />
+			<!--ISRAEL--><xsd:enumeration value="IL" />
+			<!--ITALY--><xsd:enumeration value="IT" />
+			<!--JAMAICA--><xsd:enumeration value="JM" />
+			<!--JAPAN--><xsd:enumeration value="JP" />
+			<!--JERSEY--><xsd:enumeration value="JE" />
+			<!--JORDAN--><xsd:enumeration value="JO" />
+			<!--KAZAKHSTAN--><xsd:enumeration value="KZ" />
+			<!--KENYA--><xsd:enumeration value="KE" />
+			<!--KIRIBATI--><xsd:enumeration value="KI" />
+			<!--KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF--><xsd:enumeration value="KP" />
+			<!--KOREA, REPUBLIC OF--><xsd:enumeration value="KR" />
+			<!--KUWAIT--><xsd:enumeration value="KW" />
+			<!--KYRGYZSTAN--><xsd:enumeration value="KG" />
+			<!--LAO PEOPLE'S DEMOCRATIC REPUBLIC--><xsd:enumeration value="LA" />
+			<!--LATVIA--><xsd:enumeration value="LV" />
+			<!--LEBANON--><xsd:enumeration value="LB" />
+			<!--LESOTHO--><xsd:enumeration value="LS" />
+			<!--LIBERIA--><xsd:enumeration value="LR" />
+			<!--LIBYAN ARAB JAMAHIRIYA--><xsd:enumeration value="LY" />
+			<!--LIECHTENSTEIN--><xsd:enumeration value="LI" />
+			<!--LITHUANIA--><xsd:enumeration value="LT" />
+			<!--LUXEMBOURG--><xsd:enumeration value="LU" />
+			<!--MACAO--><xsd:enumeration value="MO" />
+			<!--MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF--><xsd:enumeration value="MK" />
+			<!--MADAGASCAR--><xsd:enumeration value="MG" />
+			<!--MALAWI--><xsd:enumeration value="MW" />
+			<!--MALAYSIA--><xsd:enumeration value="MY" />
+			<!--MALDIVES--><xsd:enumeration value="MV" />
+			<!--MALI--><xsd:enumeration value="ML" />
+			<!--MALTA--><xsd:enumeration value="MT" />
+			<!--MARSHALL ISLANDS--><xsd:enumeration value="MH" />
+			<!--MARTINIQUE--><xsd:enumeration value="MQ" />
+			<!--MAURITANIA--><xsd:enumeration value="MR" />
+			<!--MAURITIUS--><xsd:enumeration value="MU" />
+			<!--MAYOTTE--><xsd:enumeration value="YT" />
+			<!--MEXICO--><xsd:enumeration value="MX" />
+			<!--MICRONESIA, FEDERATED STATES OF--><xsd:enumeration value="FM" />
+			<!--MOLDOVA, REPUBLIC OF--><xsd:enumeration value="MD" />
+			<!--MONACO--><xsd:enumeration value="MC" />
+			<!--MONGOLIA--><xsd:enumeration value="MN" />
+			<!--MONTENEGRO--><xsd:enumeration value="ME" />
+			<!--MONTSERRAT--><xsd:enumeration value="MS" />
+			<!--MOROCCO--><xsd:enumeration value="MA" />
+			<!--MOZAMBIQUE--><xsd:enumeration value="MZ" />
+			<!--MYANMAR--><xsd:enumeration value="MM" />
+			<!--NAMIBIA--><xsd:enumeration value="NA" />
+			<!--NAURU--><xsd:enumeration value="NR" />
+			<!--NEPAL--><xsd:enumeration value="NP" />
+			<!--NETHERLANDS--><xsd:enumeration value="NL" />
+			<!--NETHERLANDS ANTILLES--><xsd:enumeration value="AN" />
+			<!--NEW CALEDONIA--><xsd:enumeration value="NC" />
+			<!--NEW ZEALAND--><xsd:enumeration value="NZ" />
+			<!--NICARAGUA--><xsd:enumeration value="NI" />
+			<!--NIGER--><xsd:enumeration value="NE" />
+			<!--NIGERIA--><xsd:enumeration value="NG" />
+			<!--NIUE--><xsd:enumeration value="NU" />
+			<!--NORFOLK ISLAND--><xsd:enumeration value="NF" />
+			<!--NORTHERN MARIANA ISLANDS--><xsd:enumeration value="MP" />
+			<!--NORWAY--><xsd:enumeration value="NO" />
+			<!--OMAN--><xsd:enumeration value="OM" />
+			<!--PAKISTAN--><xsd:enumeration value="PK" />
+			<!--PALAU--><xsd:enumeration value="PW" />
+			<!--PALESTINIAN TERRITORY, OCCUPIED--><xsd:enumeration value="PS" />
+			<!--PANAMA--><xsd:enumeration value="PA" />
+			<!--PAPUA NEW GUINEA--><xsd:enumeration value="PG" />
+			<!--PARAGUAY--><xsd:enumeration value="PY" />
+			<!--PERU--><xsd:enumeration value="PE" />
+			<!--PHILIPPINES--><xsd:enumeration value="PH" />
+			<!--PITCAIRN--><xsd:enumeration value="PN" />
+			<!--POLAND--><xsd:enumeration value="PL" />
+			<!--PORTUGAL--><xsd:enumeration value="PT" />
+			<!--PUERTO RICO--><xsd:enumeration value="PR" />
+			<!--QATAR--><xsd:enumeration value="QA" />
+			<!--R�UNION--><xsd:enumeration value="RE" />
+			<!--ROMANIA--><xsd:enumeration value="RO" />
+			<!--RUSSIAN FEDERATION--><xsd:enumeration value="RU" />
+			<!--RWANDA--><xsd:enumeration value="RW" />
+			<!--SAINT BARTH�LEMY--><xsd:enumeration value="BL" />
+			<!--SAINT HELENA--><xsd:enumeration value="SH" />
+			<!--SAINT KITTS AND NEVIS--><xsd:enumeration value="KN" />
+			<!--SAINT LUCIA--><xsd:enumeration value="LC" />
+			<!--SAINT MARTIN--><xsd:enumeration value="MF" />
+			<!--SAINT PIERRE AND MIQUELON--><xsd:enumeration value="PM" />
+			<!--SAINT VINCENT AND THE GRENADINES--><xsd:enumeration value="VC" />
+			<!--SAMOA--><xsd:enumeration value="WS" />
+			<!--SAN MARINO--><xsd:enumeration value="SM" />
+			<!--SAO TOME AND PRINCIPE--><xsd:enumeration value="ST" />
+			<!--SAUDI ARABIA--><xsd:enumeration value="SA" />
+			<!--SENEGAL--><xsd:enumeration value="SN" />
+			<!--SERBIA--><xsd:enumeration value="RS" />
+			<!--SEYCHELLES--><xsd:enumeration value="SC" />
+			<!--SIERRA LEONE--><xsd:enumeration value="SL" />
+			<!--SINGAPORE--><xsd:enumeration value="SG" />
+			<!--SLOVAKIA--><xsd:enumeration value="SK" />
+			<!--SLOVENIA--><xsd:enumeration value="SI" />
+			<!--SOLOMON ISLANDS--><xsd:enumeration value="SB" />
+			<!--SOMALIA--><xsd:enumeration value="SO" />
+			<!--SOUTH AFRICA--><xsd:enumeration value="ZA" />
+			<!--SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS--><xsd:enumeration value="GS" />
+			<!--SPAIN--><xsd:enumeration value="ES" />
+			<!--SRI LANKA--><xsd:enumeration value="LK" />
+			<!--SUDAN--><xsd:enumeration value="SD" />
+			<!--SURINAME--><xsd:enumeration value="SR" />
+			<!--SVALBARD AND JAN MAYEN--><xsd:enumeration value="SJ" />
+			<!--SWAZILAND--><xsd:enumeration value="SZ" />
+			<!--SWEDEN--><xsd:enumeration value="SE" />
+			<!--SWITZERLAND--><xsd:enumeration value="CH" />
+			<!--SYRIAN ARAB REPUBLIC--><xsd:enumeration value="SY" />
+			<!--TAIWAN, PROVINCE OF CHINA--><xsd:enumeration value="TW" />
+			<!--TAJIKISTAN--><xsd:enumeration value="TJ" />
+			<!--TANZANIA, UNITED REPUBLIC OF--><xsd:enumeration value="TZ" />
+			<!--THAILAND--><xsd:enumeration value="TH" />
+			<!--TIMOR-LESTE--><xsd:enumeration value="TL" />
+			<!--TOGO--><xsd:enumeration value="TG" />
+			<!--TOKELAU--><xsd:enumeration value="TK" />
+			<!--TONGA--><xsd:enumeration value="TO" />
+			<!--TRINIDAD AND TOBAGO--><xsd:enumeration value="TT" />
+			<!--TUNISIA--><xsd:enumeration value="TN" />
+			<!--TURKEY--><xsd:enumeration value="TR" />
+			<!--TURKMENISTAN--><xsd:enumeration value="TM" />
+			<!--TURKS AND CAICOS ISLANDS--><xsd:enumeration value="TC" />
+			<!--TUVALU--><xsd:enumeration value="TV" />
+			<!--UGANDA--><xsd:enumeration value="UG" />
+			<!--UKRAINE--><xsd:enumeration value="UA" />
+			<!--UNITED ARAB EMIRATES--><xsd:enumeration value="AE" />
+			<!--UNITED KINGDOM--><xsd:enumeration value="GB" />
+			<!--UNITED STATES--><xsd:enumeration value="US" />
+			<!--UNITED STATES MINOR OUTLYING ISLANDS--><xsd:enumeration value="UM" />
+			<!--URUGUAY--><xsd:enumeration value="UY" />
+			<!--UZBEKISTAN--><xsd:enumeration value="UZ" />
+			<!--VANUATU--><xsd:enumeration value="VU" />
+			<!--VENEZUELA, BOLIVARIAN REPUBLIC OF--><xsd:enumeration value="VE" />
+			<!--VIET NAM--><xsd:enumeration value="VN" />
+			<!--VIRGIN ISLANDS, BRITISH--><xsd:enumeration value="VG" />
+			<!--VIRGIN ISLANDS, U.S.--><xsd:enumeration value="VI" />
+			<!--WALLIS AND FUTUNA--><xsd:enumeration value="WF" />
+			<!--WESTERN SAHARA--><xsd:enumeration value="EH" />
+			<!--YEMEN--><xsd:enumeration value="YE" />
+			<!--ZAMBIA--><xsd:enumeration value="ZM" />
+			<!--ZIMBABWE--><xsd:enumeration value="ZW" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="Code_ReportType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="MM"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_PartyName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Code_Indentifier">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_IndentifierCode">
+				<xsd:attribute name="TypeCode" type="cica:Content_IndentifierCodeType" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_IndentifierCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_IndentifierCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+			<xsd:enumeration value="09"/>
+			<xsd:enumeration value="9"/>
+			<xsd:enumeration value="92"/>
+			<xsd:enumeration value="ZZ"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END Assembly_Party *****************************************************************-->
+	<!-- BEGIN Block_Contact *****************************************************************-->
+	<xsd:complexType name="Block_Contact">
+		<xsd:annotation>
+			<xsd:documentation>
+				This is the Contact_Block schema
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="cica:Component_IndividualName" minOccurs="0"/>
+			<xsd:element name="JobTitle" type="cica:Text_JobTitle" minOccurs="0"/>
+			<xsd:element name="PhysicalLocation" type="cica:Component_PhysicalLocation" minOccurs="0" maxOccurs="3"/>
+			<xsd:element name="ElectronicLocation" type="cica:Text_ElectronicLocation" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="TypeCode" type="cica:Code_Contact" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="Text_JobTitle">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Text_ElectronicLocation">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_ElectronicLocationText">
+				<xsd:attribute name="TypeCode" type="cica:Content_ElectronicLocationType"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_ElectronicLocationText">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_ElectronicLocationType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="EA"/>	<!-- Email Address-->
+			<xsd:enumeration value="CP"/>	<!-- Cell phone-->
+			<xsd:enumeration value="HP"/>	<!-- Home phone-->
+			<xsd:enumeration value="FX"/>	<!-- Fax number-->
+			<xsd:enumeration value="TE"/>	<!-- Just plain Telephone number no desc-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END Block_Contact *****************************************************************-->
+
+
+	<!--BEGIN Block_PhysicalProperties*************************************************-->
+	<xsd:complexType name="Block_PhysicalProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Physical Properties Block</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Dimensions" type="cica:Component_Dimensions" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--ADD ALSO Component_Dimensions -->
+	<!--END Block_PhysicalProperties***************************************************-->
+
+
+	<!--BEGIN Assembly_SpecComments*************************************************-->
+	<xsd:complexType name="Assembly_SpecComments">
+		<xsd:annotation>
+			<xsd:documentation>
+         			This is the Assembly for the SpecComments for ALRO
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Comment" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+   	<!--END Assembly_SpecComments**************************************************-->
+
+
+	<!--BEGIN Assembly_MillTestResults *************************************************-->
+  	<xsd:complexType name="Assembly_MillTestResults">
+    		<xsd:annotation>
+      			<xsd:documentation>
+        			This is the Assembly for the MillTestResults
+      			</xsd:documentation>
+    		</xsd:annotation>
+    		<xsd:sequence>
+      			<xsd:element name="Measurements" type="cica:Block_Measurements" minOccurs="1" maxOccurs="10"/>
+    		</xsd:sequence>
+  	</xsd:complexType>
+   	<!--END Assembly_MillTestResults **************************************************-->
+
+
+	<!--BEGIN Block_Measurements *************************************************-->
+  	<xsd:complexType name="Block_Measurements" >
+    		<xsd:annotation>
+      			<xsd:documentation>
+        			This is the Measurements Block
+      			</xsd:documentation>
+    		</xsd:annotation>
+    		<xsd:sequence>
+      			<xsd:element name="Result" type="cica:Block_Result" minOccurs="0" maxOccurs="unbounded"/>
+    		</xsd:sequence>
+    		<xsd:attribute name="TypeCode" type ="cica:Code_MeasurementTypeCode" use="required"/>
+  	</xsd:complexType>
+   	<!--END Block_Measurements **************************************************-->
+
+
+	<!--BEGIN Block_Result *************************************************-->
+  	<xsd:complexType name="Block_Result" >
+    		<xsd:annotation>
+      			<xsd:documentation>
+        			This is the Result Block
+      			</xsd:documentation>
+    		</xsd:annotation>
+    		<xsd:sequence>
+      			<xsd:element name="Value" type="cica:Numeric_ResultValue" minOccurs="1" maxOccurs="10"/>
+    		</xsd:sequence>
+    		<xsd:attribute name="DateTime" type="cica:DateTime_ReportDateTime" use="required"/>
+    		<xsd:attribute name="TypeCode" type ="cica:Code_ResultTypeCode" use="required"/>
+  	</xsd:complexType>
+   	<!--END Block_Result **************************************************-->
+  
+
+	<!-- BEGIN Component_TermsOfSale **********************************************************-->
+	<xsd:complexType name="Component_TermsOfSale">
+		<xsd:annotation>
+			<xsd:documentation>This is a TermsOfSale_Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DiscountPercent" type="cica:Numeric_DiscountPercent" minOccurs="0"/>
+			<xsd:element name="DiscountDays" type="cica:Numeric_DiscountDays" minOccurs="0"/>
+			<xsd:element name="NetDays" type="cica:Numeric_NetDays" minOccurs="0"/>
+			<xsd:element name="Desc" type="cica:Text_TermsOfSaleDesc" minOccurs="0"/>
+			<xsd:element name="DiscountDateDue" type="cica:Text_TermsOfSaleDateDue" minOccurs="0"/>
+			<xsd:element name="NetDateDue" type="cica:Text_TermsOfSaleDateDue" minOccurs="0"/>
+			<xsd:element name="DiscountAmount" type="cica:Amount_TermsOfSaleDiscountAmount" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="TypeCode" type="cica:Code_TermsOfSaleTypeCode" use="required"/>
+		<xsd:attribute name="BasisDateCode" type="cica:Code_TermsOfSaleBasisDate" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="Numeric_DiscountPercent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Numeric_DiscountDays">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Numeric_NetDays">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_TermsOfSaleDesc">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_TermsOfSaleDateDue">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_TermsOfSaleTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+			<xsd:enumeration value="08"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_TermsOfSaleBasisDate">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+			<xsd:enumeration value="03"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- BEGIN PRIMITIVE_Code_ForecastTypeCode *********************************************-->
+	<xsd:simpleType name="Code_ForecastTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="C"/>
+			<xsd:enumeration value="D"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_ForecastTypeCode *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_TermsOfSaleDiscountAmount *********************************************-->
+	<xsd:complexType name="Amount_TermsOfSaleDiscountAmount">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_TermsOfSaleDiscountAmountContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_TermsOfSaleDiscountAmountContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_TermsOfSaleDiscountAmount  *****************************************************-->
+	<!-- END Component_TermsOfSale *****************************************************************-->
+
+
+	<!-- BEGIN Component_Transportation *****************************************************************-->
+	<xsd:complexType name="Component_Transportation">
+		<xsd:annotation>
+			<xsd:documentation>This is a Transportation_Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Point" type="cica:Text_TransportPoint" minOccurs="0" maxOccurs="7"/>
+		</xsd:sequence>
+		<xsd:attribute name="MethodOfPayment" type="cica:Code_MethodOfPayment" use="required"/>
+		<xsd:attribute name="TermsCode" type="cica:Code_TermsCode" use="required"/>
+		<xsd:attribute name="TermsQual" type="cica:Code_TermsQual" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="Text_TransportPoint">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Text_TransportPoint">
+				<xsd:attribute name="TypeCode" type="cica:Content_TransportPointTextTypeCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Text_TransportPoint">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_TransportPointTextTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="CI"/>
+			<xsd:enumeration value="DE"/>
+			<xsd:enumeration value="PL"/>
+			<xsd:enumeration value="FOB"/>
+			<xsd:enumeration value="OR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Text_DestinationPoint">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_DestinationPointText">
+				<xsd:attribute name="TypeCode" type="cica:Content_DestinationPointText" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_DestinationPointText">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_DestinationPointTextTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="OA"/>
+			<xsd:enumeration value="FOB"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_TermsQual">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="02"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_TermsCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="FOB"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_MethodOfPayment">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="CC"/> <!--Collect-->
+			<xsd:enumeration value="BP"/> <!--Buyer Paid-->
+			<xsd:enumeration value="PP"/> <!--Prepaid NOTE for Nucor use PC and PP are the same-->
+			<xsd:enumeration value="PC"/> <!--Prepaid but charged to customer-->
+			<xsd:enumeration value="PA"/> <!--Prepaid advance by seller-->
+			<xsd:enumeration value="PD"/> <!--Prepaid by seller customer not charged-->
+			<xsd:enumeration value="PU"/> <!--Pickup-->
+			<xsd:enumeration value="DF"/> <!--Defined by Buyer and Seller-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END Component_Transportation *****************************************************************-->
+
+
+	<!-- BEGIN Component_Carriage *****************************************************************-->
+	<xsd:complexType name="Component_Carriage">
+		<xsd:annotation>
+			<xsd:documentation>This is a Carriage_Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Carrier" type="cica:Text_CarrierName" minOccurs="0"/>
+			<xsd:element name="Desc" type="cica:Text_CarrierDesc" minOccurs="0"/>
+			<xsd:element name="EquipmentCode" type="cica:Code_Equipment" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="MethodCode" type="cica:Code_MethodCode" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="Text_CarrierName">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_CarrierText">
+				<xsd:attribute name="TypeCode" type="cica:Content_CarrierTextTypeCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_CarrierText">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_CarrierTextTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="91"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_CarrierDesc">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_MethodCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="A"/><!--Air-->
+			<xsd:enumeration value="B"/><!--Barge-->
+			<xsd:enumeration value="H"/><!--Customer Pickup-->
+			<xsd:enumeration value="I"/><!--Common Irregular Carrier-->
+			<xsd:enumeration value="J"/><!--Motor-->
+			<xsd:enumeration value="L"/><!--Contract Carrier-->
+			<xsd:enumeration value="M"/><!--Motor (Common Carrier)-->
+			<xsd:enumeration value="P"/><!--Private Carrier-->
+			<xsd:enumeration value="R"/><!--Rail-->
+			<xsd:enumeration value="S"/><!--Ocean-->
+			<xsd:enumeration value="CE"/><!--Customer Pickup / Customer's Expense-->
+			<xsd:enumeration value="FL"/><!--Motor (Flatbed)-->
+			<xsd:enumeration value="SC"/><!--Shipper Agent (Truck)-->		
+			<xsd:enumeration value="SR"/><!--Supplier Truck-->		
+			<xsd:enumeration value="VE"/><!--Vessel, Ocean-->
+			<xsd:enumeration value="RR"/><!--Rail/Truck-->
+			<xsd:enumeration value="ZZ"/><!--Transload-->	
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_Equipment">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="TR"/>	<!--Truck-->
+			<xsd:enumeration value="RR"/>	<!--Rail-->
+			<xsd:enumeration value="BR"/>	<!--Barge-->
+			<xsd:enumeration value="VE"/>	<!--Ocean Vessel-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END Component_Carriage *****************************************************************-->
+	<!-- BEGIN Component_PhysicalLocation *****************************************************************-->
+	<xsd:complexType name="Component_PhysicalLocation">
+		<xsd:annotation>
+			<xsd:documentation>This is an Physical Location Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Address" type="cica:Text_Address" minOccurs="0" maxOccurs="2"/>
+			<xsd:element name="Address2" type="cica:Text_Address" minOccurs="0" maxOccurs="2"/>
+			<xsd:element name="City" type="cica:Text_City" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="State" type="cica:Text_State" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="PostalCode" type="cica:Text_PostalCode" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Country" type="cica:Text_Country" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="TypeCode" type="cica:Code_PhysicalLocation" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="Text_Address">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_City">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_State">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_PostalCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_Country">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_PhysicalLocation">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="2"/>
+			<xsd:enumeration value="PL"/>  	<!-- Physical site -->
+			<xsd:enumeration value="PC"/>	<!-- Physical address -->
+			<xsd:enumeration value="UN"/>	<!-- Unknown -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END Component_PhysicalLocation *****************************************************************-->
+	<!--BEGIN Component_IndividualName******************************************************-->
+	<xsd:complexType name="Component_IndividualName">
+		<xsd:annotation>
+			<xsd:documentation>
+				This is the Name component for people.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Prefix" type="cica:Text_Prefix" minOccurs="0"/>
+			<xsd:element name="GivenName" type="cica:Text_GivenName" minOccurs="0"/>
+			<xsd:element name="MiddleName" type="cica:Text_MiddleName" minOccurs="0"/>
+			<xsd:element name="SurName" type="cica:Text_SurName" minOccurs="0"/>
+			<xsd:element name="Suffix" type="cica:Text_Suffix" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="TypeCode" type="cica:Code_Contact" use="optional"/>
+	</xsd:complexType>
+	<xsd:simpleType name="Text_Prefix">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_GivenName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_MiddleName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_SurName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Text_Suffix">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_Contact">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="AC"/>	<!-- Admin Contracting Officer (rare) -->
+			<xsd:enumeration value="BD"/>	<!-- Buyer -->
+			<xsd:enumeration value="SD"/>	<!-- Shipping -->
+			<xsd:enumeration value="OC"/>	<!-- Sales/Order -->
+			<xsd:enumeration value="RE"/>	<!-- Receiving -->
+			<xsd:enumeration value="SH"/>	<!-- Shipper/Carrier -->
+			<xsd:enumeration value="AR"/>	<!-- Accounts Receivable -->
+			<xsd:enumeration value="SA"/>	<!-- Sales Administration -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END Component_IndividualName******************************************************-->
+	<!--BEGIN Component_Dimensions****************************************************-->
+	<xsd:complexType name="Component_Dimensions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Dimensions Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="Count" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Length" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Width" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Height" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="OutsideDia" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="InsideDia" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Diameter" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Gauge" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Weight" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Leg1" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Leg2" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="Thickness" type="cica:Measure_Linear" minOccurs="0"/>
+			<xsd:element name="WeightPerFoot" type="cica:Measure_Linear" minOccurs="0"/>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="Measure_Linear">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Measure_Linear">
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Measure_Linear">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!--END Component_Dimensions******************************************************-->
+	<!--BEGIN Component_ScheduleRequest***********************************************-->
+	<xsd:complexType name="Component_ScheduleRequest">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Schedule Request Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DateRequested" type="cica:DateTime_Requested"/>
+			<xsd:element name="Quantity" type="cica:Quantity_Quantity"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="DateTime_Requested">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!--END Component_ScheduleRequest*************************************************-->
+	<!--BEGIN Component_Specification*************************************************-->
+	<xsd:complexType name="Component_Specification">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Specification Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AgencyCode" type="cica:Code_Agency" minOccurs="0"/>
+			<xsd:element name="AgencyServiceCode" type="cica:Code_AgencyService" minOccurs="0"/>
+			<xsd:element name="ChargeRate" type="cica:Amount_ChargeRate" minOccurs="0"/>
+			<xsd:element name="TotalCharge" type="cica:Amount_TotalCharge" minOccurs="0"/>
+			<xsd:element name="TotalWeight" type="cica:Measure_TotalWeight" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="TypeCode" type="cica:Code_Spec" use="required"/>
+		<xsd:attribute name="ChargeCode" type="cica:Code_Charge" use="required"/>
+	</xsd:complexType>
+	<!--END Component_Specification**************************************************-->
+
+
+
+	<!--BEGIN Component_Pack*************************************************-->
+	<xsd:complexType name="Component_Pack">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Pack Component</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Reference" type="cica:Identifier_Reference" maxOccurs="5"/>
+			<xsd:element name="BundleWeight" type="cica:Measure_BundleWeight" minOccurs="0"/>
+			<xsd:element name="BundlePieces" type="cica:Quantity_BundlePieces" minOccurs="0"/>
+			<xsd:element name="CountryOfMelted" type="cica:Code_Country" minOccurs="0"/>
+			<xsd:element name="CountryOfManufactured" type="cica:Code_Country" minOccurs="0"/>
+			<xsd:element name="DateMelted" type="cica:Date_Manufactured" minOccurs="0"/>
+			<xsd:element name="DateRolled" type="cica:Date_Manufactured" minOccurs="0"/>
+      			<xsd:element name="SpecComments" type="cica:Assembly_SpecComments" minOccurs="0" maxOccurs="unbounded"/>
+      			<xsd:element name="MillTestResults" type="cica:Assembly_MillTestResults" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="Number" type="cica:Identifier_Number" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="Identifier_Number">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Date_Manufactured">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!--END Component_Pack**************************************************-->
+
+
+	<!-- BEGIN PRIMITIVE_Quantity_BundlePieces  *************************************************-->
+	<xsd:complexType name="Quantity_BundlePieces">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Quantity_BundlePiecesContent"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Quantity_BundlePiecesContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Quantity_BundlePieces  **************************************************-->
+
+
+	<!-- BEGIN PRIMITIVE_Measure_TotalWeight  *************************************************-->
+	<xsd:complexType name="Measure_TotalWeight">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Measure_TotalWeightContent">
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Measure_TotalWeightContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Measure_TotalWeight  **************************************************-->
+
+
+	<!-- BEGIN PRIMITIVE_Measure_BundleWeight  *************************************************-->
+	<xsd:complexType name="Measure_BundleWeight">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Measure_BundleWeightContent">
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Measure_BundleWeightContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Measure_BundleWeight  **************************************************-->
+
+
+	<!-- BEGIN PRIMITIVE_Text_MeasurmentDesc *************************************************-->
+	<xsd:simpleType name="Text_MeasurmentDesc">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_MeasurmentDesc  **************************************************-->
+
+	<!-- BEGIN PRIMITIVE_Text_ProductDesc *************************************************-->
+	<xsd:simpleType name="Text_ProductDesc">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_ProductDesc  **************************************************-->
+
+
+	<!-- BEGIN PRIMITIVE_Text_ProductSize *************************************************-->
+	<xsd:simpleType name="Text_ProductSize">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_ProductSize  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Text_ProductGrade *************************************************-->
+	<xsd:simpleType name="Text_ProductGrade">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_ProductGrade  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_TotalCharge  ***************************************************-->
+	<xsd:complexType name="Amount_TotalCharge">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_TotalChargeContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_TotalChargeContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_TotalCharge  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_ChargeRate  ****************************************************-->
+	<xsd:complexType name="Amount_ChargeRate">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_ChargeRateContent">
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="required"/>
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_ChargeRateContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_Agency">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="2"/>
+			<xsd:enumeration value="AI"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_AgencyService">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="2"/>
+			<xsd:enumeration value="DL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_ChargeRate  ******************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Spec  ************************************************************-->
+	<xsd:simpleType name="Code_Spec">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="C"/>
+			<xsd:enumeration value="A"/>
+			<!--CHARGE-->
+			<!--ALLOWANCE-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Spec  **************************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_OrderType  ************************************************************-->
+	<xsd:simpleType name="Code_OrderType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+			<xsd:minLength value="2"/>
+			<xsd:enumeration value="OP"/>
+<xsd:enumeration value="OF"/>
+			<xsd:enumeration value="OD"/>
+			<xsd:enumeration value="O3"/>
+			<!--Stock PO-->
+			<!--Direct PO-->
+			<!--VMI PO-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_OrderType  **************************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Charge  **********************************************************-->
+	<xsd:simpleType name="Code_Charge">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="D240"/>
+			<xsd:enumeration value="C240"/>
+			<xsd:enumeration value="D200"/>
+			<xsd:enumeration value="F300"/>
+			<xsd:enumeration value="H390"/>
+			<xsd:enumeration value="G870"/>
+			<xsd:enumeration value="E340"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Charge  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_Variant **********************************************************-->
+	<xsd:simpleType name="Identifier_Variant">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_Variant  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Measure_LengthInches *********************************************-->
+	<xsd:simpleType name="Measure_LengthInches">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="1500"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Measure_LengthInches *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_InvoiceNumber **********************************************************-->
+	<xsd:simpleType name="Identifier_InvoiceNumber">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_InvoiceNumber  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_CustomerID **********************************************************-->
+	<xsd:simpleType name="Identifier_CustomerID">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_CustomerID  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_NGCID **********************************************************-->
+	<xsd:simpleType name="Identifier_NGCID">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="999999"/>
+			<xsd:maxInclusive value="3000000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_NGCID  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_EquipNum **********************************************************-->
+	<xsd:simpleType name="Identifier_EquipNum">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_EquipNum  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_PRIMITIVE_Identifier_CustomerPartNum **********************************************************-->
+	<xsd:simpleType name="Identifier_CustomerPartNum">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_CustomerPartNum  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_PRIMITIVE_Identifier_CustomerLineNum **********************************************************-->
+	<xsd:simpleType name="Identifier_CustomerLineNum">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_CustomerLineNum  ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_DiscountTerms  *************************************************-->
+	<xsd:complexType name="Amount_DiscountTerms">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_DiscountTermsContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_DiscountTermsContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_DiscountTerms  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_DueByDiscountDate  *********************************************-->
+	<xsd:complexType name="Amount_DueByDiscountDate">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_DueByDiscountDateContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_DueByDiscountDateContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_TotalCharge  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_Total  *********************************************-->
+	<xsd:complexType name="Amount_Total">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_TotalContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_TotalContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_Total  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_Line  *********************************************-->
+	<xsd:complexType name="Amount_Line">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_LineContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_LineContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Line_Total  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_TotalInvoice  *********************************************-->
+	<xsd:complexType name="Amount_TotalInvoice">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Amount_TotalInvoiceContent">
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_TotalInvoiceContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_TotalInvoice  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Amount_Ordered  *********************************************-->
+	<xsd:simpleType name="Amount_Ordered">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="10000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Amount_Ordered *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Text_Note  *****************************************************************-->
+	<xsd:complexType name="Text_Note">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_NoteText">
+				<xsd:attribute name="TypeCode" type="cica:Content_NoteTextTypeCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_NoteText">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_NoteTextTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="DEL"/>
+			<xsd:enumeration value="SPH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_Note  *****************************************************************-->
+	<!--BEGIN PRIMITIVE_Text_ProductAttribute*********************************************-->
+	<xsd:complexType name="Text_ProductAttribute">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Text_ProductAttribute">
+				<xsd:attribute name="AttributeCode" type="cica:Content_ProductAttributeType" use="optional"/>
+				<xsd:attribute name="DescType" type="cica:Content_ProductCode" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Text_ProductAttribute">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_ProductAttributeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="0"/>
+			<xsd:enumeration value="08"/> <!--Full Length Item description-->
+			<xsd:enumeration value="11"/> <!--Item specs-->
+			<xsd:enumeration value="55"/> <!--Item Alloy description-->
+			<xsd:enumeration value="16"/> <!--Item temper description-->
+			<xsd:enumeration value="74"/> <!--Item size description-->
+			<xsd:enumeration value="38"/> <!--Item Grade description-->
+			<xsd:enumeration value="ZZ"/> <!--Nucor Grade Code-->
+      			<xsd:enumeration value="18"/> <!--Chemical treatment-->
+			<xsd:enumeration value="77"/>
+			<xsd:enumeration value="GS"/> <!--General Spec-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_ProductCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="F"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Text_ProductAttribute***********************************************-->
+	<!--BEGIN PRIMITIVE_Code_Shipment*****************************************************-->
+	<xsd:simpleType name="Code_Shipment">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="CC"/>
+			<xsd:enumeration value="PR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_Shipment*******************************************************-->
+	<!--BEGIN PRIMITIVE_Quantity_Quantity*********************************************-->
+	<xsd:complexType name="Quantity_Acknowledge">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Quantity_Acknowledge">
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="required"/>
+				<xsd:attribute name="QuantityStatusCode" type="cica:Code_QuantityStatus" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Quantity_Acknowledge">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Quantity_Quantity***********************************************-->
+	<!--BEGIN PRIMITIVE_Code_QuantityType*****************************************************-->
+	<xsd:simpleType name="Code_QuantityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="2"/>
+			<xsd:enumeration value="33"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_QuantityType*******************************************************-->
+	<!--BEGIN PRIMITIVE_Code_QuantityStatus*****************************************************-->
+	<xsd:simpleType name="Code_QuantityStatus">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="2"/>
+			<xsd:enumeration value="IA"/>
+			<xsd:enumeration value="IB"/>
+			<xsd:enumeration value="IR"/>
+			<xsd:enumeration value="33"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_QuantityStatus*******************************************************-->
+	<!--BEGIN PRIMITIVE_Amount_UnitPrice*************************************************-->
+	<xsd:complexType name="Amount_UnitPrice">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_UnitPriceAmount">
+				<xsd:attribute name="Basis" type="cica:Content_BasisCode" use="optional"/>
+				<xsd:attribute name="CurrencyCode" type="cica:Content_CurrencyCode" use="required"/>
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="optional"/>
+			</xsd:extension>
+			<!--don't assume anything if not given-->
+			<!--assume USD if not given-->
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_UnitPriceAmount">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_BasisCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="HW"/>
+			<xsd:enumeration value="F"/>
+			<xsd:enumeration value="PC"/>
+			<xsd:enumeration value="PE"/>
+			<xsd:enumeration value="TN"/>
+			<xsd:enumeration value="LB"/>
+			<xsd:enumeration value="HP"/>
+			<xsd:enumeration value="CW"/>
+			<xsd:enumeration value="PP"/>
+			<xsd:enumeration value="TC"/>
+			<xsd:enumeration value="TE"/>
+			<xsd:enumeration value="TM"/>
+			<xsd:enumeration value="UM"/>
+			<xsd:enumeration value="HF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_CurrencyCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="USD"/>
+			<xsd:enumeration value="CAD"/>
+			<xsd:enumeration value="MXN"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Amount_UnitPrice****************************************************-->
+	<!--BEGIN PRIMITIVE_Text_Description***************************************************-->
+	<xsd:complexType name="Text_Description">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Text_Description">
+				<xsd:attribute name="DescCode" type="cica:Code_DescriptionType" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Text_Description">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_DescriptionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="F"/>
+			<xsd:enumeration value="S"/>
+			<xsd:enumeration value="X"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Text_Comment*****************************************************-->
+	<!--BEGIN PRIMITIVE_Text_Comment***************************************************-->
+	<xsd:complexType name="Text_Comment">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Text_Comment">
+				<xsd:attribute name="TypeCode" type="cica:Content_CommentType" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Text_Comment">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_CommentType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="LIN"/>
+			<xsd:enumeration value="ADD"/>
+			<xsd:enumeration value="MSG"/>
+			<xsd:enumeration value="F"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Text_Comment*****************************************************-->
+	<!--BEGIN PRIMITIVE_Text_PaperWork*************************************************-->
+	<xsd:complexType name="Text_PaperWork">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="TypeCode" type="cica:Code_PaperWork"/>
+				<xsd:attribute name="TransmissionCode" type="cica:Code_Transmission"/>
+				<xsd:attribute name="CopyCount" type="cica:Quantity_CopyCount"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!--END PRIMITIVE_Text_PaperWork**************************************************-->
+	<!--BEGIN PRIMITIVE_Code_PaperWork************************************************-->
+	<xsd:simpleType name="Code_PaperWork">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="13"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_PaperWork**************************************************-->
+	<!--BEGIN PRIMITIVE_Code_Transmission*********************************************-->
+	<xsd:simpleType name="Code_Transmission">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BM"/>
+			<xsd:enumeration value="WS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_Transmission**********************************************-->
+	<!--BEGIN PRIMITIVE_Quantity_CopyCount*******************************************-->
+	<xsd:simpleType name="Quantity_CopyCount">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Quantity_CopyCount*********************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_PONumber  *************************************************-->
+	<xsd:complexType name="Identifier_PONumber">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Identifier_PONumberContent">
+				<xsd:attribute name="PODate" type="cica:Date_PODate"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Date_PODate">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Identifier_PONumberContent">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_PONumber  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_PONumber_Owner  *************************************************-->
+	<xsd:complexType name="Identifier_PONumber_Owner">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Identifier_PONumberContent">
+				<xsd:attribute name="PODate" type="cica:Date_PODate"/>
+				<xsd:attribute name="POOwner" type="cica:Identifier_POOwner"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Identifier_POOwner">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_PONumber_Owner  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_PONumber  *************************************************-->
+	<xsd:simpleType name="Identifier_PONumberAtt">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_PONumber  *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_ReleaseNumber  *************************************************-->
+	<xsd:simpleType name="Identifier_ReleaseNumber">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_ReleaseNumber  *****************************************************-->
+	<!--BEGIN PRIMITIVE_Code_ReportTypeCode*******************************************-->
+	<xsd:simpleType name="Code_ReportTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="QA"/> <!--On Hand or Inventory-->
+			<xsd:enumeration value="QL"/> <!--Min-->
+			<xsd:enumeration value="QM"/> <!--Max-->
+			<xsd:enumeration value="QN"/> <!--Forecast-->
+			<xsd:enumeration value="QP"/> <!--On Order other customer-->
+			<xsd:enumeration value="QD"/> <!--On order Nucor-->
+			<xsd:enumeration value="QS"/> <!--Previous Nucor Sales-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_ReportTypeCode*********************************************-->
+	<!--BEGIN PRIMITIVE_Code_MeasurementTypeCode*******************************************-->
+	<xsd:simpleType name="Code_MeasurementTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="71"/>
+			<xsd:enumeration value="68"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_MeasurementTypeCode*********************************************-->
+	<!--BEGIN PRIMITIVE_Code_ResultTypeCode*******************************************-->
+	<xsd:simpleType name="Code_ResultTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="7"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Code_ResultTypeCode*********************************************-->
+	<!--BEGIN PRIMITIVE_Quantity_Quantity*********************************************-->
+	<xsd:complexType name="Quantity_Quantity">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Quantity">
+				<xsd:attribute name="UOM" type="cica:Code_UOM" use="required"/>
+				<xsd:attribute name="TypeCode" type="cica:Code_Quantity" use="optional"/>
+				<xsd:attribute name="QuantityTypeCode" type="cica:Code_QuantityType" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Quantity">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Code_Quantity">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="QO"/>
+			<xsd:enumeration value="HP"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Quantity_Quantity***********************************************-->
+	<!--BEGIN PRIMITIVE_Quantity_Invoiced*********************************************-->
+	<xsd:complexType name="Quantity_Invoiced">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Quantity">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- ADD ALSO PRIMITIVE_Content_Quantity-->
+	<!--END PRIMITIVE_Quantity_Invoiced***********************************************-->
+	<!--BEGIN SCP PRODUCT TYPE****************************************************-->
+	<xsd:simpleType name="SCP_ProductType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+			<xsd:minLength value="2"/>
+			<xsd:enumeration value="ColdFinish"/>
+			<xsd:enumeration value="Plate"/>
+			<xsd:enumeration value="Bar"/>
+			<xsd:enumeration value="Beam"/>
+			<xsd:enumeration value="Sheet"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END SCP PRODUCT TYPE****************************************************-->
+	<!--BEGIN PRIMITIVE_Quantity_Invoiced_Invoice*********************************************-->
+	<xsd:complexType name="Quantity_Invoiced_Invoice">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Quantity">
+				<xsd:attribute name="TypeCode" type="cica:Code_QuantityInvoiced"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Code_QuantityInvoiced">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="HW"/>
+			<xsd:enumeration value="LB"/>
+			<xsd:enumeration value="PC"/>
+			<xsd:enumeration value="TN"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END PRIMITIVE_Quantity_Invoiced_Invoice***********************************************-->
+	<!--BEGIN PRIMITIVE_Quantity_Shipped*********************************************-->
+	<xsd:complexType name="Quantity_Shipped">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Quantity">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- ADD ALSO PRIMITIVE_Content_Quantity-->
+	<!--END PRIMITIVE_Quantity_Shipped***********************************************-->
+	<!--BEGIN Primitive_Identifier_Product*******************************************-->
+	<xsd:complexType name="Identifier_Product">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_ProductIdentifier">
+				<xsd:attribute name="TypeCode" type="cica:Content_ProductType" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_ProductIdentifier">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_ProductType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="2"/>
+			<xsd:enumeration value="BP"/> <!--Buyer's product ID-->
+			<xsd:enumeration value="PL"/> <!--Original Purchase Order Line#-->
+			<xsd:enumeration value="ZZ"/> <!--Mutually defined product ID (customers part#)-->
+			<xsd:enumeration value="GC"/> 
+			<xsd:enumeration value="CL"/> 
+			<xsd:enumeration value="VP"/> <!--Vendor's product ID-->
+			<xsd:enumeration value="PO"/> 
+			<xsd:enumeration value="VO"/> 
+			<xsd:enumeration value="VN"/> <!--Nucor Mill PartID-->
+			<xsd:enumeration value="PI"/> <!--Customer Part #-->
+			<xsd:enumeration value="HN"/> <!--Heat Code-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END Primitive_Identifier_Product*********************************************-->
+	<!--BEGIN Primitive_Code_UOM*****************************************************-->
+	<xsd:simpleType name="Code_UOM">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="24"/>
+			<xsd:enumeration value="IN"/>
+			<xsd:enumeration value="GTN"/>
+			<xsd:enumeration value="TN"/>
+			<xsd:enumeration value="LB"/>
+			<xsd:enumeration value="FT"/>
+			<xsd:enumeration value="MM"/>
+			<xsd:enumeration value="MT"/>
+			<xsd:enumeration value="PC"/>
+			<xsd:enumeration value="HW"/>
+			<xsd:enumeration value="CW"/>
+			<xsd:enumeration value="HP"/>
+			<xsd:enumeration value="HF"/>
+			<xsd:enumeration value="64"/>
+			<xsd:enumeration value="P1"/>
+			<xsd:enumeration value="60"/>
+			<xsd:enumeration value="LF"/>
+			<xsd:enumeration value="ZZ"/>
+			<xsd:enumeration value="37"/>
+			<xsd:enumeration value="66"/>
+			<xsd:enumeration value="69"/>
+			<xsd:enumeration value="71"/>
+			<xsd:enumeration value="72"/>
+			<xsd:enumeration value="85"/>
+			<xsd:enumeration value="86"/>
+			<xsd:enumeration value="CE"/>
+			<xsd:enumeration value="FA"/>
+			<xsd:enumeration value="GM"/>
+			<xsd:enumeration value="GR"/>
+			<xsd:enumeration value="GU"/>
+			<xsd:enumeration value="IK"/>
+			<xsd:enumeration value="K9"/>
+			<xsd:enumeration value="KG"/>
+			<xsd:enumeration value="KM"/>
+			<xsd:enumeration value="KS"/>
+			<xsd:enumeration value="M7"/>
+			<xsd:enumeration value="M8"/>
+			<xsd:enumeration value="MC"/>
+			<xsd:enumeration value="P1"/>
+			<xsd:enumeration value="PS"/>
+			<xsd:enumeration value="UL"/>
+			<xsd:enumeration value="59"/>
+			<xsd:enumeration value="EA"/>
+			<!--	<xsd:enumeration value="PSI"/>
+				<xsd:enumeration value="%"/>	-->
+			<!--Actual Pounds-->
+			<!--Theoretical Pounds-->
+			<!--Regular Pounds-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--END Primitive_Code_UOM********************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_CtrlNum *****************************************************-->
+	<xsd:simpleType name="Identifier_CtrlNum">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_CtrlNum *******************************************************-->
+	<!-- BEGIN PRIMITIVE_Numeric_SenderID *******************************************************-->
+	<xsd:simpleType name="Numeric_SenderID">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Numeric_SenderID *********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_SenderIDQual ******************************************************-->
+	<xsd:simpleType name="Code_SenderIDQual">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="92"/>
+			<xsd:enumeration value="ZZ"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_SenderIDQual ********************************************************-->
+	<!-- BEGIN Numeric_ReceiverID *****************************************************-->
+	<xsd:simpleType name="Numeric_ReceiverID">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Numeric_ReceiverID *******************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_ReceiverIDQual ****************************************************-->
+	<xsd:simpleType name="Code_ReceiverIDQual">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="92"/>
+			<xsd:enumeration value="ZZ"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_ReceiverIDQual ******************************************************-->
+	<!-- BEGIN PRIMITIVE_Numeric_IntermediaryID *******************************************************-->
+	<xsd:simpleType name="Numeric_IntermediaryID">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Numeric_IntermediaryID *********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_IntermediaryIDQual ******************************************************-->
+	<xsd:simpleType name="Code_IntermediaryIDQual">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="92"/>
+			<xsd:enumeration value="ZZ"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_IntermediaryIDQual ********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_ISA *************************************************-->
+	<xsd:simpleType name="DateTime_ISA">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_ISA ***************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_Create **********************************************-->
+	<xsd:simpleType name="DateTime_Create">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_Create ************************************************-->
+	<!-- BEGIN PRIMITIVE_Desc_TransSetRootVer ************************************************-->
+	<xsd:simpleType name="Desc_TransSetRootVer">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Desc_TransSetRootVer **************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_TransSetRootOpMode ************************************************-->
+	<xsd:simpleType name="Code_TransSetRootOpMode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="P"/>
+			<xsd:enumeration value="T"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_TransSetRootOpMode **************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_TransactionType *********************************************-->
+	<xsd:simpleType name="Code_TransactionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="NE"/>
+			<xsd:enumeration value="CG"/>
+			<xsd:enumeration value="DL"/>
+			<xsd:enumeration value="RS"/>
+			<xsd:enumeration value="RL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_TransactionType ***********************************************-->
+	<!-- BEGIN PRIMITIVE_Code_TransactionModuleType *********************************************-->
+	<xsd:simpleType name="Code_TransactionModuleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="810"/>
+			<xsd:enumeration value="824"/>
+			<xsd:enumeration value="846"/>
+			<xsd:enumeration value="850"/>
+			<xsd:enumeration value="852"/>
+			<xsd:enumeration value="855"/>
+			<xsd:enumeration value="856"/>
+			<xsd:enumeration value="857"/>
+			<xsd:enumeration value="861"/>
+			<xsd:enumeration value="863"/>
+			<xsd:enumeration value="8633"/>
+			<xsd:enumeration value="8634"/>
+			<xsd:enumeration value="860"/>
+			<xsd:enumeration value="862"/>
+			<xsd:enumeration value="830"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_TransactionModuleType ***********************************************-->
+	<!-- BEGIN PRIMITIVE_Code_EDIOrderType *********************************************-->
+	<xsd:simpleType name="Code_EDIOrderType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="852"/>
+			<xsd:enumeration value="850"/>
+			<xsd:enumeration value="WEB"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_EDIOrderType ***********************************************-->
+
+
+	<!-- BEGIN PRIMITIVE_Code_AcknowledgementAction ************************************************-->
+	<xsd:simpleType name="Code_AcknowledgementAction">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="IR"/>
+			<xsd:enumeration value="IC"/>
+			<xsd:enumeration value="IA"/>
+			<xsd:enumeration value="IE"/>
+			<xsd:enumeration value="TR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_AcknowledgementAction **************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Error *********************************************-->
+	<xsd:simpleType name="Code_Error">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Error ***********************************************-->
+	<!-- BEGIN PRIMITIVE_Text_EntityName ********************************************************-->
+	<xsd:simpleType name="Text_EntityName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_EntityName **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Text_RoutingCarrierName ********************************************************-->
+	<xsd:simpleType name="Text_RoutingCarrierName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_RoutingCarrierName **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Text_Error ********************************************************-->
+	<xsd:simpleType name="Text_Error">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_Error **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_DistrictCode ******************************************************-->
+	<xsd:complexType name="Code_DistrictCode">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Code_DistrictCode">
+				<xsd:attribute name="TypeCode" type="cica:Content_Code_DistrictCodeTypeCode"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Code_DistrictCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_Code_DistrictCodeTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="FA"/>
+			<xsd:enumeration value="SU"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="9"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_DistrictCode ***************************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_EntityTypeCode ***********************************************************-->
+	<xsd:simpleType name="Code_EntityTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="RL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_EntityTypeCode *************************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_InventoryDate ********************************************************-->
+	<xsd:simpleType name="DateTime_InventoryDate">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_InventoryDate **********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_ReportDateTime *******************************************************-->
+	<xsd:simpleType name="DateTime_ReportDateTime">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_ReportDateTime *********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_PO *******************************************************-->
+	<xsd:simpleType name="DateTime_PO">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_PO *********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_ACK *******************************************************-->
+	<xsd:simpleType name="DateTime_ACK">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_ACK *********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_ShipNoLater **********************************************************-->
+	<xsd:simpleType name="DateTime_ShipNoLater">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_ShipNoLater ************************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_RefNum *************************************************-->
+	<xsd:simpleType name="Identifier_RefNum">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_RefNum ***************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_RefNumMill *************************************************-->
+	<xsd:simpleType name="Identifier_RefNumMill">
+		<xsd:restriction base="xsd:integer">
+			<xsd:enumeration value="1"/> <!--NSNE-->
+			<xsd:enumeration value="2"/> <!--NSSC-->
+			<xsd:enumeration value="3"/> <!--NSTX-->
+			<xsd:enumeration value="4"/> <!--NSUT-->
+			<xsd:enumeration value="5"/> <!--NSAU-->
+			<xsd:enumeration value="6"/> <!--NSBHM-->
+			<xsd:enumeration value="7"/> <!--NSJAK-->
+			<xsd:enumeration value="8"/> <!--NSKNK-->
+			<xsd:enumeration value="9"/> <!--NSSEA-->
+			<xsd:enumeration value="11"/> <!--NSMA-->
+			<xsd:enumeration value="12"/> <!--NSCT-->
+			<xsd:enumeration value="13"/> <!--NSSID-->
+			<xsd:enumeration value="14"/> <!--NSMEM-->
+			<xsd:enumeration value="16"/> <!--NSKNG-->
+			<xsd:enumeration value="21"/> <!--NSIN-->
+			<xsd:enumeration value="22"/> <!--NSBC-SHEET-->
+			<xsd:enumeration value="23"/> <!--NSAR-->
+			<xsd:enumeration value="24"/> <!--NSDEC-->
+			<xsd:enumeration value="25"/> <!--NSTCL-SHEET-->
+			<xsd:enumeration value="30"/> <!--NCFSC-->
+			<xsd:enumeration value="31"/> <!--NCFNE-->
+			<xsd:enumeration value="32"/> <!--NCFUT-->
+			<xsd:enumeration value="34"/> <!--NCFWI-->
+			<xsd:enumeration value="40"/> <!--NSBC-BEAN-->
+			<xsd:enumeration value="41"/> <!--NYS-->
+			<xsd:enumeration value="50"/> <!--NSHC-->
+			<xsd:enumeration value="51"/> <!--NSTCL-PLATE-->
+			<xsd:enumeration value="60"/> <!--NLMP-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_RefNumMill ***************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_TermsOfSale *************************************************-->
+	<xsd:simpleType name="Identifier_ASNNumber">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_TermsOfSale ***************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Purpose ***********************************************************-->
+	<xsd:simpleType name="Code_Purpose">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Code_Purpose ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_AdviceType ********************************************************-->
+	<xsd:simpleType name="Code_AdviceType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_AdviceType **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Severity ********************************************************-->
+	<xsd:simpleType name="Code_Severity">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Severity **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_Reference ********************************************************-->
+	<xsd:complexType name="Identifier_Reference">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Identifier_Reference">
+				<xsd:attribute name="TypeCode" type="cica:Content_Identifier_ReferenceTypeCode" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Identifier_Reference">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_Identifier_ReferenceTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:enumeration value="7D"/><!--Metallurgist Name-->
+			<xsd:enumeration value="DD"/>
+			<xsd:enumeration value="BO"/>
+			<xsd:enumeration value="CR"/>
+			<xsd:enumeration value="BM"/><!--Bill of Lading Number-->
+			<xsd:enumeration value="PO"/>
+			<xsd:enumeration value="PC"/>
+			<xsd:enumeration value="PG"/><!--Customer Grade-->
+			<xsd:enumeration value="PM"/>
+			<xsd:enumeration value="CT"/><!--VMI Indicator-->
+			<xsd:enumeration value="NT"/><!--No translation Indicator-->
+			<xsd:enumeration value="BP"/>
+			<xsd:enumeration value="MA"/><!--Ship Notice/Manifest Number-->
+			<xsd:enumeration value="IV"/>
+			<xsd:enumeration value="LO"/>
+			<xsd:enumeration value="LS"/><!--BarCoded Serial Number-->
+			<xsd:enumeration value="VN"/>
+			<xsd:enumeration value="VP"/>
+			<xsd:enumeration value="MC"/><!--Material Cut Code-->
+			<xsd:enumeration value="HC"/><!--HeatCode-->
+			<xsd:enumeration value="RC"/><!--ReHeatCode-->
+			<xsd:enumeration value="SD"/><!--TestSampleID-->
+			<xsd:enumeration value="PL"/>
+			<xsd:enumeration value="PD"/><!--Promotion/Deal Number-->
+			<xsd:enumeration value="IX"/>
+			<xsd:enumeration value="IQ"/><!--End Item-->
+			<xsd:enumeration value="VR"/>
+			<xsd:enumeration value="GV"/><!--Customers PO #-->
+			<xsd:enumeration value="VN"/>
+			<xsd:enumeration value="PI"/>
+			<xsd:enumeration value="EC"/><!--Engineering Changle Level-->
+			<xsd:enumeration value="SI"/><!--Shipper's Identifying Number for Shipment-->
+			<xsd:enumeration value="NA"/><!--Customer is not sending this value-->
+			<xsd:enumeration value=""/>
+			<!--Contract Number-->
+			<!--Bill of Lading-->
+			<!--Purchase Order-->
+			<!--PartNumber-->
+			<!--VMIOrderRelease-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Identifier_Reference ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_ScheduleType ********************************************************-->
+	<xsd:simpleType name="Code_ScheduleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="DL"/>
+			<xsd:enumeration value="KB"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_ScheduleType ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_ScheduleQTYType ********************************************************-->
+	<xsd:simpleType name="Code_ScheduleQTYType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="A"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_ScheduleQTYType ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_POTypeCode ********************************************************-->
+	<xsd:simpleType name="Code_POTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="NE"/> <!-- New Order -->
+			<xsd:enumeration value="CP"/> <!-- Change to Purchase Order -->
+			<xsd:enumeration value="CF"/> <!-- Confirmation -->
+			<xsd:enumeration value="SA"/> <!-- Stand Alone Order -->
+                        <xsd:enumeration value="RL"/> <!-- Release or Delivery Order -->
+                        <xsd:enumeration value="KB"/> <!-- Blanket Purchase Agreement -->
+                        <xsd:enumeration value="BK"/> <!-- Blanket Order – Quantity Firm -->
+                        <xsd:enumeration value="BE"/> <!-- Blanket Order/Estimated Quantities (Not firm Commitment) -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_POTypeCode ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Text_VersionVariant ********************************************************-->
+	<xsd:simpleType name="Text_VersionVariant">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="00"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Text_VersionVariant ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Numeric_Version ********************************************************-->
+	<xsd:simpleType name="Numeric_Version">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Numeric_Version********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_AdviceDate ********************************************************-->
+	<xsd:complexType name="DateTime_AdviceDate">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_DateTime_AdviceDate">
+				<xsd:attribute name="TypeCode" type="cica:Content_DateTime_AdviceDateTypeCode"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_DateTime_AdviceDate">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_DateTime_AdviceDateTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="3"/>
+			<xsd:enumeration value="001"/>
+			<xsd:enumeration value="002"/>
+			<xsd:enumeration value="003"/>
+			<xsd:enumeration value="004"/>
+			<xsd:enumeration value="005"/>
+			<xsd:enumeration value="006"/>
+			<xsd:enumeration value="007"/>
+			<xsd:enumeration value="050"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_AdviceDate **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_Location ********************************************************-->
+	<xsd:complexType name="Identifier_Location">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Identifier_Location">
+				<xsd:attribute name="TypeCode" type="cica:Content_Identifier_LocationTypeCode"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Identifier_Location">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_Identifier_LocationTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="RG"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_AdviceDate **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_ID ********************************************************-->
+	<xsd:complexType name="Code_ID">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Content_Code_ID">
+				<xsd:attribute name="TypeCode" type="cica:Content_Code_IDTypeCode"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Content_Code_ID">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Content_Code_IDTypeCode">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_ID **********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_ShipDate ********************************************************-->
+	<xsd:simpleType name="DateTime_ShipDate">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_ShipDate **********************************************************-->
+	<!-- BEGIN PRIMITIVE_DateTime_Date ********************************************************-->
+	<xsd:simpleType name="DateTime_Date">
+		<xsd:restriction base="xsd:dateTime"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_DateTime_Date **********************************************************-->
+	<!-- BEGIN PRIMITIVE_Measure_ShipWeight  *************************************************-->
+	<xsd:complexType name="Measure_ShipWeight">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Measure_ShipWeightContent">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Measure_ShipWeightContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Measure_ShipWeight  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Measure_TotalPOWeight  *************************************************-->
+	<xsd:complexType name="Measure_TotalPOWeight">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Measure_TotalPOWeightContent">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Measure_TotalPOWeightContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Measure_ShipWeight  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Measure_TransWeight  *************************************************-->
+	<xsd:complexType name="Measure_TransWeight">
+		<xsd:simpleContent>
+			<xsd:extension base="cica:Measure_TransWeightContent">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Measure_TransWeightContent">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Measure_TotalWeight  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Handling  *************************************************-->
+	<xsd:simpleType name="Code_Handling">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Handling  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Routing  *************************************************-->
+	<xsd:simpleType name="Code_Routing">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="B"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Routing  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Packaging  *************************************************-->
+	<xsd:simpleType name="Code_Packaging">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Packaging  **************************************************-->
+	<!-- BEGIN PRIMITIVE_Quantity_LadingQuantity ****************************************************-->
+	<xsd:simpleType name="Quantity_LadingQuantity">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Quantity_LadingQuantity ******************************************************-->
+	<!-- BEGIN PRIMITIVE_Identifier_EquipmentNum ******************************************************-->
+	<xsd:simpleType name="Identifier_EquipmentNum">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Condition ********************************************************-->
+	<!-- BEGIN PRIMITIVE_Quantity_TtlCount ****************************************************-->
+	<xsd:simpleType name="Quantity_TtlCount">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Quantity_TtlCount ******************************************************-->
+	<!-- BEGIN PRIMITIVE_Numeric_LineNumber ***************************************************-->
+	<xsd:simpleType name="Numeric_LineNumber">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Numeric_LineNumber *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Numeric_ResultValue ***************************************************-->
+	<xsd:complexType name="Numeric_ResultValue">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- END PRIMITIVE_Numeric_ResultValue *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Quantity_Received ***************************************************-->
+	<xsd:complexType name="Quantity_Received">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:integer">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- END PRIMITIVE_Quantity_Received *****************************************************-->
+	<!-- BEGIN PRIMITIVE_Quantity_Returned ***************************************************-->
+	<xsd:complexType name="Quantity_Returned">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:integer">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- END PRIMITIVE_Quantity_Returned******************************************************-->
+	<!-- BEGIN PRIMITIVE_Quantity_Questioned *************************************************-->
+	<xsd:complexType name="Quantity_Questioned">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:integer">
+				<xsd:attribute name="UOM" type="cica:Code_UOM"/>
+				<xsd:attribute name="Condition" type="cica:Code_Condition"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- END PRIMITIVE_Quantity_Questioned ***************************************************-->
+	<!-- BEGIN PRIMITIVE_Code_Condition ******************************************************-->
+	<xsd:simpleType name="Code_Condition">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2"/>
+			<xsd:minLength value="1"/>
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+			<xsd:enumeration value="08"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- END PRIMITIVE_Code_Condition ********************************************************-->
+</xsd:schema>

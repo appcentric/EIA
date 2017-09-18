@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="JMS_DEQ_NextGenDistributedTopic" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/jms/Nucor/NUC_SubscribeEBizJobDetails_JMS_L2_ABF/JMS_DEQ_NextGenDistributedTopic" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/jms/Nucor/NUC_SubscribeEBizJobDetails_JMS_L2_ABF/JMS_DEQ_NextGenDistributedTopic" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:pc="http://xmlns.oracle.com/pcbpel/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://schemas.oracle.com/bpel/extension" xmlns:ns2="http://nucor.eia.com" xmlns:imp1="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0">
+   <plt:partnerLinkType name="Consume_Message_plt">
+      <plt:role name="Consume_Message_role">
+         <plt:portType name="tns:Consume_Message_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="RuntimeFault.wsdl"/>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://nucor.eia.com" schemaLocation="../Schemas/BatchCount.xsd"/>
+      </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/D2S/V1.0/BatchJobAM.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="Consume_Message_msg">
+      <wsdl:part name="body" element="imp1:BatchJobAddRq"/>
+   </wsdl:message>
+   <wsdl:portType name="Consume_Message_ptt">
+      <wsdl:operation name="Consume_Message">
+         <wsdl:input message="tns:Consume_Message_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

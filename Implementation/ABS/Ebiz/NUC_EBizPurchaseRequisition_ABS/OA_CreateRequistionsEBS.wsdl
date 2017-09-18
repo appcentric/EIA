@@ -1,0 +1,21 @@
+<?binding.jca OA_CreateRequistionsEBS_apps.jca?>
+<wsdl:definitions name="OA_CreateRequistionsEBS" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/TestApps/NUC_EBizPurchaseRequisition_ABS/OA_CreateRequistionsEBS" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/TestApps/NUC_EBizPurchaseRequisition_ABS/OA_CreateRequistionsEBS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateRequistionsEBS">
+    <plt:partnerLinkType name="OA_CreateRequistionsEBS_plt">
+        <plt:role name="OA_CreateRequistionsEBS_role">
+            <plt:portType name="tns:OA_CreateRequistionsEBS_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateRequistionsEBS" schemaLocation="xsd/OA_CreateRequistionsEBS_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="PoRequisitionsInterfaceAllCollection_msg">
+        <wsdl:part name="PoRequisitionsInterfaceAllCollection" element="top:PoRequisitionsInterfaceAllCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="OA_CreateRequistionsEBS_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:PoRequisitionsInterfaceAllCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

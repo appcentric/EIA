@@ -1,0 +1,1652 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Aug 22 01:35:23 PDT 2016
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ASNQualityResultsSupplier"
+         targetNamespace="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns2="http://xmlns.eia.com/CommonLogging"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns3="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns4="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0" xmlns:ns5="http://www.example.org"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns12="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+         xmlns:ns14="http://xmlns.eia.com/AO/EBiz/P2P/LotAO/1.0"
+         xmlns:ns13="http://xmlns.eia.com/AM/EBiz/P2P/LotAM/1.0"
+         xmlns:ns15="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLPN_ABS/EBizLPNABS/1.0"
+         xmlns:ns16="http://xmlns.eia.com/customeFault/V1.0" xmlns:ns17="http://xmlns.eia.com/AO/EBiz/P2P/LpnAO/1.0"
+         xmlns:ns18="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+         xmlns:ns21="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+         xmlns:ns20="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0"
+         xmlns:ns25="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+         xmlns:ns23="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+         xmlns:ns22="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0"
+         xmlns:ns24="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:ns19="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptABM/1.0"
+         xmlns:ns26="http:/xmlns.eia.com/Implementation/ABF/NSNE_ASNQualityResults_Suppliers_Ross_ABF/ASNQualityResults_Suppliers/1.0/correlationset"
+         xmlns:ns27="http://xmlns.eia.com/EDN/1.0/Event" xmlns:ns28="http://xmlns.eia.com/EDN/EntityResponseEvent/1.0"
+         xmlns:ns29="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:ns30="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+         xmlns:ns31="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0"
+         xmlns:ns32="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0"
+         xmlns:ns33="http://xmlns.eia.com/customeNoDataFound/V1.0">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="propertiesFile">
+        <![CDATA[../WSDLs/ASNQualityResultsSupplier_properties.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/ReceiptABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/EDN/1.0/Event"
+          location="oramds:/apps/EIAMetadata/CommonArtifacts/schemas/EntityResponseEventAO.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizLot_ABS/EBizLotABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/LotABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/PurchaseOrderABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/109/NUC_ASNQualityResults_Suppliers_Ross_ABF/FTP_ReadASNSupplier_Ross"
+          location="../WSDLs/FTP_ReadASNSupplier_Ross.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="FTP_ReadASNSupplier_Ross" partnerLinkType="ns1:Get_plt" myRole="Get_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="NUC_EbizPurchaseOrder_ABS" partnerLinkType="ns4:NUC_EbizPurchaseOrder_ABS"
+                 partnerRole="SyncPortType"/>
+    <partnerLink name="NUC_EBizLot_ABS" partnerLinkType="ns12:NUC_EBizLot_ABS" partnerRole="EBizLotABS"/>
+    <partnerLink name="NUC_EBizLPN_ABS" partnerLinkType="ns15:NUC_EBizLPN_ABS" partnerRole="EBizLPNABS"/>
+    <partnerLink name="NUC_EBizPOReceipt_ABS" partnerLinkType="ns18:NUC_EBizPOReceipt_ABS" partnerRole="SyncPortType"/>
+    <partnerLink name="NUC_EBizQualityResults_ABS" partnerLinkType="ns30:NUC_EBizQualityResults_ABS"
+                 partnerRole="QualityResults"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_ASN_Ross_Supplier_Get_InputVariable" messageType="ns1:Get_msg"/>
+    <variable name="g_GroupId" element="ns3:parameters"/>
+    <variable name="g_LogVar" messageType="ns2:CommonLoggingRequestMessage"/>
+    <variable name="count" type="xsd:integer"/>
+    <variable name="g_Vendorid" type="xsd:string"/>
+    <variable name="g_Vendorsiteid" type="xsd:string"/>
+     <variable name="g_Orgd" type="xsd:string"/>
+    <variable name="g_derivedOrgId_Lines" element="ns3:parameters"/>
+    <variable name="g_derivedToOrgId_Lines" element="ns3:parameters"/>
+    <variable name="g_itemNumber" element="ns3:parameters"/>
+     <variable name="g_orgIdLines_Temp" element="ns3:parameters"/>
+        <variable name="g_ToOrgIdLines_Temp" element="ns3:parameters"/>
+        <variable name="g_itemNumber_Temp" element="ns3:parameters"/>
+    <variable name="g_CreateLotABSResp_OutputVar" messageType="ns12:EBizLotABSResponseMessage"/>
+    <variable name="g_CreateLPNResp_OutputVariable" messageType="ns15:EBizLPNABSResponseMessage"/>
+    <variable name="g_MillName" type="xsd:string"/>
+    <variable name="g_CreateReceipt_InputVariable" messageType="ns18:CreateReceiptRequestMessageType"/>
+    <variable name="g_CreateReceipt_OutputVariable" messageType="ns18:CreateReceiptResponseMessageType"/>
+    <variable name="g_CreateLaunchReceipts_OutputVar" messageType="ns18:LaunchReceiptResponseMessageType"/>
+    <variable name="l_CreateLaunchReceipts_InputVar" messageType="ns18:LaunchReceiptRequestMessageType"/>
+    <variable name="l_CreateQualityResultsOutputVar" messageType="ns30:QualityResultsResponseMessage"/>
+    <variable name="g_ASNExistFlag" type="xsd:string"/>
+    <variable name="g_getFileName" type="xsd:string"/>
+    <variable name="g_custom_Error_Msg" type="xsd:string"/>
+  </variables>
+  <correlationSets>
+    <correlationSet name="Correlation_Set_RequestID"
+                    properties="ns26:Property_LaunchProcessRequestID"/>
+  </correlationSets>
+  <faultHandlers>
+    <catch faultName="ns33:CustomNodataFound"><sequence name="Sequence13" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <assign name="AssignLogVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>$g_custom_Error_Msg</from>
+            <to>$g_LogVar.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_LogVar.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$g_LogVar.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_LogVar.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_LogVar.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$g_LogVar.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_LogVar.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_LogVar.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign>
+      <invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+              inputVariable="g_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+         <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+         <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+         </bpelx:toProperties>
+      </invoke>
+      <exit name="Exit" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+   </sequence></catch>
+    <catch faultName="ns16:CustomFault"><sequence name="Sequence13"><assign name="AssignLogVar"
+                                                                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_LogVar.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$g_LogVar.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_LogVar.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_LogVar.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$g_LogVar.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_LogVar.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_LogVar.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign><invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="g_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+         <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke><exit name="Exit" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></catch>
+    <catch bpelx:name="TimeOut" faultName="bpelx:timeout">
+      <sequence name="Sequence12">
+        <assign name="AssignLogVar">
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$g_LogVar.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$g_LogVar.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_LogVar.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$g_LogVar.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$g_LogVar.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_LogVar.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_LogVar.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-160'</from>
+            <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$g_LogVar.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign><invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                         operation="process" inputVariable="g_LogVar"
+                         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+      <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+      <bpelx:toProperties>
+         <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke>
+        <exit name="Exit"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence22">
+        <scope name="ScopeCatchAll">
+          <variables>
+            <variable name="l_LogVar" messageType="ns2:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence name="Sequence21">
+            <assign name="AssignLogVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>$g_GroupId/ns3:item//ns3:value</from>
+                <to>$l_LogVar.CommonLogging/ns2:TransactionId</to>
+              </copy>
+              <copy>
+                <from>concat('FlowID: ',ora:getFlowId(),' ','FileName: ',$g_getFileName,' Error message:  ',ora:getFaultAsString())</from>
+                <to>$l_LogVar.CommonLogging/ns2:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$l_LogVar.CommonLogging/ns2:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I109'</from>
+                <to>$l_LogVar.CommonLogging/ns2:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'QualityResults_ROSS'</from>
+                <to>$l_LogVar.CommonLogging/ns2:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$l_LogVar.CommonLogging/ns2:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$l_LogVar.CommonLogging/ns2:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>35</from>
+                <to>$l_LogVar.CommonLogging/ns2:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$l_LogVar.CommonLogging/ns2:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$l_LogVar.CommonLogging/ns2:LogType</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$l_LogVar.CommonLogging/ns2:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="l_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_ASN_Ross_Supplier" createInstance="yes" partnerLink="FTP_ReadASNSupplier_Ross"
+             portType="ns1:Get_ptt" operation="Get" variable="Receive_ASN_Ross_Supplier_Get_InputVariable">
+      <bpelx:fromProperties>
+        <bpelx:fromProperty name="jca.ftp.FileName" variable="g_getFileName"/>
+      </bpelx:fromProperties>
+    </receive>
+    <assign name="Assign_GroupID">
+      <copy>
+        <from>1</from>
+        <to>$count</to>
+      </copy>
+      <copy>
+        <from>'N'</from>
+        <to>$g_ASNExistFlag</to>
+      </copy>
+      <copy>
+        <from>oraext:sequence-next-val('RCV_INTERFACE_GROUPS_S','jdbc/ebsapps')</from>
+        <to>$g_GroupId/ns3:item/ns3:value</to>
+      </copy>
+      <copy>
+        <from>'GroupId'</from>
+        <to>$g_GroupId/ns3:item/ns3:name</to>
+      </copy>
+    </assign>
+    <scope name="StratLog">
+      <variables>
+        <variable name="l_StartLogVar" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_StartLogVar">
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-180'</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>$g_getFileName</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$l_StartLogVar.CommonLogging/ns2:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeStartLog" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                inputVariable="l_StartLogVar" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <scope name="DerivationsFromPO">
+      <variables>
+        <variable name="l_Get_PO_Line_CustPartNum_PerWaybillLine" element="ns3:parameters"/>
+        <variable name="l_GetPODetailsFromPurchaseOrderABS_InputVar"
+                  messageType="ns4:QueryPurchaseOrderRequestMessageType"/>
+        <variable name="l_GetPODetailsFromPurchaseOrderABS_OutputVar"
+                  messageType="ns4:QueryPurchaseOrderResponseMessageType"/>
+       
+        <variable name="l_currentLineNum" type="xsd:integer"/>
+        <variable name="l_OperatingUnit" type="xsd:string"/>
+        <variable name="l_OUEnabledFlag" type="xsd:string"/>
+      </variables>
+      <sequence name="Sequence2">
+        <assign name="Xform_Get_PO_Line_CustPartNum_PerWaybillLine">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Xform_Get_PO_Line_CustPartNum_PerWaybillLine.xsl", $Receive_ASN_Ross_Supplier_Get_InputVariable.body)</from>
+            <to variable="l_Get_PO_Line_CustPartNum_PerWaybillLine"/>
+          </copy>
+        </assign>
+        <while name="While_LoopEveryWaybillLine">
+          <condition>$count &lt;= count($l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item)</condition>
+          <sequence name="Sequence3">
+            <assign name="AssignCurrentLineNum">
+              <copy>
+                <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name</from>
+                <to>$l_currentLineNum</to>
+              </copy>
+            </assign>
+            <assign name="AssignPONumber">
+              <copy>
+                <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns6:PurchaseOrder/ns9:Segment1</to>
+              </copy>
+              <copy>
+                <from>$g_GroupId/ns3:item/ns3:value</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:TransactionRequestID</to>
+              </copy>
+              <copy>
+                <from>'ENG'</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:Language</to>
+              </copy>
+              <copy>
+                <from>'I109'</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:ComponentID</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+              </copy>
+              <copy>
+                <from>$g_GroupId/ns3:item//ns3:value</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+              </copy>
+              <copy>
+                <from>'QualityResults_ROSS'</from>
+                <to>$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns7:HeaderRq/ns7:TransactionName</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_PurchaseOrderABS_GetPOQueryByExample" partnerLink="NUC_EbizPurchaseOrder_ABS"
+                    portType="ns4:SyncPortType" operation="QueryPurchaseOrderByExample_Sync"
+                    inputVariable="l_GetPODetailsFromPurchaseOrderABS_InputVar"
+                    outputVariable="l_GetPODetailsFromPurchaseOrderABS_OutputVar" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EbizPurchaseOrder_ABS","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <if name="If1">
+              <documentation>
+                <![CDATA[PONumberNotExist]]>
+              </documentation>
+              <condition>count($l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder) = 0</condition>
+              <sequence name="Sequence23"><assign name="AssignLogVar"
+                                                                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <copy>
+                    <from>concat('Given PO Number :',$l_GetPODetailsFromPurchaseOrderABS_InputVar.QueryPurchaseOrderRequestMessage/ns6:PurchaseOrder/ns9:Segment1,' Does Not Exist in Oracle EBS')</from>
+                    <to>$g_custom_Error_Msg</to>
+                  </copy>
+                </assign><throw name="ThrowCustomNoDataFound" faultName="ns33:CustomNodataFound"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></if>
+            <scope name="Scope_GetMillName">
+              <bpelx:skipCondition>$count &gt; 1</bpelx:skipCondition>
+              <sequence name="Sequence7">
+                <assign name="Assign_OperatingUnit">
+                  <copy>
+                    <from>$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:OperatingUnit</from>
+                    <to>$l_OperatingUnit</to>
+                  </copy>
+                  <copy>
+                    <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/NUC_PO_OperatingUnit_ASNEnabled.dvm','OPERATING_UNIT',$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:OperatingUnit,'ASN_ENABLED_FLAG','Y')</from>
+                    <to>$l_OUEnabledFlag</to>
+                  </copy>
+                </assign>
+                <if name="If_OUEnabled">
+                  <documentation>
+                    <![CDATA[OUIsEnabled]]>
+                  </documentation>
+                  <condition>$l_OUEnabledFlag = 'Y'</condition>
+                  <empty name="DoNothing"/>
+                  <else>
+                    <documentation>
+                      <![CDATA[ExitProcess]]>
+                    </documentation>
+                    <sequence name="Sequence8">
+                      <assign name="AssignLogVar">
+                        <copy>
+                          <from>'BMG-166'</from>
+                          <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+                        </copy>
+                      </assign>
+                      <throw name="ThrowCustomFault" faultName="ns16:CustomFault"/>
+                    </sequence>
+                  </else>
+                </if>
+                <if name="If_GetMillName">
+                  <documentation>
+                    <![CDATA[SMG_US_OU_NSNE]]>
+                  </documentation>
+                  <condition>$l_OperatingUnit =  'SMG_US_OU_NSNE'</condition>
+                  <assign name="Assign_Millname">
+                    <copy>
+                      <from>'NSNE'</from>
+                      <to>$g_MillName</to>
+                    </copy>
+                  </assign>
+                  <elseif>
+                    <documentation>
+                      <![CDATA['SMG_US_OU_NCFWI]]>
+                    </documentation>
+                    <condition>$l_OperatingUnit = 'SMG_US_OU_NCFWI'</condition><assign name="Assign_Millname"
+                                                                                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+   <copy>
+         <from>'NCFWI'</from>
+         <to>$g_MillName</to>
+      </copy></assign></elseif>
+                  <else>
+                    <documentation>
+                      <![CDATA[On_NewMill]]>
+                    </documentation>
+                    <empty name="DoNothing"/>
+                  </else>
+                </if>
+              </sequence>
+            </scope>
+            <assign name="Assign_OrgId_VendorId_VendorCode">
+              <copy>
+                <from>$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:Orgid</from>
+                <to>$g_Orgd</to>
+              </copy>
+              <copy>
+                <from>$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:Vendorid</from>
+                <to>$g_Vendorid</to>
+              </copy>
+              <copy>
+                <from>$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:Vendorsiteid</from>
+                <to>$g_Vendorsiteid</to>
+              </copy>
+            </assign>
+            <assign name="Assign_g_TempOrgId">
+              <copy>
+                <from>$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:ListOfPurchaseOrderLines/ns9:PurchaseOrderLine[ns9:Linenum=$l_currentLineNum]/ns9:Orgid</from>
+                <to>$g_orgIdLines_Temp/ns3:item/ns3:value</to>
+              </copy>
+              <copy>
+                <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name</from>
+                <to>$g_orgIdLines_Temp/ns3:item/ns3:msg</to>
+              </copy>
+              <copy>
+                <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value</from>
+                <to>$g_orgIdLines_Temp/ns3:item/ns3:name</to>
+              </copy>
+            </assign>
+            <if name="IfFirstLoop">
+              <documentation>
+                <![CDATA[Assign]]>
+              </documentation>
+              <condition>$count = 1</condition>
+              <assign name="Assign_g_derivedOrgId_LinesTemp_To_g_derivedOrgId_Lines">
+                <copy>
+                  <from>$g_orgIdLines_Temp/ns3:item/ns3:name</from>
+                  <to>$g_derivedOrgId_Lines/ns3:item/ns3:name</to>
+                </copy>
+                <copy>
+                  <from>$g_orgIdLines_Temp/ns3:item/ns3:value</from>
+                  <to>$g_derivedOrgId_Lines/ns3:item/ns3:value</to>
+                </copy>
+                <copy>
+                  <from>$g_orgIdLines_Temp/ns3:item/ns3:msg</from>
+                  <to>$g_derivedOrgId_Lines/ns3:item/ns3:msg</to>
+                </copy>
+              </assign>
+              <else>
+                <documentation>
+                  <![CDATA[Append]]>
+                </documentation>
+                <assign name="Assign_TempOrgId_OrgId">
+                  <extensionAssignOperation>
+                    <bpelx:append>
+                      <bpelx:from>$g_orgIdLines_Temp/ns3:item</bpelx:from>
+                      <bpelx:to>$g_derivedOrgId_Lines</bpelx:to>
+                    </bpelx:append>
+                  </extensionAssignOperation>
+                </assign>
+              </else>
+            </if>
+            <assign name="Assign_g_TemoToOrgId">
+              <copy>
+                <from>$l_GetPODetailsFromPurchaseOrderABS_OutputVar.QueryPurchaseOrderResponseMessage/ns6:ListOfPurchaseOrders/ns9:PurchaseOrder/ns9:ListOfPurchaseOrderLines/ns9:PurchaseOrderLine[ns9:Linenum = $l_currentLineNum]/ns9:ListOfPurchaseOrderDistLines/ns9:PurchaseOrderDistLines/ns9:Destinationorganizationid</from>
+                <to>$g_ToOrgIdLines_Temp/ns3:item/ns3:value</to>
+              </copy>
+              <copy>
+                <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name</from>
+                <to>$g_ToOrgIdLines_Temp/ns3:item/ns3:msg</to>
+              </copy>
+              <copy>
+                <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value</from>
+                <to>$g_ToOrgIdLines_Temp/ns3:item/ns3:name</to>
+              </copy>
+            </assign><if name="IfFirstLoop" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <documentation>
+         <![CDATA[Assign]]>
+      </documentation>
+      <condition>$count = 1</condition>
+      <assign name="Assign_g_derivedToOrgId_LinesTemp_To_g_derivedToOrgId_Lines">
+         
+         
+         
+      <copy>
+                  <from>$g_ToOrgIdLines_Temp/ns3:item/ns3:name</from>
+                  <to>$g_derivedToOrgId_Lines/ns3:item/ns3:name</to>
+                </copy><copy>
+                  <from>$g_ToOrgIdLines_Temp/ns3:item/ns3:value</from>
+                  <to>$g_derivedToOrgId_Lines/ns3:item/ns3:value</to>
+                </copy><copy>
+                  <from>$g_ToOrgIdLines_Temp/ns3:item/ns3:msg</from>
+                  <to>$g_derivedToOrgId_Lines/ns3:item/ns3:msg</to>
+                </copy></assign>
+      <else>
+         <documentation>
+            <![CDATA[Append]]>
+         </documentation>
+         <assign name="Append_TempToOrgId_ToOrgId">
+            
+         <extensionAssignOperation>
+                    <bpelx:append>
+                      <bpelx:from>$g_ToOrgIdLines_Temp/ns3:item</bpelx:from>
+                      <bpelx:to>$g_derivedToOrgId_Lines</bpelx:to>
+                    </bpelx:append>
+                  </extensionAssignOperation></assign>
+      </else>
+   </if>
+            <if name="IfcustPartNumNotNull">
+              <documentation>
+                <![CDATA[Rule1]]>
+              </documentation>
+              <condition>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:msg !=''</condition>
+              <sequence name="Sequence4">
+                <assign name="Assign_Initialise_tempItemIdVar">
+                  <copy>
+                    <from>'init'</from>
+                    <to>$g_itemNumber_Temp/ns3:item/ns3:value</to>
+                  </copy>
+                </assign>
+                <assign name="GetItemItFromRule1">
+                  <copy ignoreMissingFromData="yes">
+                    <from>oraext:query-database(concat("select inventory_item_id from MTL_CROSS_REFERENCES_V where cross_reference_type = 'Legacy' and cross_reference = '",$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:msg,"' and organization_id = '",$g_ToOrgIdLines_Temp/ns3:item/ns3:value,"'"),false(),false(),"jdbc/ebsapps")</from>
+                    <to>$g_itemNumber_Temp/ns3:item/ns3:value</to>
+                  </copy>
+                  <copy>
+                    <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value</from>
+                    <to>$g_itemNumber_Temp/ns3:item/ns3:name</to>
+                  </copy>
+                  <copy>
+                    <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name</from>
+                    <to>$g_itemNumber_Temp/ns3:item/ns3:msg</to>
+                  </copy>
+                </assign>
+              </sequence>
+              <else>
+                <documentation>
+                  <![CDATA[rule2]]>
+                </documentation><assign name="GetItemItFromRule2"
+                                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+   <copy ignoreMissingFromData="yes">
+         <from>oraext:query-database(concat("select item_id from po_lines_all pla, po_headers_all pha where pha.po_header_id = pla.po_header_id and segment1='",$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value,"' and line_num = '",$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name,"'"),false(),false(),"jdbc/ebsapps")</from>
+         <to>$g_itemNumber_Temp/ns3:item/ns3:value</to>
+      </copy><copy>
+         <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value</from>
+         <to>$g_itemNumber_Temp/ns3:item/ns3:name</to>
+      </copy><copy>
+         <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name</from>
+         <to>$g_itemNumber_Temp/ns3:item/ns3:msg</to>
+      </copy></assign></else>
+            </if>
+            <if name="IfRule1IsNull">
+              <documentation>
+                <![CDATA[Rule2]]>
+              </documentation>
+              <condition>$g_itemNumber_Temp/ns3:item/ns3:value = 'init'</condition><assign name="GetItemItFromRule2"
+                                                                                           xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+   <copy ignoreMissingFromData="yes">
+         <from>oraext:query-database(concat("select item_id from po_lines_all pla, po_headers_all pha where pha.po_header_id = pla.po_header_id and segment1='",$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value,"' and line_num = '",$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name,"'"),false(),false(),"jdbc/ebsapps")</from>
+         <to>$g_itemNumber_Temp/ns3:item/ns3:value</to>
+      </copy><copy>
+         <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:value</from>
+         <to>$g_itemNumber_Temp/ns3:item/ns3:name</to>
+      </copy><copy>
+         <from>$l_Get_PO_Line_CustPartNum_PerWaybillLine/ns3:item[$count]/ns3:name</from>
+         <to>$g_itemNumber_Temp/ns3:item/ns3:msg</to>
+      </copy></assign><else>
+                <empty name="DoNothing"/>
+              </else>
+            </if>
+            <if name="IfFirstLoop">
+              <documentation>
+                <![CDATA[Assign]]>
+              </documentation>
+              <condition>$count = 1</condition>
+              <assign name="Assign_TempItemId_ItemId">
+                <copy>
+                  <from>$g_itemNumber_Temp/ns3:item/ns3:name</from>
+                  <to>$g_itemNumber/ns3:item/ns3:name</to>
+                </copy>
+                <copy>
+                  <from>$g_itemNumber_Temp/ns3:item/ns3:msg</from>
+                  <to>$g_itemNumber/ns3:item/ns3:msg</to>
+                </copy>
+                <copy>
+                  <from>$g_itemNumber_Temp/ns3:item/ns3:value</from>
+                  <to>$g_itemNumber/ns3:item/ns3:value</to>
+                </copy>
+              </assign>
+              <else>
+                <documentation>
+                  <![CDATA[Append]]>
+                </documentation>
+                <assign name="AppendTempItemIdToItemId">
+                  <extensionAssignOperation>
+                    <bpelx:append>
+                      <bpelx:from>$g_itemNumber_Temp/ns3:item</bpelx:from>
+                      <bpelx:to>$g_itemNumber</bpelx:to>
+                    </bpelx:append>
+                  </extensionAssignOperation>
+                </assign>
+              </else>
+            </if>
+            <assign name="AssignIncCounter">
+              <copy>
+                <from>$count+1</from>
+                <to>$count</to>
+              </copy>
+            </assign>
+          </sequence>
+        </while>
+      </sequence>
+    </scope>
+    <scope name="LotCreation">
+      <variables>
+        <variable name="l_CreateLotRequestInputVar" messageType="ns12:EBizLotABSRequestMessage"/>
+        <variable name="l_SegregateWarningLots" element="ns3:parameters"/>
+        <variable name="l_LogVar" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence5">
+        <assign name="Xform_CreateLotRequestInputVar">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Xform_CreateLotRequestInputVar.xsl", $Receive_ASN_Ross_Supplier_Get_InputVariable.body, "g_derivedOrgId_Lines", $g_derivedOrgId_Lines, "g_derivedToOrgId_Lines", $g_derivedToOrgId_Lines, "g_itemNumber", $g_itemNumber)</from>
+            <to variable="l_CreateLotRequestInputVar" part="payload"/>
+          </copy>
+        </assign>
+        <assign name="Assign_Header_GroupId">
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:TransactionRequestID</to>
+          </copy>
+          <copy>
+            <from>$g_MillName</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:MillName</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns14:CreateLotReq/ns14:TransactionID</to>
+          </copy>
+          <copy>
+            <from>'ENG'</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:Language</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:ComponentID</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:ServiceName</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:Source</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$l_CreateLotRequestInputVar.payload/ns7:HeaderRq/ns7:Target</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_NucEbizLotABS" partnerLink="NUC_EBizLot_ABS"
+                portType="ns12:EBizLotABS" operation="Create" inputVariable="l_CreateLotRequestInputVar"
+                outputVariable="g_CreateLotABSResp_OutputVar" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizLot_ABS","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="XformGetFailedWarningSuccessLots" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/XformGetWarningLots.xsl", $g_CreateLotABSResp_OutputVar.payload)</from>
+            <to variable="l_SegregateWarningLots"/>
+          </copy>
+        </assign><if name="IfAllLotsFail" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <documentation>
+         <![CDATA[AllLotsFailed]]>
+      </documentation>
+      <condition>count($g_CreateLotABSResp_OutputVar.payload/ns14:CreateLotResp/ns14:LotStatus/ns14:LotStatusItem[ns14:STATUS ='Error']) &gt; 0</condition>
+      <sequence name="Sequence16">
+         <assign name="AssignLogVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+               <from>'BMG-152'</from>
+               <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+            </copy>
+         </assign>
+         <throw name="ThrowCustomFault" faultName="ns16:CustomFault"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+      </sequence>
+      <elseif>
+         <documentation>
+              <![CDATA[WarningLots]]>
+            </documentation>
+         <condition>count($g_CreateLotABSResp_OutputVar.payload/ns14:CreateLotResp/ns14:LotStatus/ns14:LotStatusItem[ns14:STATUS ='Warning']) &gt; 0</condition>
+         <sequence>
+            <assign name="AssignLogVar">
+                <copy>
+                  <from>$l_SegregateWarningLots/ns3:item[ns3:name= 'Warning']/ns3:value</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>'BMG-169'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>$g_GroupId/ns3:item//ns3:value</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I109'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>'QualityResults_ROSS'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>35</from>
+                  <to>$l_LogVar.CommonLogging/ns2:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>3</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LogType</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionStatus</to>
+                </copy>
+              </assign>
+            <invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="l_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+               <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </elseif>
+      <else>
+         <documentation>
+            <![CDATA[SuccessAllLotssuccess]]>
+         </documentation>
+         <sequence name="Sequence19">
+            <assign name="AssignLogVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+               <copy>
+                  <from>$l_SegregateWarningLots/ns3:item[ns3:name= 'Success']/ns3:value</from>
+                  <to>$g_LogVar.CommonLogging/ns2:MessageDescription</to>
+               </copy>
+               <copy>
+                  <from>'BMG-170'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageCode</to>
+               </copy>
+               <copy>
+                  <from>$g_GroupId/ns3:item//ns3:value</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionId</to>
+               </copy>
+               <copy>
+                  <from>'NextGen'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProjectName</to>
+               </copy>
+               <copy>
+                  <from>'I109'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ComponentId</to>
+               </copy>
+               <copy>
+                  <from>'QualityResults_ROSS'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionName</to>
+               </copy>
+               <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProcessName</to>
+               </copy>
+               <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LoggingSystem</to>
+               </copy>
+               <copy>
+                  <from>35</from>
+                  <to>$l_LogVar.CommonLogging/ns2:SourceSystem</to>
+               </copy>
+               <copy>
+                  <from>2</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TargetSystem</to>
+               </copy>
+               <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LogType</to>
+               </copy>
+               <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionStatus</to>
+               </copy>
+            </assign>
+            <invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="l_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+               <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </else>
+   </if></sequence>
+    </scope>
+    <scope name="LPNCreation">
+      <variables>
+        <variable name="g_CreateLPNRequest_InputVariable" messageType="ns15:EBizLPNABSRequestMessage"/>
+        <variable name="l_SegregateWarningSuccessLPNs" element="ns3:parameters"/>
+        <variable name="l_LogVar" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence6">
+        <assign name="Xform_CreateLPNReqVar">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Xform_CreateLPNReqVar.xsl", $Receive_ASN_Ross_Supplier_Get_InputVariable.body, "g_derivedToOrgId_Lines", $g_derivedToOrgId_Lines, "g_CreateLotABSResp_OutputVar.payload", $g_CreateLotABSResp_OutputVar.payload)</from>
+            <to variable="g_CreateLPNRequest_InputVariable" part="payload"/>
+          </copy>
+        </assign>
+        <assign name="Assign_Header">
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:TransactionRequestID</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns17:CreateLpnReq/ns17:TransactionID</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:ComponentID</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:Source</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:Target</to>
+          </copy>
+          <copy>
+            <from>$g_MillName</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:MillName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_CreateLPNRequest_InputVariable.payload/ns7:HeaderRq/ns7:ServiceName</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_NUC_EBizLPN_ABS" partnerLink="NUC_EBizLPN_ABS" portType="ns15:EBizLPNABS"
+                operation="Create" inputVariable="g_CreateLPNRequest_InputVariable"
+                outputVariable="g_CreateLPNResp_OutputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizLPN_ABS","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="XformGetFailedWarningSuccessLpns">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/XformGetFailedWarningSuccessLpns.xsl", $g_CreateLPNResp_OutputVariable.payload)</from>
+            <to variable="l_SegregateWarningSuccessLPNs"/>
+          </copy>
+        </assign><if name="IfAllLpnsFail" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <documentation>
+         
+      <![CDATA[AllLotsFailed]]></documentation>
+      <condition>count($g_CreateLPNResp_OutputVariable.payload/ns17:CreateLpnResp/ns17:LpnStatus/ns17:LpnStatusItem[ns17:STATUS = 'Error']) &gt; 0</condition>
+      <sequence name="Sequence16">
+         <assign name="AssignLogVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            
+         <copy>
+               <from>'BMG-153'</from>
+               <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+            </copy></assign>
+         <throw name="ThrowCustomFault" faultName="ns16:CustomFault"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+      </sequence>
+      <elseif>
+         <documentation>
+              <![CDATA[WarningLpns]]>
+            </documentation>
+         <condition>count($g_CreateLPNResp_OutputVariable.payload/ns17:CreateLpnResp/ns17:LpnStatus/ns17:LpnStatusItem[ns17:STATUS = 'Warning']) &gt;0</condition>
+         <sequence>
+            <assign name="AssignLogVar">
+                <copy>
+                  <from>$l_SegregateWarningSuccessLPNs/ns3:item[ns3:name ='Warning']/ns3:value</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>'BMG-174'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>$g_GroupId/ns3:item//ns3:value</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I109'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>'QualityResults_ROSS'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>35</from>
+                  <to>$l_LogVar.CommonLogging/ns2:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>3</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LogType</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionStatus</to>
+                </copy>
+              </assign>
+            <invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="l_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+               <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </elseif>
+      <else>
+         <documentation>
+            
+         <![CDATA[AllLPNsSuccess]]></documentation>
+         <sequence name="Sequence19">
+            <assign name="AssignLogVar" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+            <copy>
+                  <from>concat($l_SegregateWarningSuccessLPNs/ns3:item[ns3:name = 'Success']/ns3:value,$l_SegregateWarningSuccessLPNs/ns3:item[ns3:name = 'Success']/ns3:value)</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageDescription</to>
+               </copy><copy>
+                  <from>'BMG-171'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:MessageCode</to>
+               </copy><copy>
+                  <from>$g_GroupId/ns3:item//ns3:value</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionId</to>
+               </copy><copy>
+                  <from>'NextGen'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProjectName</to>
+               </copy><copy>
+                  <from>'I109'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ComponentId</to>
+               </copy><copy>
+                  <from>'QualityResults_ROSS'</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionName</to>
+               </copy><copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$l_LogVar.CommonLogging/ns2:ProcessName</to>
+               </copy><copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LoggingSystem</to>
+               </copy><copy>
+                  <from>35</from>
+                  <to>$l_LogVar.CommonLogging/ns2:SourceSystem</to>
+               </copy><copy>
+                  <from>2</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TargetSystem</to>
+               </copy><copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:LogType</to>
+               </copy><copy>
+                  <from>1</from>
+                  <to>$l_LogVar.CommonLogging/ns2:TransactionStatus</to>
+               </copy></assign>
+            <invoke name="InvokeCommonLogging" partnerLink="CommonLogging" portType="ns2:CommonLogging"
+                    operation="process" inputVariable="l_LogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+               <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+               <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+               </bpelx:toProperties>
+            </invoke>
+         </sequence>
+      </else>
+   </if></sequence>
+    </scope>
+    <assign name="XformCreateReceipts_RequestVar">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/XformCreateReceipts_RequestVar.xsl", $Receive_ASN_Ross_Supplier_Get_InputVariable.body, "g_derivedOrgId_Lines", $g_derivedOrgId_Lines, "g_derivedToOrgId_Lines", $g_derivedToOrgId_Lines, "g_itemNumber", $g_itemNumber, "g_CreateLotABSResp_OutputVar.payload", $g_CreateLotABSResp_OutputVar.payload, "g_GroupId", $g_GroupId)</from>
+        <to variable="g_CreateReceipt_InputVariable" part="CreateReceiptRequestMessage"/>
+      </copy>
+    </assign>
+    <assign name="Assign_CheckIfShipmentExists">
+      <copy ignoreMissingFromData="yes">
+        <from>oraext:query-database(concat("SELECT shipment_num FROM rcv_shipment_headers rsh WHERE rsh.shipment_num = '",$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:Receipt/ns20:BasicReceipt/ns20:ShipmentNumber,"'"),false(),false(),"jdbc/ebsapps")</from>
+        <to>$g_ASNExistFlag</to>
+      </copy>
+    </assign>
+    <scope name="CreateReceipt">
+      <bpelx:skipCondition>$g_ASNExistFlag != 'N'</bpelx:skipCondition>
+      <variables>
+        <variable name="ReceiveEDN_InputVariable" element="ns27:Event"/>
+      </variables>
+      <sequence name="Sequence9">
+        <assign name="Assign_Header">
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:TransactionRequestID</to>
+          </copy>
+          <copy>
+            <from>$g_Vendorid</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:Receipt/ns20:Vendorid</to>
+          </copy>
+          <copy>
+            <from>$g_Vendorsiteid</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:Receipt/ns20:Vendorsiteid</to>
+          </copy>
+          <copy>
+            <from>$g_Orgd</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:Receipt/ns20:Orgid</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm','DIVISION',$g_MillName,'EBS_USER_NAME','SOAUSER')</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:AppsContext/ns8:UserName</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$g_MillName,'EBS_ORG_ID','80','EBS_FUNCTION_AREA','Purchase Order Receipts')</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:AppsContext/ns8:OrgId</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$g_MillName,'EBS_RESP_NAME','NSNE PO Superusers','EBS_FUNCTION_AREA','Purchase Order Receipts')</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns19:AppsContext/ns8:ResponsibilityName</to>
+          </copy>
+          <copy>
+            <from>'ENG'</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:Language</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:ComponentID</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:Source</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:Target</to>
+          </copy>
+          <copy>
+            <from>$g_MillName</from>
+            <to>$g_CreateReceipt_InputVariable.CreateReceiptRequestMessage/ns7:HeaderRq/ns7:MillName</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_NUC_EBizPOReceipt_ABS" partnerLink="NUC_EBizPOReceipt_ABS" portType="ns18:SyncPortType"
+                operation="CreateReceipt_Sync" inputVariable="g_CreateReceipt_InputVariable"
+                outputVariable="g_CreateReceipt_OutputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <!-- <assign name="AssignHeader"></assign>-->
+        <if name="IfCreateReceiptsFail">
+          <documentation>
+            <![CDATA[Not Success]]>
+          </documentation>
+          <condition>$g_CreateReceipt_OutputVariable.CreateReceiptResponseMessage/ns19:OperationResult/ns11:Stats = ''</condition>
+          <sequence name="Sequence10">
+            <assign name="AssignLogVar">
+              <copy>
+                <from>'BMG-154'</from>
+                <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+              </copy>
+            </assign>
+            <throw name="ThrowCustomFault" faultName="ns16:CustomFault"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Continue]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+        <assign name="AssignLaunchReceiptsInputVar">
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns19:GroupID</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$g_MillName,'EBS_RESP_NAME','NSNE PO Superusers','EBS_FUNCTION_AREA','Purchase Order Receipts')</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns19:AppsContext/ns8:ResponsibilityName</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_ORG_RESP_NAME.dvm','DIVISION',$g_MillName,'EBS_ORG_ID','80','EBS_FUNCTION_AREA','Purchase Order Receipts')</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns19:AppsContext/ns8:OrgId</to>
+          </copy>
+          <copy>
+            <from>dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm','DIVISION',$g_MillName,'EBS_USER_NAME','SOAUSER')</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns19:AppsContext/ns8:UserName</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:TransactionRequestID</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item/ns3:value</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>'ENG'</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:Language</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:ComponentID</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:ServiceName</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:Source</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:Target</to>
+          </copy>
+          <copy>
+            <from>$g_MillName</from>
+            <to>$l_CreateLaunchReceipts_InputVar.LaunchReceiptRequestMessage/ns7:HeaderRq/ns7:MillName</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_LaunchReceipts" partnerLink="NUC_EBizPOReceipt_ABS" portType="ns18:SyncPortType"
+                operation="LaunchReceipt_Sync" inputVariable="l_CreateLaunchReceipts_InputVar"
+                outputVariable="g_CreateLaunchReceipts_OutputVar" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+          <correlations>
+            <correlation set="Correlation_Set_RequestID" initiate="yes" pattern="response"/>
+          </correlations>
+        </invoke>
+        <if name="IfLaunchProgramFail">
+          <documentation>
+            <![CDATA[Fail]]>
+          </documentation>
+          <condition>$g_CreateLaunchReceipts_OutputVar.LaunchReceiptResponseMessage/ns19:OperationResult/ns11:Stats = 'Error'</condition><sequence name="Sequence11"><assign name="AssignLogVar"
+                                                                                                                                                                                                                                                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+   <copy>
+         <from>'BMG-150'</from>
+         <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+      </copy></assign><throw name="ThrowCustomFault" faultName="ns16:CustomFault"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence><else>
+            <documentation>
+              <![CDATA[Success]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+        <receive name="ReceiveEDN" bpelx:eventName="ns28:EntityResponse" variable="ReceiveEDN_InputVariable">
+          <bpelx:for>'PT15M'</bpelx:for>
+          <correlations>
+            <correlation set="Correlation_Set_RequestID" initiate="no"/>
+          </correlations>
+        </receive>
+        <if name="IfReceiptError">
+          <documentation>
+            <![CDATA[Error]]>
+          </documentation>
+          <condition>$ReceiveEDN_InputVariable/ns3:parameters/ns3:item/ns3:value = 'Error'</condition><sequence name="Sequence14"><assign name="AssignLogVar"
+                                                                                                                                                                                                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>'BMG-151'</from>
+                <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+              </copy>
+              <copy>
+                <from>$ReceiveEDN_InputVariable/ns3:parameters/ns3:item/ns3:name</from>
+                <to>$g_LogVar.CommonLogging/ns2:MessageDescription</to>
+              </copy>
+            </assign><throw name="ThrowCustomFault" faultName="ns16:CustomFault"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence><else>
+            <documentation>
+              <![CDATA[Success]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+      </sequence>
+    </scope>
+    <scope name="CreateQualityReults">
+      <variables>
+        <variable name="l_CreateQualityResultsInputVar" messageType="ns30:QualityResultsRequestMessage"/>
+      </variables>
+      <sequence name="Sequence15">
+        <assign name="Xform_CreateQualityResults">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Xform_CreateQualityResults.xsl", $Receive_ASN_Ross_Supplier_Get_InputVariable.body, "g_GroupId", $g_GroupId, "g_derivedOrgId_Lines", $g_derivedOrgId_Lines, "g_derivedToOrgId_Lines", $g_derivedToOrgId_Lines, "g_itemNumber", $g_itemNumber, "g_CreateLotABSResp_OutputVar.payload", $g_CreateLotABSResp_OutputVar.payload)</from>
+            <to variable="l_CreateQualityResultsInputVar" part="payload"/>
+          </copy>
+        </assign>
+        <assign name="AssignHeader">
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:TransactionRequestID</to>
+          </copy>
+          <copy>
+            <from>'ENG'</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:Language</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:ComponentID</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:ServiceName</to>
+          </copy>
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:TransactionIDREF</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:TransactionName</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:Source</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:Target</to>
+          </copy>
+          <copy>
+            <from>$g_MillName</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:MillName</to>
+          </copy>
+          <copy>
+            <from>xp20:current-dateTime()</from>
+            <to>$l_CreateQualityResultsInputVar.payload/ns7:HeaderRq/ns7:TimeStamp</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_NUC_EBizQualityResults_ABS" partnerLink="NUC_EBizQualityResults_ABS"
+                portType="ns30:QualityResults" operation="Create" inputVariable="l_CreateQualityResultsInputVar"
+                outputVariable="l_CreateQualityResultsOutputVar" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizQualityResults_ABS","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <if name="IfQualityResultsFailed">
+          <documentation>
+            <![CDATA[QualityResultsError]]>
+          </documentation>
+          <condition>count($l_CreateQualityResultsOutputVar.payload/ns32:QualityResultResponse/ns32:QualityResultResponse[ns32:Status = 'VE']) &gt; 0</condition><sequence name="Sequence20"><assign name="AssignLogVar"
+                                                                                                                                                                                                                                                               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from>'BMG-154'</from>
+         <to>$g_LogVar.CommonLogging/ns2:MessageCode</to>
+      </copy></assign><throw name="ThrowCustomFault" faultName="ns16:CustomFault"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence><else>
+            <documentation>
+              <![CDATA[Success]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+      </sequence>
+    </scope>
+    <scope name="EndLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <variables>
+        <variable name="l_EndLogVar" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="Assign_EndLogVar">
+          <copy>
+            <from>$g_GroupId/ns3:item//ns3:value</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I109'</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QualityResults_ROSS'</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>35</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$l_EndLogVar.CommonLogging/ns2:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                inputVariable="l_EndLogVar" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

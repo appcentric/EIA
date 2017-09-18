@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DBSELECT_MILLSCALE_UOM"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSELECT_MILLSCALE_UOM"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSELECT_MILLSCALE_UOM"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSELECT_MILLSCALE_UOM"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DBSELECT_MILLSCALE_UOM_plt" >
+    <plt:role name="DBSELECT_MILLSCALE_UOM_role" >
+      <plt:portType name="tns:DBSELECT_MILLSCALE_UOM_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSELECT_MILLSCALE_UOM" schemaLocation="../Schemas/DBSELECT_MILLSCALE_UOM_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DBSELECT_MILLSCALE_UOMSelect_inputParameters">
+        <wsdl:part name="DBSELECT_MILLSCALE_UOMSelect_inputParameters" element="top:DBSELECT_MILLSCALE_UOMSelect_ScaleCode_orgidInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="XxnucInvScaleStgCollection_msg">
+        <wsdl:part name="XxnucInvScaleStgCollection" element="top:XxnucInvScaleStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DBSELECT_MILLSCALE_UOM_ptt">
+        <wsdl:operation name="DBSELECT_MILLSCALE_UOMSelect">
+            <wsdl:input message="tns:DBSELECT_MILLSCALE_UOMSelect_inputParameters"/>
+            <wsdl:output message="tns:XxnucInvScaleStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

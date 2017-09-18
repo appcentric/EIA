@@ -1,0 +1,15 @@
+<adapter-config name="DbInsert_Operation_OMSI" adapter="db" wsdlLocation="../WSDLs/DbInsert_Operation_OMSI.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1OMSI" location="eis/DB/omsi"/>
+  <endpoint-interaction portType="DbInsert_Operation_OMSI_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DbInsert_Operation_OMSI.Operation"/>
+      <property name="DmlType" value="insert"/>
+      <property name="OutputCompletedXml" value="true"/>
+      <property name="MappingsMetaDataURL" value="DbInsert_Operation_OMSI-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

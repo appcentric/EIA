@@ -1,0 +1,613 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Apr 07 06:29:15 CDT 2017
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Bundle_EBSMTLTrxImp" targetNamespace="http://nucor.eia.com/Bundle_EBSMTLTrxImp"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://nucor.eia.com/Bundle_EBSMTLTrxImp" xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Get_Bundle_Trx"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Update_Bundle_Trx"
+         xmlns:ns3="http://xmlns.eia.com/CommonLogging" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_Bundle_Trx"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Process_Bundle_Trx_EBS"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Process_Bundle_Trx_EBS"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Update_API_BUNDLE_TRANS_DTLSByHeaderId"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_Bundle_EBSMTLTrxImp_ABF/DB_Update_API_BUNDLE_TRANS"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_BUNDLE_TRANS_DTLS"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_BUNDLE_TRANS"
+         xmlns:ns11="http://schemas.oracle.com/service/bpel/common">
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://nucor.eia.com/Bundle_EBSMTLTrxImp"
+          location="../WSDLs/Bundle_EBSMTLTrxImp.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bundle_ebsmtltrximp_client" partnerLinkType="client:Bundle_EBSMTLTrxImp"
+                 myRole="Bundle_EBSMTLTrxImpProvider"/>
+    <partnerLink name="DB_Get_Bundle_Trx" partnerLinkType="ns1:DB_Get_Bundle_Trx_plt"
+                 partnerRole="DB_Get_Bundle_Trx_role"/>
+    <partnerLink name="DB_Update_Bundle_Trx" partnerLinkType="ns2:DB_Update_Bundle_Trx_plt"
+                 partnerRole="DB_Update_Bundle_Trx_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Process_Bundle_Trx_EBS" partnerLinkType="ns5:DB_Process_Bundle_Trx_EBS_plt"
+                 partnerRole="DB_Process_Bundle_Trx_EBS_role"/>
+    <partnerLink name="DB_Update_API_BUNDLE_TRANS" partnerLinkType="ns8:DB_Update_API_BUNDLE_TRANS_plt"
+                 partnerRole="DB_Update_API_BUNDLE_TRANS_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:Bundle_EBSMTLTrxImpRequestMessage"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+    <variable name="g_Invoke_DB_Get_Bundle_Trx_InputVariable"
+              messageType="ns1:DB_Get_Bundle_TrxSelect_inputParameters"/>
+    <variable name="g_Invoke_DB_Get_Bundle_Trx_OutputVariable" messageType="ns1:ApiBundleTransCollection_msg"/>
+    <variable name="g_Invoke_DB_Update_Bundle_Trx_InputVariable" messageType="ns2:ApiBundleTransCollection_msg"/>
+    <variable name="g_Invoke_DB_Process_Bundle_Trx_InputVariable" messageType="ns5:args_in_msg"/>
+    <variable name="g_Invoke_DB_Process_Bundle_Trx_OutputVariable" messageType="ns5:args_out_msg"/>
+    <variable name="g_Count" type="xsd:int"/>
+    <variable name="g_CountLine" type="xsd:int"/>
+    <variable name="g_tmpErrMsg" type="xsd:string"/>
+    <variable name="Invoke_DB_Update_API_BUNDLE_TRANS_Input" messageType="ns8:DB_Update_API_BUNDLE_TRANSInput_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_CatchAll">
+        <scope name="Scope_CatchAllLogging">
+          <variables>
+            <variable name="tmp_NVPair" element="ns11:parameters"/>
+          </variables>
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence>
+            <assign name="Assign_NVPairErrorMsg">
+              <copy>
+                <from>'ErrorMsg'</from>
+                <to>$tmp_NVPair/ns11:item/ns11:name</to>
+              </copy>
+              <copy>
+                <from>ora:getFaultAsString()</from>
+                <to>$tmp_NVPair/ns11:item/ns11:value</to>
+              </copy>
+            </assign>
+            <assign name="Transformation_Update_Error">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Error.xsl", $g_Invoke_DB_Get_Bundle_Trx_OutputVariable.ApiBundleTransCollection, "tmp_NVPair", $tmp_NVPair)</from>
+                <to variable="g_Invoke_DB_Update_Bundle_Trx_InputVariable" part="ApiBundleTransCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_Update_Bundle_Trx" bpelx:invokeAsDetail="no" partnerLink="DB_Update_Bundle_Trx"
+                    portType="ns2:DB_Update_Bundle_Trx_ptt" operation="update"
+                    inputVariable="g_Invoke_DB_Update_Bundle_Trx_InputVariable"/>
+            <assign name="Assign_CommonLogging">
+              <copy>
+                <from>''</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+              </copy>
+              <copy>
+                <from>ora:getFaultAsString()</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                    portType="ns3:CommonLogging" operation="process"
+                    inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Bundle_EBSMTLTrxImp.wsdl) -->
+    <receive name="receiveInput" partnerLink="bundle_ebsmtltrximp_client" portType="client:Bundle_EBSMTLTrxImp"
+             operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+      </copy>
+      <copy>
+        <from>'I138'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'NSUTQMOSTrxImport'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>21</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+      </copy>
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionId))</from>
+        <to>$setTitleVar</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("rowNumValue")</from>
+        <to>$g_Invoke_DB_Get_Bundle_Trx_InputVariable.DB_Get_Bundle_TrxSelect_inputParameters/ns4:rowNumValue</to>
+      </copy>
+    </assign>
+    <scope name="StartLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+              portType="ns3:CommonLogging" operation="process"
+              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+        <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+        <bpelx:toProperties>
+          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+        </bpelx:toProperties>
+      </invoke>
+    </scope>
+    <invoke name="Invoke_DB_Get_Bundle_Trx" bpelx:invokeAsDetail="no" partnerLink="DB_Get_Bundle_Trx"
+            portType="ns1:DB_Get_Bundle_Trx_ptt" operation="DB_Get_Bundle_TrxSelect"
+            inputVariable="g_Invoke_DB_Get_Bundle_Trx_InputVariable"
+            outputVariable="g_Invoke_DB_Get_Bundle_Trx_OutputVariable"/>
+    <if name="If_DataPresent">
+      <documentation>
+        <![CDATA[Yes]]>
+      </documentation>
+      <condition>count($g_Invoke_DB_Get_Bundle_Trx_OutputVariable.ApiBundleTransCollection/ns4:ApiBundleTrans) &gt; 0</condition>
+      <sequence>
+        <assign name="Transformation_Update_Inprocess">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Inprocess.xsl", $g_Invoke_DB_Get_Bundle_Trx_OutputVariable.ApiBundleTransCollection)</from>
+            <to variable="g_Invoke_DB_Update_Bundle_Trx_InputVariable" part="ApiBundleTransCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Update_Bundle_Trx" bpelx:invokeAsDetail="no" partnerLink="DB_Update_Bundle_Trx"
+                portType="ns2:DB_Update_Bundle_Trx_ptt" operation="update"
+                inputVariable="g_Invoke_DB_Update_Bundle_Trx_InputVariable"/>
+        <assign name="Transformation_Process_Bundle">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Process_Bundle.xsl", $g_Invoke_DB_Get_Bundle_Trx_OutputVariable.ApiBundleTransCollection)</from>
+            <to variable="g_Invoke_DB_Process_Bundle_Trx_InputVariable" part="InputParameters"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Process_Bundle_Trx" bpelx:invokeAsDetail="no" partnerLink="DB_Process_Bundle_Trx_EBS"
+                portType="ns5:DB_Process_Bundle_Trx_EBS_ptt" operation="DB_Process_Bundle_Trx_EBS"
+                inputVariable="g_Invoke_DB_Process_Bundle_Trx_InputVariable"
+                outputVariable="g_Invoke_DB_Process_Bundle_Trx_OutputVariable"/>
+        <assign name="Assign_Count">
+          <copy>
+            <from>count($g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM)</from>
+            <to>$g_Count</to>
+          </copy>
+        </assign>
+        <while name="While_Header">
+          <condition>$g_Count &gt; 0</condition>
+          <sequence name="Sequence_Header">
+            <if name="If_Check_Status">
+              <documentation>
+                <![CDATA[Success]]>
+              </documentation>
+              <condition>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:RESULT_CODE = 'S'</condition>
+              <sequence name="Sequence_HeaderSucess">
+                <assign name="Assign_CommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <copy>
+                    <from>''</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                  </copy>
+                  <copy>
+                    <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:RESULT_MESSAGE</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                  </copy>
+                  <copy>
+                    <from>1</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+                  </copy>
+                </assign>
+                <scope name="Scope_SuccessLogging">
+                  <faultHandlers>
+                    <catchAll>
+                      <empty name="DoNothing"/>
+                    </catchAll>
+                  </faultHandlers>
+                  <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging"
+                          operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                          xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                </scope>
+                <assign name="Assign_CountLine">
+                  <copy>
+                    <from>count($g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:DTLS_RESULTS/ns6:DTLS_RESULTS_ITEM)</from>
+                    <to>$g_CountLine</to>
+                  </copy>
+                </assign>
+                <while name="While_Line">
+                  <condition>$g_CountLine &gt; 0</condition>
+                  <sequence name="Sequence_While">
+                    <assign name="Assign_CommonLogging"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                      <copy>
+                        <from>''</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                      </copy>
+                      <copy>
+                        <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:DTLS_RESULTS/ns6:DTLS_RESULTS_ITEM[$g_CountLine]/ns6:RESULT_MESSAGE</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                      </copy>
+                      <copy>
+                        <from>1</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+                      </copy>
+                      <copy>
+                        <from>concat($g_tmpErrMsg,'::',$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:DTLS_RESULTS/ns6:DTLS_RESULTS_ITEM[$g_CountLine]/ns6:RESULT_MESSAGE)</from>
+                        <to>$g_tmpErrMsg</to>
+                      </copy>
+                    </assign>
+                    <scope name="Scope_SuccessLineLogging">
+                      <faultHandlers>
+                        <catchAll>
+                          <empty name="DoNothing"/>
+                        </catchAll>
+                      </faultHandlers>
+                      <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging"
+                              operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                              xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </scope>
+                    <assign name="Assign_CountLine">
+                      <copy>
+                        <from>$g_CountLine - 1</from>
+                        <to>$g_CountLine</to>
+                      </copy>
+                    </assign>
+                  </sequence>
+                </while>
+                <assign name="Assign_Header_Success">
+                  <copy>
+                    <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:TRX_ID</from>
+                    <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:txnId</to>
+                  </copy>
+                  <copy>
+                    <from>xp20:current-dateTime()</from>
+                    <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:currentDate</to>
+                  </copy>
+                  <copy>
+                    <from>'C'</from>
+                    <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:status</to>
+                  </copy>
+                  <copy>
+                    <from>concat($g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:RESULT_MESSAGE,'::',$g_tmpErrMsg)</from>
+                    <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:resultmsg</to>
+                  </copy>
+                  <!--copy>
+                    <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:TRX_ID</from>
+                    <to>$Invoke_DB_Update_API_BUNDLE_TRANS_DTLSByHeaderId_Input.DB_Update_API_BUNDLE_TRANS_DTLSByHeaderIdInput_msg/ns9:apiBundleTransId</to>
+                  </copy>
+                  <copy>
+                    <from>'C'</from>
+                    <to>$Invoke_DB_Update_API_BUNDLE_TRANS_DTLSByHeaderId_Input.DB_Update_API_BUNDLE_TRANS_DTLSByHeaderIdInput_msg/ns9:status</to>
+                  </copy-->
+                </assign>
+                <invoke name="Invoke_DB_Update_API_BUNDLE_TRANS" bpelx:invokeAsDetail="no"
+                        partnerLink="DB_Update_API_BUNDLE_TRANS" portType="ns8:DB_Update_API_BUNDLE_TRANS_ptt"
+                        operation="DB_Update_API_BUNDLE_TRANS" inputVariable="Invoke_DB_Update_API_BUNDLE_TRANS_Input"/>
+              </sequence>
+              <elseif>
+                <documentation>
+                  <![CDATA[Error]]>
+                </documentation>
+                <condition>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:RESULT_CODE != 'S'</condition>
+                <sequence name="Sequence_HeaderError" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <assign name="Assign_CommonLogging" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                    <copy>
+                      <from>''</from>
+                      <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                    </copy>
+                    <copy>
+                      <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:RESULT_MESSAGE</from>
+                      <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                    </copy>
+                    <copy>
+                      <from>1</from>
+                      <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+                    </copy>
+                  </assign>
+                  <scope name="Scope_ErrorLogging">
+                    <faultHandlers>
+                      <catchAll>
+                        <empty name="DoNothing"/>
+                      </catchAll>
+                    </faultHandlers>
+                    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging"
+                            operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                            xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </scope>
+                  <assign name="Assign_CountLine">
+                    <copy>
+                      <from>count($g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:DTLS_RESULTS/ns6:DTLS_RESULTS_ITEM)</from>
+                      <to>$g_CountLine</to>
+                    </copy>
+                  </assign>
+                  <while name="While_Line">
+                    <condition>$g_CountLine &gt; 0</condition>
+                    <sequence name="Sequence_While">
+                      <assign name="Assign_CommonLogging"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <copy>
+                          <from>''</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:DTLS_RESULTS/ns6:DTLS_RESULTS_ITEM[$g_CountLine]/ns6:RESULT_MESSAGE</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>concat($g_tmpErrMsg,'::',$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:DTLS_RESULTS/ns6:DTLS_RESULTS_ITEM[$g_CountLine]/ns6:RESULT_MESSAGE)</from>
+                          <to>$g_tmpErrMsg</to>
+                        </copy>
+                      </assign>
+                      <scope name="Scope_ErrorLineLogging">
+                        <faultHandlers>
+                          <catchAll>
+                            <empty name="DoNothing"/>
+                          </catchAll>
+                        </faultHandlers>
+                        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns3:CommonLogging"
+                                operation="process" inputVariable="g_Invoke_CommonLogging_process_InputVariable"
+                                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                                bpelx:invokeAsDetail="no">
+                          <bpelx:toProperties>
+                            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                          </bpelx:toProperties>
+                        </invoke>
+                      </scope>
+                      <assign name="Assign_CountLine">
+                        <copy>
+                          <from>$g_CountLine - 1</from>
+                          <to>$g_CountLine</to>
+                        </copy>
+                      </assign>
+                    </sequence>
+                  </while>
+                  <assign name="Assign_Header_Error">
+                    <copy>
+                      <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:TRX_ID</from>
+                      <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:txnId</to>
+                    </copy>
+                    <!--copy>
+                      <from>'E'</from>
+                      <to>$Invoke_DB_Update_API_BUNDLE_TRANS_DTLSByHeaderId_Input.DB_Update_API_BUNDLE_TRANS_DTLSByHeaderIdInput_msg/ns9:status</to>
+                    </copy>
+                    <copy>
+                      <from>$g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:TRX_ID</from>
+                      <to>$Invoke_DB_Update_API_BUNDLE_TRANS_DTLSByHeaderId_Input.DB_Update_API_BUNDLE_TRANS_DTLSByHeaderIdInput_msg/ns9:apiBundleTransId</to>
+                    </copy-->
+                    <copy>
+                      <from>xp20:current-dateTime()</from>
+                      <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:currentDate</to>
+                    </copy>
+                    <copy>
+                      <from>concat($g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters/ns6:P_RESULT_TAB/ns6:P_RESULT_TAB_ITEM[$g_Count]/ns6:RESULT_MESSAGE,'::',$g_tmpErrMsg)</from>
+                      <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:resultmsg</to>
+                    </copy>
+                    <copy>
+                      <from>'E'</from>
+                      <to>$Invoke_DB_Update_API_BUNDLE_TRANS_Input.DB_Update_API_BUNDLE_TRANSInput_msg/ns10:status</to>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_DB_Update_API_BUNDLE_TRANS" bpelx:invokeAsDetail="no"
+                          partnerLink="DB_Update_API_BUNDLE_TRANS" portType="ns8:DB_Update_API_BUNDLE_TRANS_ptt"
+                          operation="DB_Update_API_BUNDLE_TRANS"
+                          inputVariable="Invoke_DB_Update_API_BUNDLE_TRANS_Input"/>
+                </sequence>
+              </elseif>
+              <else>
+                <documentation>
+                  <![CDATA[Others]]>
+                </documentation>
+                <empty name="DoNothing"/>
+              </else>
+            </if>
+            <assign name="Assign_Count">
+              <copy>
+                <from>$g_Count - 1</from>
+                <to>$g_Count</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$g_tmpErrMsg</to>
+              </copy>
+            </assign>
+          </sequence>
+        </while>
+        <assign name="Transformation_Update_Status">
+          <bpelx:skipCondition>1=1</bpelx:skipCondition>
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Status.xsl", $g_Invoke_DB_Process_Bundle_Trx_OutputVariable.OutputParameters)</from>
+            <to variable="g_Invoke_DB_Update_Bundle_Trx_InputVariable" part="ApiBundleTransCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Update_Bundle_Trx" partnerLink="DB_Update_Bundle_Trx"
+                portType="ns2:DB_Update_Bundle_Trx_ptt" operation="update"
+                inputVariable="g_Invoke_DB_Update_Bundle_Trx_InputVariable"
+                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>1=1</bpelx:skipCondition>
+        </invoke>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[No]]>
+        </documentation>
+        <sequence name="Sequence2">
+          <assign name="Assign_Logging">
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-177'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+            </copy>
+            <copy>
+              <from>$setTitleVar</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns3:CommonLogging" operation="process" bpelx:invokeAsDetail="no"
+                  inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </else>
+    </if><assign name="Assign_CommonLogging">
+      <copy>
+        <from>'BMG-002'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+      </copy>
+    </assign>
+    <scope name="Scope_EndLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+              portType="ns3:CommonLogging" operation="process"
+              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+        <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+        <bpelx:toProperties>
+          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+        </bpelx:toProperties>
+      </invoke>
+    </scope>
+  </sequence>
+</process>

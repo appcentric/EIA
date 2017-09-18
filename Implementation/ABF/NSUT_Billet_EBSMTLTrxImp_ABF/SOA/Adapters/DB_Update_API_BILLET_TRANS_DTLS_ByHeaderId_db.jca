@@ -1,0 +1,11 @@
+<adapter-config name="DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId" adapter="db" wsdlLocation="../WSDLs/DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="QMOS_Utah_Dev" location="eis/DB/nsutqmos"/>
+  <endpoint-interaction portType="DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId_ptt" operation="DB_Update_API_BILLET_TRANS_DTLS_ByHeaderId">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="update API_BILLET_TRANS_DTLS set PROCESSED = #status where API_BILLET_TRANS_ID = #apiBilletTransId"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

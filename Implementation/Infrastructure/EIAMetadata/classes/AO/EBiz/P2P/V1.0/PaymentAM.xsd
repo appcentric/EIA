@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAM/1.0" elementFormDefault="qualified" xmlns:header="http://xmlns.eia.com/EO/common/Header/1.0" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:paymentam="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAM/1.0" xmlns:paymentao="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAO/1.0" xmlns:ctx="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0" xmlns:invao="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0" xmlns:poao="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0" xmlns:receiptao="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0" xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0">
+<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/PaymentAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/InvoiceAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/PurchaseOrderAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/ReceiptAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"/>
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Header/1.0" schemaLocation="../../../../EO/common/V1.0/Header.xsd"/>
+<xsd:element name="QueryListOfPaymentRequestMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRq"/>
+<xsd:element name="PaymentInfo" type="paymentao:BasicPaymentType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="QueryListOfPaymentResponseMessage">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="header:HeaderRs"/>
+<xsd:element name="Payment" type="paymentam:PaymentType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:complexType name="BasicPurchaseReceiptType">
+<xsd:sequence>
+<!--xsd:element ref="header:HeaderRq"/-->
+<xsd:element name="BasicPurchaseOrder" type="poao:BasicPurchaseOrderType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ListOfBasicReceipts" type="receiptao:ListOfBasicReceiptsType" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfBasicPurchaseReceiptsType">
+<xsd:sequence>
+<!--xsd:element ref="header:HeaderRq"/-->
+<xsd:element name="BasicPurchaseReceipt" type="paymentam:BasicPurchaseReceiptType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BasicInvoicePurchaseType">
+<xsd:sequence>
+<!--sd:element ref="header:HeaderRq"/-->
+<xsd:element name="BasicInvoice" type="invao:BasicInvoiceType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ListOfBasicPurchaseOrder" type="paymentam:ListOfBasicPurchaseReceiptsType" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="PaymentType">
+<xsd:sequence>
+<!--xsd:element ref="header:HeaderRq"/-->
+<xsd:element name="Payment" type="paymentao:PaymentType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ListOfInvoices" type="invao:ListOfInvoiceType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfBasicInvoicesPurchaseType">
+<xsd:sequence>
+<!--xsd:element ref="header:HeaderRq"/-->
+<xsd:element name="BasicInvoicePurchase" type="paymentam:BasicInvoicePurchaseType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

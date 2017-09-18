@@ -1,0 +1,43 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="UtilityXREF"
+     targetNamespace="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:client="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="UtilityXREF">
+        <plnk:role name="UtilityXREFProvider">
+            <plnk:portType name="client:UtilityXREF"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+             xmlns:client="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0" schemaLocation="xsd/UtilityXREF.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="UtilityXREFRequestMessage">
+        <wsdl:part name="payload" element="client:processXREFData"/>
+    </wsdl:message>
+
+    <wsdl:message name="UtilityXREFQueryRequestMessage">
+        <wsdl:part name="payload" element="client:processXREFData"/>
+    </wsdl:message>  
+
+    <wsdl:message name="UtilityXREFQueryResponseMessage">
+        <wsdl:part name="payload" element="client:processResult"/>
+    </wsdl:message>    
+    
+    <wsdl:portType name="UtilityXREF">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:UtilityXREFRequestMessage"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="query">
+            <wsdl:input message="client:UtilityXREFQueryRequestMessage"/>
+            <wsdl:output message="client:UtilityXREFQueryResponseMessage"/>
+        </wsdl:operation>
+        
+    </wsdl:portType>
+</wsdl:definitions>

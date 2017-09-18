@@ -1,0 +1,1229 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Jun 25 14:24:07 IST 2013
+  Author:  KaranK
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBizReceiptABS" targetNamespace="http://xmlns.eia.com/ABS/EBiz/NUC_EBizPOReceipt_ABS/1.0"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/ABS/EBiz/NUC_EBizPOReceipt_ABS/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://xmlns.eia.com/EO/Common/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns3="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptABM/1.0" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EBizPOReceipt_ABS/OA_CreateReceiptEBS"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EBizPOReceipt_ABS/DB_QueryReceiptEBS"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0"
+         xmlns:ns16="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+         xmlns:ns13="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0"
+         xmlns:ns15="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns14="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizPOReceipt_ABS/GetSeq"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_EBizPOReceipt_ABS/DB_LaunchReceiptEBS"
+         xmlns:ns19="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns20="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_LaunchReceiptEBS"
+         xmlns:ns21="http://xmlns.eia.com/CommonLogging"
+         xmlns:ns22="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_EBizPOReceipt_ABS/DB_DeriveReceiptColumns"
+         xmlns:ns23="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_CreateReceiptEBS"
+         xmlns:ns24="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_EBizPOReceipt_ABS/DB_QueryReceiptsByPO"
+         xmlns:ns25="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryReceiptsByPO"
+         xmlns:ns26="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NUC_EBizPOReceipt_ABS/DB_SyncLaunchReceiptEBS"
+         xmlns:ns27="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_SyncLaunchReceiptEBS">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0" location="ReceiptABSWrapper.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/ReceiptABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+          location="oramds:/apps/EIAMetadata/AO/EBiz/common/V1.0/OperationResultAO.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/ReceiptABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/ReceiptABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0" location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="ReceiptABS" partnerLinkType="ns1:EBizReceiptABS" myRole="SyncPortType"/>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcessV1" partnerLinkType="ns3:EIAAsyncErrorHandlingBPELProcess"
+                 partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="OA_CreateReceiptEBS" partnerLinkType="ns4:OA_CreateReceiptEBS_plt"
+                 partnerRole="OA_CreateReceiptEBS_role"/>
+    <partnerLink name="DB_QueryReceiptEBS" partnerLinkType="ns7:DB_QueryReceiptEBS_plt"
+                 partnerRole="DB_QueryReceiptEBS_role"/>
+    <partnerLink name="DB_LaunchReceiptEBS" partnerLinkType="ns18:DB_LaunchReceiptEBS_plt"
+                 partnerRole="DB_LaunchReceiptEBS_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns21:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_DeriveReceiptColumns" partnerLinkType="ns22:DB_DeriveReceiptColumns_plt"
+                 partnerRole="DB_DeriveReceiptColumns_role"/>
+    <partnerLink name="DB_QueryReceiptsByPO" partnerLinkType="ns24:DB_QueryReceiptsByPO_plt"
+                 partnerRole="DB_QueryReceiptsByPO_role"/>
+    <partnerLink name="DB_SyncLaunchReceiptEBS" partnerLinkType="ns26:DB_SyncLaunchReceiptEBS_plt"
+                 partnerRole="DB_SyncLaunchReceiptEBS_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation >
+    <variable name="inputVariable" messageType="ns1:CreateReceiptRequestMessageType"/-->
+    <!-- Reference to the message that will be returned to the requester>
+    <variable name="outputVariable" messageType="ns1:CreateReceiptResponseMessageType"/-->
+    <variable name="CreateReceipt_SyncReqMsg" messageType="ns1:CreateReceiptRequestMessageType"/>
+    <variable name="CreateReceipt_SyncRespMsg" messageType="ns1:CreateReceiptResponseMessageType"/>
+    <variable name="QueryByExample_SyncReqMsg" messageType="ns1:QueryReceiptRequestMessageType"/>
+    <variable name="QueryByExample_SyncRespMsg" messageType="ns1:QueryReceiptResponseMessageType"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns2:ProcessHeader"/>
+    <variable name="EIAFaultMsg" messageType="ns1:EIAFaultMsgType"/>
+    <variable name="gbl_operation" type="xsd:string"/>
+    <variable name="gbl_title" type="xsd:string"/>
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg"
+              messageType="ns3:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="OA_CreateReceiptEBS_ReqMsg" messageType="ns4:RcvHeadersInterfaceCollection_msg"/>
+    <variable name="DB_QueryReceiptEBS_ReqMsg" messageType="ns7:RcvShipmentHeaders_msg"/>
+    <variable name="DB_QueryReceiptEBS_RespMsg" messageType="ns7:RcvShipmentHeadersCollection_msg"/>
+    <variable name="OA_CreateReceiptEBS_RespMsg" messageType="ns4:RcvHeadersInterfaceCollection_msg"/>
+    <variable name="LaunchReceipt_SyncReqMsg" messageType="ns1:LaunchReceiptRequestMessageType"/>
+    <variable name="LaunchReceipt_SyncRespMsg" messageType="ns1:LaunchReceiptResponseMessageType"/>
+    <variable name="Invoke_DB_LaunchReceiptEBS_InputVariable" messageType="ns18:args_in_msg"/>
+    <variable name="Invoke_DB_LaunchReceiptEBS_OutputVariable" messageType="ns18:args_out_msg"/>
+    <variable name="Invoke_CommonLogging_process_InputVariable" messageType="ns21:CommonLoggingRequestMessage"/>
+    <variable name="InvokeDB_DeriveReceiptColumns_InputVariable" messageType="ns22:args_in_msg"/>
+    <variable name="InvokeDB_DeriveReceiptColumns_OutputVariable" messageType="ns22:args_out_msg"/>
+    <variable name="OnMessage_QueryReceiptByPOId_Sync_InputVariable" messageType="ns1:QueryReceiptRequestMessageType"/>
+    <variable name="Reply_ReceiptABS_QueryReceiptByPOId_Sync_OutputVariable"
+              messageType="ns1:QueryReceiptResponseMessageType"/>
+    <variable name="DB_QueryReceiptsByPO_queryByExample_InputVariable" messageType="ns24:PoHeadersAll_msg"/>
+    <variable name="DB_QueryReceiptsByPO_queryByExample_OutputVariable" messageType="ns24:PoHeadersAllCollection_msg"/>
+    <variable name="SyncLaunchReceipt_Sync_Input" messageType="ns1:SyncLaunchReceiptRequestMessageType"/>
+    <variable name="SyncLaunchReceipt_Sync_Output" messageType="ns1:SyncLaunchReceiptResponseMessageType"/>
+    <variable name="Invoke_DB_SyncLaunchReceiptEBS_Input" messageType="ns26:args_in_msg"/>
+    <variable name="Invoke_DB_SyncLaunchReceiptEBS_Output" messageType="ns26:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="ns1:EIAFault" faultVariable="EIAFaultMsg" faultMessageType="ns1:EIAFaultMsgType">
+      <sequence name="EIAFault">
+        <assign name="Assign_CommonLoggingError">
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat('FlowId:',ora:getFlowId(),':',$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Text)</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageDescription</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                portType="ns21:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>
+            <![CDATA[Operation is Create Invoice]]>
+          </documentation>
+          <condition>$gbl_operation="CreateReceipt_Sync"</condition>
+          <sequence name="Sequence2">
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                    portType="ns3:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_CreateReceiptSync" faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                   partnerLink="ReceiptABS" portType="ns1:SyncPortType" operation="CreateReceipt_Sync"/>
+          </sequence>
+          <elseif>
+            <documentation>
+              <![CDATA[Operation is Query By PO Id]]>
+            </documentation>
+            <condition>$gbl_operation = "QueryReceiptByPOId_Sync"</condition>
+            <sequence name="Sequence7">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                      partnerLink="EIAAsyncErrorHandlingBPELProcessV1" portType="ns3:EIAAsyncErrorHandlingBPELProcess"
+                      operation="processFault" bpelx:invokeAsDetail="no"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <reply name="Reply_QueryReceiptByPOId" variable="EIAFaultMsg" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                     operation="QueryReceiptByPOId_Sync" faultName="ns1:EIAFault">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizPOReceipt_ABS","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </reply>
+            </sequence>
+          </elseif>
+          <else>
+            <documentation>
+              <![CDATA[Operation is Query Invoice]]>
+            </documentation>
+            <sequence name="Sequence3">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                      portType="ns3:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <reply name="Reply_QueryByExample_Sync" faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                     partnerLink="ReceiptABS" portType="ns1:SyncPortType" operation="QueryReceiptById_Sync"/>
+            </sequence>
+          </else>
+        </if>
+        <rethrow name="Rethrow"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="CatchAll">
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>''</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                portType="ns21:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+        <assign name="setEIAFaultMsg">
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/setEIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+            <to>$EIAFaultMsg.Fault</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultName()</from>
+            <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Code</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Text</to>
+          </copy>
+          <copy>
+            <from>"1.0"</from>
+            <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Severity</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Stack</to>
+          </copy>
+        </assign>
+        <assign name="XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <documentation>
+            <![CDATA[Operation is Create Invoice]]>
+          </documentation>
+          <condition>$gbl_operation="CreateReceipt_Sync"</condition>
+          <sequence name="Sequence2">
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                    portType="ns3:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_CreateReceiptSync" faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                   partnerLink="ReceiptABS" portType="ns1:SyncPortType" operation="CreateReceipt_Sync"/>
+          </sequence>
+          <elseif>
+            <documentation>
+              <![CDATA[Operation is Query By PO Id]]>
+            </documentation>
+            <condition>$gbl_operation = "QueryReceiptByPOId_Sync"</condition>
+            <sequence name="Sequence8">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                      portType="ns3:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <reply name="Reply_QueryReceiptByPOId" variable="EIAFaultMsg" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                     operation="QueryReceiptByPOId_Sync" faultName="ns1:EIAFault"/>
+            </sequence>
+          </elseif>
+          <elseif>
+            <documentation>
+              <![CDATA[Opertaion is Launch Receipts]]>
+            </documentation>
+            <condition>$gbl_operation =  'LaunchReceipt_Sync'</condition><sequence name="Sequence9"><invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                                                                                                       partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                                                                                                       portType="ns3:EIAAsyncErrorHandlingBPELProcess"
+                                                                                                       operation="processFault"
+                                                                                                       inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                                                                                                       bpelx:invokeAsDetail="no"
+                                                                                                       xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                                                                                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:toProperties>
+         <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke><reply name="ReplyLaunchReceipt" variable="EIAFaultMsg" partnerLink="ReceiptABS"
+                   portType="ns1:SyncPortType" operation="LaunchReceipt_Sync" faultName="ns1:EIAFault"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></elseif>
+          <elseif>
+            <documentation>
+              <![CDATA[Operation is SyncLaunch]]>
+            </documentation>
+            <condition>$gbl_operation = 'SyncLaunchReceipt_Sync'</condition><sequence name="Sequence10"><invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess"
+                                                                                                                partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                                                                                                                portType="ns3:EIAAsyncErrorHandlingBPELProcess"
+                                                                                                                operation="processFault"
+                                                                                                                inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                                                                                                                bpelx:invokeAsDetail="no"
+                                                                                                                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                                                                                                                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <bpelx:toProperties>
+         <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+   </invoke><reply name="ReplySyncLaunchReceipt" variable="EIAFaultMsg" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                   operation="SyncLaunchReceipt_Sync" faultName="ns1:EIAFault"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/></sequence></elseif>
+          <else>
+            <documentation>
+              <![CDATA[Operation is Query Invoice]]>
+            </documentation>
+            <sequence name="Sequence3">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcessV1"
+                      portType="ns3:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg"
+                      xmlns:bpelx="http://schemas.oracle.com/bpel/extension" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <reply name="Reply_QueryByExample_Sync" faultName="ns1:EIAFault" variable="EIAFaultMsg"
+                     partnerLink="ReceiptABS" portType="ns1:SyncPortType" operation="QueryReceiptById_Sync"/>
+            </sequence>
+          </else>
+        </if>
+        <rethrow name="Rethrow"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in EBizReceiptABS.wsdl) -->
+    <!-- Generate reply to synchronous request -->
+    <pick name="Pick1" createInstance="yes">
+      <onMessage partnerLink="ReceiptABS" portType="ns1:SyncPortType" operation="CreateReceipt_Sync"
+                 variable="CreateReceipt_SyncReqMsg">
+        <sequence name="CreateReceipt_Sync"><assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>"CreateReceipt_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Create PO Receipt ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns19:HeaderRq/ns19:Target</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-003'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <!--<assign name="XformDeriveReceipts">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateReceiptSyncReq_InvokeDB_DeriveReceiptColumns_InputVariable.xsl", $CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage)</from>
+              <to variable="InvokeDB_DeriveReceiptColumns_InputVariable" part="InputParameters"/>
+            </copy>
+          </assign>-->
+   <!--<invoke name="InvokeDB_DeriveReceiptColumns" partnerLink="DB_DeriveReceiptColumns"
+                  portType="ns22:DB_DeriveReceiptColumns_ptt" operation="DB_DeriveReceiptColumns" inputVariable="InvokeDB_DeriveReceiptColumns_InputVariable"
+                  outputVariable="InvokeDB_DeriveReceiptColumns_OutputVariable" bpelx:invokeAsDetail="no"/>-->
+        <!-- <assign name="Xform_CreateReceiptSyncReq_DerivePO_CreateReceiptEBS_ReqMSg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateReceiptSyncReq_DerivePO_CreateReceiptEBS_ReqMsg.xsl", $CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage, "InvokeDB_DeriveReceiptColumns_InputVariable.InputParameters", $InvokeDB_DeriveReceiptColumns_InputVariable.InputParameters, "InvokeDB_DeriveReceiptColumns_OutputVariable.OutputParameters", $InvokeDB_DeriveReceiptColumns_OutputVariable.OutputParameters)</from>
+              <to variable="OA_CreateReceiptEBS_ReqMsg" part="RcvHeadersInterfaceCollection"/>
+            </copy>
+          </assign>-->
+          <assign name="Xform_CreateReceipt_SyncReqMsg_To_OA_CreateReceiptEBS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateReceipt_SyncReqMsg_To_OA_CreateReceiptEBS_ReqMsg.xsl", $CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage)</from>
+              <to variable="OA_CreateReceiptEBS_ReqMsg" part="RcvHeadersInterfaceCollection"/>
+            </copy>
+          </assign>
+       
+          <!--
+          <assign name="Xform_CreateReceiptEBS_ReqMsq_To_Invoke_DB_DeriveReceiptColumns_InputVariable">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateReceiptEBS_ReqMsq_To_Invoke_DB_DeriveReceiptColumns_InputVariable.xsl", $OA_CreateReceiptEBS_ReqMsg.RcvHeadersInterfaceCollection, "Invoke_CommonLogging_process_InputVariable.CommonLogging", $Invoke_CommonLogging_process_InputVariable.CommonLogging)</from>
+              <to variable="Invoke_DB_DeriveReceiptColumns_InputVariable" part="InputParameters"/>
+            </copy>
+          </assign>
+          <wait name="Wait1">
+            <for>'PT5S'</for>
+          </wait>
+          <invoke name="Invoke_DB_DeriveReceiptColumns" bpelx:invokeAsDetail="no"
+                  partnerLink="DB_DeriveReceiptColumns" portType="ns22:DB_DeriveReceiptColumns_ptt"
+                  operation="DB_DeriveReceiptColumns" inputVariable="Invoke_DB_DeriveReceiptColumns_InputVariable"
+                  outputVariable="Invoke_DB_DeriveReceiptColumns_OutputVariable"/>
+                  
+          <assign name="Xform_Invoke_DB_DeriveReceipt_To_CreateReceiptEBS_ReqMsq">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_Invoke_DB_DeriveReceiptColumn_Output_To_OA_CreateReceiptEBS_ReqMsg.xsl", $Invoke_DB_DeriveReceiptColumns_OutputVariable.OutputParameters)</from>
+              <to variable="OA_CreateReceiptEBS_ReqMsg" part="RcvHeadersInterfaceCollection"/>
+            </copy>
+          </assign>
+          -->
+          <invoke name="Invoke_OA_CreateReceiptEBS" partnerLink="OA_CreateReceiptEBS"
+                  portType="ns4:OA_CreateReceiptEBS_ptt" operation="insert" inputVariable="OA_CreateReceiptEBS_ReqMsg"
+                  outputVariable="OA_CreateReceiptEBS_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns5:AppsContext/ns8:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns5:AppsContext/ns8:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns5:AppsContext/ns8:OrgId</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Set_CreateReceipt_SyncRespMsg">
+            <!--copy>
+              <from>$OA_CreateReceiptEBS_ReqMsg.RcvHeadersInterfaceCollection/ns23:RcvHeadersInterface/ns23:groupId</from>
+              <to>$CreateReceipt_SyncRespMsg.CreateReceiptResponseMessage/ns5:OperationResult/ns6:Stats</to>
+            </copy-->
+            <copy>
+              <from>$OA_CreateReceiptEBS_ReqMsg.RcvHeadersInterfaceCollection/ns23:RcvHeadersInterface/ns23:groupId</from>
+              <to>$CreateReceipt_SyncRespMsg.CreateReceiptResponseMessage/ns19:HeaderRs/ns19:TransactionID</to>
+            </copy>
+            <copy>
+              <from>'S'</from>
+              <to>$CreateReceipt_SyncRespMsg.CreateReceiptResponseMessage/ns5:OperationResult/ns6:Stats</to>
+            </copy>
+            <copy>
+              <from>'SUCCESS'</from>
+              <to>$CreateReceipt_SyncRespMsg.CreateReceiptResponseMessage/ns19:HeaderRs/ns19:Status/ns19:Status</to>
+            </copy>
+            <copy>
+              <from>$CreateReceipt_SyncReqMsg.CreateReceiptRequestMessage/ns19:HeaderRq</from>
+              <to>$CreateReceipt_SyncRespMsg.CreateReceiptResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+            </copy>
+          </assign><reply name="Reply_CreateReceiptSync" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                 operation="CreateReceipt_Sync" variable="CreateReceipt_SyncRespMsg"/>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </onMessage>
+      <onMessage partnerLink="ReceiptABS" portType="ns1:SyncPortType" operation="QueryReceiptById_Sync"
+                 variable="QueryByExample_SyncReqMsg">
+        <sequence name="QueryReceipt_Sync">
+          <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <bpelx:skipCondition>1=1</bpelx:skipCondition>
+            <copy>
+              <from>"QueryReceiptById_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Query PO Receipt ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>$QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionId</to>
+            </copy>
+            <copy>
+              <from>$QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionName</to>
+            </copy>
+            <copy>
+              <from>$QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:Target</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProjectName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-003'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <if name="ValidateParameters">
+            <condition>($QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns5:Receipt/ns9:Shipmentheaderid/text() != "" or $QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns5:Receipt/ns9:Receiptnum/text() != "" or$QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns5:Receipt/ns9:BasicReceipt/ns9:IndentfierID/text() != "" or $QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns5:Receipt/ns9:BasicReceipt/ns9:ReceiptNumber/text() !="" or $QueryByExample_SyncReqMsg.QueryReceiptRequestMessage/ns5:Receipt/ns9:BasicReceipt/ns9:ShipmentNumber/text() !="")</condition>
+            <empty name="ParametersValidated"/>
+            <else>
+              <sequence name="Sequence4">
+                <assign name="Xform_EHM_EIAFaultMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="EIAFaultMsg" part="Fault"/>
+                  </copy>
+                </assign>
+                <assign name="setEIAFaultMsg">
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Text</to>
+                  </copy>
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Stack</to>
+                  </copy>
+                  <copy>
+                    <from>"1.0"</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Severity</to>
+                  </copy>
+                  <copy>
+                    <from>"INVALID_QUERY_PARAMS"</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Code</to>
+                  </copy>
+                </assign>
+                <throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"/>
+              </sequence>
+            </else>
+          </if>
+          <assign name="Xform_QueryByExample_SyncReqMsg_To_DB_QueryReceiptEBS_ReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_QueryByExample_SyncReqMsg_To_DB_QueryReceiptEBS_ReqMsg.xsl", $QueryByExample_SyncReqMsg.QueryReceiptRequestMessage)</from>
+              <to variable="DB_QueryReceiptEBS_ReqMsg" part="RcvShipmentHeaders"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_QueryReceiptEBS" partnerLink="DB_QueryReceiptEBS"
+                  portType="ns7:DB_QueryReceiptEBS_ptt" operation="queryByExample"
+                  inputVariable="DB_QueryReceiptEBS_ReqMsg" bpelx:invokeAsDetail="no"
+                  outputVariable="DB_QueryReceiptEBS_RespMsg"/>
+          <!--assign name="Xform_DB_QueryReceiptEBS_RespMsg_To_QueryByExample_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_DB_QueryReceiptEBS_RespMsg_To_QueryByExample_SyncRespMsg1.xsl", $DB_QueryReceiptEBS_RespMsg.RcvShipmentHeadersCollection)</from>
+              <to variable="QueryByExample_SyncRespMsg" part="QueryReceiptResponseMessage"/>
+            </copy>
+          </assign-->
+          <assign name="Xform_DB_QueryReceiptEBS_RespMsg_To_QueryByExample_SyncRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_DB_QueryReceiptEBS_RespMsg_To_QueryByExample_SyncRespMsg.xsl", $DB_QueryReceiptEBS_RespMsg.RcvShipmentHeadersCollection, "QueryByExample_SyncReqMsg.QueryReceiptRequestMessage", $QueryByExample_SyncReqMsg.QueryReceiptRequestMessage)</from>
+              <to variable="QueryByExample_SyncRespMsg" part="QueryReceiptResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Reply_CreateReceiptSync" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                 operation="QueryReceiptById_Sync" variable="QueryByExample_SyncRespMsg"/>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>'BMG-002'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </onMessage>
+      <onMessage variable="LaunchReceipt_SyncReqMsg" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                 operation="LaunchReceipt_Sync">
+        <sequence name="LaunchReceipt">
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>"LaunchReceipt_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Launch PO Receipt ",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns5:GroupID</from>
+              <to>$LaunchReceipt_SyncRespMsg.LaunchReceiptResponseMessage/ns5:RequestID</to>
+            </copy>
+          </assign>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:Target</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-003'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke><assign name="Assign_LaunchReceipt_Input">
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns5:GroupID</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_GROUP_ID</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_TRX_NAME</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_SRC_SYSTEM</to>
+            </copy>
+            <!--copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns5:AppsContext/ns8:UserId</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_APPS_INIT/ns20:USER_ID</to>
+            </copy-->
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns5:AppsContext/ns8:UserName</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_APPS_INIT/ns20:USER_NAME</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns5:AppsContext/ns8:ResponsibilityName</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_APPS_INIT/ns20:RESPONSIBILITY_NAME</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns5:AppsContext/ns8:OrgId</from>
+              <to>$Invoke_DB_LaunchReceiptEBS_InputVariable.InputParameters/ns20:P_APPS_INIT/ns20:ORG_ID</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_LaunchReceiptEBS" partnerLink="DB_LaunchReceiptEBS"
+                  portType="ns18:DB_LaunchReceiptEBS_ptt" operation="DB_LaunchReceiptEBS"
+                  inputVariable="Invoke_DB_LaunchReceiptEBS_InputVariable"
+                  outputVariable="Invoke_DB_LaunchReceiptEBS_OutputVariable" bpelx:invokeAsDetail="no"/>
+          <assign name="Assign_LaunchReceipt_Response">
+            <copy>
+              <from>$Invoke_DB_LaunchReceiptEBS_OutputVariable.OutputParameters/ns20:P_REQUEST_ID</from>
+              <to>$LaunchReceipt_SyncRespMsg.LaunchReceiptResponseMessage/ns5:RequestID</to>
+            </copy>
+            <copy>
+              <from>$Invoke_DB_LaunchReceiptEBS_OutputVariable.OutputParameters/ns20:P_STATUS</from>
+              <to>$LaunchReceipt_SyncRespMsg.LaunchReceiptResponseMessage/ns5:OperationResult/ns6:Stats</to>
+            </copy>
+            <copy>
+              <from>$LaunchReceipt_SyncReqMsg.LaunchReceiptRequestMessage/ns19:HeaderRq</from>
+              <to>$LaunchReceipt_SyncRespMsg.LaunchReceiptResponseMessage/ns19:HeaderRs/ns19:RequestDetails</to>
+            </copy>
+            <copy>
+              <from>'SUCCESS'</from>
+              <to>$LaunchReceipt_SyncRespMsg.LaunchReceiptResponseMessage/ns19:HeaderRs/ns19:Status/ns19:Status</to>
+            </copy>
+          </assign>
+          
+          <reply name="Reply_LaunchReceiptSync" variable="LaunchReceipt_SyncRespMsg" partnerLink="ReceiptABS"
+                 portType="ns1:SyncPortType" operation="LaunchReceipt_Sync"/>
+          <!--assign name="Assign_CommonLogging">
+            <copy>
+              <from>'BMG-002'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+          </assign-->
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </onMessage>
+      <onMessage variable="OnMessage_QueryReceiptByPOId_Sync_InputVariable" partnerLink="ReceiptABS"
+                 portType="ns1:SyncPortType" operation="QueryReceiptByPOId_Sync">
+        <sequence name="Sequence5">
+          <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>"QueryReceiptByPOId_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("Query PO Receipt By PO Id",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>$OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>$OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns19:HeaderRq/ns19:Target</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-003'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+            <copy>
+              <from>''</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <if name="IfValidParameters">
+            <documentation>
+              <![CDATA[Valid]]>
+            </documentation>
+            <condition>($OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns5:Receipt/ns9:ListOfBasicReceiptLines/ns9:ReceiptLine/ns9:BasicPurchaseOrder/ns14:PurchaseOrderNumber) and ($OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage/ns5:Receipt/ns9:ListOfBasicReceiptLines/ns9:ReceiptLine/ns9:BasicPurchaseOrder/ns14:PurchaseOrderNumber !="")</condition>
+            <empty name="ValidParameters"/>
+            <else>
+              <documentation>
+                <![CDATA[NotValid]]>
+              </documentation>
+              <sequence name="Sequence6">
+                <assign name="Xform_EHM_EIAFaultMsg">
+                  <bpelx:annotation>
+                    <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                  </bpelx:annotation>
+                  <copy>
+                    <from>ora:doXSLTransformForDoc("xsl/Xform_EHM_EIAFaultMsg.xsl", $EIA_HEADER_MESSAGE)</from>
+                    <to variable="EIAFaultMsg" part="Fault"/>
+                  </copy>
+                </assign>
+                <assign name="setEIAFaultMsg">
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Text</to>
+                  </copy>
+                  <copy>
+                    <from>"Invalid combinations of Query Parameters or Missing Query Parameters."</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Stack</to>
+                  </copy>
+                  <copy>
+                    <from>"1.0"</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Severity</to>
+                  </copy>
+                  <copy>
+                    <from>"INVALID_QUERY_PARAMS"</from>
+                    <to>$EIAFaultMsg.Fault/ns2:FaultMessage/ns2:Code</to>
+                  </copy>
+                </assign>
+                <throw name="Throw_EIAFaultMsg" faultName="ns1:EIAFault" faultVariable="EIAFaultMsg"/>
+              </sequence>
+            </else>
+          </if>
+          <assign name="Transformation_Input_To_DBQueryByPOId">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Transformation_Input_To_DBQueryByPOId1.xsl", $OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage)</from>
+              <to variable="DB_QueryReceiptsByPO_queryByExample_InputVariable" part="PoHeadersAll"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_QueryReceiptsByPO" bpelx:invokeAsDetail="no" partnerLink="DB_QueryReceiptsByPO"
+                  portType="ns24:DB_QueryReceiptsByPO_ptt" operation="queryByExample"
+                  inputVariable="DB_QueryReceiptsByPO_queryByExample_InputVariable"
+                  outputVariable="DB_QueryReceiptsByPO_queryByExample_OutputVariable"/>
+          <assign name="Transformation_DBQueryByPOIdOutput_To_QueryByPOIdResponse">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Transformation_DBQueryByPOIdOutput_To_QueryByPOIdResponse1.xsl", $DB_QueryReceiptsByPO_queryByExample_OutputVariable.PoHeadersAllCollection, "OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage", $OnMessage_QueryReceiptByPOId_Sync_InputVariable.QueryReceiptRequestMessage)</from>
+              <to variable="Reply_ReceiptABS_QueryReceiptByPOId_Sync_OutputVariable"
+                  part="QueryReceiptResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Reply_ReceiptABS_QueryReceiptByPOId"
+                 variable="Reply_ReceiptABS_QueryReceiptByPOId_Sync_OutputVariable" partnerLink="ReceiptABS"
+                 portType="ns1:SyncPortType" operation="QueryReceiptByPOId_Sync"/>
+          <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </onMessage>
+      <onMessage variable="SyncLaunchReceipt_Sync_Input" partnerLink="ReceiptABS" portType="ns1:SyncPortType"
+                 operation="SyncLaunchReceipt_Sync">
+        <sequence name="Sequence11">
+          <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getFlowId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns2:ProcessDN</to>
+            </copy>
+            <copy>
+              <from>"SyncLaunchReceipt_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>"SyncLaunchReceipt_Sync"</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <assign name="Assign_StartLogging">
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionIDREF</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProjectName</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:ComponentID</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ComponentId</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:Target</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-003'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:MessageCode</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:CreatedBy</to>
+            </copy>
+            <copy>
+              <from>'SOA'</from>
+              <to>$Invoke_CommonLogging_process_InputVariable.CommonLogging/ns21:UpdatedBy</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_StartLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Assign_LaunchParams">
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns5:GroupID</from>
+              <to>$Invoke_DB_SyncLaunchReceiptEBS_Input.InputParameters/ns27:P_GROUP_ID</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:TransactionName</from>
+              <to>$Invoke_DB_SyncLaunchReceiptEBS_Input.InputParameters/ns27:P_TRX_NAME</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns19:HeaderRq/ns19:Source</from>
+              <to>$Invoke_DB_SyncLaunchReceiptEBS_Input.InputParameters/ns27:P_SRC_SYSTEM</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns5:AppsContext/ns8:UserName</from>
+              <to>$Invoke_DB_SyncLaunchReceiptEBS_Input.InputParameters/ns27:P_APPS_INIT/ns27:USER_NAME</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns5:AppsContext/ns8:ResponsibilityName</from>
+              <to>$Invoke_DB_SyncLaunchReceiptEBS_Input.InputParameters/ns27:P_APPS_INIT/ns27:RESPONSIBILITY_NAME</to>
+            </copy>
+            <copy>
+              <from>$SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage/ns5:AppsContext/ns8:OrgId</from>
+              <to>$Invoke_DB_SyncLaunchReceiptEBS_Input.InputParameters/ns27:P_APPS_INIT/ns27:ORG_ID</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_SyncLaunchReceiptEBS"
+                  partnerLink="DB_SyncLaunchReceiptEBS" portType="ns26:DB_SyncLaunchReceiptEBS_ptt"
+                  operation="DB_SyncLaunchReceiptEBS" inputVariable="Invoke_DB_SyncLaunchReceiptEBS_Input"
+                  bpelx:invokeAsDetail="no" outputVariable="Invoke_DB_SyncLaunchReceiptEBS_Output"/>
+          <assign name="Xform_SyncLaunchReceiptDBOutput_To_SyncLaunchReceiptEBSOutput">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_SyncLaunchReceiptDBOutput_To_SyncLaunchReceiptEBSOutput.xsl", $Invoke_DB_SyncLaunchReceiptEBS_Output.OutputParameters, "SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage", $SyncLaunchReceipt_Sync_Input.SyncLaunchReceiptRequestMessage)</from>
+              <to variable="SyncLaunchReceipt_Sync_Output" part="SyncLaunchReceiptResponseMessage"/>
+            </copy>
+          </assign>
+          <reply name="Reply_SyncLaunchReceipt" variable="SyncLaunchReceipt_Sync_Output" partnerLink="ReceiptABS"
+                 portType="ns1:SyncPortType" operation="SyncLaunchReceipt_Sync"/>
+          <invoke name="Invoke_EndLogging" partnerLink="CommonLogging"
+                  portType="ns21:CommonLogging" operation="process"
+                  inputVariable="Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+            <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

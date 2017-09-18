@@ -1,0 +1,373 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DbCallXXNUC_WSH_BOL_GMD_RSLT_PKG" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DbCallXXNUC_WSH_BOL_GMD_RSLT_PKG" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_TRX_ID" type="decimal" db:index="1" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_SRC_SYSTEM" type="decimal" db:index="2" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_BOL" type="string" db:index="3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_BUNDLE" type="db:XXNUC.XXNUC_WSH_BOL_HDR_OBJ_TYPE" db:index="4" db:type="Struct" minOccurs="0" nillable="true"/>
+            <element name="P_RETURN_STATUS" type="string" db:index="5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="P_ERROR_MESSAGE" type="string" db:index="6" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_WSH_CARRIER_OBJ_TYPE">
+      <sequence>
+         <element name="NAME" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VEHICLEID" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_FREIGHT_TAB_TYPE">
+      <sequence>
+         <element name="FREIGHT_INFO_ITEM" type="db:XXNUC.XXNUC_WSH_FREIGHT_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_SHIP_OBJ_TYPE">
+      <sequence>
+         <element name="SHIP_TO_NAME" type="db:string360" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPP_CUST_ID" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE1" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE2" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE3" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CITY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ZIP_CODE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COUNTRY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="FOREIGN_ZIP" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BOL_DET_TAB_TYPE">
+      <sequence>
+         <element name="BOL_DET_ITEM" type="db:XXNUC.XXNUC_WSH_BOL_DET_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_SOLD_TAB_TYPE">
+      <sequence>
+         <element name="SOLD_INFO_ITEM" type="db:XXNUC.XXNUC_WSH_SOLD_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BILL_OBJ_TYPE">
+      <sequence>
+         <element name="BILL_TO_NAME" type="db:string360" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPP_CUST_ID" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE1" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE2" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE3" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CITY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ZIP_CODE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COUNTRY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="FOREIGN_ZIP" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_SUPP_TAB_TYPE">
+      <sequence>
+         <element name="SUPP_INFO_ITEM" type="db:XXNUC.XXNUC_WSH_SUPP_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BOL_HDR_OBJ_TYPE">
+      <sequence>
+         <element name="BOL_NUMBER" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_TYPE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_REV" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_DATE" type="db:string8" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_TIME" type="db:string6" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CONFIRM_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="SHIPPED_BY" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CUST_PICK_UP" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TARE_WEIGHT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="GROSS_WEIGHT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="NET_WEIGHT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CARRIER" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CAR_NUMBER" type="db:string35" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PREPAID_FREIGHT" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOAD_ORDER" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SALES_DIV" type="db:string3" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BUNDLE_MILL" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPP_INFO" type="db:XXNUC.XXNUC_WSH_SUPP_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="SOLD_INFO" type="db:XXNUC.XXNUC_WSH_SOLD_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="FREIGHT_INFO" type="db:XXNUC.XXNUC_WSH_FREIGHT_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_INFO" type="db:XXNUC.XXNUC_WSH_CARRIER_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="BILL_INFO" type="db:XXNUC.XXNUC_WSH_BILL_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="SHIP_INFO" type="db:XXNUC.XXNUC_WSH_SHIP_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="BOL_DET" type="db:XXNUC.XXNUC_WSH_BOL_DET_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+         <element name="RAIL_ROUTING" type="db:string2000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DOCUMENT_INSTANCE_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ENTITY_NAME" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ENTITY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DOCUMENT_TYPE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATUS" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="FINAL_PRINT_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="DOC_SEQUENCE_CATEGORY_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE_CATEGORY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE1" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE2" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE3" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE4" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE5" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE6" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE7" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE8" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE9" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE10" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE11" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE12" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE13" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE14" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE15" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATED_BY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_LOGIN" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PROGRAM_APPLICATION_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PROGRAM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PROGRAM_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="REQUEST_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="POD_FLAG" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="POD_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="POD_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="REASON_OF_TRANSPORT" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="DESCRIPTION" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COD_AMOUNT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="COD_CURRENCY_CODE" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COD_REMIT_TO" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COD_CHARGE_PAID_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PROBLEM_CONTACT_REFERENCE" type="db:string500" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BILL_FREIGHT_TO" type="db:string1000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIED_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PORT_OF_LOADING" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PORT_OF_DISCHARGE" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOOKING_OFFICE" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOOKING_NUMBER" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SERVICE_CONTRACT" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_EXPORT_REF" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_EXPORT_REF" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_NOTIFY_PARTY" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPPLIER_CODE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="AETC_NUMBER" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_SIGNED_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_SIGNED_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="BOL_ISSUE_OFFICE" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_ISSUED_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_DATE_ISSUED" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_HM_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPPER_HM_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_HM_BY" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CARRIER_HM_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="EXPECTED_POD_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="FUNC_AMOUNT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="GROSS_AMOUNT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CURRENCY_CODE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CERTIFICATE_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="KEY_VERSION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SYSTEM_ENTRY_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="DOCUMENT_SEQ_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="SIGNATURE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_SOLD_OBJ_TYPE">
+      <sequence>
+         <element name="SOLD_TO_NAME" type="db:string360" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPP_CUST_ID" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE1" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE2" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE3" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CITY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ZIP_CODE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COUNTRY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BOL_TAG_TAB_TYPE">
+      <sequence>
+         <element name="BOL_TAG_ITEM" type="db:XXNUC.XXNUC_WSH_BOL_TAG_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_SUPP_OBJ_TYPE">
+      <sequence>
+         <element name="MILLDUNS" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUPP_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE1" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE2" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ADDRESS_LINE3" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CITY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="STATE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ZIP_CODE" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="COUNTRY" type="db:string60" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_FREIGHT_OBJ_TYPE">
+      <sequence>
+         <element name="SHIPMODE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SHIPDATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="FREIGHTTERM" type="db:string35" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BOL_DET_OBJ_TYPE">
+      <sequence>
+         <element name="DEL_LINE_NUM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="DEL_DET_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="CUST_PO_NUM" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CUST_PO_LINE_NUM" type="db:string50" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CUST_PROD_NUM" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="REHEAT_LOT" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PARENT_LOT" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="NO_OF_BUNDLE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="NO_OF_PIECES" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WEIGHT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WEIGHT_UOM" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TTL_WEIGHT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ITEM" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_DESC" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GRADE" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="QUAL" type="db:string15" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LEN_FEET" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LEN_INCH" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="FRAC_INCH" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="UDA_LENGTH" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="UDA_SHAPE" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="UDA_SIZE" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="NUMERIC_SIZE" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="FLAT_SIZE" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORDER_NUMBER" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORDER_LINE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORDER_TYPE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PRODUCT_TYPE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="BOL_TAG" type="db:XXNUC.XXNUC_WSH_BOL_TAG_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_CARRIER_TAB_TYPE">
+      <sequence>
+         <element name="CARRIER_INFO_ITEM" type="db:XXNUC.XXNUC_WSH_CARRIER_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_SHIP_TAB_TYPE">
+      <sequence>
+         <element name="SHIP_INFO_ITEM" type="db:XXNUC.XXNUC_WSH_SHIP_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BOL_TAG_OBJ_TYPE">
+      <sequence>
+         <element name="TAG_NUMBER" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="REHEAT_LOT" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PARENT_LOT" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="NO_OF_PIECES" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="WEIGHT" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ROLLDATETIME" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_WSH_BILL_TAB_TYPE">
+      <sequence>
+         <element name="BILL_INFO_ITEM" type="db:XXNUC.XXNUC_WSH_BILL_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string50">
+      <restriction base="string">
+         <maxLength value="50"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string8">
+      <restriction base="string">
+         <maxLength value="8"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string6">
+      <restriction base="string">
+         <maxLength value="6"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string150">
+      <restriction base="string">
+         <maxLength value="150"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string35">
+      <restriction base="string">
+         <maxLength value="35"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string30">
+      <restriction base="string">
+         <maxLength value="30"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string3">
+      <restriction base="string">
+         <maxLength value="3"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string240">
+      <restriction base="string">
+         <maxLength value="240"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string60">
+      <restriction base="string">
+         <maxLength value="60"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string360">
+      <restriction base="string">
+         <maxLength value="360"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string25">
+      <restriction base="string">
+         <maxLength value="25"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string40">
+      <restriction base="string">
+         <maxLength value="40"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string15">
+      <restriction base="string">
+         <maxLength value="15"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2000">
+      <restriction base="string">
+         <maxLength value="2000"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string500">
+      <restriction base="string">
+         <maxLength value="500"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1000">
+      <restriction base="string">
+         <maxLength value="1000"/>
+      </restriction>
+   </simpleType>
+</schema>

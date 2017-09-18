@@ -1,0 +1,119 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu May 29 01:42:47 CDT 2014
+  Author:  vivek
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="AccountABSImpl"
+               targetNamespace="http://xmlns.eia.com/ABS/EBiz/A2R/AccountABSImpl/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/ABS/EBiz/A2R/AccountABSImpl/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/A2R/AccountABS/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/Nucor/NUC_EBizGLAccount_ABS/DB_QueryByExampleAccountSync"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.eia.com/AO/EBiz/A2R/AccountAM/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/A2R/AccountAO/1.0"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/EO/Common/1.0">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <!--import namespace="http://xmlns.eia.com/EO/Common/1.0"
+          location="xsd/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/-->
+  <partnerLinks>
+    <partnerLink name="AccountABS" partnerLinkType="ns1:AccountABS"
+                 myRole="SyncPortType"/>
+    <partnerLink name="DB_QueryByExampleAccountSync"
+                 partnerLinkType="ns2:DB_QueryByExampleAccountSync_plt"
+                 partnerRole="DB_QueryByExampleAccountSync_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="QueryByExampleSyncAccount_ReqMsg"
+              messageType="ns1:QueryByExampleSyncAccountRequestMessageType"/>
+    <variable name="QueryByExampleSyncAccount_RespMsg"
+              messageType="ns1:QueryByExampleAccountResponseMessageType"/>
+    <variable name="DB_QueryByExampleAccountSync_ReqMsg"
+              messageType="ns2:XxnucGlCodeComboV_msg"/>
+    <variable name="DB_QueryByExampleAccountSync_RespMsg"
+              messageType="ns2:XxnucGlCodeComboVCollection_msg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive_AccountReqMsg" createInstance="yes"
+             partnerLink="AccountABS" portType="ns1:SyncPortType"
+             operation="QueryByExampleSyncAccount"
+             variable="QueryByExampleSyncAccount_ReqMsg"/>
+    <if name="CheckMinimumRequiredQueryParameters">
+      <condition>$QueryByExampleSyncAccount_ReqMsg.QueryByExampleSyncAccountRequestMessage/ns3:BasicAccount/ns5:AccountIdentifier ="" and $QueryByExampleSyncAccount_ReqMsg.QueryByExampleSyncAccountRequestMessage/ns3:BasicAccount/ns5:AccountCombination = "" and $QueryByExampleSyncAccount_ReqMsg.QueryByExampleSyncAccountRequestMessage/ns3:BasicAccount/ns5:LedgerName = ""</condition>
+      <assign name="setRequiredParameterMissing">
+        <copy>
+          <from>'E'</from>
+          <to>$QueryByExampleSyncAccount_RespMsg.QueryByExampleAccountResponseMessage/ns3:OperationResult/ns6:Stats</to>
+        </copy>
+        <copy>
+          <from>'Not enough parameters passed to perform the query. Either Account Combination or Ledger Name should be passed.'</from>
+          <to>$QueryByExampleSyncAccount_RespMsg.QueryByExampleAccountResponseMessage/ns3:OperationResult/ns6:Errors/ns6:OperationResultError</to>
+        </copy>
+      </assign>
+      <else>
+        <sequence>
+          <assign name="Xform_AccountReqMsg_DBQBEAccountReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_AccountReqMsg_DBQBEAccountReqMsg.xsl", $QueryByExampleSyncAccount_ReqMsg.QueryByExampleSyncAccountRequestMessage)</from>
+              <to variable="DB_QueryByExampleAccountSync_ReqMsg"
+                  part="XxnucGlCodeComboV"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_QueryByExampleAccountSync"
+                  bpelx:invokeAsDetail="no"
+                  partnerLink="DB_QueryByExampleAccountSync"
+                  portType="ns2:DB_QueryByExampleAccountSync_ptt"
+                  operation="queryByExample"
+                  inputVariable="DB_QueryByExampleAccountSync_ReqMsg"
+                  outputVariable="DB_QueryByExampleAccountSync_RespMsg"/>
+          <assign name="Xform_DBQBEAccountRespMsg_AccountRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_DBQBEAccountRespMsg_AccountRespMsg.xsl", $DB_QueryByExampleAccountSync_RespMsg.XxnucGlCodeComboVCollection)</from>
+              <to variable="QueryByExampleSyncAccount_RespMsg"
+                  part="QueryByExampleAccountResponseMessage"/>
+            </copy>
+          </assign>
+        </sequence>
+      </else>
+    </if>
+    <reply name="Reply_AccountRespMsg"
+           variable="QueryByExampleSyncAccount_RespMsg"
+           partnerLink="AccountABS" portType="ns1:SyncPortType"
+           operation="QueryByExampleSyncAccount"/>
+  </sequence>
+</process>

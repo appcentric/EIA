@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Scott Messenger (Nucor)
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="ST_Warning">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="ST_Advisement">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="ST_Error">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:element name="Envelope">
+		<xs:annotation>
+			<xs:documentation>Root node</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResponseManifest">
+					<xs:annotation>
+						<xs:documentation>Element containing errors, warnings, and advisements information. If there are no errors nested within, then the service call and message creation was processed sucessfully. Take careful note of any warnings generated.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Errors" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Container element to hold individual error elements.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Error" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="ST_Error">
+														<xs:attribute name="ID" type="xs:short" use="required">
+															<xs:annotation>
+																<xs:documentation>Element describing each individual error.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Warnings" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Container element to hold individual warning elements.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Warning" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="ST_Warning">
+														<xs:attribute name="ID" type="xs:short" use="required">
+															<xs:annotation>
+																<xs:documentation>Numeric identification of warning.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Advisements" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Contiainer element to hold individual advisement elements.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Advisement" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="ST_Advisement">
+														<xs:attribute name="ID" type="xs:short" use="required">
+															<xs:annotation>
+																<xs:documentation>Numeric identification of advisement</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GarnishmentPayments" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Collection element to contain multiple garnishment payment elements. This element will be absent in the event that an error or authorization failure prohibits the return of any garshment elements.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GarnishmentPayment" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Employee">
+											<xs:complexType>
+												<xs:attribute name="Identifier" type="xs:positiveInteger" use="required">
+													<xs:annotation>
+														<xs:documentation>Numeric identifier assigned to employee by SAP. Also referred to as Personnel Number (or PERNR).</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="LastName" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Family name or surname</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="FirstName" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Given name (sometimes referred to as Christian name)</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="MiddleName" type="xs:string">
+													<xs:annotation>
+														<xs:documentation>Optional. Will be returned if middle name is defined in SAP. May also be only the middle initial depending upon the input in SAP. If middle name is not defined, then this node will be absent.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Suffix" type="xs:string" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name suffix as defined in SAP. Examples include "Jr", "Sr", "II", "III", etc... Honorary suffixes are to be avoided.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PersonnelAreaID" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>SAP assigned personell area identifier assigned to a collection of employees.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Payment">
+											<xs:complexType>
+												<xs:attribute name="Amount" type="xs:decimal" use="required">
+													<xs:annotation>
+														<xs:documentation>Remittance amount in USD.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PayDate" type="xs:date" use="required">
+													<xs:annotation>
+														<xs:documentation>Date of payment (ie checkdate) in ISO 8601 date format (without time component)</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Vendor">
+											<xs:complexType>
+												<xs:attribute name="Identifier" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>SAP defined identifier of vendor being paid</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Name" use="required">
+													<xs:annotation>
+														<xs:documentation>Name of vendor being paid</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="StreetAddress" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Physical street address of the vendor</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="City" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Physical city of the vendor</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="State" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Physical state or province name of the vendor</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PostalCode" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>ZIP Code or postal code for the vendor's physical location.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="CountryCode" use="required">
+													<xs:annotation>
+														<xs:documentation>ISO 3166-2 Country code</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="2" />
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="POBox" type="xs:string" use="optional">
+													<xs:annotation>
+														<xs:documentation>Optional address of the PO Box associated with the vendor</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="POBoxPostalCode" type="xs:string">
+													<xs:annotation>
+														<xs:documentation>Optional ZIP Code or postal code of PO Box associated with the vendor</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="CaseNum" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Case or Document number assigned to this garnishment.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="MsgType" use="required">
+				<xs:annotation>
+					<xs:documentation>Fixed string to specify message type - must contain exactly the following string:"GarnishmentListing01"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="GarnishmentListing01" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Ver" use="required">
+				<xs:annotation>
+					<xs:documentation>Version number of the package schema in the form 1.0.0 Each element in this verson has the following meaning (Major Ver).(Minor Ver).(Build)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d+\.\d+\.\d+" />
+						<xs:enumeration value="1.1.1" />
+						<xs:enumeration value="1.1.0" />
+						<xs:enumeration value="1.0.0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="CreatedDateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>The actual date and time when the package was created. Use ISO 8601 time format. If using local time ensure that TZ offset is correct.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:dateTime">
+						<xs:minInclusive value="2013-01-01T00:00:00Z" />
+						<xs:maxInclusive value="2019-12-31T23:59:59Z" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PayrollAreaID" use="required">
+				<xs:annotation>
+					<xs:documentation>SAP assigned payroll area identifier used for query. Note payroll areas contain multiple personnel areas.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DateRangeStart" type="xs:date" use="required">
+				<xs:annotation>
+					<xs:documentation>Starting date submitted by caller for determining query date range. This is an IS0 8601 date field (no time component).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DateRangeEnd" type="xs:date" use="required">
+				<xs:annotation>
+					<xs:documentation>Ending date submitted by caller for determining query date range. This is an IS0 8601 date field (no time component).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Environment" use="required">
+				<xs:annotation>
+					<xs:documentation>Specifies the source SAP environment where the quesry was performed. Values limited to "P", "Q", or "D".</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="P" />
+						<xs:enumeration value="Q" />
+						<xs:enumeration value="D" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ControlNum" use="required">
+				<xs:annotation>
+					<xs:documentation>Unique identification number (GUID) for this message.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="38" />
+						<xs:minLength value="30" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

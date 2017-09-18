@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_CreateRequistionsEBS" adapter="apps" wsdlLocation="OA_CreateRequistionsEBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="EBSDEVR" UIOracleAppType="DBOBJECT" UIOracleAppObjList="PO.PO_REQUISITIONS_INTERFACE_ALL,PO.PO_REQ_DIST_INTERFACE_ALL" adapterRef=""/>
+  <endpoint-interaction portType="OA_CreateRequistionsEBS_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsTableWriteInteractionSpec">
+      <property name="DescriptorName" value="OA_CreateRequistionsEBS.PoRequisitionsInterfaceAll"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="OA_CreateRequistionsEBS-or-mappings.xml"/>
+      <property name="DetectOmissions" value="true"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

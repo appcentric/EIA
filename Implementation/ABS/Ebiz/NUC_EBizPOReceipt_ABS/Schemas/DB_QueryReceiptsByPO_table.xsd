@@ -1,0 +1,899 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryReceiptsByPO" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryReceiptsByPO" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="PoHeadersAllCollection" type="PoHeadersAllCollection"/>
+   <xs:element name="PoHeadersAll" type="PoHeadersAll"/>
+   <xs:complexType name="PoHeadersAllCollection">
+      <xs:sequence>
+         <xs:element name="PoHeadersAll" type="PoHeadersAll" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PoHeadersAll">
+      <xs:sequence>
+         <xs:element name="poHeaderId" type="xs:decimal"/>
+         <xs:element name="agentId" type="xs:int" minOccurs="0"/>
+         <xs:element name="typeLookupCode" type="string25" minOccurs="0"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="segment1" type="string20" minOccurs="0"/>
+         <xs:element name="summaryFlag" type="string1" minOccurs="0"/>
+         <xs:element name="enabledFlag" type="string1" minOccurs="0"/>
+         <xs:element name="segment2" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="segment3" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="segment4" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="segment5" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="startDateActive" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="endDateActive" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdateLogin" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorSiteId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorContactId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipToLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="billToLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="termsId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipViaLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="fobLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="freightTermsLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="statusLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="rateType" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="rateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="rate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="fromHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="fromTypeLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="startDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="endDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="blanketTotalAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="authorizationStatus" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="revisionNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="revisedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="approvedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="approvedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="amountLimit" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="minReleaseAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="noteToAuthorizer" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="noteToVendor" type="string480" minOccurs="0" nillable="true"/>
+         <xs:element name="noteToReceiver" type="string480" minOccurs="0" nillable="true"/>
+         <xs:element name="printCount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="printedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorOrderNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="confirmingOrderFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="comments" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="replyDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="replyMethodLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="rfqCloseDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="quoteTypeLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="quotationClassCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="quoteWarningDelayUnit" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="quoteWarningDelay" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="quoteVendorQuoteNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="acceptanceRequiredFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="acceptanceDueDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="closedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="userHoldFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="approvalRequiredFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="firmStatusLookupCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="firmDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="frozenFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="supplyAgreementFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="ediProcessedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="ediProcessedStatus" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="attributeCategory" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="closedCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="ussglTransactionCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="governmentContext" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="requestId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programApplicationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="orgId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttributeCategory" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute16" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute17" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute18" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute19" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute20" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="interfaceSourceCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="referenceNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="wfItemType" type="string8" minOccurs="0" nillable="true"/>
+         <xs:element name="wfItemKey" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcRateType" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcRateDate" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcRate" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="pcardId" type="xs:long" minOccurs="0" nillable="true"/>
+         <xs:element name="priceUpdateTolerance" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="payOnCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="xmlFlag" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="xmlSendDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="xmlChangeSendDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAgreementFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="consignedConsumptionFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="cbcAccountingDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="consumeReqDemandFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="changeRequestedBy" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="shippingControl" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="contermsExistFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="contermsArticlesUpdDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="contermsDelivUpdDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="encumbranceRequiredFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="pendingSignatureFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="changeSummary" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="documentCreationMethod" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="submitDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierNotifMethod" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="fax" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="emailAddress" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="retroPriceCommUpdatesFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="retroPriceApplyUpdatesFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="updateSourcingRulesFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="autoSourcingFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="createdLanguage" type="string4" minOccurs="0" nillable="true"/>
+         <xs:element name="cpaReference" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lockOwnerRole" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="lockOwnerUserId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierAuthEnabledFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="catAdminAuthEnabledFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="styleId" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="taxAttributeUpdateCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdatedProgram" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="enableAllSites" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="payWhenPaid" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="commRevNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmDocumentNumber" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="otmStatusCode" type="string80" minOccurs="0" nillable="true"/>
+         <xs:element name="otmRecoveryFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="udaTemplateId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="udaTemplateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="userDocumentStatus" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="ameApprovalId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="draftId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmEffectiveDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="clmVendorOfferNumber" type="string400" minOccurs="0" nillable="true"/>
+         <xs:element name="clmAwardAdministrator" type="string400" minOccurs="0" nillable="true"/>
+         <xs:element name="clmNoSignedCopiesToReturn" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinGuaranteeAwardAmt" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinGuarAwardAmtPercent" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinOrderAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMaxOrderAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmAmtSyncedToAgreement" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="clmAmountReleased" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmExternalIdv" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="clmSupplierName" type="string400" minOccurs="0" nillable="true"/>
+         <xs:element name="clmSupplierSiteName" type="string400" minOccurs="0" nillable="true"/>
+         <xs:element name="clmSourceDocumentId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmIssuingOffice" type="string1000" minOccurs="0" nillable="true"/>
+         <xs:element name="clmCotrOffice" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="clmCotrContact" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="clmPriorityCode" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="clmModIssuingOffice" type="string1000" minOccurs="0" nillable="true"/>
+         <xs:element name="clmStandardForm" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="clmDocumentFormat" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="ameTransactionType" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clmAwardType" type="string100" minOccurs="0" nillable="true"/>
+         <xs:element name="clmContractOfficer" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmCloseoutStatus" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="umbrellaProgramId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="fonRefId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmDefaultDistFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="clmEdagenDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="clmContractFinanceCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="clmPaymentInstrCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="clmSpecialContractType" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="poHeaderAllTorcvTransactionsCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="RcvTransactions" type="RcvTransactions" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="poHeadersAllTopoLinesAllCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="PoLinesAll" type="PoLinesAll" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RcvTransactions">
+      <xs:sequence>
+         <xs:element name="transactionId" type="xs:decimal"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lastUpdateLogin" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="requestId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programApplicationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="transactionType" type="string25" minOccurs="0"/>
+         <xs:element name="transactionDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="quantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="userEnteredFlag" type="string1" minOccurs="0"/>
+         <xs:element name="interfaceSourceCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="interfaceSourceLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="invTransactionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="sourceDocumentCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="destinationTypeCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="primaryQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="primaryUnitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="uomCode" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="employeeId" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="parentTransactionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poReleaseId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poLineLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poDistributionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poRevisionNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="requisitionLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poUnitPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyConversionType" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyConversionRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyConversionDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="routingHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="routingStepId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="deliverToPersonId" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="deliverToLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorSiteId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="organizationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="subinventory" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="locatorId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="wipEntityId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="wipLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="wipRepetitiveScheduleId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="wipOperationSeqNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="wipResourceSeqNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="bomResourceId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="locationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="substituteUnorderedCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="receiptExceptionFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="inspectionStatusCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="accrualStatusCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="inspectionQualityCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorLotNum" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="rmaReference" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="comments" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="attributeCategory" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="reqDistributionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="departmentCode" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="reasonId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="destinationContext" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="locatorAttribute" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="childInspectionFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="sourceDocUnitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="sourceDocQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="interfaceTransactionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="groupId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="movementId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceStatusCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="qaCollectionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcCurrencyConversionType" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcCurrencyConversionDate" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcCurrencyConversionRate" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="countryOfOriginCode" type="string2" minOccurs="0" nillable="true"/>
+         <xs:element name="mvtStatStatus" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="quantityBilled" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="matchFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="amountBilled" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="matchOption" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="oeOrderHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="oeOrderLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="customerId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="customerSiteId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lpnId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="transferLpnId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="mobileTxn" type="string2" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryUnitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="qcGrade" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryUomCode" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="paAdditionFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="consignedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="sourceTransactionNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="fromSubinventory" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="fromLocatorId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="amount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="dropshipTypeCode" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lpnGroupId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="jobId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="timecardId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="timecardOvn" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="projectId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="taskId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="requestedAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="materialStoredAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="replenishOrderLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lcmShipmentLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitLandedCost" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="receiptConfirmationExtracted" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="lcmAdjustmentNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="xmlDocumentId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="rcvTransactionsTorcvShipmentHeaders" type="RcvShipmentHeaders" minOccurs="0" nillable="true"/>
+         <xs:element name="rcvTransactionsTorcvShipmentLines" type="RcvShipmentLines" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RcvShipmentHeaders">
+      <xs:sequence>
+         <xs:element name="shipmentHeaderId" type="xs:decimal"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lastUpdateLogin" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="receiptSourceCode" type="string25" minOccurs="0"/>
+         <xs:element name="vendorId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorSiteId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="organizationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentNum" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="receiptNum" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="shipToLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="billOfLading" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="packingSlip" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="shippedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="freightCarrierCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="expectedReceiptDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="employeeId" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="numOfContainers" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="waybillAirbillNum" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="comments" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="attributeCategory" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="ussglTransactionCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="governmentContext" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="requestId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programApplicationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="asnType" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="ediControlNum" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="noticeCreationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="grossWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="grossWeightUomCode" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="netWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="netWeightUomCode" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="tarWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="tarWeightUomCode" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="packagingCode" type="string5" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierMethod" type="string2" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierEquipment" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierEquipmentNum" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierEquipmentAlpha" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="specialHandlingCode" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardCode" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardClass" type="string4" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardDescription" type="string80" minOccurs="0" nillable="true"/>
+         <xs:element name="freightTerms" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="freightBillNumber" type="string35" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceNum" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="taxName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="taxAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="freightAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceStatusCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="asnStatus" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="conversionRateType" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="conversionRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="conversionDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="paymentTermsId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcConversionRateType" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcConversionDate" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcConversionRate" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="shipToOrgId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="customerId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="customerSiteId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="remitToSiteId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipFromLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="wfItemType" type="string8" minOccurs="0" nillable="true"/>
+         <xs:element name="wfItemKey" type="string280" minOccurs="0" nillable="true"/>
+         <xs:element name="approvalStatus" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="performancePeriodFrom" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="performancePeriodTo" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="requestDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RcvShipmentLines">
+      <xs:sequence>
+         <xs:element name="shipmentLineId" type="xs:decimal"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lastUpdateLogin" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentHeaderId" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lineNum" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="categoryId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="quantityShipped" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="quantityReceived" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="itemDescription" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="itemId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="itemRevision" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorItemNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorLotNum" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="uomConversionRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentLineStatusCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="sourceDocumentCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="poHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poReleaseId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poLineLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="poDistributionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="requisitionLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="reqDistributionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="routingHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="packingSlip" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="fromOrganizationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="deliverToPersonId" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="employeeId" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="destinationTypeCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="toOrganizationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="toSubinventory" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="locatorId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="deliverToLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="chargeAccountId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="transportationAccountId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentUnitPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="transferCost" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="transportationCost" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="comments" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="attributeCategory" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="reasonId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="ussglTransactionCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="governmentContext" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="requestId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programApplicationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="destinationContext" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="primaryUnitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="excessTransportReason" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="excessTransportResponsible" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="excessTransportAuthNum" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="asnLineFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="originalAsnParentLineId" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="originalAsnLineFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorCumShippedQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="noticeUnitPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="taxName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="taxAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="invoiceStatusCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="cumComparisonFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="containerNum" type="string35" minOccurs="0" nillable="true"/>
+         <xs:element name="truckNum" type="string35" minOccurs="0" nillable="true"/>
+         <xs:element name="barCodeLabel" type="string35" minOccurs="0" nillable="true"/>
+         <xs:element name="transferPercentage" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcShipmentUnitPrice" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcTransferCost" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcTransportationCost" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="mrcNoticeUnitPrice" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="shipToLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="countryOfOriginCode" type="string2" minOccurs="0" nillable="true"/>
+         <xs:element name="oeOrderHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="oeOrderLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="customerItemNum" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="costGroupId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryQuantityShipped" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryQuantityReceived" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryUnitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="qcGrade" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="mmtTransactionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="asnLpnId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="amount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="amountReceived" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="jobId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="timecardId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="timecardOvn" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="osaFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="requestedAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="materialStoredAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="approvalStatus" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="amountShipped" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lcmShipmentLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitLandedCost" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="equipmentId" type="xs:decimal" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PoLinesAll">
+      <xs:sequence>
+         <xs:element name="poLineId" type="xs:decimal"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lineTypeId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lineNum" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lastUpdateLogin" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="itemId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="itemRevision" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="categoryId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="itemDescription" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="unitMeasLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="quantityCommitted" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="committedAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="allowPriceOverrideFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="notToExceedPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="listPricePerUnit" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="quantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unNumberId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="hazardClassId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="noteToVendor" type="string480" minOccurs="0" nillable="true"/>
+         <xs:element name="fromHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="fromLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="minOrderQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="maxOrderQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="qtyRcvTolerance" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="overToleranceErrorFlag" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="marketPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unorderedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="closedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="userHoldFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelledBy" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelReason" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="firmStatusLookupCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="firmDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorProductNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="contractNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="taxableFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="taxName" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="type1099" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="capitalExpenseFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="negotiatedByPreparerFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="attributeCategory" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="referenceNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="attribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="minReleaseAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="priceTypeLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="closedCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="priceBreakLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="ussglTransactionCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="governmentContext" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="requestId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programApplicationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="programUpdateDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="closedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="closedReason" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="closedBy" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="transactionReasonCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="orgId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="qcGrade" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="baseUom" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="baseQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryUom" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryQty" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttributeCategory" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute1" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute2" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute3" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute4" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute5" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute6" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute7" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute8" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute9" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute10" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute11" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute12" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute13" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute14" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute15" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute16" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute17" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute18" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute19" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="globalAttribute20" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="lineReferenceNum" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="projectId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="taskId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="expirationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="taxCodeId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="okeContractHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="okeContractVersionId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="secondaryUnitOfMeasure" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="preferredGrade" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="auctionHeaderId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="auctionDisplayNumber" type="string40" minOccurs="0" nillable="true"/>
+         <xs:element name="auctionLineNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="bidNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="bidLineNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="retroactiveDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="fromLineLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierRefNumber" type="string150" minOccurs="0" nillable="true"/>
+         <xs:element name="contractId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="startDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="amount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="jobId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="contractorFirstName" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="contractorLastName" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="orderTypeLookupCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="purchaseBasis" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="matchingBasis" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="svcAmountNotifSent" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="svcCompletionNotifSent" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="baseUnitPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="manualPriceChangeFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="retainageRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="maxRetainageAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="progressPaymentRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="recoupmentRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="catalogName" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierPartAuxid" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="ipCategoryId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="taxAttributeUpdateCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="lastUpdatedProgram" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="groupLineId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lineNumDisplay" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="clmInfoFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="clmOptionIndicator" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="clmBaseLineNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmOptionNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmOptionFromDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="clmOptionToDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="clmFundedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="contractType" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="costConstraint" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="clmIdcType" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="udaTemplateId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="userDocumentStatus" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="draftId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmExercisedFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="clmExercisedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinTotalAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMaxTotalAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinTotalQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMaxTotalQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinOrderAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMaxOrderAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMinOrderQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMaxOrderQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmTotalAmountOrdered" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmTotalQuantityOrdered" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmFscPsc" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="clmMdapsMais" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="clmNaics" type="string200" minOccurs="0" nillable="true"/>
+         <xs:element name="clmOrderStartDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="clmOrderEndDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="revisionNum" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmApprovedUndefAmount" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmDeliveryEventCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="clmExhibitName" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="clmPaymentInstrCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="clmPopExceptionReason" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="clmUdaPricingTotal" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="clmUndefActionCode" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="clmUndefFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="schedulesRequiredFlag" type="string1" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string480">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="480"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string150">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="150"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string8">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="8"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string3">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="3"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string4">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string255">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="255"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string80">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="80"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string400">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="400"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string200">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="200"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string100">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string5">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="5"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string35">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="35"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string280">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="280"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string40">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="40"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

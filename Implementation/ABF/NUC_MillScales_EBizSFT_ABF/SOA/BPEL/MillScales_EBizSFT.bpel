@@ -1,0 +1,402 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sun Feb 14 22:42:09 CST 2016
+  Author:  sindhuja.reddy
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="MillScales_EBizSFT"
+               targetNamespace="http:/xmlns.eia.com/Implementation/ABF/NUC_MillScales_EBizSFT_ABF/1.0/MillScales_EBizSFT"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http:/xmlns.eia.com/Implementation/ABF/NUC_MillScales_EBizSFT_ABF/1.0/MillScales_EBizSFT"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/CommonLogging" xmlns:ns4="http://nucor.eia.com/AO/Ebiz/D2S/ScaleValueAO/1.0"
+         xmlns:ns2="http://nucor.eia.com/AO/Ebiz/D2S/ScaleValueAM/1.0"
+         xmlns:ns3="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSelect_ScaleMill_Weight"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSelect_ScaleMill_Weight"
+         xmlns:ns7="http://xmlns.eia.com/sca/soapservice/dummy/NUC_MillScales_EBizSFT_ABF/MillScale_EBizSFT"
+         xmlns:ns8="http://xmlns.eia.com/Implementation/ABF/NUC_MillScales_EBizSFT_ABF/MillScale_EBizSFT"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSelect_MillScale_SFT"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSelect_MillScale_SFT"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSELECT_MILLSCALE_UOM"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBSELECT_MILLSCALE_UOM"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <!--import location="oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/-->
+  <import namespace="http://xmlns.eia.com/CommonLogging"
+          location="oramds:/apps/EIAMetadata/Infrastracture/wsdls/V1.0/CommonLogging.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="CommonLogging_Pl" partnerLinkType="ns1:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="MillScale_EBizSFT" partnerLinkType="ns8:MillScale_EBizSFT" myRole="execute"/>
+    <partnerLink name="DBSELECT_MILLSCALE_UOM" partnerLinkType="ns11:DBSELECT_MILLSCALE_UOM_plt"
+                 partnerRole="DBSELECT_MILLSCALE_UOM_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="Invoke_ErrorLog_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+    <variable name="receiveInput_QueryScale_InputVariable" messageType="ns8:requestMessage"/>
+    <variable name="replyOutput_QueryScale_OutputVariable" messageType="ns8:replyMessage"/>
+    <variable name="Reply_Error_QueryScale_OutputVariable" messageType="ns8:replyMessage"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence3">
+        <assign name="Assign_ErrorLog">
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+          </copy>
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'I136'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'QueryScale'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+          </copy>
+          <copy>
+            <from>'1'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>'2'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>'36'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>'4'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:LogType</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>'2'</from>
+            <to>$Invoke_ErrorLog_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_ErrorLog" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_Pl"
+                portType="ns1:CommonLogging" operation="process" inputVariable="Invoke_ErrorLog_process_InputVariable">
+                <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+        <assign name="Assign_ErrorOutput">
+          <copy>
+            <from>'ERROR'</from>
+            <to>$Reply_Error_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:Result</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$Reply_Error_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:ErrorMsg</to>
+          </copy>
+        </assign>
+        <reply name="Reply_Error" variable="Reply_Error_QueryScale_OutputVariable" partnerLink="MillScale_EBizSFT"
+               portType="ns8:execute" operation="QueryScale"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in MillScales_EBizSFT.wsdl) -->
+    <receive name="receiveInput" partnerLink="MillScale_EBizSFT" portType="ns8:execute"
+             operation="QueryScale" variable="receiveInput_QueryScale_InputVariable" createInstance="yes"/>
+    <scope name="Scope_Main">
+      <variables>
+        <variable name="Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_InputVariable"
+                  messageType="ns11:DBSELECT_MILLSCALE_UOMSelect_inputParameters"/>
+        <variable name="Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_OutputVariable"
+                  messageType="ns11:XxnucInvScaleStgCollection_msg"/>
+        <!--variable name="g_OrgID" type="xsd:string"/-->
+        <variable name="g_JNDI" type="xsd:string"/>
+        <variable name="Invoke_DBELSE_InputVariable" messageType="ns11:DBSELECT_MILLSCALE_UOMSelect_inputParameters"/>
+        <variable name="Invoke_DBELSE_OutputVariable" messageType="ns11:XxnucInvScaleStgCollection_msg"/>
+      </variables>
+      <sequence name="Sequence2">
+        <scope name="Scope_StartLog">
+          <variables>
+            <variable name="Invoke_StartLog_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+          </variables>
+          <faultHandlers>
+            <catchAll>
+              <empty name="DONothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence_Startlog">
+            <assign name="Assign_StartLog">
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+              </copy>
+              <copy>
+                <from>ora:getComponentInstanceId()</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'I136'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'QueryScale'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+              </copy>
+              <copy>
+                <from>'1'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>'2'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>'36'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>'1'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:LogType</to>
+              </copy>
+              <copy>
+                <from>'BMG-003'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+              </copy>
+              <copy>
+                <from>'1'</from>
+                <to>$Invoke_StartLog_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_StartLog" partnerLink="CommonLogging_Pl"
+                    portType="ns1:CommonLogging" operation="process"
+                    inputVariable="Invoke_StartLog_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+          </sequence>
+        </scope>
+        <!--assign name="Assign_ORg_ID">
+          <copy>
+            <from>$receiveInput_QueryScale_InputVariable.Input/ns4:ScaleValueDetailReq/ns4:ORGANIZATION_ID</from>
+            <to>$g_OrgID</to>
+          </copy>
+        </assign-->
+        <assign name="Assign_JNDI">
+          <copy>
+            <!-- dvm:lookupValue('oramds:/apps/EIAMetadata/CommonArtifacts/dvm/SCALE_MILL_DB_JNDI_MAP.dvm','ORG_ID',$g_OrgID,'JNDI','') -->
+            <from>dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/SCALE_MILL_DB_JNDI_MAP.dvm","ORG_CODE",$receiveInput_QueryScale_InputVariable.Input/ns4:ScaleValueDetailReq/ns4:ORGANIZATION_ID,"JNDI","")</from>
+            <to>$g_JNDI</to>
+          </copy>
+        </assign>
+        <if name="IfDVM_JNDI">
+          <documentation>
+            <![CDATA[Present]]>
+          </documentation>
+          <condition>$g_JNDI != ""</condition>
+        
+            <sequence>
+              <assign name="Assign_OrgDeta">
+                <copy>
+                  <from>$receiveInput_QueryScale_InputVariable.Input/ns4:ScaleValueDetailReq/ns4:ORGANIZATION_ID</from>
+                  <to>$Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_InputVariable.DBSELECT_MILLSCALE_UOMSelect_inputParameters/ns12:orgid</to>
+                </copy>
+                <copy>
+                  <from>$receiveInput_QueryScale_InputVariable.Input/ns4:ScaleValueDetailReq/ns4:SCALE_CODE</from>
+                  <to>$Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_InputVariable.DBSELECT_MILLSCALE_UOMSelect_inputParameters/ns12:ScaleCode</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_DBSelect_UOM" partnerLink="DBSELECT_MILLSCALE_UOM"
+                      portType="ns11:DBSELECT_MILLSCALE_UOM_ptt" operation="DBSELECT_MILLSCALE_UOMSelect"
+                      inputVariable="Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_InputVariable"
+                      outputVariable="Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_OutputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="jca.jndi" variable="g_JNDI"/>
+                </bpelx:toProperties>
+              </invoke>
+              <if name="IfOrg82Datafound">
+                <documentation>
+                  <![CDATA[DataFound]]>
+                </documentation>
+                <condition>count($Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_OutputVariable.XxnucInvScaleStgCollection/ns12:XxnucInvScaleStg) &gt;0</condition>
+                <assign name="Assign_OutPut">
+                  <copy>
+                    <from>$Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_OutputVariable.XxnucInvScaleStgCollection/ns12:XxnucInvScaleStg/ns12:uom</from>
+                    <to>$replyOutput_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:UOM</to>
+                  </copy>
+                  <copy>
+                    <from>$Invoke_DBSelect_UOM_DBSELECT_MILLSCALE_UOMSelect_OutputVariable.XxnucInvScaleStgCollection/ns12:XxnucInvScaleStg/ns12:weight</from>
+                    <to>$replyOutput_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:WEIGHT</to>
+                  </copy>
+                  <copy>
+                    <from>'SUCCESS'</from>
+                    <to>$replyOutput_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:Result</to>
+                  </copy>
+                </assign>
+                <else>
+                  <documentation>
+                    <![CDATA[NoDataFound]]>
+                  </documentation>
+                  <assign name="Assign_OutPutNoData">
+                    <copy>
+                      <from>'SUCCESS'</from>
+                      <to>$replyOutput_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:Result</to>
+                    </copy>
+                  </assign>
+                </else>
+              </if>
+            </sequence>
+        
+          <else>
+            <documentation>
+              <![CDATA[NotPresent]]>
+            </documentation>
+            <assign name="Assign_Error">
+              <copy>
+                <from>'ERROR'</from>
+                <to>$replyOutput_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:Result</to>
+              </copy>
+              <copy>
+                <from>concat('No Mill DB found with the Organization  ID:  ',$receiveInput_QueryScale_InputVariable.Input/ns4:ScaleValueDetailReq/ns4:ORGANIZATION_ID)</from>
+                <to>$replyOutput_QueryScale_OutputVariable.Output/ns4:ScaleValueResponse/ns4:ErrorMsg</to>
+              </copy>
+            </assign>
+          </else>
+        </if>
+        <scope name="Scope_EndLog">
+          <variables>
+            <variable name="Invoke_EndLog_process_InputVariable" messageType="ns1:CommonLoggingRequestMessage"/>
+          </variables>
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence_EndLog">
+            <assign name="Assign_EndLog">
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:ProjectName</to>
+              </copy>
+              <copy>
+                <from>ora:getComponentInstanceId()</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'I136'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'QueryScale'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:ProcessName</to>
+              </copy>
+              <copy>
+                <from>'1'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>'2'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>'36'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>'1'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:LogType</to>
+              </copy>
+              <copy>
+                <from>'BMG-002'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:MessageCode</to>
+              </copy>
+              <copy>
+                <from>'2'</from>
+                <to>$Invoke_EndLog_process_InputVariable.CommonLogging/ns1:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_EndLog" partnerLink="CommonLogging_Pl"
+                    portType="ns1:CommonLogging" operation="process"
+                    inputVariable="Invoke_EndLog_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </scope>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="MillScale_EBizSFT" portType="ns8:execute"
+           operation="QueryScale" variable="replyOutput_QueryScale_OutputVariable"/>
+  </sequence>
+</process>

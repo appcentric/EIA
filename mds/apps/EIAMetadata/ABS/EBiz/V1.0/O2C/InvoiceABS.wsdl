@@ -1,0 +1,66 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions name="InvoiceABS"
+                  targetNamespace="http://xmlns.oracle.com/NucorSOA/NUC_EBizARInvoice_ABS/InvoiceABS"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:invam="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceABM/1.0"
+                  xmlns:core="http://xmlns.eia.com/EO/Common/1.0"
+                  xmlns:tns="http://xmlns.oracle.com/NucorSOA/NUC_EBizARInvoice_ABS/InvoiceABS"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/O2C/InvoiceABM/1.0"
+                        schemaLocation="../../../../AO/EBiz/O2C/V1.0/InvoiceAM.xsd"/>
+            <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0"
+                        schemaLocation="../../../../EO/common/Common.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="QueryBasicInvoiceRequestMessageType">
+        <wsdl:part name="QueryBasicInvoiceRequestMessage"
+                   element="invam:QueryBasicInvoiceRequestMessage"/>
+    </wsdl:message>
+    <wsdl:message name="QueryBasicInvoiceResponseMessageType">
+        <wsdl:part name="QueryBasicInvoiceResponseMessage"
+                   element="invam:QueryBasicInvoiceResponseMessage"/>
+    </wsdl:message>
+
+
+    <wsdl:message name="EIAFaultMsgType">
+        <wsdl:part name="Fault" element="core:Fault"/>
+    </wsdl:message>
+    <wsdl:portType name="SyncPortType">
+       
+
+        <wsdl:operation name="QueryBasicInvoiceSync">
+            <wsdl:input message="tns:QueryBasicInvoiceRequestMessageType"/>
+            <wsdl:output message="tns:QueryBasicInvoiceResponseMessageType"/>
+        </wsdl:operation>
+
+    </wsdl:portType>
+    <wsdl:service name="InvoiceABS">
+        <wsdl:port name="SyncPortTypePort" binding="tns:SyncPort">
+            <soap:address location="http://www.example.com"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:binding name="SyncPort" type="tns:SyncPortType">
+    
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+       
+        <wsdl:operation name="QueryBasicInvoiceSync">
+                        <soap:operation style="document"
+                            soapAction="http://xmlns.oracle.com/NucorSOA/NUC_EBizARInvoice_ABS/InvoiceABS/QueryBasicInvoiceSync"/>
+            <wsdl:input>
+                <soap:body use="literal"
+                           parts="QueryBasicInvoiceRequestMessage"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"
+                           parts="QueryBasicInvoiceResponseMessage"/>
+            </wsdl:output>
+
+        </wsdl:operation>
+
+    </wsdl:binding>
+</wsdl:definitions>

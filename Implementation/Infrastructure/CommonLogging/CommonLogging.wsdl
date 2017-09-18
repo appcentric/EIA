@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="CommonLogging" targetNamespace="http://xmlns.eia.com/CommonLogging" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.eia.com/CommonLogging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <plnk:partnerLinkType name="CommonLogging">
+      <plnk:role name="CommonLoggingProvider">
+         <plnk:portType name="client:CommonLogging"/>
+      </plnk:role>
+   </plnk:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:client="http://xmlns.eia.com/CommonLogging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+         <import namespace="http://xmlns.eia.com/CommonLogging" schemaLocation="xsd/CommonLogging.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="CommonLoggingRequestMessage">
+      <wsdl:part name="CommonLogging" element="client:Input"/>
+   </wsdl:message>
+   <wsdl:portType name="CommonLogging">
+      <wsdl:operation name="process">
+         <wsdl:input message="client:CommonLoggingRequestMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

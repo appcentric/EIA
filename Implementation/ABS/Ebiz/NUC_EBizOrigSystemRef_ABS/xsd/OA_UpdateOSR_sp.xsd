@@ -1,0 +1,105 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_UpdateOSR" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_UpdateOSR" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_ORIG_SYS_REFS" type="db:APPS.HZ_ORIG_SYS_REF_OBJ_TBL" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="X_RETURN_STATUS" type="string" db:index="2" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+            <element name="X_MSG_COUNT" type="decimal" db:index="3" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="X_MSG_DATA" type="db:APPS.HZ_MESSAGE_OBJ_TBL" db:index="4" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="APPS.HZ_MESSAGE_OBJ_TBL">
+      <sequence>
+         <element name="X_MSG_DATA_ITEM" type="db:APPS.HZ_MESSAGE_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.HZ_ORIG_SYS_REF_OBJ_TBL">
+      <sequence>
+         <element name="P_ORIG_SYS_REFS_ITEM" type="db:APPS.HZ_ORIG_SYS_REF_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.HZ_ORIG_SYS_REF_OBJ">
+      <sequence>
+         <element name="ACTION_TYPE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORIG_SYSTEM_REF_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORIG_SYSTEM" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORIG_SYSTEM_REFERENCE" type="db:string255" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OBJECT_TYPE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OBJECT_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="STATUS" type="db:string1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="REASON_CODE" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="OLD_ORIG_SYSTEM_REFERENCE" type="db:string255" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="START_DATE_ACTIVE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="END_DATE_ACTIVE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="PROGRAM_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY_MODULE" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATED_BY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="CREATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATE_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="LAST_UPDATED_BY_NAME" type="db:string100" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE_CATEGORY" type="db:string30" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE1" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE2" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE3" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE4" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE5" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE6" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE7" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE8" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE9" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE10" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE11" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE12" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE13" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE14" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE15" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE16" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE17" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE18" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE19" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ATTRIBUTE20" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="APPS.HZ_MESSAGE_OBJ">
+      <sequence>
+         <element name="MESSAGE_TEXT" type="db:string2000" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string30">
+      <restriction base="string">
+         <maxLength value="30"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string255">
+      <restriction base="string">
+         <maxLength value="255"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string150">
+      <restriction base="string">
+         <maxLength value="150"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2000">
+      <restriction base="string">
+         <maxLength value="2000"/>
+      </restriction>
+   </simpleType>
+</schema>

@@ -1,0 +1,52 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_PartyID" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Get_PartyID" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="PosSuppPubHistoryVCollection" type="PosSuppPubHistoryVCollection"/>
+   <xs:complexType name="PosSuppPubHistoryVCollection">
+      <xs:sequence>
+         <xs:element name="PosSuppPubHistoryV" type="PosSuppPubHistoryV" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PosSuppPubHistoryV">
+      <xs:sequence>
+         <xs:element name="publicationEventId" type="xs:long" nillable="true"/>
+         <xs:element name="vendorId" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="partyId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="supplierName" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="360"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="registryId" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="30"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="supplierNumber" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="30"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="publicationDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="publishedBy" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="publishedByName" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="100"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_Get_PartyIDSelect_PublicationEventIdInputParameters" type="DB_Get_PartyIDSelect_PublicationEventId"/>
+   <xs:complexType name="DB_Get_PartyIDSelect_PublicationEventId">
+      <xs:sequence>
+         <xs:element name="PublicationEventId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

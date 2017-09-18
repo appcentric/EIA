@@ -1,0 +1,685 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0" xmlns="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:commonao="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0" xmlns:amtao="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0" xmlns:whoao="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0" xmlns:uomao="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0" xmlns:itemao="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0" xmlns:categoryao="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0" xmlns:receiptao="http://xmlns.eia.com/AO/EBiz/P2P/ReceiptAO/1.0" xmlns:poao="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0">
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CommonAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/WhoAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/UomAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/ItemAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/CategoryAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/CategoryAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/P2P/V1.0/PurchaseOrderAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/AmountAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"/>
+<xsd:import schemaLocation="../../../../AO/EBiz/common/V1.0/UomAO.xsd" namespace="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"/>
+<xsd:element name="BasicReceipt" type="receiptao:BasicReceiptType"/>
+<xsd:complexType name="BasicReceiptType">
+<xsd:sequence>
+<xsd:element name="IndentfierID" type="xsd:string" minOccurs="0"/>
+<xsd:element name="ReceiptNumber" type="xsd:string" minOccurs="0"/>
+<xsd:element name="ShipmentNumber" type="xsd:string" minOccurs="0"/>
+<xsd:element name="BillOfLAdding" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Packing" type="xsd:string" minOccurs="0"/>
+<xsd:element name="ReceiptSource" type="xsd:string" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="ListOfReceipts" type="receiptao:ListOfReceiptsType"/>
+<xsd:complexType name="ListOfBasicReceiptsType">
+<xsd:sequence>
+<xsd:element name="BasicReceipt" type="receiptao:BasicReceiptType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfReceiptsType">
+<xsd:sequence>
+<xsd:element name="Receipt" type="receiptao:ReceiptType" minOccurs="0" nillable="true" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ReceiptType">
+<xsd:sequence>
+<xsd:element name="BasicReceipt" type="receiptao:BasicReceiptType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OperatingUnit" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Approvalstatus" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Asnstatus" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Asntype" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Autotransactcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Billoflading" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Carrierequipment" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Carrierequipmentalpha" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Carrierequipmentnum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Carriermethod" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Comments" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Conversiondate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Conversionrate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Conversionratedate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Conversionratetype" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Createdby" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Creationdate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Currencycode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Customeraccountnumber" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Customerid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Customerpartyname" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Customersiteid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Edicontrolnum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Employeeid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Employeename" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Expectedreceiptdate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Freightamount" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Freightbillnumber" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Freightcarriercode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Freightterms" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Fromorganizationcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Fromorganizationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Governmentcontext" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Grossweight" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Grossweightuomcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Groupid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Hazardclass" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Hazardcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Hazarddescription" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Headerinterfaceid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Invoiceamount" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Invoicedate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Invoicenum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Invoicestatuscode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Lastupdatedby" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Lastupdatedate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Lastupdatelogin" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Locationcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Locationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Mrcconversiondate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Mrcconversionrate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Mrcconversionratetype" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Netweight" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Netweightuomcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Noticecreationdate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Numofcontainers" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Operatingunit" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Organizationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Orgid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Packagingcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Packingslip" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Paymenttermsid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Paymenttermsname" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Performanceperiodfrom" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Performanceperiodto" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Processingrequestid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Processingstatuscode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Programapplicationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Programid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Programupdatedate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Receiptheaderid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Receiptnum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Receiptsourcecode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Receiverid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Remittositeid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Requestdate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Requestid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shipmentheaderid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shipmentnum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shippeddate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shipfromlocationcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shipfromlocationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shiptolocationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shiptoorganizationcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shiptoorganizationid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Shiptoorgid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Specialhandlingcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Tarweight" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Tarweightuomcode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Taxamount" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Taxname" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Testflag" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Totalinvoiceamount" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Transactiondate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Transactiontype" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Usggltransactioncode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Ussgltransactioncode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Validationflag" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Vendorid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Vendorname" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Vendornum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Vendorsitecode" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Vendorsiteid" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Waybillairbillnum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Wfitemkey" type="xsd:string" minOccurs="0"/>
+<xsd:element name="Wfitemtype" type="xsd:string" minOccurs="0"/>
+<xsd:element name="HeaderDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="ListOfBasicReceiptLines" type="receiptao:ListOfReceiptLinesType" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="ListOfTransactions" type="receiptao:ListOfTransactionsType" minOccurs="0" maxOccurs="1" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfReceiptLinesType">
+<xsd:sequence>
+<xsd:element name="ReceiptLine" type="receiptao:ReceiptLineType" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BasicReceiptLineType">
+<xsd:sequence>
+<xsd:element name="Identfier" type="xsd:string" minOccurs="0"/>
+<xsd:element name="HeaderIdentifier" type="xsd:string" minOccurs="0"/>
+<xsd:element name="QuantityShipped" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="QuantityReceived" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="Uom" type="uomao:UomType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ReceiptLineType">
+<xsd:sequence>
+<xsd:element name="BasicReceiptLine" type="receiptao:BasicReceiptLineType" minOccurs="0"/>
+<xsd:element name="BasicCategory" type="categoryao:BasicCategoryType" minOccurs="0"/>
+<xsd:element name="BasicItem" type="itemao:BasicItemType" minOccurs="0"/>
+<xsd:element name="VendorItemNum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="VendorLotNum" type="xsd:string" minOccurs="0"/>
+<xsd:element name="UOMConversionRate" type="xsd:string" minOccurs="0"/>
+<xsd:element name="BasicPurchaseOrder" type="poao:BasicPurchaseOrderType" minOccurs="0"/>
+<xsd:element name="BasicPurchaseOrderLine" type="poao:BasicPurchaseOrderType" minOccurs="0"/>
+<xsd:element name="MaterialStoredAmount" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ApprovalStatus" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AmountShipped" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryQuantityShipped" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryQuantityReceived" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryUnitOfMeasure" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="QcGrade" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CostGroupId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequisitionLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReqDistributionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RoutingHeaderId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PackingSlip" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromOrganizationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DeliverToPersonId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="EmployeeId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DestinationTypeCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ToOrganizationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ToSubinventory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LocatorId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DeliverToLocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ChargeAccountId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransportationAccountId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentUnitPrice" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransportationCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Comments" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReasonId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UssglTransactionCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="GovernmentContext" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramApplicationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramUpdateDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DestinationContext" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PrimaryUnitOfMeasure" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExcessTransportReason" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExcessTransportResponsible" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExcessTransportAuthNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AsnLineFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OriginalAsnParentLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OriginalAsnLineFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorCumShippedQuantity" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NoticeUnitPrice" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TaxName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TaxAmount" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InvoiceStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CumComparisonFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ContainerNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TruckNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BarCodeLabel" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferPercentage" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcShipmentUnitPrice" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcTransferCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcTransportationCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcNoticeUnitPrice" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipToLocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CountryOfOriginCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OeOrderHeaderId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OeOrderLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerItemNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LcmShipmentLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UnitLandedCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OsaFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestedAmount" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UomConversionRate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentLineStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceDocumentCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoReleaseId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoLineLocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoDistributionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MmtTransactionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AsnLpnId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Amount" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AmountReceived" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="JobId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimecardId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimecardOvn" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WhoColumns" type="whoao:WhoColumnsType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfTransactionsType">
+<xsd:sequence>
+<xsd:element name="Transaction" minOccurs="0" maxOccurs="unbounded" type="receiptao:TransactionType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfBasicTransactionsType">
+<xsd:sequence>
+<xsd:element name="BasicTransaction" minOccurs="0" maxOccurs="unbounded" type="receiptao:BasicTransactionType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="BasicTransactionType">
+<xsd:sequence>
+<xsd:element name="Identifier" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Quantity" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Uom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentHeaderId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="TransactionType">
+<xsd:sequence>
+<xsd:element name="BasicTransaction" type="receiptao:BasicTransactionType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AccrualStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ActualCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Amount" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AmountBilled" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AmountShipped" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AsnAttachId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="AutoTransactCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BarcodeLabel" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BillOfLading" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BomResourceId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Category" type="categoryao:BasicCategoryType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ChargeAccountId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ChildInspectionFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Comments" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ConsignedFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ContainerNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CostGroupId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CountryOfOriginCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CreateDebitMemoFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CurrencyConversionDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CurrencyConversionRate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CurrencyConversionType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerAccountNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerItemId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerItemNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerPartyName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CustomerSiteId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DeliverToLocationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DeliverToLocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DeliverToPersonId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DeliverToPersonName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DepartmentCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DestinationContext" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DestinationTypeCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DocumentDistributionNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DocumentLineNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DocumentNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DocumentShipmentLineNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DropshipTypeCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="EmployeeId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ErecordId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExpectedReceiptDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExpressTransaction" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FreightCarrierCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromLocator" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromLocatorId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromOrganizationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromOrganizationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromSubinventory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="GovernmentContext" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="GroupId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="HeaderInterfaceId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InspectionQualityCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InspectionStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceAvailableAmt" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceAvailableQty" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceSourceCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceSourceLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceTransactionAmt" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceTransactionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceTransactionQty" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="IntransitOwningOrgCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="IntransitOwningOrgId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InvoiceId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InvoiceStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InvTransactionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Item" type="itemao:BasicItemType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="JobId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LcmAdjustmentNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LcmShipmentLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LicensePlateNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LocationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Locator" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LocatorAttribute" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LocatorId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LpnGroupId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LpnId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MatchingBasis" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MatchFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MatchOption" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MaterialStoredAmount" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MmttTempId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MobileTxn" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MovementId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcCurrencyConversionDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcCurrencyConversionRate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MrcCurrencyConversionType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MvtStatStatus" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NoticeUnitPrice" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NumOfContainers" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OeOrderHeaderId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OeOrderLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OeOrderLineNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OeOrderNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OperatingUnit" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OrderTransactionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OrganizationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OrgId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PackingSlip" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentInterfaceTxnId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentSourceTransactionNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentTransactionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PaAdditionFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoDistributionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BasicPurchaseOrder" type="poao:BasicPurchaseOrderType"/>
+<xsd:element name="BasicPurchaseOrderLine" type="poao:BasicPurchaseOrderType"/>
+<xsd:element name="PoLineLocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoReleaseId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoRevisionNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PoUnitPrice" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PrimaryQuantity" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PrimaryUnitOfMeasure" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProcessingModeCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProcessingRequestId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProcessingStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProjectId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PutAwayRuleId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PutAwayStrategyId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="QaCollectionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="QcGrade" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Quantity" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="QuantityBilled" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="QuantityInvoiced" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="QuantityShipped" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReasonId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReasonName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReceiptConfirmationExtracted" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReceiptExceptionFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReceiptSourceCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReleaseNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReplenishOrderLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestedAmount" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequisitionLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReqDistributionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReqDistributionNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReqLineNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReqNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ResourceCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RmaReference" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RoutingCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RoutingHeaderId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RoutingStep" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RoutingStepId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryQuantity" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryUnitOfMeasure" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryUomCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentHeaderId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentLineStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShippedDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentHeaderAttributes" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentLineAttributes" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipToLocationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipToLocationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceDocumentCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceDocQuantity" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceDocUnitOfMeasure" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceTransactionNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Subinventory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SubstituteItemId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SubstituteItemNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SubstituteUnorderedCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TaskId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TaxAmount" type="amtao:AmountType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TaxName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimecardId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimecardOvn" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ToOrganizationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ToOrganizationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionStatusCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferCostGroupId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferLicensePlateNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferLpnId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransferPercentage" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransportationAccountId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransportationCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TruckNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UnitLandedCost" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UnitOfMeasure" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UomCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UserEnteredFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UseMtlLot" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UseMtlSerial" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UssglTransactionCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ValidationFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorCumShippedQty" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorItemNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorLotNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorSiteCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorSiteId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WaybillAirbillNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipEntityId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipEntityName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipLineCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipLineId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipOperationSeqNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipRepetitiveScheduleId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WipResourceSeqNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="XmlDocumentId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ListOfLotTxns" type="receiptao:ListOfLotTxnType" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="ListOfSerialTxns" type="receiptao:ListOfSerialTxnType" minOccurs="0" maxOccurs="1" nillable="true"/>
+<xsd:element name="ListOfLPNContents" type="receiptao:ListOfLPNContentsType" minOccurs="0" maxOccurs="1" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfLotTxnType">
+<xsd:sequence>
+<xsd:element name="LotTransaction" minOccurs="0" maxOccurs="unbounded" type="receiptao:LotTxnType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LotTxnType">
+<xsd:sequence>
+<xsd:element name="Age" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BestByDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ChangeDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Color" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CountryOfOrigin" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CurlWrinkleFold" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DateCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ErrorCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExpirationActionCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExpirationActionDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="GradeCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="HoldDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ItemSize" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="KillDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Length" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LengthUom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LotAttributeCategory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LotExpirationDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LotNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MaturityDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OriginationDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OriginationType" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentItemId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentLotNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectId2" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectNumber2" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectType" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectType2" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PlaceOfOrigin" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PrimaryQuantity" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProcessFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProductCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProductTransactionId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramApplicationId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramUpdateDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReasonCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ReasonId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RecycledContent" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RetestDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SecondaryTransactionQuantity" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SerialTransactionTempId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceLineId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="StatusId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SublotNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SupplierLotNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TerritoryCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Thickness" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ThicknessUom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionInterfaceId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionQuantity" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Volume" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VolumeUom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Width" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WidthUom" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WhoColumns" type="whoao:WhoColumnsType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LotsDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfSerialTxnType">
+<xsd:sequence>
+<xsd:element name="SerialTransaction" minOccurs="0" maxOccurs="unbounded" type="receiptao:SerialTxnType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="SerialTxnType">
+<xsd:sequence>
+<xsd:element name="CountryOfOrigin" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CyclesSinceMark" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CyclesSinceNew" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CyclesSinceOverhaul" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CyclesSinceRepair" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CyclesSinceVisit" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ErrorCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FmSerialNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NumberOfRepairs" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OriginationDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentItemId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectId2" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectNumber2" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectType" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentObjectType2" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ParentSerialNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProcessFlag" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProductCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProductTransactionId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramApplicationId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramUpdateDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SerialAttributeCategory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SourceLineId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="StatusId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="StatusName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TerritoryCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimeSinceMark" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimeSinceNew" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimeSinceOverhaul" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimeSinceRepair" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TimeSinceVisit" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ToSerialNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TransactionInterfaceId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorLotNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorSerialNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WhoColumns" type="whoao:WhoColumnsType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SerialsDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ListOfLPNContentsType">
+<xsd:sequence>
+<xsd:element name="LPNContents" minOccurs="0" maxOccurs="unbounded" type="receiptao:LPNContentsType"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LPNContentsType">
+<xsd:sequence>
+<xsd:element name="Age" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="BestByDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ChangeDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Color" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CurlWrinkleFold" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DateCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DocumentLineNum" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DocumentNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ExpirationDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="FromSerialNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="GradeCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="GroupId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="InterfaceTransactionId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ItemDescription" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ItemNum" type="itemao:BasicItemType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ItemRevision" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ItemSize" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="KillDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Length" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LengthUomCode" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LicensePlateNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LotAttributeCategory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LotNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="MaturityDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="OriginationDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="PlaceOfOrigin" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramApplicationId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ProgramUpdateDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Quantity" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RecycledContent" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RequestId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="RetestDate" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SerialTransactionIntfId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipmentNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ShipToOrganizationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="StatusId" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="StatusName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="SupplierLotNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="TerritoryCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Thickness" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ThicknessUomCode" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="ToSerialNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="UomCode" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VendorItemNum" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Volume" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="VolumeUomCode" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="Width" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WidthUomCode" type="uomao:UomType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="WhoColumns" type="whoao:WhoColumnsType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="LPNContentsDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="CAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="DAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+<xsd:element name="NAttrDFF" type="commonao:CommonDFFType" minOccurs="0" maxOccurs="1"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

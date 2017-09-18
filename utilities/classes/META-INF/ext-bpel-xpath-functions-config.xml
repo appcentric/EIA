@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--$Header$ -->
+<soa-xpath-functions version="11.1.1"
+                     xmlns="http://xmlns.oracle.com/soa/config/xpath"
+                     xmlns:eia="http://xmlns.eia.com/extensions/1.0">
+                     
+  <function name="eia:getEIASystemProperty">
+    <className>com.eia.soa.xpath.EIASystemProperty</className>
+    <return type="string"/>
+      <params>
+	 	 <param name="Property" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method returns EIA System Property.</desc>
+	  <detail>Accepts Property Name as the Input parameter and returns the property value from the EIA Configuration file defined at the System Level. E.g.eia:getEIASystemProperty('TRACING.ENABLED')</detail>
+  </function>
+  
+  <function name="eia:getEIAModuleProperty">
+    <className>com.eia.soa.xpath.EIAModuleProperty</className>
+    <return type="string"/>
+      <params>
+         <param name="Module" type="string" minOccurs="1" maxOccurs="1"/>
+	 	 <param name="Property" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method returns the EIA Module level property</desc>
+	  <detail>This method gets the Module level property set in the EIA configuration file. E.g. 	eia:getEIAModuleProperty('ErrorHandler','ERROR.METHOD')</detail>
+  </function>
+
+    <function name="eia:getEIAServiceProperty">
+    <className>com.eia.soa.xpath.EIAServiceProperty</className>
+    <return type="string"/>
+      <params>
+         <param name="Service" type="string" minOccurs="1" maxOccurs="1"/>
+	 	 <param name="Property" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method returns the EIA Service level property</desc>
+	  <detail>	This method gets the Service level property set in the EIA configuration file. 	e.g. eia:getEIAServiceProperty('OrderService','endpointURI')</detail>
+  </function>
+
+  <function name="eia:logEIAErrorMessageToDB">
+    <className>com.eia.soa.xpath.EIALogErrorMessageToDB</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="faultMsg" type="node-set" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method Logs the error message to DB and returns string</desc>
+	  <detail>This method Logs the error message to DB and returns string. 	e.g. eia:logEIAErrorMessageToDB(bpws:getVariableData('EIAFaultMsg','FaultMessage','/ns1:Fault'))</detail>
+  </function>
+
+  <function name="eia:logEIAErrorMessage">
+    <className>com.eia.soa.xpath.EIALogErrorMessage</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="Msg" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method Logs the error message to file on logs folder of the EIA Home</desc>
+	  <detail>This method Logs the error message to file on logs folder of the EIA Home	e.g. eia:logEIAErrorMessage('Exception in the step 5.')</detail>
+  </function>
+
+  <function name="eia:logEIATraceMessage">
+    <className>com.eia.soa.xpath.EIALogTraceMessage</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="Msg" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method Logs the Fine (Level) message to file on logs folder of the EIA Home</desc>
+	  <detail>This method Logs the Fine (Level) message to file on logs folder of the EIA Home	e.g. eia:logEIATraceMessage('Before calling the Partner link...')</detail>
+  </function>
+  
+    <function name="eia:updateScheduleStatus">
+    <className>com.eia.soa.xpath.EIAScheduleStatsUpdate</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="scheduleID" type="string" minOccurs="1" maxOccurs="1"/>
+                   <param name="scheduleStatus" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+  <desc>This method is used to update the Schdeule status in schdeule table</desc>
+	  <detail>This method is used to update the Schedule status in schedule table	e.g. eia:updateScheduleStatus('ScheduleID','SchedulStatus')</detail>
+  </function>
+  
+ 
+  
+</soa-xpath-functions>  

@@ -1,0 +1,1036 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Apr 26 06:02:14 CDT 2016
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="PublishBundlesAndTestResults"
+         targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_PublishBundlesAndTestResults_EBiz_ABF/PublishBundlesAndTestResults"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/Implementation/ABF/NUC_PublishBundlesAndTestResults_EBiz_ABF/PublishBundlesAndTestResults"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/aq/DV1Application/NUC_PublishBundlesAndTestResults_EBiz_ABF/AQ_ConsumeBundleID"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns2="http://xmlns.oracle.com/xdb/APPS_NE" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.eia.com/CommonLogging" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns4="http://xmlns.eia.com/ABS/EBiz/BindleABS/1.0" xmlns:ns6="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns5="http://nucor.eia.com/AO/Ebiz/L2C/BundleAM/1.0"
+         xmlns:ns7="http://nucor.eia.com/AO/Ebiz/L2C/BundleAO/1.0"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_PublishBundlesAndTestResults_EBiz_ABF/JMS_PublishBundle"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:ns10="http://xmlns.eia.com/EO/common/Common/1.0"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_PublishBundlesAndTestResults_EBiz_ABF/DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_PublishBundlesAndTestResults_EBiz_ABF/DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+         xmlns:ns14="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns15="http:/xmlns.eia.com/Implementation/ABS/NUC_NUC_EBizQualityResults_ABS/QualityResults/1.0"
+         xmlns:ns16="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAM/1.0"
+         xmlns:ns17="http://xmlns.eia.com/AO/Ebiz/D2S/QualityResultsAO/1.0"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_PublishBundlesAndTestResults_EBiz_ABF/JMS_PublishTestResults"
+         xmlns:ns20="http://xmlns.oracle.com/pcbpel/adapter/jms/Manish/NUC_PublishBundlesAndTestResults_EBiz_ABF/JMS_PublishBundleTestResults"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/aq/DV1Application/NUC_PublishBundlesAndTestResults_EBiz_ABF/AQ_ConsumeBundleID"
+          location="../WSDLs/AQ_ConsumeBundleID.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="AQ_ConsumeBundleID" partnerLinkType="ns1:Dequeue_plt" myRole="Dequeue_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="QueryBundleABS" partnerLinkType="ns4:QueryBundleABS" partnerRole="SyncPortType"/>
+    <partnerLink name="JMS_PublishBundle" partnerLinkType="ns8:Produce_Message_plt" partnerRole="Produce_Message_role"/>
+    <partnerLink name="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                 partnerLinkType="ns11:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_plt"
+                 partnerRole="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_role"/>
+    <partnerLink name="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                 partnerLinkType="ns12:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED_plt"
+                 partnerRole="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED_role"/>
+    <partnerLink name="QueryQualityResultsABS" partnerLinkType="ns15:QueryQualityResultsABS"
+                 partnerRole="QualityResults"/>
+    <partnerLink name="JMS_PublishTestResults" partnerLinkType="ns19:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+    <partnerLink name="JMS_PublishBundleTestResults" partnerLinkType="ns20:Produce_Message_plt"
+                 partnerRole="Produce_Message_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Bundle_Dequeue_InputVariable" messageType="ns1:XXNUC_COMM_OUTINTF_OBJ_TYP_msg"/>
+    <variable name="QueryBundleByBolNo_Sync_InputVariable" messageType="ns4:QueryBundleByBolNoRequestMessageType"/>
+    <variable name="QueryBundleByBolNo_Sync_OutputVariable" messageType="ns4:QueryBundleByBolNoResponseMessageType"/>
+    <variable name="Update_BOL_PUBLISHED_InputVariable"
+              messageType="ns12:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg"/>
+    <variable name="g_ParameterList" element="ns14:parameters"/>
+    <variable name="QueryQualityResultsABS_QueryByBolNo_InputVariable"
+              messageType="ns15:QueryQAResultsByBolNoRequestMessageType"/>
+    <variable name="QueryQualityResultsABS_QueryByBolNo_OutputVariable"
+              messageType="ns15:QueryQAResultsByBolNoResponseMessageType"/>
+    <variable name="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable"
+              messageType="ns11:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence8">
+        <if name="IfBundlePresent">
+          <documentation>
+            <![CDATA[Yes]]>
+          </documentation>
+          <condition>$g_ParameterList/ns14:item[ns14:name = 'BOLFlag']/ns14:value = 'Y'</condition>
+          <sequence name="Sequence9">
+            <assign name="Assign_BOLNumber">
+              <copy>
+                <from>'E'</from>
+                <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:flag</to>
+              </copy>
+              <copy>
+                <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:bolNumber</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED" bpelx:invokeAsDetail="no"
+                    partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                    portType="ns12:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED_ptt"
+                    operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                    inputVariable="Update_BOL_PUBLISHED_InputVariable"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+        <if name="IfTestResultFlag">
+          <documentation>
+            <![CDATA[Yes]]>
+          </documentation>
+          <condition>$g_ParameterList/ns14:item[ns14:name = 'TestResultFlag']/ns14:value = 'Y'</condition>
+          <sequence name="Sequence17">
+            <assign name="Assign_BOLNum">
+              <copy>
+                <from>'E'</from>
+                <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:flag</to>
+              </copy>
+              <copy>
+                <from>xp20:current-dateTime()</from>
+                <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:lastUpdateDate</to>
+              </copy>
+              <copy>
+                <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:bolNumber</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                    partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                    portType="ns11:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_ptt"
+                    operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                    inputVariable="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable"
+                    bpelx:invokeAsDetail="no"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[No]]>
+            </documentation>
+            <empty name="DoNothing"/>
+          </else>
+        </if>
+        <scope name="ScopeCatchAllLogging">
+          <variables>
+            <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                      messageType="ns3:CommonLoggingRequestMessage"/>
+          </variables>
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <sequence name="Sequence2">
+            <assign name="Assign_CatchAll">
+              <copy>
+                <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I137'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+              </copy>
+              <copy>
+                <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),' BOlNo:',$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value,':',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                    operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick_AqMessage" createInstance="yes">
+      <onMessage bpelx:name="Receive_BundleAQ" variable="Bundle_Dequeue_InputVariable" partnerLink="AQ_ConsumeBundleID"
+                 portType="ns1:Dequeue_ptt" operation="Dequeue">
+        <sequence name="Sequence1">
+          <scope name="Scope_StartLogging">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns3:CommonLoggingRequestMessage"/>
+              <variable name="title" type="xsd:string"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence3">
+              <assign name="Assign_StartLogging">
+                <copy>
+                  <from>oraext:setFlowInstanceTitle(string($Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId))</from>
+                  <to>$title</to>
+                </copy>
+                <copy>
+                  <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I137'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                      operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Assign_ParameterList">
+            <copy>
+              <from>oraext:parseXML($Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/XML_DATA)</from>
+              <to>$g_ParameterList</to>
+            </copy>
+          </assign>
+          <if name="IfBundlePresent">
+            <documentation>
+              <![CDATA[PublishBundle]]>
+            </documentation>
+            <condition>($g_ParameterList/ns14:item[ns14:name = 'BOLFlag']/ns14:value = 'Y') or ($g_ParameterList/ns14:item[ns14:name = 'WayBillFlag']/ns14:value = 'Y')</condition>
+            <scope name="Scope_FetchBundle">
+              <variables>
+                <variable name="JMS_PublishBundle_Produce_Message_InputVariable" messageType="ns8:Produce_Message_msg"/>
+                <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                          messageType="ns3:CommonLoggingRequestMessage"/>
+              </variables>
+              <sequence name="Sequence5">
+                <assign name="Assign_BolNo">
+                  <copy>
+                    <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns5:Bundle/ns7:BolNumber</to>
+                  </copy>
+                  <copy>
+                    <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:TransactionRequestID</to>
+                  </copy>
+                  <copy>
+                    <from>'ENG'</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:Language</to>
+                  </copy>
+                  <copy>
+                    <from>'I137'</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:ComponentID</to>
+                  </copy>
+                  <copy>
+                    <from>ora:getCompositeName()</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:ServiceName</to>
+                  </copy>
+                  <copy>
+                    <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:TransactionIDREF</to>
+                  </copy>
+                  <copy>
+                    <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:TransactionName</to>
+                  </copy>
+                  <copy>
+                    <from>2</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:Source</to>
+                  </copy>
+                  <copy>
+                    <from>1</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:Target</to>
+                  </copy>
+                  <copy>
+                    <from>xp20:current-dateTime()</from>
+                    <to>$QueryBundleByBolNo_Sync_InputVariable.QueryBundleByBolNoRequestMessage/ns6:HeaderRq/ns6:TimeStamp</to>
+                  </copy>
+                </assign>
+                <invoke name="Invoke_QueryBundleABS" partnerLink="QueryBundleABS" portType="ns4:SyncPortType"
+                        operation="QueryBundleByBolNo_Sync" inputVariable="QueryBundleByBolNo_Sync_InputVariable"
+                        outputVariable="QueryBundleByBolNo_Sync_OutputVariable" bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+                    <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizBundles_ABS","endpointURI")</bpelx:toProperty>
+                  </bpelx:toProperties>
+                </invoke>
+                <if name="IfABSResponse">
+                  <documentation>
+                    <![CDATA[Success]]>
+                  </documentation>
+                  <condition>($QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns6:HeaderRs/ns6:Status/ns6:Status = 'SUCCESS') and (count($QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns5:ListOfBundles/ns7:Bundle) &gt; 0) and ($g_ParameterList/ns14:item[ns14:name = 'BOLFlag']/ns14:value = 'Y')</condition>
+                  <sequence>
+                    <assign name="Xform_QueryABSoutput_To_JMSPublishInput">
+                      <bpelx:annotation>
+                        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                      </bpelx:annotation>
+                      <copy>
+                        <from>ora:doXSLTransformForDoc("../Transformations/Xform_QueryABSoutput_To_JMSPublishInput.xsl", $QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage)</from>
+                        <to variable="JMS_PublishBundle_Produce_Message_InputVariable" part="body"/>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_JMS_PublishBundle" partnerLink="JMS_PublishBundle"
+                            portType="ns8:Produce_Message_ptt" operation="Produce_Message"
+                            inputVariable="JMS_PublishBundle_Produce_Message_InputVariable" bpelx:invokeAsDetail="no">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="jca.jms.JMSType">'BundleInfo'</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                    <assign name="Assign_BOL_PUBLISHED">
+                      <copy>
+                        <from>'Y'</from>
+                        <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:flag</to>
+                      </copy>
+                      <copy>
+                        <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                        <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:bolNumber</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                            partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                            portType="ns12:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED_ptt"
+                            operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                            inputVariable="Update_BOL_PUBLISHED_InputVariable" bpelx:invokeAsDetail="no"/>
+                  </sequence>
+                  <elseif>
+                    <documentation>
+                      <![CDATA[SuccessWithoutErrorMsg]]>
+                    </documentation>
+                    <condition>($QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns6:HeaderRs/ns6:Status/ns6:Status = 'SUCCESS') and (count($QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns5:ListOfBundles/ns7:Bundle) &lt;= 0)</condition>
+                    <sequence name="Sequence10">
+                      <assign name="Assign_BOL_PUBLISHED">
+                        <copy>
+                          <from>'E'</from>
+                          <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:flag</to>
+                        </copy>
+                        <copy>
+                          <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                          <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:bolNumber</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED" bpelx:invokeAsDetail="no"
+                              partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                              portType="ns12:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED_ptt"
+                              operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                              inputVariable="Update_BOL_PUBLISHED_InputVariable"/>
+                      <assign name="Assign_BundleError">
+                        <copy>
+                          <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                        </copy>
+                        <copy>
+                          <from>'NextGen'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                        </copy>
+                        <copy>
+                          <from>'I137'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                        </copy>
+                        <copy>
+                          <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                        </copy>
+                        <copy>
+                          <from>ora:getCompositeName()</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                        </copy>
+                        <copy>
+                          <from>2</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                        </copy>
+                        <copy>
+                          <from>4</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>'BMG-177'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                        </copy>
+                        <copy>
+                          <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                        </copy>
+                        <copy>
+                          <from>'SOA'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                        </copy>
+                        <copy>
+                          <from>'SOA'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                              operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </elseif>
+                  <elseif>
+                    <documentation>
+                      <![CDATA[SuccessWithWayBill]]>
+                    </documentation>
+                    <condition>($QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns6:HeaderRs/ns6:Status/ns6:Status = 'SUCCESS') and (count($QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns5:ListOfBundles/ns7:Bundle) &gt; 0) and ($g_ParameterList/ns14:item[ns14:name = 'WayBillFlag']/ns14:value = 'Y')</condition>
+                    <empty name="WayBillBundle"/>
+                  </elseif>
+                  <else>
+                    <documentation>
+                      <![CDATA[Error]]>
+                    </documentation>
+                    <sequence name="Sequence7">
+                      <assign name="Assign_BOL_PUBLISHED">
+                        <copy>
+                          <from>'E'</from>
+                          <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:flag</to>
+                        </copy>
+                        <copy>
+                          <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                          <to>$Update_BOL_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHEDInput_msg/ns13:bolNumber</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                              partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                              portType="ns12:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED_ptt"
+                              operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_BOL_PUBLISHED"
+                              inputVariable="Update_BOL_PUBLISHED_InputVariable" bpelx:invokeAsDetail="no"/>
+                      <assign name="Assign_BundleError">
+                        <copy>
+                          <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                        </copy>
+                        <copy>
+                          <from>'NextGen'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                        </copy>
+                        <copy>
+                          <from>'I137'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                        </copy>
+                        <copy>
+                          <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                        </copy>
+                        <copy>
+                          <from>ora:getCompositeName()</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                        </copy>
+                        <copy>
+                          <from>2</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                        </copy>
+                        <copy>
+                          <from>4</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>concat('FlowId:',ora:getFlowId(),':',$QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage/ns5:OperationResult/ns9:Errors/ns9:OperationResultError[1])</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                        </copy>
+                        <copy>
+                          <from>1</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                        </copy>
+                        <copy>
+                          <from>'SOA'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                        </copy>
+                        <copy>
+                          <from>'SOA'</from>
+                          <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                              operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                    </sequence>
+                  </else>
+                </if>
+              </sequence>
+            </scope>
+            <else>
+              <documentation>
+                <![CDATA[DoNotPublishBundle]]>
+              </documentation>
+              <empty name="DoNothing"/>
+            </else>
+          </if>
+          <if name="IfTestResultPresent">
+            <documentation>
+              <![CDATA[Yes]]>
+            </documentation>
+            <condition>($g_ParameterList/ns14:item[ns14:name = 'TestResultFlag']/ns14:value = 'Y') or ($g_ParameterList/ns14:item[ns14:name = 'WayBillFlag']/ns14:value = 'Y')</condition>
+            <sequence name="Sequence11">
+              <scope name="Scope_FetchTestResults">
+                <variables>
+                  <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                            messageType="ns3:CommonLoggingRequestMessage"/>
+                  <variable name="JMS_PublishTestResult_Produce_Message_InputVariable"
+                            messageType="ns19:Produce_Message_msg"/>
+                </variables>
+                <sequence>
+                  <assign name="Assign_BOLNo">
+                    <copy>
+                      <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns17:GmdResultsPub/ns17:GmdResultPub/ns17:BolNo</to>
+                    </copy>
+                    <copy>
+                      <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:TransactionRequestID</to>
+                    </copy>
+                    <copy>
+                      <from>'ENG'</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:Language</to>
+                    </copy>
+                    <copy>
+                      <from>'I137'</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:ComponentID</to>
+                    </copy>
+                    <copy>
+                      <from>ora:getCompositeName()</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:ServiceName</to>
+                    </copy>
+                    <copy>
+                      <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:TransactionIDREF</to>
+                    </copy>
+                    <copy>
+                      <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:TransactionName</to>
+                    </copy>
+                    <copy>
+                      <from>2</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:Source</to>
+                    </copy>
+                    <copy>
+                      <from>1</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:Target</to>
+                    </copy>
+                    <copy>
+                      <from>xp20:current-dateTime()</from>
+                      <to>$QueryQualityResultsABS_QueryByBolNo_InputVariable.QueryQAResultsByBolNoRequestMessage/ns6:HeaderRq/ns6:TimeStamp</to>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_QueryQualityResultsABS" partnerLink="QueryQualityResultsABS"
+                          portType="ns15:QualityResults" operation="QueryByBolNo"
+                          inputVariable="QueryQualityResultsABS_QueryByBolNo_InputVariable"
+                          outputVariable="QueryQualityResultsABS_QueryByBolNo_OutputVariable" bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizQualityResults_ABS","endpointURI")</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                  <if name="IfABSResponse">
+                    <documentation>
+                      <![CDATA[SUCCESS]]>
+                    </documentation>
+                    <condition>($QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns6:HeaderRs/ns6:Status/ns6:Status = 'SUCCESS') and (count($QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns17:GmdResultsPub/ns17:GmdResultPub) &gt; 0 ) and ($g_ParameterList/ns14:item[ns14:name = 'TestResultFlag']/ns14:value = 'Y')</condition>
+                    <sequence name="Sequence12">
+                      <assign name="Xform_QueryQAResultsABSoutput_To_JMSQAResultsPublishInput">
+                        <bpelx:annotation>
+                          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                        </bpelx:annotation>
+                        <copy>
+                          <from>ora:doXSLTransformForDoc("../Transformations/Xform_QueryQAResultsABSoutput_To_JMSQAResultsPublishInput.xsl", $QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage)</from>
+                          <to variable="JMS_PublishTestResult_Produce_Message_InputVariable" part="body"/>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_JMS_PublishTestResult" partnerLink="JMS_PublishTestResults"
+                              portType="ns19:Produce_Message_ptt" operation="Produce_Message"
+                              inputVariable="JMS_PublishTestResult_Produce_Message_InputVariable"
+                              bpelx:invokeAsDetail="no">
+                        <bpelx:toProperties>
+                          <bpelx:toProperty name="jca.jms.JMSType">'QualityResultsInfo'</bpelx:toProperty>
+                        </bpelx:toProperties>
+                      </invoke>
+                      <assign name="Assign_TestResult_PUBLISHED">
+                        <copy>
+                          <from>'Y'</from>
+                          <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:flag</to>
+                        </copy>
+                        <copy>
+                          <from>xp20:current-dateTime()</from>
+                          <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:lastUpdateDate</to>
+                        </copy>
+                        <copy>
+                          <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                          <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:bolNumber</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                              partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                              portType="ns11:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_ptt"
+                              operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                              inputVariable="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                    </sequence>
+                    <elseif>
+                      <documentation>
+                        <![CDATA[SuccessWithoutErrorMsg]]>
+                      </documentation>
+                      <condition>($QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns6:HeaderRs/ns6:Status/ns6:Status = 'SUCCESS') and (count($QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns17:GmdResultsPub/ns17:GmdResultPub) &lt;= 0)</condition>
+                      <sequence name="Sequence13">
+                        <assign name="Assign_TestResult_PUBLISHED">
+                          <copy>
+                            <from>'E'</from>
+                            <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:flag</to>
+                          </copy>
+                          <copy>
+                            <from>xp20:current-dateTime()</from>
+                            <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:lastUpdateDate</to>
+                          </copy>
+                          <copy>
+                            <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                            <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:bolNumber</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                                partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                                portType="ns11:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_ptt"
+                                operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                                inputVariable="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable"
+                                bpelx:invokeAsDetail="no"/>
+                        <assign name="Assign_TestResultError">
+                          <copy>
+                            <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                          </copy>
+                          <copy>
+                            <from>'NextGen'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                          </copy>
+                          <copy>
+                            <from>'I137'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                          </copy>
+                          <copy>
+                            <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                          </copy>
+                          <copy>
+                            <from>ora:getCompositeName()</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                          </copy>
+                          <copy>
+                            <from>2</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                          </copy>
+                          <copy>
+                            <from>4</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                          </copy>
+                          <copy>
+                            <from>'BMG-177'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                          </copy>
+                          <copy>
+                            <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                          </copy>
+                          <copy>
+                            <from>'SOA'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                          </copy>
+                          <copy>
+                            <from>'SOA'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_PL"
+                                portType="ns3:CommonLogging" operation="process"
+                                inputVariable="Invoke_CommonLogging_PL_process_InputVariable">
+                                <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                                </invoke>
+                      </sequence>
+                    </elseif>
+                    <elseif>
+                      <documentation>
+                        <![CDATA[WayBillTestResults]]>
+                      </documentation>
+                      <condition>($QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns6:HeaderRs/ns6:Status/ns6:Status = 'SUCCESS') and (count($QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns17:GmdResultsPub/ns17:GmdResultPub) &gt; 0 ) and ($g_ParameterList/ns14:item[ns14:name = 'WayBillFlag']/ns14:value = 'Y')</condition>
+                      <empty name="WayBillTestRsultsFound"/>
+                    </elseif>
+                    <else>
+                      <documentation>
+                        <![CDATA[ERROR]]>
+                      </documentation>
+                      <sequence name="Sequence14">
+                        <assign name="Assign_TestResult_PUBLISHED">
+                          <copy>
+                            <from>'E'</from>
+                            <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:flag</to>
+                          </copy>
+                          <copy>
+                            <from>xp20:current-dateTime()</from>
+                            <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:lastUpdateDate</to>
+                          </copy>
+                          <copy>
+                            <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                            <to>$DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable.DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHEDInput_msg/ns18:bolNumber</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                                partnerLink="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                                portType="ns11:DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_ptt"
+                                operation="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED"
+                                inputVariable="DbUpdateXXNUC_WSH_BOL_GMD_RSLT_STG_RESULTS_PUBLISHED_InputVariable"
+                                bpelx:invokeAsDetail="no"/>
+                        <assign name="Assign_TestResultError">
+                          <copy>
+                            <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                          </copy>
+                          <copy>
+                            <from>'NextGen'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                          </copy>
+                          <copy>
+                            <from>'I137'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                          </copy>
+                          <copy>
+                            <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                          </copy>
+                          <copy>
+                            <from>ora:getCompositeName()</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                          </copy>
+                          <copy>
+                            <from>2</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                          </copy>
+                          <copy>
+                            <from>4</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                          </copy>
+                          <copy>
+                            <from>concat('FlowId:',ora:getFlowId(),':',$QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage/ns16:OperationResult/ns9:Errors/ns9:OperationResultError[1])</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                          </copy>
+                          <copy>
+                            <from>1</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                          </copy>
+                          <copy>
+                            <from>'SOA'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                          </copy>
+                          <copy>
+                            <from>'SOA'</from>
+                            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_PL"
+                                portType="ns3:CommonLogging" operation="process"
+                                inputVariable="Invoke_CommonLogging_PL_process_InputVariable">
+                                <bpelx:toProperties>
+                          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                        </bpelx:toProperties>
+                                </invoke>
+                      </sequence>
+                    </else>
+                  </if>
+                </sequence>
+              </scope>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[No]]>
+              </documentation>
+              <empty name="DoNothing"/>
+            </else>
+          </if>
+          <if name="If_Check_WayBill">
+            <documentation>
+              <![CDATA[Yes]]>
+            </documentation>
+            <condition>$g_ParameterList/ns14:item[ns14:name = 'WayBillFlag']/ns14:value = 'Y'</condition>
+            <!--sequence name="Sequence15"-->
+              <scope name="Scope_ToPublishWayBill">
+                <variables>
+                  <variable name="Invoke_JMS_PiblishBundleTestResults_Produce_Message_InputVariable"
+                            messageType="ns20:Produce_Message_msg"/>
+                </variables>
+                <sequence name="Sequence16">
+                  <assign name="Transformation_Bundle_TestRsults">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/Transformation_BundleTestResults.xsl", $QueryBundleByBolNo_Sync_OutputVariable.QueryBundleByBolNoResponseMessage, "QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage", $QueryQualityResultsABS_QueryByBolNo_OutputVariable.QueryQAResultsByBolNoResponseMessage)</from>
+                      <to variable="Invoke_JMS_PiblishBundleTestResults_Produce_Message_InputVariable" part="body"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_JMS_PiblishBundleTestResults" partnerLink="JMS_PublishBundleTestResults"
+                          portType="ns20:Produce_Message_ptt" operation="Produce_Message"
+                          inputVariable="Invoke_JMS_PiblishBundleTestResults_Produce_Message_InputVariable"
+                          bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                      <bpelx:toProperty name="jca.jms.JMSType">'WayBillInfo'</bpelx:toProperty>
+                    </bpelx:toProperties>
+                  </invoke>
+                </sequence>
+              </scope>
+            <!--/sequence-->
+            <else>
+              <documentation>
+                <![CDATA[WayBillFlagNo]]>
+              </documentation>
+              <empty name="NoWayBillToPublish"/>
+            </else>
+          </if>
+          <scope name="Scope_EndLogging">
+            <variables>
+              <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                        messageType="ns3:CommonLoggingRequestMessage"/>
+            </variables>
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence name="Sequence4">
+              <assign name="Assign_EndLogging">
+                <copy>
+                  <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/REQUEST_ID</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>'I137'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$Bundle_Dequeue_InputVariable.XXNUC_COMM_OUTINTF_OBJ_TYP/TXN_NAME</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-013'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>$g_ParameterList/ns14:item[ns14:name = 'BOLNum']/ns14:value</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+                </copy>
+                <copy>
+                  <from>'SOA'</from>
+                  <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns3:CommonLogging"
+                      operation="process" inputVariable="Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

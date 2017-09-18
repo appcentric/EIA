@@ -1,0 +1,139 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Mar 10 12:28:02 CST 2017
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELUitlity_DBLoad"
+               targetNamespace="http://xmlns.oracle.com/SMG_common/UtilityXREF_DBLoad/BPELUitlity_DBLoad"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SMG_common/UtilityXREF_DBLoad/BPELUitlity_DBLoad"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://oracle.com/sca/soapservice/SMG-common/UtilityXREF_DBLoad/BPELUtilityDBLoad"
+         xmlns:ns2="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/SMG-common/UtilityXREF_DBLoad/DB_Read_XrefStg"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Read_XrefStg"
+         xmlns:ns5="http://schemas.oracle.com/service/bpel/common"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/SMG-common/UtilityXREF_DBLoad/DB_XrefDataStg_update">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://oracle.com/sca/soapservice/SMG-common/UtilityXREF_DBLoad/BPELUtilityDBLoad"
+          location="../WSDLs/BPELUtilityDBLoadWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="BPELUitlity_DBLoad" partnerLinkType="ns1:SOAPService" myRole="execute_ptt"/>
+    <partnerLink name="WS_UtilityXREF" partnerLinkType="ns2:UtilityXREF" partnerRole="UtilityXREFProvider"/>
+    <partnerLink name="DB_Read_XrefStg" partnerLinkType="ns3:DB_Read_XrefStg_plt" partnerRole="DB_Read_XrefStg_role"/>
+    <partnerLink name="DB_XrefDataStg_update" partnerLinkType="ns6:DB_XrefDataStg_update_plt"
+                 partnerRole="DB_XrefDataStg_update_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="inputVariable" messageType="ns1:requestMessage"/>
+    <variable name="WS_UtilityXREF_ReqMsg" messageType="ns2:UtilityXREFRequestMessage"/>
+    <variable name="DB_Read_XrefStg_ReqMsg" messageType="ns3:DB_Read_XrefStgSelect_inputParameters"/>
+    <variable name="DB_Read_XrefStg_RespMsg" messageType="ns3:XxnucXrefDataStgCollection_msg"/>
+    <variable name="eod" type="xsd:string"/>
+    <variable name="params" element="ns5:parameters"/>
+    <variable name="DB_XrefDataStg_update_ReqMsg" messageType="ns6:XxnucXrefDataStgCollection_msg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive" partnerLink="BPELUitlity_DBLoad" portType="ns1:execute_ptt" operation="execute"
+             variable="inputVariable"/>
+    <while name="WhileEOD">
+      <condition>$eod = 'false'</condition>
+      <sequence name="Sequence1">
+        <invoke name="Invoke_DB_Read_XrefStg" bpelx:invokeAsDetail="no" partnerLink="DB_Read_XrefStg"
+                portType="ns3:DB_Read_XrefStg_ptt" operation="DB_Read_XrefStgSelect"
+                inputVariable="DB_Read_XrefStg_ReqMsg" outputVariable="DB_Read_XrefStg_RespMsg"/>
+        <if name="If1">
+          <documentation>
+            <![CDATA[RecordExists]]>
+          </documentation>
+          <condition>count($DB_Read_XrefStg_RespMsg.XxnucXrefDataStgCollection/ns4:XxnucXrefDataStg) &gt; 0</condition>
+          <sequence name="Sequence2">
+            <forEach parallel="no" counterName="idx" name="ForEach_Data">
+              <startCounterValue>1</startCounterValue>
+              <finalCounterValue>count($DB_Read_XrefStg_RespMsg.XxnucXrefDataStgCollection/ns4:XxnucXrefDataStg)</finalCounterValue>
+              <scope name="Scope1">
+                <sequence name="Sequence3">
+                  <assign name="setParams">
+                    <copy>
+                      <from>'idx'</from>
+                      <to>$params/ns5:item/ns5:name</to>
+                    </copy>
+                    <copy>
+                      <from>$idx</from>
+                      <to>$params/ns5:item/ns5:value</to>
+                    </copy>
+                  </assign>
+                  <assign name="set_WS_UtilityXREF_ReqMsg">
+                    <bpelx:annotation>
+                      <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                    </bpelx:annotation>
+                    <copy>
+                      <from>ora:doXSLTransformForDoc("../Transformations/set_WS_UtilityXREF_ReqMsg.xsl", $DB_Read_XrefStg_RespMsg.XxnucXrefDataStgCollection, "params", $params)</from>
+                      <to variable="WS_UtilityXREF_ReqMsg" part="payload"/>
+                    </copy>
+                  </assign>
+                  <invoke name="Invoke_WS_UtilityXREF" bpelx:invokeAsDetail="no" partnerLink="WS_UtilityXREF"
+                          portType="ns2:UtilityXREF" operation="process" inputVariable="WS_UtilityXREF_ReqMsg"/>
+                </sequence>
+              </scope>
+            </forEach>
+            <assign name="DB_XrefDataStg_update_ReqMsg">
+              <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+              </bpelx:annotation>
+              <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/setDB_XrefDataStg_update_ReqMsg.xsl", $DB_Read_XrefStg_RespMsg.XxnucXrefDataStgCollection)</from>
+                <to variable="DB_XrefDataStg_update_ReqMsg" part="XxnucXrefDataStgCollection"/>
+              </copy>
+            </assign>
+            <invoke name="Invoke_DB_XrefDataStg_update" bpelx:invokeAsDetail="no" partnerLink="DB_XrefDataStg_update"
+                    portType="ns6:DB_XrefDataStg_update_ptt" operation="update"
+                    inputVariable="DB_XrefDataStg_update_ReqMsg"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[NoRecord]]>
+            </documentation>
+            <assign name="setEOD">
+              <copy>
+                <from>'true'</from>
+                <to>$eod</to>
+              </copy>
+            </assign>
+          </else>
+        </if>
+      </sequence>
+    </while>
+  </sequence>
+</process>

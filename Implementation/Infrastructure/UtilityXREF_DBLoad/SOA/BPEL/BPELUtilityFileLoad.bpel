@@ -1,0 +1,100 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Jun 03 08:43:16 CDT 2016
+  Author:  Drew.Orgill
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELUtilityFileLoad"
+         targetNamespace="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/ftp/Tensile/UtilityXREF_FileLoad/ftpUtilityFileLoad"
+         xmlns:ns2="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG_SOA/UtilityXREF_FileLoad/ftpFileDelete"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG-common/UtilityXREF_DBLoad/ReadXREFFile"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/SMG-common/UtilityXREF_DBLoad/DB_XREF_DataStg">
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <import namespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG-common/UtilityXREF_DBLoad/ReadXREFFile"
+            location="../WSDLs/ReadXREFFile.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="ReadXREFFile" partnerLinkType="ns4:Get_plt" myRole="Get_role"/>
+        <partnerLink name="DB_XREF_DataStg" partnerLinkType="ns5:DB_XREF_DataStg_plt"
+                     partnerRole="DB_XREF_DataStg_role"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:BPELUtilityFileLoadResponseMessage"/>
+        <variable name="Invoke_FileLoad_SynchRead_Reqmsg" messageType="ns1:Empty_msg"/>
+        <variable name="Invoke_FileLoad_SynchRead_RespMsg" messageType="ns1:ChunkedRead_msg"/>
+        <variable name="Utility_XREF_ReqMsg" messageType="ns2:UtilityXREFRequestMessage"/>
+        <variable name="DeleteFile_ReqMsg" messageType="ns3:Empty_msg"/>
+        <variable name="DeleteFile_RespMsg" messageType="ns3:DeleteFileService_msg"/>
+        <variable name="inputVariable" messageType="ns4:Get_msg"/>
+        <variable name="DB_XREF_DataStg_ReqMsg" messageType="ns5:XxnucXrefDataStgCollection_msg"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in BPELUtilityFileLoad.wsdl) -->
+        <receive name="receiveInput" partnerLink="ReadXREFFile" portType="ns4:Get_ptt" variable="inputVariable" createInstance="yes"
+                 operation="Get"/>
+        <assign name="set_DB_XREF_DataStg">
+            <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/set_DB_XREF_DataStgReqMsg.xsl", $inputVariable.body)</from>
+                <to variable="DB_XREF_DataStg_ReqMsg" part="XxnucXrefDataStgCollection"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_DB_XREF_DataStg" bpelx:invokeAsDetail="no" partnerLink="DB_XREF_DataStg"
+                portType="ns5:DB_XREF_DataStg_ptt" operation="insert" inputVariable="DB_XREF_DataStg_ReqMsg"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+    </sequence>
+</process>

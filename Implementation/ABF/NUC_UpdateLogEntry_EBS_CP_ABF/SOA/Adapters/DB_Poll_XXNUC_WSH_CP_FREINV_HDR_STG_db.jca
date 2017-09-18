@@ -1,0 +1,21 @@
+<adapter-config name="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG" adapter="db" wsdlLocation="../WSDLs/DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="AppsDB" location="eis/DB/ebsapps"/>
+  <endpoint-activation portType="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG_ptt" operation="receive">
+    <activation-spec className="oracle.tip.adapter.db.DBActivationSpec">
+      <property name="DescriptorName" value="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG.XxnucWshCpFreinvHdrStg"/>
+      <property name="QueryName" value="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STGSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_Poll_XXNUC_WSH_CP_FREINV_HDR_STG-or-mappings.xml"/>
+      <property name="PollingStrategy" value="LogicalDeletePollingStrategy"/>
+      <property name="MarkReadColumn" value="INV_ERROR_FLAG"/>
+      <property name="MarkReadValue" value="Y"/>
+      <property name="MarkUnreadValue" value="N"/>
+      <property name="PollingInterval" value="300"/>
+      <property name="MaxRaiseSize" value="1"/>
+      <property name="MaxTransactionSize" value="unlimited"/>
+      <property name="NumberOfThreads" value="1"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="input" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+  
+  <element name="processXREFData">
+		<complexType>
+			<sequence>
+        <element name="XREFName" type="string"/>
+				<element name="ReferenceColumn" type="string"/>
+        <element name="ReferenceValue" type="string"/>
+        <element name="LookupColumn" type="string"/>
+        <element name="LookupValue" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+
+
+  <element name="processResult">
+		<complexType>
+			<sequence>
+				<element name="status" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+
+  <element name="column-node">
+  	<complexType>
+			<sequence>
+       <element name="column" minOccurs="0" maxOccurs="unbounded">
+        <complexType>
+         <attribute name="name" type="string"/>
+         </complexType>  
+       </element>
+    </sequence>
+    </complexType>
+	</element>
+  
+
+  
+  
+</schema>

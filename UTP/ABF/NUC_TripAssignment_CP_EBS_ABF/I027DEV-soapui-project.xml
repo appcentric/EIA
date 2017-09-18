@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="c62d3c89-767e-4ee4-a6e5-6b885c17b857" activeEnvironment="Default" name="I027DEV" resourceRoot="" soapui-version="5.2.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="c67b3a12-35a1-4be5-8963-f9f050e18167" wsaVersion="NONE" name="TripAssignmentBinding" type="wsdl" bindingName="{http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0}TripAssignmentBinding" soapVersion="1_1" anonymous="optional" definition="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?WSDL"><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?WSDL</con:url><con:content><![CDATA[<wsdl:definitions name="TripAssignment" targetNamespace="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns1="http://schemas.oracle.com/service/bpel/common" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <abstractWSDL>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF!1.0/WSDLs/TripAssignment.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="TripAssignment">
+    <plnk:role name="TripAssignmentProvider" portType="client:TripAssignment"/>
+  </plnk:partnerLinkType>
+  <wsp:Policy wsu:Id="wss_username_token_service_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+      <wsp:Policy>
+        <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+          <wsp:Policy>
+            <sp:WssUsernameToken10/>
+          </wsp:Policy>
+        </sp:UsernameToken>
+      </wsp:Policy>
+    </sp:SupportingTokens>
+  </wsp:Policy>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0" schemaLocation="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?XSD=../Schemas/TripAssignment.xsd"/>
+    </schema>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?XSD=../Schemas/params.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="TripAssignmentRequestMessage">
+    <wsdl:part name="payload" element="client:process"/>
+  </wsdl:message>
+  <wsdl:portType name="TripAssignment">
+    <wsdl:operation name="process">
+      <wsdl:input message="client:TripAssignmentRequestMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TripAssignmentBinding" type="client:TripAssignment">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsp:PolicyReference URI="#wss_username_token_service_policy" wsdl:required="false" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"/>
+    <wsdl:operation name="process">
+      <soap:operation style="document" soapAction="process"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="tripassignment_client_ep">
+    <wsdl:port name="TripAssignment_pt" binding="client:TripAssignmentBinding">
+      <soap:address location="http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?XSD=../Schemas/TripAssignment.xsd</con:url><con:content><![CDATA[<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="process">
+    <complexType>
+      <sequence>
+        <element name="input" type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep?XSD=../Schemas/params.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://schemas.oracle.com/service/bpel/common" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:p="http://schemas.oracle.com/service/bpel/common" xmlns="http://schemas.oracle.com/service/bpel/common">
+  <xsd:element name="parameters">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="item" minOccurs="1" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="name" type="xsd:string"/>
+              <xsd:element name="value" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep</con:endpoint></con:endpoints><con:operation id="deb56eef-ac12-41fb-a22f-caa5ce1c435c" isOneWay="false" action="process" name="process" bindingOperationName="process" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="4f6f95ae-943e-41eb-a824-aa67e6c34352" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://rzmkea252.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_TripAssignment_CP_EBS_ABF/tripassignment_client_ep</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0">\r
+  <soapenv:Header>
+    <wsse:Security soapenv:mustUnderstand="1"
+                   xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+              
+      <wsse:UsernameToken>
+                   
+        <wsse:Username>ws_ebsapp_user</wsse:Username>
+                   
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">ws_ebsapp_user</wsse:Password>
+                
+      </wsse:UsernameToken>
+           
+    </wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>\r
+      <ns:process>\r
+         <ns:input>1</ns:input>\r
+      </ns:process>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="process"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

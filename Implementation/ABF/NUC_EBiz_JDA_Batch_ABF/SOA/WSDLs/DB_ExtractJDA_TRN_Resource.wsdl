@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_ExtractJDA_TRN_Resource"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Resource"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Resource"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Resource"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_ExtractJDA_TRN_Resource_plt" >
+    <plt:role name="DB_ExtractJDA_TRN_Resource_role" >
+      <plt:portType name="tns:DB_ExtractJDA_TRN_Resource_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Resource" schemaLocation="../Schemas/DB_ExtractJDA_TRN_Resource_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_ExtractJDA_TRN_ResourceSelect_inputParameters">
+        <wsdl:part name="DB_ExtractJDA_TRN_ResourceSelect_inputParameters" element="top:DB_ExtractJDA_TRN_ResourceSelect_vOrgID_vResourceInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="XxnucGmeJdaTrnResourceStgCollection_msg">
+        <wsdl:part name="XxnucGmeJdaTrnResourceStgCollection" element="top:XxnucGmeJdaTrnResourceStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_ExtractJDA_TRN_Resource_ptt">
+        <wsdl:operation name="DB_ExtractJDA_TRN_ResourceSelect">
+            <wsdl:input message="tns:DB_ExtractJDA_TRN_ResourceSelect_inputParameters"/>
+            <wsdl:output message="tns:XxnucGmeJdaTrnResourceStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

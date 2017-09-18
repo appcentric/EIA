@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:docattachAMObj="http://xmlns.eia.com/AO/EBiz/common/DocumentAttachmentAM/1.0"
+            xmlns:doattAOObj="http://xmlns.eia.com/AO/EBiz/common/DocumentAttachmentAO/1.0"
+            xmlns:appscontextObj="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+            xmlns:res="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+            targetNamespace="http://xmlns.eia.com/AO/EBiz/common/DocumentAttachmentAM/1.0"
+            elementFormDefault="qualified">
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/DocumentAttachmentAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/DocumentAttachmentAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/AppsContextAO.xsd"/>
+  <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+              schemaLocation="../../../../AO/EBiz/common/V1.0/OperationResultAO.xsd"/>
+  <xsd:complexType name="AddAttachmentRequestMessageType">
+    <xsd:sequence>
+      <xsd:element name="AppsContext" type="appscontextObj:AppsContextType" minOccurs="0" maxOccurs="1" nillable="true"/>
+      <xsd:element name="DocumentAttachment" type="doattAOObj:DocumentType" minOccurs="0" maxOccurs="1" nillable="true"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddAttachmentResponseMessageType">
+    <xsd:sequence>
+      <xsd:element name="OperationResult" type="res:OperationResultType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="AddAttachmentRequestMessage"
+               type="docattachAMObj:AddAttachmentRequestMessageType"/>
+  <xsd:element name="AddAttachmentResponseMessage"
+               type="docattachAMObj:AddAttachmentResponseMessageType"/>
+</xsd:schema>

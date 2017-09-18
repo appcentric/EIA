@@ -1,0 +1,15 @@
+<adapter-config name="OA_EmpDataLoad" adapter="apps" wsdlLocation="OA_EmpDataLoad.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="DEV_Apps_xxnuc" UIOracleAppType="DBOBJECT" UIConcurrentPgmName="XXNUC_HR_EMP_IFACE" adapterRef=""/>
+  <endpoint-interaction portType="OA_EmpDataLoad_ptt" operation="OA_EmpDataLoad">
+    <interaction-spec className="oracle.tip.adapter.apps.AppsStoredProcedureInteractionSpec">
+      <property name="IRepInternalName" value="CONCURRENTPROGRAM:XXNUC_HR_EMP_IFACE:Process"/>
+      <property name="SchemaName" value="APPS"/>
+      <property name="PackageName" value="XXNUC_FND_REQUEST_WRAPPER_PK"/>
+      <property name="ProcedureName" value="SUBMIT_REQUEST"/>
+      <property name="Username" value="sysadmin"/>
+      <property name="Responsibility" value="System Administrator"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

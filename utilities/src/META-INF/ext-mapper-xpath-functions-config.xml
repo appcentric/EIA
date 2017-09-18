@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--$Header$ -->
+<soa-xpath-functions xmlns="http://xmlns.oracle.com/soa/config/xpath" xmlns:utl="http://www.oracle.com/XSL/Transform/java/com.eia.soa.util.Configuration" >
+  <function name="utl:getSystemProperty">
+    <className>com.eia.soa.util.Configuration.getSystemProperty</className>
+    <return type="string"/>
+     <params>
+      <param name="Property" type="string" minOccurs="1" maxOccurs="1"/>
+     </params>
+      <desc>This method returns EIA System Property. Accepts Property Name as the Input parameter and returns the property value from the EIA Configuration file</desc>
+  </function>
+  
+  <function name="utl:getSystemModuleProperty">
+    <className>com.eia.soa.util.Configuration.getSystemModuleProperty</className>
+    <return type="string"/>
+      <params>
+         <param name="Module" type="string" minOccurs="1" maxOccurs="1"/>
+	 	     <param name="Property" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method gets the Module level property set in the EIA configuration file. Accepts Module and Property Name as input parameter</desc>
+  </function>
+  
+  <function name="utl:getServiceProperty">
+    <className>com.eia.soa.util.Configuration.getServiceProperty</className>
+    <return type="string"/>
+      <params>
+         <param name="Service" type="string" minOccurs="1" maxOccurs="1"/>
+	 	 <param name="Property" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method gets the Service level property set in the EIA configuration file. Accepts Service Name and Property Name as input parameter</desc>
+  </function>
+  
+  <function name="utl:logErrorMessageToDB">
+    <className>com.eia.soa.util.Configuration.logErrorMessageToDB</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="faultMsg" type="node-set" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method gets the Service level property set in the EIA configuration file. Accepts Fault Message as input parameter</desc>
+  </function>
+  
+
+ <function name="utl:logErrorMessage">
+    <className>com.eia.soa.util.Configuration.logErrorMessage</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="Msg" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method Logs the error message to file on logs folder of the EIA Home</desc>
+  </function>
+
+  <function name="utl:logTraceMessage">
+    <className>com.eia.soa.util.Configuration.logTraceMessage</className>
+    <return type="string"/>
+      <params>
+	 	   <param name="Msg" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This method Logs the Fine (Level) message to file on logs folder of the EIA Home</desc>
+  </function>
+  <function name="utl:convertDate">
+    <className>com.eia.soa.util.Configuration.convertDate</className>
+    <return type="string"/>
+      <params>
+		   <param name="existingDateFormat" type="string" minOccurs="1" maxOccurs="1"/>
+			<param name="dateText" type="string" minOccurs="1" maxOccurs="1"/>
+			<param name="newDateFormat" type="string" minOccurs="1" maxOccurs="1"/>
+      </params>
+    <desc>This function converts between different date formats</desc>
+  </function>
+</soa-xpath-functions>

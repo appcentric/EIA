@@ -1,0 +1,48 @@
+<div class="ui-g dashboard">
+    <div class="ui-g-12 ui-md-6">
+        <div class="card overview">
+            <div class="overview-content clearfix">
+                <span class="overview-title">Nucor Stock</span>
+                <div *ngIf="stocks">
+                    <span class="overview-badge">{{stocks.quote.ask_date | date:'shortDate'}}</span>
+                    <span class="overview-detail">{{stocks.quote.last}}</span>
+                    <span>{{stocks.quote.change_percentage}}%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+        <div class="card overview">
+            <div class="overview-content clearfix">
+            <div *ngIf="weatherData">
+                <span class="overview-title">Norfolk, NE Weather</span>
+                    <span class="overview-badge">{{weatherData.current_observation.weather}}
+                        <img src="{{weatherData.current_observation.icon_url}}">
+                    </span>
+                    <span class="overview-detail">{{weatherData.current_observation.temp_f}}°F</span>
+                    <a href="{{weatherData.current_observation.forecast_url}}">Forecast</a>
+                </div>
+            </div>
+            <!--<iframe width='100%' frameBorder='0' style='height: 50vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,42.068,-97.394,11?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>-->
+        </div>
+    </div>  
+</div>
+<!-- <p-dialog header="Nucor Stock Details" [resizable]="false" responsive="true" [(visible)]="stockDetails" [formGroup]="form" (ngSubmit)="save(form.value)">
+    <div *ngIf="stocks">
+        <li>Date: {{stocks.quote.ask_date | date:'shortDate'}}</li>
+        <li>Symbol: {{stocks.quote.symbol}}</li>
+        <li>Description: {{stocks.quote.description}}</li>
+        <li>Current: {{stocks.quote.last}}</li>
+        <li>Percentage Change: {{stocks.quote.change_percentage}}%</li>
+        <li>Change: {{stocks.quote.change}}</li>
+        <li>Average Volume: {{stocks.quote.average_volume | number:'3.0-0'}}</li>
+        <li>Volume: {{stocks.quote.volume | number:'3.0-0'}}</li>
+        <li>Close: {{stocks.quote.close}}</li>
+        <li>High: {{stocks.quote.high}}</li>
+        <li>Low: {{stocks.quote.low}}</li>
+        <li>Open: {{stocks.quote.open}}</li>
+        <li>Previous Close: {{stocks.quote.prevclose}}</li>
+        <li>52 Week High: {{stocks.quote.week_52_high}}</li>
+        <li>52 Week Low: {{stocks.quote.week_52_low}}</li>        
+    </div>
+</p-dialog> -->

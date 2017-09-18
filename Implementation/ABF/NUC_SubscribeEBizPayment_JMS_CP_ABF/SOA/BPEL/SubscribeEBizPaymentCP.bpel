@@ -1,0 +1,406 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Nov 04 03:58:22 CST 2015
+  Author:  nirav.sanghavi
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SubscribeEBizPaymentCP"
+               targetNamespace="http://xmlns.eia.com/Implementation/ABF/NUC_SubscribeEBizPayment_JMS_CP_ABF/SubscribeEBizPaymentCP/1.0"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.eia.com/Implementation/ABF/NUC_SubscribeEBizPayment_JMS_CP_ABF/SubscribeEBizPaymentCP/1.0"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_SubscribeEBizPayment_JMS_CP_ABF/JMSConsumePayment"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/DV1Application/NUC_SubscribeEBizPayment_JMS_CP_ABF/DbInsert_Operation_OMSI"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns3="http://xmlns.eia.com/CommonLogging"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/DbInsert_Operation_OMSI"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAO/1.0"
+         xmlns:ns11="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceAO/1.0"
+         xmlns:ns12="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+         xmlns:ns6="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ns10="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+         xmlns:ns9="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+         xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/P2P/PaymentAM/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns13="http://schemas.oracle.com/service/bpel/common">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/service/bpel/common"
+          location="oramds:/apps/EIAMetadata/EO/common/V1.0/XSLParameters.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/jms/DV1Application/NUC_SubscribeEBizPayment_JMS_CP_ABF/JMSConsumePayment"
+          location="../WSDLs/JMSConsumePayment.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="JMSConsumePayment" partnerLinkType="ns1:Consume_Message_plt" myRole="Consume_Message_role"/>
+    <partnerLink name="DbInsert_Operation_OMSI" partnerLinkType="ns2:DbInsert_Operation_OMSI_plt"
+                 partnerRole="DbInsert_Operation_OMSI_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns3:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive_JMSConsumePayment_Consume_Message_InputVariable" messageType="ns1:Consume_Message_msg"/>
+    <variable name="InvokeDbInsert_Operation_OMSI_insert_InputVariable" messageType="ns2:OperationCollection_msg"/>
+    <variable name="InvokeDbInsert_Operation_OMSI_insert_OutputVariable" messageType="ns2:OperationCollection_msg"/>
+    <variable name="ReprocessFlag" type="xsd:string"/>
+     <variable name="StartDate" type="xsd:dateTime"/> 
+     <variable name="EndDate" type="xsd:dateTime"/>
+    <variable name="params" element="ns13:parameters"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence3">
+        <scope name="Scope1">
+          <variables>
+            <variable name="Invoke_CommonLogging_PL_process_InputVariable"
+                      messageType="ns3:CommonLoggingRequestMessage"/>
+          </variables>
+          <sequence name="Sequence4">
+            <assign name="Assign_CatchAllError">
+              <copy>
+                <from>$Receive_JMSConsumePayment_Consume_Message_InputVariable.body/ns6:HeaderRs/ns6:RequestDetails/ns6:TransactionIDREF</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+              </copy>
+              <copy>
+                <from>'NextGen'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+              </copy>
+              <copy>
+                <from>'I101'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+              </copy>
+              <copy>
+                <from>'FreightPayments'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+              </copy>
+              <copy>
+                <from>ora:getCompositeName()</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+              </copy>
+              <copy>
+                <from>29</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+              </copy>
+              <copy>
+                <from>5</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+              </copy>
+              <copy>
+                <from>4</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+              </copy>
+              <copy>
+                <from>concat('FlowId:',ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>1</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+              </copy>
+              <copy>
+                <from>'SOA'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" bpelx:invokeAsDetail="no" partnerLink="CommonLogging_PL"
+                    portType="ns3:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable"/>
+            <assign name="Assign_CatchAll">
+              <copy>
+                <from>'BMG-029'</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+              </copy>
+              <copy>
+                <from>$Receive_JMSConsumePayment_Consume_Message_InputVariable.body/ns5:Payment/ns5:Payment/ns7:BasicPayment/ns7:Identifier</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                    portType="ns3:CommonLogging" operation="process"
+                    inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </sequence>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <receive name="Receive_JMSConsumePayment" partnerLink="JMSConsumePayment" portType="ns1:Consume_Message_ptt"
+             operation="Consume_Message" variable="Receive_JMSConsumePayment_Consume_Message_InputVariable"
+             createInstance="yes">
+             <bpelx:fromProperties>
+              <bpelx:fromProperty name="jca.jms.JMSProperty.ReprocessFlag" variable="ReprocessFlag"/>
+               <bpelx:fromProperty name="jca.jms.JMSProperty.StartDate" variable="StartDate"/>
+                <bpelx:fromProperty name="jca.jms.JMSProperty.EndDate" variable="EndDate"/>
+              </bpelx:fromProperties>
+             </receive>
+    <scope name="Scope_StartLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence1">
+       <!-- <assign name="Transformation1">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_2.xsl", $params)</from>
+            <to variable="params"/>
+          </copy>
+        </assign>-->
+        <assign name="Assign_StartLogging">
+          <copy>
+            <from>$Receive_JMSConsumePayment_Consume_Message_InputVariable.body/ns6:HeaderRs/ns6:RequestDetails/ns6:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I101'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'FreightPayments'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>29</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="AssignParams">
+      <copy>
+        <from>$ReprocessFlag</from>
+        <to>$params/ns13:item/ns13:msg</to>
+      </copy>
+      <copy>
+        <from>concat(substring($StartDate,1,4),'-',substring($StartDate,6,2),'-',substring($StartDate,9,2),'T',substring($StartDate,12,8),'.000-06:00')</from>
+        <to>$params/ns13:item/ns13:name</to>
+      </copy>
+      <copy>
+        <from>concat(substring($EndDate,1,4),'-',substring($EndDate,6,2),'-',substring($EndDate,9,2),'T',substring($EndDate,12,8),'.000-06:00')</from>
+        <to>$params/ns13:item/ns13:value</to>
+      </copy>
+    </assign>
+    <if name="IfReprocessRequired">
+      <documentation>
+        <![CDATA[ReprocessNotReqd]]>
+      </documentation>
+      <condition>$ReprocessFlag != 'Y'</condition>
+      <sequence>
+        <assign name="Transformation_Input_To_DbInput">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Input_To_DbInput.xsl", $Receive_JMSConsumePayment_Consume_Message_InputVariable.body)</from>
+            <to variable="InvokeDbInsert_Operation_OMSI_insert_InputVariable" part="OperationCollection"/>
+          </copy>
+        </assign>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[ReprocessReqd]]>
+        </documentation>
+        <assign name="Xform_CDM_DBInput">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Xform_CDM_DBInput.xsl", $Receive_JMSConsumePayment_Consume_Message_InputVariable.body, "params", $params)</from>
+            <to variable="InvokeDbInsert_Operation_OMSI_insert_InputVariable" part="OperationCollection"/>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <!--<assign name="Xform_CDM_DBInput">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Xform_CDM_DBInput.xsl", $Receive_JMSConsumePayment_Consume_Message_InputVariable.body, "params", $params)</from>
+        <to variable="InvokeDbInsert_Operation_OMSI_insert_InputVariable" part="OperationCollection"/>
+      </copy>
+    </assign>-->
+    <!--assign name="Transformation_Input_To_DbInput_old">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Input_To_DbInput.xsl", $Receive_JMSConsumePayment_Consume_Message_InputVariable.body)</from>
+        <to variable="InvokeDbInsert_Operation_OMSI_insert_InputVariable" part="OperationCollection"/>
+      </copy>
+    </assign-->
+    <if name="If_CPFreightData">
+      <documentation>
+        <![CDATA[Present]]>
+      </documentation>
+      <condition>count($InvokeDbInsert_Operation_OMSI_insert_InputVariable.OperationCollection/ns4:Operation) &gt; 0</condition>
+      <invoke name="InvokeDbInsert_Operation_OMSI" bpelx:invokeAsDetail="no" partnerLink="DbInsert_Operation_OMSI"
+              portType="ns2:DbInsert_Operation_OMSI_ptt" operation="insert"
+              inputVariable="InvokeDbInsert_Operation_OMSI_insert_InputVariable"
+              outputVariable="InvokeDbInsert_Operation_OMSI_insert_OutputVariable"/>
+      <else>
+        <documentation>
+          <![CDATA[Empty]]>
+        </documentation>
+        <empty name="DoNothing"/>
+      </else>
+    </if>
+    <scope name="Scope_EndLogging">
+      <variables>
+        <variable name="Invoke_CommonLogging_PL_process_InputVariable" messageType="ns3:CommonLoggingRequestMessage"/>
+      </variables>
+      <sequence name="Sequence2">
+        <assign name="Assign_EndLogging">
+          <copy>
+            <from>$Receive_JMSConsumePayment_Consume_Message_InputVariable.body/ns6:HeaderRs/ns6:RequestDetails/ns6:TransactionIDREF</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I101'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ComponentId</to>
+          </copy>
+          <copy>
+            <from>'FreightPayments'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>29</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>5</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-028'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageCode</to>
+          </copy>
+          <copy>
+            <from>$Receive_JMSConsumePayment_Consume_Message_InputVariable.body/ns5:Payment/ns5:Payment/ns7:BasicPayment/ns7:Identifier</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:TransactionStatus</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:CreatedBy</to>
+          </copy>
+          <copy>
+            <from>'SOA'</from>
+            <to>$Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns3:UpdatedBy</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL"
+                portType="ns3:CommonLogging" operation="process"
+                inputVariable="Invoke_CommonLogging_PL_process_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

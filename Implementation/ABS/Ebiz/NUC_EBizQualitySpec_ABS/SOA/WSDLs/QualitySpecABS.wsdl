@@ -1,0 +1,30 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="QualitySpecABS"
+     targetNamespace="http://oracle.com/sca/soapservice/Manish/NUC_EBizQualitySpec_ABS/QualitySpecABS"
+     xmlns:tns="http://oracle.com/sca/soapservice/Manish/NUC_EBizQualitySpec_ABS/QualitySpecABS"
+     xmlns:inp1="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAM/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="QualitySpecABS">
+        <plnk:role name="QualitySpecABSProvider" portType="tns:execute_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.eia.com/AO/Ebiz/D2S/QualitySpecsAM/1.0" schemaLocation="oramds:/apps/EIAMetadata/AO/EBiz/D2S/V1.0/QualitySpecsAM.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="querySpecsReq" element="inp1:QueryQualitySpecsAddRq"/>
+    </wsdl:message>
+    <wsdl:message name="replyMessage">
+        <wsdl:part name="querySpecsRes" element="inp1:QueryQualitySpecsAddRs"/>
+    </wsdl:message>
+    <wsdl:portType name="execute_ptt">
+        <wsdl:operation name="queryQualitySpec">
+            <wsdl:input message="tns:requestMessage"/>
+            <wsdl:output message="tns:replyMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

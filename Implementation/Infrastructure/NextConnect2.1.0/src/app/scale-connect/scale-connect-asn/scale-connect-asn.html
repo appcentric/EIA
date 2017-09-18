@@ -1,0 +1,155 @@
+<!--  This contains the header with title of the page and loading symbol -->
+<div *ngIf="auth.logoutOnTokenExpiration()"></div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>ScaleConnect ASN</h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <button *ngIf="errorMessage" type="button" class="red-btn" pButton icon="ui-icon-info" (mouseenter)="op.show($event)"></button>
+                        <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onAfterHide)="closeError()">{{errorMessage}}</p-overlayPanel>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Reset" (click)="resetTable(dt)"></button>
+                        <button pButton type="button" icon="ui-icon-update" label="Update" (click)="updateTable()" ></button>
+                        <button [disabled]="!ASNs" pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <load-bar [visible]="loading"></load-bar>
+            <!--HAD TO REMOVE resizableColumns="true" as it caused an error with styleClass for Details -->
+            <p-dataTable #exportCSV #dt [value]="ASNs" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" sortField="LastUpdatedDate" sortOrder="-1" [responsive]="true">
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <p-column field="MillContractNum" header="PO Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="VehicleID" header="Vehicle ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="PackingList" header="Packing List" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MethodOfTransport" header="Method of Transport" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-multiSelect [disabled]="!ASNs" [options]="methodsOfTransport" [(ngModel)]="methodsOfTransportFilter" defaultLabel="All UOMs" (onChange)="dt.filter($event.value=methodsOfTransportFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+                    </ng-template>
+                </p-column>
+                <p-column field="DateShipped" header="Date Shipped" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!ASNs" [(ngModel)]="dateShippedDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=dateShippedDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-ASN="rowData" pTemplate>
+                        {{ASN.DateShipped | date}}
+                    </ng-template>
+                </p-column>
+                <p-column field="CreatedDate" header="Created Date" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!ASNs" [(ngModel)]="createdDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=createdDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-ASN="rowData" pTemplate>
+                        {{ASN.CreatedDate | date:'medium'}}
+                    </ng-template>
+                </p-column>
+                <p-column field="LastUpdatedDate" header="Last Updated Date" [sortable]="true" [filter]="true" filterMatchMode="contains" [style]="{'overflow':'visible'}">
+                    <ng-template pTemplate="filter" let-col>
+                        <p-calendar [disabled]="!ASNs" [(ngModel)]="lastUpdatedDateFilter" placeholder="Select Date" showIcon="true" dateFormat="yy-mm-dd" dataType="string" (onSelect)="dt.filter($event.value=lastUpdatedDateFilter,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-calendar>
+                    </ng-template>
+                    <ng-template let-ASN="rowData" pTemplate>
+                        {{ASN.LastUpdatedDate | date:'medium'}}
+                    </ng-template>
+                </p-column>
+                <!-- hidden columns --> 
+                <p-column field="ShippingNoticeRefID" hidden="true" header="Shipping Notice ID" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MillContractActive" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MillShippingNoticeActive" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MethodOfTransport" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="CustomerRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ShipmentRefID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="WayBillNum" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                    <ng-template let-ASN pTemplate="rowexpansion">
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <h2>ScaleConnect ASN Details: {{ASN.MillContractNum}}</h2>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Vehicle ID: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.VehicleID}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Method Of Transport: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.MethodOfTransport}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Customer Ref ID: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.CustomerRefID}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Packing List: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.PackingList}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Contract Active: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.MillContractActive}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Shipping Notice Active: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.MillShippingNoticeActive}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Due Date: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.WayBillNum}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Shipment Ref ID: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.ShipmentRefID}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Shipping Notice Ref ID: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.ShippingNoticeRefID}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Date Shipped: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.DateShipped | date}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Created Date: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.CreatedDate | date:'medium'}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-4">Last Updated Date: </div>
+                                        <div class="ui-g-8">
+                                            {{ASN.LastUpdatedDate | date:'medium'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+            </p-dataTable>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<wsdl:definitions
+     name="DB_GetPODetails"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NUC_DJJ/NUC_APInvoice_DJJ_EBiz_ABF/DB_GetPODetails"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NUC_DJJ/NUC_APInvoice_DJJ_EBiz_ABF/DB_GetPODetails"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetPODetails"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_GetPODetails_plt" >
+    <plt:role name="DB_GetPODetails_role" >
+      <plt:portType name="tns:DB_GetPODetails_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+     <schema xmlns="http://www.w3.org/2001/XMLSchema">
+       <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_GetPODetails"
+               schemaLocation="../Schemas/DB_GetPODetails_sp.xsd" />
+     </schema>
+    </wsdl:types>
+    <wsdl:message name="args_in_msg">
+        <wsdl:part name="InputParameters" element="db:InputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="args_out_msg">
+        <wsdl:part name="OutputParameters" element="db:OutputParameters"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_GetPODetails_ptt">
+        <wsdl:operation name="DB_GetPODetails">
+            <wsdl:input message="tns:args_in_msg"/>
+            <wsdl:output message="tns:args_out_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

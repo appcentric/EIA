@@ -1,0 +1,794 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jun 12 00:18:52 CDT 2013
+  Author:  Vivek Srinivasan
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EBizGLJE_ABS" targetNamespace="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns1="http://xmlns.eia.com/Infrastructure/EIAAsyncErrorHandlingBPELProcess/1.0"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/apps/NucorSOA/NUC_EBizGLJE_ABS/OA_CreateJournal_Sync"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://xmlns.eia.com/EO/Common/1.0"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.eia.com/AO/EBiz/A2R/JournalAM/1.0"
+         xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+         xmlns:ns7="http://xmlns.eia.com/AO/EBiz/A2R/JournalAO/1.0"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBizGLJE_ABS/OA_LaunchGLImport"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/sp/OA_LaunchGLImport"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns10="http://nucor.eia.com/CommonLogging"
+         xmlns:ns11="http://xmlns.eia.com/CommonLogging" xmlns:ns12="http://xmlns.eia.com/EO/common/Header/1.0"
+         xmlns:ess="http://xmlns.oracle.com/scheduler">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import location="JournalABSWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"
+          namespace="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"/>
+  <import namespace="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+          location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/A2R/JournalABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.eia.com/EO/Common/1.0" location="oramds:/apps/EIAMetadata/EO/common/Common.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <!--import namespace="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0"
+          location="JournalABS.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/-->
+  <partnerLinks>
+    <partnerLink name="JournalABS" partnerLinkType="client:JournalABS" myRole="SyncPortType"/>
+    <partnerLink name="EIAAsyncErrorHandlingBPELProcess" partnerLinkType="ns1:EIAAsyncErrorHandlingBPELProcess"
+                 partnerRole="EIAAsyncErrorHandlingBPELProcessProvider"/>
+    <partnerLink name="OA_CreateJournal_Sync" partnerLinkType="ns2:OA_CreateJournal_Sync_plt"
+                 partnerRole="OA_CreateJournal_Sync_role"/>
+    <partnerLink name="OA_LaunchGLImport" partnerLinkType="ns8:OA_LaunchGLImport_plt"
+                 partnerRole="OA_LaunchGLImport_role"/>
+    <partnerLink name="CommonLogging_PL" partnerLinkType="ns11:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="CreateJournal_SyncReqMsg" messageType="client:CreateJournalRequestMessageType"/>
+    <variable name="CreateListOfJournals_SyncReqMsg" messageType="client:CreateListOfJournalsRequestMessageType"/>
+    <variable name="CreateJournal_SyncRespMsg" messageType="client:CreateJournalResponseMessageType"/>
+    <variable name="CreateListOfJournals_SyncRespMsg" messageType="client:CreateListOfJournalsResponseMessageType"/>
+    <variable name="OA_Adapter_ReqMsg" messageType="ns2:GlInterfaceCollection_msg"/>
+    <variable name="EIAAsyncErrorHandlingBPELProcessReqMsg"
+              messageType="ns1:EIAAsyncErrorHandlingBPELProcessRequestMessage"/>
+    <variable name="EIA_HEADER_MESSAGE" element="ns3:ProcessHeader"/>
+    <variable name="EIAFaultMsg" messageType="client:EIAFaultMsgType"/>
+    <variable name="gbl_operation" type="xsd:string"/>
+    <variable name="gbl_title" type="xsd:string"/>
+    <variable name="OA_LaunchGLImport_ReqMsg" messageType="ns8:args_in_msg"/>
+    <variable name="OA_LaunchGLImport_RespMsg" messageType="ns8:args_out_msg"/>
+    <variable name="LaunchGLImport_RespMsg" messageType="client:LaunchGLImportResponseMessageType"/>
+    <variable name="LaunchGLImport_ReqMsg" messageType="client:LaunchGLImportRequestMessageType"/>
+    <variable name="g_Invoke_CommonLogging_PL_process_InputVariable" messageType="ns11:CommonLoggingRequestMessage"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="client:EIAFault" faultVariable="EIAFaultMsg" faultMessageType="client:EIAFaultMsgType">
+      <sequence name="EIAFault">
+        <assign name="XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>
+            <![CDATA[Operation is CreateJournals]]>
+          </documentation>
+          <condition>$gbl_operation="CreateJournals_Sync"</condition>
+          <sequence>
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                    portType="ns1:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Set_CreateJournal_SyncRespMsg">
+              <copy>
+                <from>'E'</from>
+                <to>$CreateJournal_SyncRespMsg.CreateJournalResponseMessage/ns4:OperationResult/ns5:Stats</to>
+              </copy>
+            </assign>
+            <assign name="Assign_CommonLogging_PL">
+              <copy>
+                <from>4</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+              </copy>
+              <copy>
+                <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                    operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_CreateJournal_Sync" variable="CreateJournal_SyncRespMsg" partnerLink="JournalABS"
+                   portType="client:SyncPortType" operation="CreateJournal_Sync"/>
+            <rethrow name="Rethrow"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Operation is CreateListOfJournals]]>
+            </documentation>
+            <sequence name="Sequence2">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                      portType="ns1:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Set_CreateListOfJournal_SyncRespMsg">
+                <copy>
+                  <from>'E'</from>
+                  <to>$CreateListOfJournals_SyncRespMsg.CreateListOfJournalsResponseMessage/ns4:OperationResult/ns5:Stats</to>
+                </copy>
+              </assign>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>4</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <reply name="Reply_CreateListOfJournal_Sync" variable="CreateListOfJournals_SyncRespMsg"
+                     partnerLink="JournalABS" portType="client:SyncPortType" operation="CreateListOfJournals_Sync"/>
+              <rethrow name="Rethrow"/>
+            </sequence>
+          </else>
+        </if>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="CatchAll">
+        <assign name="setEIAFaultMsg">
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/setEIAFaultMsg.xsl",$EIA_HEADER_MESSAGE)</from>
+            <to>$EIAFaultMsg.Fault</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultName()</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Code</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Text</to>
+          </copy>
+          <copy>
+            <from>"1.0"</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Severity</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to>$EIAFaultMsg.Fault/ns3:FaultMessage/ns3:Stack</to>
+          </copy>
+        </assign>
+        <assign name="XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/XformEIAFaultMsg_EIAAsyncErrorHandlingBPELProcessReqMsg.xsl", $EIAFaultMsg.Fault)</from>
+            <to variable="EIAAsyncErrorHandlingBPELProcessReqMsg" part="FaultMessage"/>
+          </copy>
+        </assign>
+        <if name="On_Operation">
+          <documentation>
+            <![CDATA[Operation is CreateJournals]]>
+          </documentation>
+          <condition>$gbl_operation="CreateJournals_Sync"</condition>
+          <sequence>
+            <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                    portType="ns1:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                    inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <assign name="Set_CreateJournal_SyncRespMsg">
+              <copy>
+                <from>'E'</from>
+                <to>$CreateJournal_SyncRespMsg.CreateJournalResponseMessage/ns4:OperationResult/ns5:Stats</to>
+              </copy>
+            </assign>
+            <assign name="Assign_CommonLogging_PL">
+              <copy>
+                <from>4</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+              </copy>
+              <copy>
+                <from>''</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+              </copy>
+              <copy>
+                <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageDescription</to>
+              </copy>
+              <copy>
+                <from>2</from>
+                <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+              </copy>
+            </assign>
+            <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                    operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                    bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+            <reply name="Reply_CreateJournal_Sync" variable="CreateJournal_SyncRespMsg" partnerLink="JournalABS"
+                   portType="client:SyncPortType" operation="CreateJournal_Sync"/>
+            <rethrow name="Rethrow"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[Operation is CreateListOfJournals]]>
+            </documentation>
+            <sequence name="Sequence4">
+              <invoke name="Invoke_EIAAsyncErrorHandlingBPELProcess" partnerLink="EIAAsyncErrorHandlingBPELProcess"
+                      portType="ns1:EIAAsyncErrorHandlingBPELProcess" operation="processFault"
+                      inputVariable="EIAAsyncErrorHandlingBPELProcessReqMsg" bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAModuleProperty("ErrorHandler","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <assign name="Set_CreateListOfJournal_SyncRespMsg">
+                <copy>
+                  <from>'E'</from>
+                  <to>$CreateListOfJournals_SyncRespMsg.CreateListOfJournalsResponseMessage/ns4:OperationResult/ns5:Stats</to>
+                </copy>
+              </assign>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>4</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+                </copy>
+                <copy>
+                  <from>''</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageDescription</to>
+                </copy>
+                <copy>
+                  <from>2</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+              <reply name="Reply_CreateListOfJournal_Sync" variable="CreateListOfJournals_SyncRespMsg"
+                     partnerLink="JournalABS" portType="client:SyncPortType" operation="CreateListOfJournals_Sync"/>
+              <rethrow name="Rethrow"/>
+            </sequence>
+          </else>
+        </if>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+    <pick name="Pick1" createInstance="yes">
+      <onMessage variable="CreateJournal_SyncReqMsg" partnerLink="JournalABS" portType="client:SyncPortType"
+                 operation="CreateJournal_Sync">
+        <sequence name="CreateJournal_Sync">
+          <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>"CreateJournals_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("GL_Journals",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <scope name="Scope3">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns12:HeaderRq/ns12:TransactionRequestID</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns12:HeaderRq/ns12:Source</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns12:HeaderRq/ns12:Target</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns12:HeaderRq/ns12:TransactionName</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns12:HeaderRq/ns12:ComponentID</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Xform_CreateJournal_SyncReqMsg_OACreateJournalReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateJournal_SyncReqMsg_OACreateJournalReqMsg.xsl", $CreateJournal_SyncReqMsg.CreateJournalRequestMessage)</from>
+              <to variable="OA_Adapter_ReqMsg" part="GlInterfaceCollection"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_CreateJournal_Sync" partnerLink="OA_CreateJournal_Sync"
+                  portType="ns2:OA_CreateJournal_Sync_ptt" operation="insert" inputVariable="OA_Adapter_ReqMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns4:AppsContext/ns6:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns4:AppsContext/ns6:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns4:AppsContext/ns6:OrgId</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Set_CreateJournal_SyncRespMsg">
+            <copy>
+              <from>'S'</from>
+              <to>$CreateJournal_SyncRespMsg.CreateJournalResponseMessage/ns4:OperationResult/ns5:Stats</to>
+            </copy>
+            <copy>
+              <from>$CreateJournal_SyncReqMsg.CreateJournalRequestMessage/ns12:HeaderRq</from>
+              <to>$CreateJournal_SyncRespMsg.CreateJournalResponseMessage/ns12:HeaderRs/ns12:RequestDetails</to>
+            </copy>
+          </assign>
+          <scope name="Scope4">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_CreateJournal_Sync" variable="CreateJournal_SyncRespMsg" partnerLink="JournalABS"
+                 portType="client:SyncPortType" operation="CreateJournal_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="CreateListOfJournals_SyncReqMsg" partnerLink="JournalABS" portType="client:SyncPortType"
+                 operation="CreateListOfJournals_Sync">
+        <sequence name="CreateListOfJournals_Sync">
+          <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>"CreateListOfJournals_Sync"</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("GL_Journals",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <scope name="Scope1">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns12:HeaderRq/ns12:TransactionRequestID</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns12:HeaderRq/ns12:ComponentID</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns12:HeaderRq/ns12:TransactionName</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns12:HeaderRq/ns12:Source</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns12:HeaderRq/ns12:Target</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Xform_CreateListOfJournal_SyncReqMsg_OACreateJournalReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_CreateListOfJournal_SyncReqMsg_OACreateJournalReqMsg.xsl", $CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage)</from>
+              <to variable="OA_Adapter_ReqMsg" part="GlInterfaceCollection"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_CreateJournal_Sync" partnerLink="OA_CreateJournal_Sync"
+                  portType="ns2:OA_CreateJournal_Sync_ptt" operation="insert" inputVariable="OA_Adapter_ReqMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns4:AppsContext/ns6:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns4:AppsContext/ns6:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns4:AppsContext/ns6:OrgId</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Set_CreateListOfJournal_SyncRespMsg">
+            <copy>
+              <from>'S'</from>
+              <to>$CreateListOfJournals_SyncRespMsg.CreateListOfJournalsResponseMessage/ns4:OperationResult/ns5:Stats</to>
+            </copy>
+            <copy>
+              <from>$CreateListOfJournals_SyncReqMsg.CreateListOfJournalsRequestMessage/ns12:HeaderRq</from>
+              <to>$CreateListOfJournals_SyncRespMsg.CreateListOfJournalsResponseMessage/ns12:HeaderRs/ns12:RequestDetails</to>
+            </copy>
+          </assign>
+          <scope name="Scope2">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_CreateListOfJournals_Sync" variable="CreateListOfJournals_SyncRespMsg"
+                 partnerLink="JournalABS" portType="client:SyncPortType" operation="CreateListOfJournals_Sync"/>
+        </sequence>
+      </onMessage>
+      <onMessage variable="LaunchGLImport_ReqMsg" partnerLink="JournalABS" portType="client:SyncPortType"
+                 operation="LaunchGLImport">
+        <sequence name="Sequence5">
+          <assign name="setEHM">
+            <copy>
+              <from>xp20:current-dateTime()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessStartTime</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessDN</to>
+            </copy>
+            <copy>
+              <from>ora:getProcessVersion()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessRevision</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeInstanceId()</from>
+              <to>$EIA_HEADER_MESSAGE/ns3:ProcessInstanceID</to>
+            </copy>
+          </assign>
+          <assign name="setCompositeInformation">
+            <copy>
+              <from>'LaunchGLImport'</from>
+              <to>$gbl_operation</to>
+            </copy>
+            <copy>
+              <from>ora:setCompositeInstanceTitle(concat("GL_Journals",$gbl_operation))</from>
+              <to>$gbl_title</to>
+            </copy>
+          </assign>
+          <scope name="Scope5">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns12:HeaderRq/ns12:TransactionRequestID</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionId</to>
+                </copy>
+                <copy>
+                  <from>'NextGen'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ProjectName</to>
+                </copy>
+                <copy>
+                  <from>$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns12:HeaderRq/ns12:ComponentID</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ComponentId</to>
+                </copy>
+                <copy>
+                  <from>$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns12:HeaderRq/ns12:TransactionName</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionName</to>
+                </copy>
+                <copy>
+                  <from>ora:getCompositeName()</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:ProcessName</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LoggingSystem</to>
+                </copy>
+                <copy>
+                  <from>$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns12:HeaderRq/ns12:Source</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:SourceSystem</to>
+                </copy>
+                <copy>
+                  <from>$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns12:HeaderRq/ns12:Target</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TargetSystem</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:LogType</to>
+                </copy>
+                <copy>
+                  <from>'BMG-003'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+                <copy>
+                  <from>1</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:TransactionStatus</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <assign name="Xform_LaunchGLImportReqMsg_OA_LaunchGLImportReqMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_LaunchGLImportReqMsg_OA_LaunchGLImportReqMsg.xsl", $LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage)</from>
+              <to variable="OA_LaunchGLImport_ReqMsg" part="InputParameters"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_OA_LaunchGLImport" partnerLink="OA_LaunchGLImport" portType="ns8:OA_LaunchGLImport_ptt"
+                  operation="OA_LaunchGLImport" inputVariable="OA_LaunchGLImport_ReqMsg"
+                  outputVariable="OA_LaunchGLImport_RespMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.apps.Username">$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns4:AppsContext/ns6:UserName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.Responsibility">$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns4:AppsContext/ns6:ResponsibilityName</bpelx:toProperty>
+              <bpelx:toProperty name="jca.apps.ORG_ID">$LaunchGLImport_ReqMsg.LaunchGLImportRequestMessage/ns4:AppsContext/ns6:OrgId</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_OA_LaunchGLImportRespMsg_To_LaunchGLImportRespMsg">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/Xform_OA_LaunchGLImportRespMsg_To_LaunchGLImportRespMsg.xsl", $OA_LaunchGLImport_RespMsg.OutputParameters, "g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging", $g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging)</from>
+              <to variable="LaunchGLImport_RespMsg" part="LaunchGLImportResponseMessage"/>
+            </copy>
+          </assign>
+          <scope name="Scope6">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <sequence>
+              <assign name="Assign_CommonLogging_PL">
+                <copy>
+                  <from>'BMG-002'</from>
+                  <to>$g_Invoke_CommonLogging_PL_process_InputVariable.CommonLogging/ns11:MessageCode</to>
+                </copy>
+              </assign>
+              <invoke name="Invoke_CommonLogging_PL" partnerLink="CommonLogging_PL" portType="ns11:CommonLogging"
+                      operation="process" inputVariable="g_Invoke_CommonLogging_PL_process_InputVariable"
+                      bpelx:invokeAsDetail="no">
+                <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+                <bpelx:toProperties>
+                  <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                </bpelx:toProperties>
+              </invoke>
+            </sequence>
+          </scope>
+          <reply name="Reply_LaunchGLImport" variable="LaunchGLImport_RespMsg" partnerLink="JournalABS"
+                 portType="client:SyncPortType" operation="LaunchGLImport"/>
+        </sequence>
+      </onMessage>
+    </pick>
+  </sequence>
+</process>

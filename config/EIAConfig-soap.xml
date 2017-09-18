@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EIAConfiguration xmlns="http://xmlns.eia.com/config/1.0"	version="1.0">
+	<SystemConfig>
+		<!-- System configuration properties -->
+		<Property name="TRACING.ENABLED">false</Property>
+		<Property name="SYSTEM.ADMIN.EMAIL">sps_interfaces@nucor.com</Property>
+		<Property name="SOA.ENVIRONMENT">P</Property>
+
+		<ModuleConfiguration moduleName="ErrorHandler">
+			<Property name="LOGGER.TRACE">nuctrace</Property>
+			<Property name="LOGGER.ERROR">nucerror</Property>
+			<Property name="LOGGER.TRACE_LEVEL">ALL</Property>
+			<Property name="LOGGER.TRACE_FILE_NAME">/u01/Oracle/Middleware/EIA/logs</Property>
+			<Property name="LOGGER.TRACE_FILE_SIZE_MAX">100000</Property>
+			<Property name="LOGGER.TRACE_FILE_NUM">3</Property>
+			<Property name="ERROR.METHOD">DB_TABLE</Property>
+			<Property name="ERROR.DB_DSNAME">jdbc/mds/MDS_LocalTxDataSource</Property>
+			<Property name="ERROR.DB_ERROR_TABLE">ERROR_MESSAGES</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/common/EIAAsyncErrorHandlingBPELProcess/processFault_ep</Property>
+		</ModuleConfiguration>
+
+		<ModuleConfiguration moduleName="B2B_NOTIFY_EVENT">
+			<Property name="WellsFargoNYS_Nucor_ARLockbox_1.0_001">nys_interfaces@nucor.com;nys_b2blockbox@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNSB_Nucor_ARLockbox_1.0_001">nsb_interfaces@nucor.com;nsb_b2blockbox@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNYS_USNACHA_1.0_001">nys_interfaces@nucor.com; nys_b2bach@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNCA_USNACHA_1.0_001">ncs_interfaces@nucor.com;nca_b2bach@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNSHC_USNACHA_1.0_001">nhc_interfaces@nucor.com;nhc_b2bach@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNSB_USNACHA_1.0_001">nsb_interfaces@nucor.com;nsb_b2bach@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNSAR_USNACHA_1.0_001">nsb_interfaces@nucor.com;nsb_b2bach@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNYS_USPP_1.0_001">nys_interfaces@nucor.com;nys_b2bpp@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNSB_USPP_1.0_001">nsb_interfaces@nucor.com;nsb_b2bpp@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNCA_USPP_1.0_001">ncs_interfaces@nucor.com;nca_b2bpp@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNSA_USPP_1.0_001">nsa_interfaces@nucor.com;nsa_b2bpp@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="Nucor_WellsFargoNSHC_USPP_1.0_001">nhc_interfaces@nucor.com;nhc_b2bpp@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNSHC_Nucor_STATEMENT_1.0_001">nhc_interfaces@nucor.com;nhc_b2bbs@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNYS_Nucor_STATEMENT_1.0_001">nys_interfaces@nucor.com;nys_b2bbs@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNSB_Nucor_STATEMENT_1.0_001">nsb_interfaces@nucor.com;nsb_b2bbs@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNCA_Nucor_STATEMENT_1.0_001">nca_interfaces@nucor.com;nca_b2bbs@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNSDEC_Nucor_STATEMENT_1.0_001">nsd_interfaces@nucor.com;nsd_b2bbs@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="WellsFargoNSA_Nucor_STATEMENT_1.0_001">nsa_interfaces@nucor.com;nsa_b2bbs@nucor.com;sps_interfaces@nucor.com</Property>
+		</ModuleConfiguration>
+
+		<ModuleConfiguration moduleName="NSA_AS400">
+			<Property name="endpointURICreateCheckHeader">http://10.200.211.135:10081/web/services/CreateCheckHeader</Property>
+			<Property name="endpointURICreateCheckLine">http://10.200.211.135:10081/web/services/CreateCheckLine</Property>
+			<Property name="endpointURICreateInvoiceHeader">http://10.200.211.135:10081/web/services/CreateInvoiceHeader</Property>
+			<Property name="endpointURICreateInvoiceLine">http://10.200.211.135:10081/web/services/CreateInvoiceLine</Property>
+			<Property name="endpointURICreateCustomer">http://10.200.211.135:10081/web/services/CreateCustomer</Property>
+			<Property name="endpointURICreateVendor">http://10.200.211.135:10081/web/services/CreateVendor</Property>
+			<Property name="endpointURICreateVendorContact">http://10.200.211.135:10081/web/services/CREATE_VENDORCONTACT</Property>
+		</ModuleConfiguration>
+
+		<ModuleConfiguration moduleName="NSA_SOA">
+			<Property name="endpointURIMessageLogger">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nsa/MessageLogger/MessageLogger</Property>
+		</ModuleConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizAPInvoice_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizAPInvoice_ABS/InvoiceABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizARInvoice_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizARInvoice_ABS/ARInvoice_ABS_ep</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizCustomer_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizCustomer_ABS/CustomerABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EbizPurchaseOrder_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EbizPurchaseOrder_ABS/PurchaseOrderABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EbizSupplier_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizSupplier_ABS/SupplierABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizCustomerBalance_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizCustomerBalance_ABS/CustomerBalanceABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizGLJE_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizGLJE_ABS/JournalABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizPayment_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizPayment_ABS/PaymentABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBizPOReceipt_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="Transaction">850</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizPOReceipt_ABS/ReceiptABS</Property>
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NUC_Publish_EBiz_PO_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NUC_PublishPOReceipt_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NYS_EBiz_OEXR_GLJE_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Expense</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">Expense Reports</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_DIVISION_NUMBER">17</Property>
+			<Property name="DEFAULT_DIVISION_NAME">Yamato</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NCA_EBiz_OEXR_GLJE_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">ncs_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Expense</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">Expense Reports</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_DIVISION_NUMBER">49</Property>
+			<Property name="DEFAULT_DIVISION_NAME">Castrip</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_EBiz_SAP_GLJE_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Payroll</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBiz_SAP_GLJE_ABF/ProcessPayroll</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_PublishPayment_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Payroll</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_PublishPayment_EBiz_ABF/Manual_PublishPayment_ABF</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_SAP_EBiz_Garnish_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_TERMS_NAME">IMMEDIATE</Property>
+			<Property name="DEFAULT_CODE_COMBINATION">.210322.000.000.0000.0000000000.0000</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">MISCELLANEOUS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NCA_WagesAPInvoice_SAP_EBS_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_TERMS_NAME">IMMEDIATE</Property>
+			<Property name="DEFAULT_CODE_COMBINATION">.210322.000.000.0000.0000000000.0000</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">MISCELLANEOUS</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NCA_AS400SUP</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NYS_WagesAPInvoice_SAP_EBS_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_TERMS_NAME">IMMEDIATE</Property>
+			<Property name="DEFAULT_CODE_COMBINATION">.210322.000.000.0000.0000000000.0000</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">MISCELLANEOUS</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NYS_AS400SUP</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_APInvoice_L3_Ebiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_APInvoiceBatch_L3_Ebiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_AR_BatchHandler_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_ARInvoice_L3_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_CustomerUpdate_L3_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_SubscribeCustomer_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_SubscribeSupplier_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_SupplierContactUpdate_L3_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NHC_SupplierUpdate_L3_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+
+		<ServiceConfiguration serviceName="NHC_WagesAPInvoice_SAP_EBS_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nhc_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_TERMS_NAME">IMMEDIATE</Property>
+			<Property name="DEFAULT_CODE_COMBINATION">.210322.000.000.0000.0000000000.0000</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">MISCELLANEOUS</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NSHC_LEVEL_3</Property>
+			<Property name="DEFAULT_ORG_ID">434</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NYS_PurchaseOrder_DB2_Ebiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">NYS AS400</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NYS_AS400SUP</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_SHIP_TO_LOCATION">Nucor-Yamato Steel</Property>
+			<Property name="DEFAULT_BILL_TO_LOCATION">Nucor-Yamato Steel</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://spdecsoap3.sps.nucorsteel.local:8001/soa-infra/services/nys/NYS_PurchaseOrder_DB2_Ebiz_ABF/Manual_PO</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NCA_PurchaseOrder_DB2_Ebiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">NCA AS400</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NCA_AS400SUP</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_SHIP_TO_LOCATION">Castrip Arkansas</Property>
+			<Property name="DEFAULT_BILL_TO_LOCATION">Castrip Arkansas</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://spdecsoap3.sps.nucorsteel.local:8001/soa-infra/services/nys/NCA_PurchaseOrder_DB2_Ebiz_ABF/Manual_PO</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NSA_PurchaseOrder_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsa_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">NSA AS400</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NSA_AS400SUP</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_SHIP_TO_LOCATION">Nucor Steel Arkansas</Property>
+			<Property name="DEFAULT_BILL_TO_LOCATION">Nucor Steel Arkansas</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nys/NSA_PurchaseOrder_DB2_EBiz_ABF/NSA_PurchaseOrder_DB2_EBiz</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NYS_POReceipts_RAE_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_SubscribePayment_JMS_MIPS_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="ReducedDemographics">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Payroll</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">SAP</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/ReducedDemographics/bpelprocess_client_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NYS_DJJ_EBiz_APInvoice_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">AS400</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://spdecsoap3.sps.nucorsteel.local:8001/soa-infra/services/nys/NYS_DJJ_EBiz_APInvoice_ABF/DJJ_Manual_Invoice</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NYS_ARInvoice_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">NYS AS400</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NYS_AS400</Property>
+			<Property name="DEFAULT_WAREHOUSE_ID">374</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_ARInvoice_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">NCA MIPS</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">NCA_MIPS</Property>
+			<Property name="DEFAULT_WAREHOUSE_ID">375</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NYS_DJJ_EBiz_APInvoice_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">AS400</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nys/NYS_DJJ_EBiz_APInvoice_ABF/DJJ_Manual_Invoice</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NYS_FromFile_GLJE_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Miscellaneous</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">AS400</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBiz_SAP_GLJE_ABF/ProcessPayroll</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NUC_PublishCustomerEBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="EBS_USER_NAME">SOAUSER</Property>
+			<Property name="EBS_RESP_NAME">Oracle Customer Data Librarian Superuser</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_PublishSupplier_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_PublishSupplier_EBiz_ABF/PublishSupplierABF</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizOrganization_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizOrganization_ABS/organizationabs_client_ep</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NYS_CustomerUpdate_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizOrigSystemRef_ABS/OrigSystemRefABS</Property>
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NUC_EBizOrigSystemRef_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizOrigSystemRef_ABS/OrigSystemRefABS</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_ARInvoice_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">NSDEC MIPS</Property>
+			<Property name="DEFAULT_ORIG_SYSTEM">DEC_MIPS</Property>
+			<Property name="DEFAULT_WAREHOUSE_ID">101</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_GLJE_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_USER_JE_CATEGORY_NAME">Inventory</Property>
+			<Property name="DEFAULT_USER_JE_SOURCE_NAME">MIPS</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="DEFAULT_DIVISION_NUMBER">34</Property>
+			<Property name="DEFAULT_DIVISION_NAME">Decatur</Property>
+		</ServiceConfiguration>
+
+
+
+		<ModuleConfiguration moduleName="IFS">
+			<Property name="endpointURIConfirmSendSupplierURL">http://10.68.152.188:58080/fndext/internalsoapgateway</Property>
+		</ModuleConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_APInvoice_IFS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="DEFAULT_INVOICE_SOURCE">DEC IFS</Property>
+			<Property name="DEFAULT_PAYMENT_METHOD">CHECK</Property>
+			<Property name="DEFAULT_LINE_TYPE_LOOKUP_CODE">ITEM</Property>
+			<Property name="DEFAULT_CURRENCY_CODE">USD</Property>
+			<Property name="NOTIFY_DISTRIBUTION_LIST">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_APInvoice_MIPS_Ebiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_ARGL_BatchHandler_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_CustomerUpdate_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+
+		<ServiceConfiguration serviceName="NDR_SubscribeCustomer_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_SubscribeSupplier_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+
+		<ServiceConfiguration serviceName="NDR_SupplierContactUpdate_IFS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NDR_SupplierUpdate_IFS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsd_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred
+				during processing. Please
+				contact the System
+			Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+		</ServiceConfiguration>
+
+		<ServiceConfiguration serviceName="NBC_AR_BatchHandler_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="NOTIFIER_EMAIL_FROM">soap@nucor.com</Property>
+			<Property name="REPORT_EMAIL_LIST">accountsreceivable@nsbc.nucor.com,Doreen.Denmark@nucor.com,Scott.Baker@nucor.com,Caroline.Comfort@nucor.com</Property>
+			
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_ARInvoice_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_customerUpdate_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_GL_BatchHandler_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="NOTIFIER_EMAIL_FROM">soap@nucor.com</Property>
+			<Property name="REPORT_EMAIL_LIST">Masood.Basha@nucor.com</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_GLJE_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_SubscribeCustomer_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_SubscribeSupplier_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_SubscribePayment_JMS_DB2_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_SupplierContactUpdate_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_SupplierUpdate_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_WagesAPInvoice_SAP_EBS_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+        <ServiceConfiguration serviceName="NBC_APInvoice_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NBC_APInvoiceBatch_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nsb_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="NOTIFIER_EMAIL_FROM">soap@nucor.com</Property>
+			<Property name="REPORT_EMAIL_LIST">NSB-AP-BATCH@NUCORSTEEL.COM</Property>
+			
+		</ServiceConfiguration>
+       <ServiceConfiguration serviceName="NUC_EBizRequestDelivery_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizRequestDelivery_ABS/Nuc_EBizRequestDelivery_ABS</Property>
+			<Property name="UserName">SYSADMIN</Property>			
+			<Property name="ResponsibilityName">System Administrator</Property>			
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_SubscribeSupplier_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_EBiz_FromFile_GLJE_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NYS_PO_YH_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_SubscribeCustomer_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_SubscribePayment_JMS_DB2_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NYS_SubscribeSupplier_EBiz_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_SupplierContactUpdate_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_SupplierUpdate_DB2_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nys_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_Subscribe_POReceipt_EBiz_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NYS_SubscribePO_JMS_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_CustomerUpdate_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_PO_YH_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_SubscribeCustomer_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_SubscribeSupplier_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_SubscribeSupplier_EBiz_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_SupplierContactUpdate_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		<ServiceConfiguration serviceName="NCA_SupplierUpdate_MIPS_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">nca_interfaces@nucor.com;sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NCA_SubscribePO_JMS_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NCA_Subscriber_POReceipt_EBiz_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NUC_EBizDocAttach_ABS">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="endpointURI">http://nucorsoap01.nucorservices.com:8001/soa-infra/services/nuc/NUC_EBizDocAttach_ABS/EBizDocAttachABS</Property>
+		</ServiceConfiguration>
+		
+		<ServiceConfiguration serviceName="NSA_POUpdate_D7i_EBiz_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com;nsa_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+
+		</ServiceConfiguration>	
+				
+		<ServiceConfiguration serviceName="NYS_APInvoice_BatchHandler_YH_ABF">
+			<Property name="TRACING.ENABLED">false</Property>
+			<Property name="NOTIFY_ON_FAULT">true</Property>
+			<Property name="NOTIFIER_EMAIL">sps_interfaces@nucor.com</Property>
+			<Property name="ERROR_CORRECTION_RECOMMENDATION">Unexpected Error Occurred during processing. Please contact the System Administrator for any Issues</Property>
+			<Property name="EIAInstanceViewerURL">http://$soa_server$:$port$/em/faces/ai/soa/messageFlow?target=/Farm_wisoadDomain/wisoadDomain/soa_server1/scm/</Property>
+			<Property name="NOTIFIER_EMAIL_FROM">soap@nucor.com</Property>
+			<Property name="REPORT_EMAIL_LIST">sps_interfaces@nucor.com</Property>
+			
+		</ServiceConfiguration>
+	</SystemConfig>
+</EIAConfiguration>

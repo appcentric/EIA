@@ -1,0 +1,108 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Get_InventoryOnHand" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Get_InventoryOnHand" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_EVENT_ID" type="decimal" db:index="2" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_REQUEST_ID" type="decimal" db:index="3" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_TRX_PAYLOAD" type="db:XXNUC.XXNUC_INV_TRX_PUB_TAB_TYPE" db:index="1" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_INV_TRX_PUB_TAB_TYPE">
+      <sequence>
+         <element name="P_TRX_PAYLOAD_ITEM" type="db:XXNUC.XXNUC_INV_TRX_PUB_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_INV_TRX_PUB_OBJ">
+      <sequence>
+         <element name="TRANSACTION_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORGN_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORGN_CODE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ORGN_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="RESOURCE_NAME" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_TYPE_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_TYPE" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SUBINVENTORY_CODE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOCATOR_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LOCATOR" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOCATOR_STATUS" type="db:string75" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ITEM_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ITEM_DESCRIPTION" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="REVISION" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PRI_UOM_CODE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_QTY" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="TRX_UOM_CODE" type="db:string10" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="XFER_ORGN_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="XFER_ORGN_CODE" type="db:string5" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="XFER_SUBINVENTORY" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="XFER_LOCATOR_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="XFER_LOCATOR" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRANSACTION_REASON" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SOURCE_TRX_TYPE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SOURCE_TRX_NUMBER" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SOURCE_TRX_LINE" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LPN_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LPN" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TRX_LOT_LPN_SERIAL" type="db:XXNUC.XXNUC_INV_TRX_DTLS_TAB_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_INV_TRX_DTLS_OBJ">
+      <sequence>
+         <element name="TRANSACTION_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LPN_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="LPN" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PRIMARY_LOT" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_NUMBER" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_EXPIRATION_DATE" type="dateTime" db:type="DATE" minOccurs="0" nillable="true"/>
+         <element name="SUPPLIER_LOT" type="db:string240" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="GRADE_CODE" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="LOT_STATUS" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SERIAL_NUMBER" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="UNIT_NUMBER" type="db:string150" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="SERIAL_STATUS" type="db:string80" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_INV_TRX_DTLS_TAB_TYPE">
+      <sequence>
+         <element name="TRX_LOT_LPN_SERIAL_ITEM" type="db:XXNUC.XXNUC_INV_TRX_DTLS_OBJ" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string5">
+      <restriction base="string">
+         <maxLength value="5"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string240">
+      <restriction base="string">
+         <maxLength value="240"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string75">
+      <restriction base="string">
+         <maxLength value="75"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string10">
+      <restriction base="string">
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string150">
+      <restriction base="string">
+         <maxLength value="150"/>
+      </restriction>
+   </simpleType>
+</schema>

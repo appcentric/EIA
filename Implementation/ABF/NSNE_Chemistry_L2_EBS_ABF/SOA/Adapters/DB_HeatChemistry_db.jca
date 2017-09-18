@@ -1,0 +1,14 @@
+<adapter-config name="DB_HeatChemistry" adapter="db" wsdlLocation="../WSDLs/DB_HeatChemistry.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="Connection2" location="eis/DB/nsneL2"/>
+  <endpoint-interaction portType="DB_HeatChemistry_ptt" operation="DB_HeatChemistrySelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_HeatChemistry.vw_L2_Heat_Batch_Chemistry"/>
+      <property name="QueryName" value="DB_HeatChemistrySelect"/>
+      <property name="MappingsMetaDataURL" value="DB_HeatChemistry-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

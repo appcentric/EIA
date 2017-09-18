@@ -1,0 +1,21 @@
+<?binding.jca StorePostingData_db.jca?>
+<wsdl:definitions name="StorePostingData" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/StorePostingData" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/StorePostingData" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/StorePostingData">
+    <plt:partnerLinkType name="StorePostingData_plt">
+        <plt:role name="StorePostingData_role">
+            <plt:portType name="tns:StorePostingData_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/StorePostingData" schemaLocation="xsd/StorePostingData_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="XxnucSapPayrollPostDataCollection_msg">
+        <wsdl:part name="XxnucSapPayrollPostDataCollection" element="top:XxnucSapPayrollPostDataCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="StorePostingData_ptt">
+        <wsdl:operation name="merge">
+            <wsdl:input message="tns:XxnucSapPayrollPostDataCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

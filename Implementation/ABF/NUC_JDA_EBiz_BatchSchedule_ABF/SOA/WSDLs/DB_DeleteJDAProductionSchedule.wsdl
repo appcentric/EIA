@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_DeleteJDAProductionSchedule"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen/NUC_JDA_EBiz_BatchSchedule_ABF/DB_DeleteJDAProductionSchedule"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen/NUC_JDA_EBiz_BatchSchedule_ABF/DB_DeleteJDAProductionSchedule"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/DB_DeleteJDAProductionSchedule"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_DeleteJDAProductionSchedule_plt" >
+    <plt:role name="DB_DeleteJDAProductionSchedule_role" >
+      <plt:portType name="tns:DB_DeleteJDAProductionSchedule_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_DeleteJDAProductionSchedule" schemaLocation="../Schemas/DB_DeleteJDAProductionSchedule.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_DeleteJDAProductionScheduleInput_msg">
+        <wsdl:part name="DB_DeleteJDAProductionScheduleInput_msg" element="db:DB_DeleteJDAProductionScheduleInput"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_DeleteJDAProductionSchedule_ptt">
+        <wsdl:operation name="DB_DeleteJDAProductionSchedule">
+            <wsdl:input message="tns:DB_DeleteJDAProductionScheduleInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

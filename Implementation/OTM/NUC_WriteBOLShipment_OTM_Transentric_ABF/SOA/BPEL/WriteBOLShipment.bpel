@@ -1,0 +1,346 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Dec 02 02:41:14 CST 2015
+  Author:  akshat.paharia
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="WriteBOLShipment"
+         targetNamespace="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_Transentric_ABF/WriteBOLShipment"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_Transentric_ABF/WriteBOLShipment"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/apps/otm" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.eia.com/CommonLogging"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/ftp/I132/NUC_WriteBOLShipment_OTM_Transentric_ABF/FTP_PutFileToTransentric"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://xmlns.oracle.com/apps/otm"
+          location="oramds:/apps/EIAMetadata/AO/OTM/common/V1.0/GLogXML.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true"
+          namespace="http:/xmlns.eia.com/Implementation/ABF/NUC_WriteBOLShipment_OTM_Transentric_ABF/WriteBOLShipment"
+          location="../WSDLs/WriteBOLShipment.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="writebolshipment_client" partnerLinkType="client:WriteBOLShipment"
+                 myRole="WriteBOLShipmentProvider"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns2:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="FTP_PutFileToTransentric" partnerLinkType="ns3:Put_plt" partnerRole="Put_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:WriteBOLShipmentRequestMessage"/>
+    <variable name="InvokeTransentricFTPAdapter_Put_InputVariable" messageType="ns3:Put_msg"/>
+    <variable name="varTmp" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <scope name="ScopeErrorLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+        <variables>
+          <variable name="InvokeErrorLog_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+        </variables>
+        <sequence name="Sequence1">
+          <assign name="AssignErrorLog">
+            <copy>
+              <from>ora:getComponentInstanceId()</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:TransactionId</to>
+            </copy>
+            <copy>
+              <from>'NextGen'</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:ProjectName</to>
+            </copy>
+            <copy>
+              <from>'I132'</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:ComponentId</to>
+            </copy>
+            <copy>
+              <from>ora:getComponentName()</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:TransactionName</to>
+            </copy>
+            <copy>
+              <from>ora:getCompositeName()</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:ProcessName</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+            </copy>
+            <copy>
+              <from>31</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:SourceSystem</to>
+            </copy>
+            <copy>
+              <from>32</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:TargetSystem</to>
+            </copy>
+            <copy>
+              <from>4</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:LogType</to>
+            </copy>
+            <copy>
+              <from>2</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+            </copy>
+            <copy>
+              <from>concat('FlowId: ',ora:getFlowId(),' Error ',ora:getFaultAsString())</from>
+              <to>$InvokeErrorLog_InputVariable.CommonLogging/ns2:MessageDescription</to>
+            </copy>
+          </assign>
+          <invoke name="InvokeErrorLog" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                  inputVariable="InvokeErrorLog_InputVariable" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </scope>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in WriteBOLShipment.wsdl) -->
+    <receive name="receiveInput" partnerLink="writebolshipment_client" portType="client:WriteBOLShipment"
+             operation="process" variable="inputVariable" createInstance="yes"/>
+    <scope name="ScopeStartLog">
+      <variables>
+        <variable name="InvokeStartLog_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="AssignStartLog">
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string(ora:getComponentInstanceId()))</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I132'</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getComponentName()</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>32</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-003'</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$InvokeStartLog_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeStartLog" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                inputVariable="InvokeStartLog_InputVariable" bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+    <assign name="FormatEquipmentNumber">
+      <copy>
+        <from>format-number($inputVariable.payload/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:SEquipment/ns1:EquipmentNumber,'#')</from>
+        <to>$inputVariable.payload/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:SEquipment/ns1:EquipmentNumber</to>
+      </copy>
+    </assign>
+    <assign name="AssignIO">
+      <copy>
+        <from>$inputVariable.payload</from>
+        <to>$InvokeTransentricFTPAdapter_Put_InputVariable.body</to>
+      </copy>
+      <copy>
+        <from>$InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:Location[ns1:LocationGid/ns1:Gid/ns1:Xid = $InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid]/ns1:LocationName</from>
+        <to>$varTmp</to>
+      </copy>
+      <!--copy>
+        <from>substring-before($InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:Location[ns1:LocationGid/ns1:Gid/ns1:Xid = $InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid]/ns1:LocationName,',')</from>
+        <to>$Variable3</to>
+      </copy>
+      <copy>
+        <from>'Test'</from>
+        <to>$Variable3</to>
+      </copy>
+      <copy>
+        <from>substring-before($InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:Location[ns1:LocationGid/ns1:Gid/ns1:Xid = $InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid]/ns1:LocationName,',')</from>
+        <to>$InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:Location[ns1:LocationGid/ns1:Gid/ns1:Xid = $InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid]/ns1:LocationName</to>
+      </copy>
+      <copy>
+        <from>$InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid</from>
+        <to>$Variable1</to>
+      </copy-->
+    </assign>
+    <if name="IfCommaPresent">
+      <documentation>
+        <![CDATA[Yes]]>
+      </documentation>
+      <condition>contains($varTmp,',')</condition><sequence name="Sequence2"><empty name="Yes"/><assign name="AssignIO"
+                                                                                                           xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+   <!--copy>
+         <from>$inputVariable.payload</from>
+         <to>$InvokeTransentricFTPAdapter_Put_InputVariable.body</to>
+      </copy--><copy>
+         <from>substring-before($InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:Location[ns1:LocationGid/ns1:Gid/ns1:Xid = $InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid]/ns1:LocationName,',')</from>
+         <to>$InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:Location[ns1:LocationGid/ns1:Gid/ns1:Xid = $InvokeTransentricFTPAdapter_Put_InputVariable.body/ns1:TransmissionBody/ns1:GLogXMLElement/ns1:PlannedShipment/ns1:Shipment/ns1:ShipmentHeader/ns1:InvolvedParty[ns1:InvolvedPartyQualifierGid/ns1:Gid/ns1:Xid = 'SHIP TO']/ns1:InvolvedPartyLocationRef/ns1:LocationRef/ns1:LocationGid/ns1:Gid/ns1:Xid]/ns1:LocationName</to>
+      </copy></assign></sequence><else>
+        <documentation>
+          <![CDATA[No]]>
+        </documentation><sequence name="Sequence3"><empty name="No"/><!--assign name="AssignIO"
+                                                                                 xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+   <copy>
+         <from>$inputVariable.payload</from>
+         <to>$InvokeTransentricFTPAdapter_Put_InputVariable.body</to>
+      </copy></assign--></sequence></else>
+    </if>
+    <invoke name="InvokeTransentricFTPAdapter" partnerLink="FTP_PutFileToTransentric" portType="ns3:Put_ptt"
+            operation="Put" inputVariable="InvokeTransentricFTPAdapter_Put_InputVariable" bpelx:invokeAsDetail="no"/>
+    <scope name="ScopeEndLog" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <variables>
+        <variable name="InvokeEndLog_InputVariable" messageType="ns2:CommonLoggingRequestMessage"/>
+      </variables>
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence1">
+        <assign name="AssignEndLog">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:TransactionId</to>
+          </copy>
+          <copy>
+            <from>'NextGen'</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:ProjectName</to>
+          </copy>
+          <copy>
+            <from>'I132'</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:ComponentId</to>
+          </copy>
+          <copy>
+            <from>ora:getComponentName()</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>31</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>32</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:LogType</to>
+          </copy>
+          <copy>
+            <from>'BMG-002'</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$InvokeEndLog_InputVariable.CommonLogging/ns2:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="InvokeEndLog" partnerLink="CommonLogging" portType="ns2:CommonLogging" operation="process"
+                inputVariable="InvokeEndLog_InputVariable" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                bpelx:invokeAsDetail="no">
+          <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

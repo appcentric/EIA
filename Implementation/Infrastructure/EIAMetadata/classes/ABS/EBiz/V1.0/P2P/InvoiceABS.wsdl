@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:invam="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0" xmlns:core="http://xmlns.eia.com/EO/Common/1.0">
+<wsdl:types>
+<xsd:schema>
+<xsd:import namespace="http://xmlns.eia.com/AO/EBiz/P2P/InvoiceABM/1.0" schemaLocation="../../../../AO/EBiz/P2P/V1.0/InvoiceABM.xsd"/>
+<xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="../../../../EO/common/Common.xsd"/>
+</xsd:schema>
+</wsdl:types>
+<wsdl:message name="CreateInvoiceRequestMessageType">
+<wsdl:part name="CreateInvoiceRequestMessage" element="invam:CreateInvoiceRequestMessage"/>
+</wsdl:message>
+<wsdl:message name="CreateInvoiceResponseMessageType">
+<wsdl:part name="CreateInvoiceResponseMessage" element="invam:CreateInvoiceResponseMessage"/>
+</wsdl:message>
+<wsdl:message name="QueryInvoiceRequestMessageType">
+<wsdl:part name="QueryInvoiceRequestMessage" element="invam:QueryInvoiceRequestMessage"/>
+</wsdl:message>
+<wsdl:message name="QueryInvoiceResponseMessageType">
+<wsdl:part name="QueryInvoiceResponseMessage" element="invam:QueryInvoiceResponseMessage"/>
+</wsdl:message>
+<wsdl:message name="LaunchAutoInvoiceRequestMessageType">
+<wsdl:part name="LaunchAutoInvoiceRequestMessage" element="invam:LaunchAutoInvoiceRequestMessage"/>
+</wsdl:message>
+<wsdl:message name="LaunchAutoInvoiceResponseMessageType">
+<wsdl:part name="LaunchAutoInvoiceResponseMessage" element="invam:LaunchAutoInvoiceResponseMessage"/>
+</wsdl:message>
+<wsdl:message name="CreateListOfInvoicesRequestMessageType">
+<wsdl:part name="CreateListOfInvoicesRequestMessage" element="invam:CreateListOfInvoicesRequestMessage"/>
+</wsdl:message>
+<wsdl:message name="CreateListOfInvoicesResponseMessageType">
+<wsdl:part name="CreateListOfInvoicesResponseMessage" element="invam:CreateListOfInvoicesResponseMessage"/>
+</wsdl:message>
+<wsdl:message name="LaunchAutoInvoiceAPIRequestMessageType">
+<wsdl:part name="LaunchAutoInvoiceAPIRequestMessage" element="invam:LaunchAutoInvoiceAPIRequestMessage"/>
+</wsdl:message>
+<wsdl:message name="LaunchAutoInvoiceAPIResponseMessageType">
+<wsdl:part name="LaunchAutoInvoiceAPIResponseMessage" element="invam:LaunchAutoInvoiceAPIResponseMessage"/>
+</wsdl:message>
+<wsdl:message name="EIAFaultMsgType">
+<wsdl:part name="Fault" element="core:Fault"/>
+</wsdl:message>
+<wsdl:portType name="SyncPortType">
+<wsdl:operation name="CreateInvoice_Sync">
+<wsdl:input message="tns:CreateInvoiceRequestMessageType"/>
+<wsdl:output message="tns:CreateInvoiceResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+<wsdl:operation name="QueryInvoiceById_Sync">
+<wsdl:input message="tns:QueryInvoiceRequestMessageType"/>
+<wsdl:output message="tns:QueryInvoiceResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+<wsdl:operation name="LaunchAutoInvoice">
+<wsdl:input message="tns:LaunchAutoInvoiceRequestMessageType"/>
+<wsdl:output message="tns:LaunchAutoInvoiceResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+<wsdl:operation name="CreateListOfInvoices_Sync">
+<wsdl:input message="tns:CreateListOfInvoicesRequestMessageType"/>
+<wsdl:output message="tns:CreateListOfInvoicesResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+<wsdl:operation name="LaunchAutoInvoiceAPI">
+<wsdl:input message="tns:LaunchAutoInvoiceAPIRequestMessageType"/>
+<wsdl:output message="tns:LaunchAutoInvoiceAPIResponseMessageType"/>
+<wsdl:fault message="tns:EIAFaultMsgType" name="EIAFault"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="SyncPort" type="tns:SyncPortType">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="CreateInvoice_Sync">
+<soap:operation soapAction="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0/CreateInvoice_Sync"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="EIAFault">
+<soap:fault use="literal" name="EIAFault"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="QueryInvoiceById_Sync">
+<soap:operation soapAction="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0/QueryInvoiceById_Sync"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="EIAFault">
+<soap:fault use="literal" name="EIAFault"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="LaunchAutoInvoice">
+<soap:operation soapAction="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0/LaunchAutoInvoice"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="EIAFault">
+<soap:fault use="literal" name="EIAFault"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="CreateListOfInvoices_Sync">
+<soap:operation soapAction="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0/CreateListOfInvoices_Sync"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="EIAFault">
+<soap:fault use="literal" name="EIAFault"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="LaunchAutoInvoiceAPI">
+<soap:operation soapAction="http://xmlns.eia.com/ABS/EBiz/InvoiceABS/1.0/LaunchAutoInvoiceAPI"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="EIAFault">
+<soap:fault use="literal" name="EIAFault"/>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="InvoiceABS">
+<wsdl:port name="SyncPort" binding="tns:SyncPort">
+<soap:address location="http://www.example.org/"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,25 @@
+<?binding.jca DB_QueryCustomerBalanceSummary_db.jca?>
+<wsdl:definitions name="DB_QueryCustomerBalanceSummary" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerBalanceSummary" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NucorSOA/NUC_EBizCustomerBalance_ABS/DB_QueryCustomerBalanceSummary" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryCustomerBalanceSummary">
+    <plt:partnerLinkType name="DB_QueryCustomerBalanceSummary_plt">
+        <plt:role name="DB_QueryCustomerBalanceSummary_role">
+            <plt:portType name="tns:DB_QueryCustomerBalanceSummary_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryCustomerBalanceSummary" schemaLocation="xsd/DB_QueryCustomerBalanceSummary_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="HzCustAccountsAll_msg">
+        <wsdl:part name="HzCustAccountsAll" element="top:HzCustAccountsAll"/>
+    </wsdl:message>
+    <wsdl:message name="HzCustAccountsAllCollection_msg">
+        <wsdl:part name="HzCustAccountsAllCollection" element="top:HzCustAccountsAllCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QueryCustomerBalanceSummary_ptt">
+        <wsdl:operation name="queryByExample">
+            <wsdl:input message="tns:HzCustAccountsAll_msg"/>
+            <wsdl:output message="tns:HzCustAccountsAllCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

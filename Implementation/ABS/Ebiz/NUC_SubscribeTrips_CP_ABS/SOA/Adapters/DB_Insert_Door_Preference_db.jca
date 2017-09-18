@@ -1,0 +1,14 @@
+<adapter-config name="DB_Insert_Door_Preference" adapter="db" wsdlLocation="../WSDLs/DB_Insert_Door_Preference.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DV1OMSI" location="eis/DB/omsi"/>
+  <endpoint-interaction portType="DB_Insert_Door_Preference_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_Insert_Door_Preference.DoorPreference"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="DB_Insert_Door_Preference-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

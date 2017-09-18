@@ -1,0 +1,12 @@
+<adapter-config name="AQ_DEQ_XXNUC_COMM_OUTINTF_Q" adapter="aq" wsdlLocation="../WSDLs/AQ_DEQ_XXNUC_COMM_OUTINTF_Q.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/AQ/ebs" UIConnectionName="DEV_Apps_xxnuc"/>
+  <endpoint-activation portType="Dequeue_ptt" operation="Dequeue">
+    <activation-spec className="oracle.tip.adapter.aq.inbound.AQDequeueActivationSpec">
+      <property name="DequeueCondition" value="tab.user_data.TXN_NAME = 'QualitySpecs'"/>
+      <property name="SchemaValidation" value="false"/>
+      <property name="QueueName" value="XXNUC_COMM_OUTINTF_Q"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

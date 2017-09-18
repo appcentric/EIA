@@ -1,0 +1,47 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org" targetNamespace="http://www.example.org"
+     elementFormDefault="qualified">
+    <xsd:element name="process">
+        <xsd:annotation>
+            <xsd:documentation>A sample element</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="StartDate" type="xsd:string"/>
+                <xsd:element name="EndDate" type="xsd:string"/>
+                <xsd:element name="DivCode" type="xsd:string"/>
+                <xsd:element name="Env" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="processResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="PostingSetList" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="PostingSet" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="Posting" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:attribute name="GL" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="Desc" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="CostCenter" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="Accrual" type="xsd:boolean" use="required"/>
+                                                <xsd:attribute name="DebitAmount" type="xsd:decimal"
+                                                     use="required"/>
+                                                <xsd:attribute name="CreditAmount" type="xsd:decimal"
+                                                     use="required"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

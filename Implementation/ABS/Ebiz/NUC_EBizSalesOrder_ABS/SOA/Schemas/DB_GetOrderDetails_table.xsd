@@ -1,0 +1,246 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetOrderDetails" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_GetOrderDetails" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="OeOrderHeadersAllCollection" type="OeOrderHeadersAllCollection"/>
+   <xs:complexType name="OeOrderHeadersAllCollection">
+      <xs:sequence>
+         <xs:element name="OeOrderHeadersAll" type="OeOrderHeadersAll" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OeOrderHeadersAll">
+      <xs:sequence>
+         <xs:element name="headerId" type="xs:decimal"/>
+         <xs:element name="orderNumber" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="versionNumber" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="origSysDocumentRef" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="orderedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="transactionalCurrCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="custPoNumber" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="shippingMethodCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelledFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="openFlag" type="string1" minOccurs="0"/>
+         <xs:element name="bookedFlag" type="string1" minOccurs="0"/>
+         <xs:element name="orderCategoryCode" type="string30" minOccurs="0"/>
+         <xs:element name="flowStatusCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="oeOrderLinesAllCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="OeOrderLinesAll" type="OeOrderLinesAll" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="raSalesrepsAll" type="RaSalesrepsAll" minOccurs="0" nillable="true"/>
+         <xs:element name="ShipToSiteInfo" type="HzCustSiteUsesAll" minOccurs="0" nillable="true"/>
+         <xs:element name="BillToSiteInfo" type="HzCustSiteUsesAll" minOccurs="0" nillable="true"/>
+         <xs:element name="SoldToCustomer" type="HzCustAccounts" minOccurs="0" nillable="true"/>
+         <xs:element name="OrderOrgInfo" type="HrOperatingUnits" minOccurs="0" nillable="true"/>
+         <xs:element name="HeaderTransactionType" type="OeTransactionTypesAll" minOccurs="0" nillable="true"/>
+         <xs:element name="oePriceListsV" type="OePriceListsV" minOccurs="0" nillable="true"/>
+         <xs:element name="oeOrderSources" type="OeOrderSources" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OeOrderLinesAll">
+      <xs:sequence>
+         <xs:element name="lineId" type="xs:decimal"/>
+         <xs:element name="lineNumber" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="orderedItem" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="requestDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="scheduleShipDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="orderQuantityUom" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="pricingQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="pricingQuantityUom" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelledQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shippedQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="orderedQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="fulfilledQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shippingQuantity" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shippingQuantityUom" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentNumber" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="shippingMethodCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="origSysLineRef" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="unitSellingPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="unitListPrice" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="createdBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="lastUpdatedBy" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="itemTypeCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="optionNumber" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="lineCategoryCode" type="string30" minOccurs="0"/>
+         <xs:element name="scheduleStatusCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelledFlag" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="openFlag" type="string1" minOccurs="0"/>
+         <xs:element name="bookedFlag" type="string1" minOccurs="0"/>
+         <xs:element name="orderedItemId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="itemIdentifierType" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="origSysShipmentRef" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="flowStatusCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="orderedQuantity2" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="orderedQuantityUom2" type="string3" minOccurs="0" nillable="true"/>
+         <xs:element name="shippingQuantity2" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="cancelledQuantity2" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shippedQuantity2" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="fulfilledQuantity2" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="originalInventoryItemId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="originalOrderedItemId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="originalOrderedItem" type="string2000" minOccurs="0" nillable="true"/>
+         <xs:element name="originalItemIdentifierType" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="userItemDescription" type="string1000" minOccurs="0" nillable="true"/>
+         <xs:element name="mtlSystemItemsB" type="MtlSystemItemsB" minOccurs="0" nillable="true"/>
+         <xs:element name="LineTransactionType" type="OeTransactionTypesAll" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="MtlSystemItemsB">
+      <xs:sequence>
+         <xs:element name="inventoryItemId" type="xs:decimal"/>
+         <xs:element name="description" type="string240" minOccurs="0" nillable="true"/>
+         <xs:element name="segment1" type="string40" minOccurs="0" nillable="true"/>
+         <xs:element name="vendorWarrantyFlag" type="string1" minOccurs="0"/>
+         <xs:element name="ShipFromOrg" type="HrOperatingUnits"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="HrOperatingUnits">
+      <xs:sequence>
+         <xs:element name="businessGroupId" type="xs:long" minOccurs="0"/>
+         <xs:element name="organizationId" type="xs:long"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="shortCode" type="string150" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OeTransactionTypesAll">
+      <xs:sequence>
+         <xs:element name="transactionTypeCode" type="string30" minOccurs="0"/>
+         <xs:element name="orderCategoryCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="oeTransactionTypesTl" type="OeTransactionTypesTl"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OeTransactionTypesTl">
+      <xs:sequence>
+         <xs:element name="transactionTypeId" type="xs:decimal"/>
+         <xs:element name="language" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="description" type="string2000" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RaSalesrepsAll">
+      <xs:sequence>
+         <xs:element name="salesrepId" type="xs:decimal"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="HzCustSiteUsesAll">
+      <xs:sequence>
+         <xs:element name="siteUseId" type="xs:long"/>
+         <xs:element name="hzCustAcctSitesAll" type="HzCustAcctSitesAll" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="HzCustAcctSitesAll">
+      <xs:sequence>
+         <xs:element name="custAcctSiteId" type="xs:long"/>
+         <xs:element name="origSystemReference" type="string240" minOccurs="0"/>
+         <xs:element name="hzCustAccounts" type="HzCustAccounts" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="HzCustAccounts">
+      <xs:sequence>
+         <xs:element name="custAccountId" type="xs:long"/>
+         <xs:element name="accountNumber" type="string30" minOccurs="0"/>
+         <xs:element name="origSystemReference" type="string240" minOccurs="0"/>
+         <xs:element name="hzParties" type="HzParties" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="HzParties">
+      <xs:sequence>
+         <xs:element name="partyId" type="xs:long"/>
+         <xs:element name="partyNumber" type="string30" minOccurs="0"/>
+         <xs:element name="partyName" type="string360" minOccurs="0"/>
+         <xs:element name="origSystemReference" type="string240" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OePriceListsV">
+      <xs:sequence>
+         <xs:element name="priceListId" type="xs:decimal"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OeOrderSources">
+      <xs:sequence>
+         <xs:element name="orderSourceId" type="xs:decimal"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="description" type="string2000" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+  <xs:element name="DB_GetOrderDetailsParameters" type="DB_GetOrderDetailsParametersType"/>
+   <xs:complexType name="DB_GetOrderDetailsParametersType">
+      <xs:sequence>
+         <xs:element name="pOrganizationId" type="xs:long" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pOrderNumber" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pSoldToCustomerNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pSoldToCustomerName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pOrigSysDocumentRef" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pHeaderId" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pLineNumber" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pShipmentNumber" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pOrganizationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pFlowStatusCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="pNumRows" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DB_GetOrderDetailsSelect">
+      <xs:sequence/>
+   </xs:complexType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string2000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="2000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string3">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="3"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string240">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="240"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string40">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="40"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string150">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="150"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string360">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="360"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

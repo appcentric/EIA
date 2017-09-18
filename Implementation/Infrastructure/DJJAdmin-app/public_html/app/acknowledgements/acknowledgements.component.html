@@ -1,0 +1,147 @@
+<!--  This contains the header with title of the page and loading symbol -->
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>Acknowledgements<spinner [visible]="loading"></spinner></h1>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-toolbar-group-left">
+                        <i class="fa fa-search" style="float:left"></i>
+                        <span class="md-inputfield" style="float:left">
+                            <input type="text" size="30" #globalFilter pInputText>
+                            <label>Global Search</label>
+                        </span>
+                        <p-dropdown [options]="APIendpoint" [(ngModel)]="selectedAPIendpoint" (onChange)="onChange()">t</p-dropdown>
+                        <p-inputSwitch onLabel="Yes" offLabel="No" [(ngModel)]="selectedShowAcknowledged" (onChange)="onChange()"></p-inputSwitch>
+                    </div>
+                    <div class="ui-toolbar-group-right">
+                        <button pButton type="button" icon="ui-icon-refresh" label="Refresh" (click)="refreshPage()" ></button>
+                        <button pButton type="button" icon="ui-icon-file-download" label="CSV" (click)="exportCSV.exportCSV()" ></button>
+                    </div>
+                </div>
+            </div>
+            <!-- Beginning of the datatable header. This contains the Export CSV button, details for the paginator, if the table has resizable, reorderable and expandable rows (expander='true')  
+            HAD TO REMOVE resizableColumns="true" for styleClass to work on Details-->
+            <p-dataTable #exportCSV [value]="acknowledgements" [rows]="25" [paginator]="true" [rowsPerPageOptions]="[25,50,100]" [globalFilter]="globalFilter" reorderableColumns="true" expandableRows="true" sortField="DataChangePrimaryID" sortOrder="-1">
+                <!-- expander looks at the template component of this page -->
+                <p-column expander="true" header="Details" styleClass="col-icon"></p-column>
+                <p-column field="DataChangeTypeName" header="Data Type" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangePrimaryID" header="ID / Number" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="BizType" header="Biz Type" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgedDate" header="Acknowledged Date" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ClientComment" header="Client Comment" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="SupplimentData" header="Supplimental Data" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
+            <!-- These columns are hidden so that they show up on the ExportCSV. They also have the filter so that they can be searched when multiple acknowledgements are shown-->
+                <p-column field="DataChangeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="APIUserID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ChangeVersionID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="DataChangeChildTypeID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="APICallBatchID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgementStatusID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgementStatusName" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="AcknowledgementStatusDesc" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ClientStatusID" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="ErrorCount" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MaxErrorCount" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="WaitTimeInterval" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+                <p-column field="MaxTimeInterval" hidden="true" [filter]="true" filterMatchMode="contains"></p-column>
+               <!-- Refers to the expander--> 
+                <template let-acknowledgement>
+                    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-grid-row">
+                            <!--Adds "Show Details" button to load p-dialog box code is commented out at the bottom that will enable p-dialog box
+                            <div class="ui-grid-col-3" style="text-align:center">
+                                <button type="text" (click)="showAcknowledgement(acknowledgement)" pButton icon="fa-external-link-square" label="Show Details" style="float:left"></button>
+                            </div> -->
+                            <div class="ui-grid-col-12">
+                                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Data Change ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.DataChangeID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">API User ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.APIUserID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Biz Type: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.BizType}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Data Change Primary ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.DataChangePrimaryID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Change Version ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.ChangeVersionID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Data Change Type ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.DataChangeTypeID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Data Change Type Name: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.DataChangeTypeName}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Data Change Child Type ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.DataChangeChildTypeID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">API Call Batch ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.APICallBatchID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Acknowledgement Status ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.AcknowledgementStatusID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Acknowledgement Status Name: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.AcknowledgementStatusName}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Acknowledgement Status Desc: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.AcknowledgementStatusDesc}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Acknowledged Date: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.AcknowledgedDate | date:'medium'}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Client Status ID: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.ClientStatusID}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Error Count: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.ErrorCount}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Client Comment: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.ClientComment}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Max Error Count: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.MaxErrorCount}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Wait Time Interval: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.WaitTimeInterval}}</div>
+                                    </div>
+                                    <div class="ui-grid-row ui-expander-row-odd">
+                                        <div class="ui-grid-col-5 detail-label">Max Time Interval: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.MaxTimeInterval}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-5 detail-label">Supplimental Data: </div>
+                                        <div class="ui-grid-col-6">{{acknowledgement.SupplimentData}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </p-dataTable> 
+        </div>
+    </div>
+</div>

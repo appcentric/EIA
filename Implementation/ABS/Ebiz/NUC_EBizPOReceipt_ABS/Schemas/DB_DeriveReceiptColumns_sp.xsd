@@ -1,0 +1,56 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_DeriveReceiptColumns" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_DeriveReceiptColumns" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_TRX_ID" type="decimal" db:index="1" db:type="NUMBER" minOccurs="0" nillable="true"/>
+            <element name="P_I_DERIVE" type="db:XXNUC.XXNUC_RCV_PO_HDR_DER_OBJ_TYPE" db:index="2" db:type="Struct" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="P_O_DERIVE" type="db:XXNUC.XXNUC_RCV_PO_HDR_DER_OBJ_TYPE" db:index="3" db:type="Struct" minOccurs="0" nillable="true"/>
+            <element name="P_O_ERROR_STATUS" type="string" db:index="4" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="XXNUC.XXNUC_RCV_PO_HDR_DER_OBJ_TYPE">
+      <sequence>
+         <element name="PO_NUMBER" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="VENDOR_SITE_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="PO_LINE" type="db:XXNUC.XXNUC_RCV_PO_LINE_DER_TBL_TYPE" db:type="Array" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_RCV_PO_LINE_DER_OBJ_TYPE">
+      <sequence>
+         <element name="PO_NUMBER" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="PO_LINE_NUM" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+         <element name="ITEM_NUM" type="db:string40" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="UOM" type="db:string25" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="INV_ORG_ID" type="decimal" db:type="NUMBER" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="XXNUC.XXNUC_RCV_PO_LINE_DER_TBL_TYPE">
+      <sequence>
+         <element name="PO_LINE_ITEM" type="db:XXNUC.XXNUC_RCV_PO_LINE_DER_OBJ_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string20">
+      <restriction base="string">
+         <maxLength value="20"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string40">
+      <restriction base="string">
+         <maxLength value="40"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string25">
+      <restriction base="string">
+         <maxLength value="25"/>
+      </restriction>
+   </simpleType>
+</schema>

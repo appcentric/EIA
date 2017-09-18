@@ -1,0 +1,14 @@
+<adapter-config name="FTP_PutFileToTransentric" adapter="ftp" wsdlLocation="../WSDLs/FTP_PutFileToTransentric.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Ftp/HAFtpMoveIt"/>
+  <endpoint-interaction portType="Put_ptt" operation="Put">
+    <interaction-spec className="oracle.tip.adapter.ftp.outbound.FTPInteractionSpec">
+      <property name="PhysicalDirectory" value="Inventory/Transentric404/OutToTransentric"/>
+      <property name="FileType" value="ascii"/>
+      <property name="Append" value="false"/>
+      <property name="FileNamingConvention" value="BOLShipment_%yyMMddHHmmssSSz%.xml"/>
+      <property name="NumberMessages" value="1"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="BatchJobs" targetNamespace="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizBatchJobs_ABS/BatchJobs/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizBatchJobs_ABS/BatchJobs/1.0" xmlns:ns1="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns2="http://schemas.oracle.com/service/bpel/common" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<!--wsdl:documentation>
+<abstractWSDL>http://rzmkea253.rz.nucorsteel.local:8001/soa-infra/services/nuc/NUC_EBizBatchJobs_ABS!1.0/WSDLs/BatchJobs.wsdl</abstractWSDL>
+</wsdl:documentation>
+<plnk:partnerLinkType name="BatchJobs">
+<plnk:role name="BatchJobsProvider" portType="client:BatchJobs"/>
+</plnk:partnerLinkType-->
+<wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http:/xmlns.eia.com/Implementation/ABS/NUC_EBizBatchJobs_ABS/BatchJobs/1.0" xmlns:ns1="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns2="http://schemas.oracle.com/service/bpel/common">
+<import namespace="http://nucor.eia.com/AO/Ebiz/D2S/BatchJobAM/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/BatchJobAM.xsd"/>
+</schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="../../../../EO/common/V1.0/XSLParameters.xsd"/>
+</xsd:schema>
+</wsdl:types>
+<wsdl:message name="BatchJobsRequestMessage">
+<wsdl:part name="payload" element="ns1:BatchJobAddRq"/>
+</wsdl:message>
+<wsdl:message name="BatchJobsResponseMessage">
+<wsdl:part name="payload" element="ns1:BatchJobAddRs"/>
+</wsdl:message>
+<wsdl:portType name="BatchJobs">
+<wsdl:operation name="update">
+<wsdl:input message="client:BatchJobsRequestMessage"/>
+<wsdl:output message="client:BatchJobsResponseMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="BatchJobsBinding" type="client:BatchJobs">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="update">
+<soap:operation style="document" soapAction="update"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="batchjobs_client_ep">
+<wsdl:port name="BatchJobs_pt" binding="client:BatchJobsBinding">
+<soap:address location="http://example.org"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

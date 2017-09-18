@@ -1,0 +1,29 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="TripAssignment"
+     targetNamespace="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/service/bpel/common"
+    >
+    <plnk:partnerLinkType name="TripAssignment">
+        <plnk:role name="TripAssignmentProvider" portType="client:TripAssignment"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.eia.com/ABF/NUC_TripAssignment_CP_EBS_ABF/1.0" schemaLocation="../Schemas/TripAssignment.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://schemas.oracle.com/service/bpel/common" schemaLocation="../Schemas/params.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="TripAssignmentRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:portType name="TripAssignment">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:TripAssignmentRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,20 @@
+<adapter-config name="FTP_GetTriggerFile" adapter="ftp" wsdlLocation="../WSDLs/FTP_GetTriggerFile.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIincludeWildcard="FP_EBS_NSNE*" location="eis/Ftp/JDA"/>
+  <endpoint-activation portType="Get_ptt" operation="Get">
+    <activation-spec className="oracle.tip.adapter.ftp.inbound.FTPActivationSpec">
+      <property name="PhysicalDirectory" value="/FP_Triggers"/>
+      <property name="FileModificationTime" value="DirListing"/>
+      <property name="FileType" value="ascii"/>
+      <property name="UseHeaders" value="true"/>
+      <property name="MinimumAge" value="5"/>
+      <property name="ModificationTimeFormat" value="MMM dd HH:mm"/>
+      <property name="Recursive" value="false"/>
+      <property name="PollingFrequency" value="5"/>
+      <property name="DeleteFile" value="true"/>
+      <property name="IncludeFiles" value="FP_EBS_NSNE.*"/>
+      <property name="ModificationTimeFormatOld" value="MMM dd yyy"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

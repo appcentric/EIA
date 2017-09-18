@@ -1,0 +1,25 @@
+<?binding.jca SelectPayrollAP_db.jca?>
+<wsdl:definitions name="SelectPayrollAP" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/SelectPayrollAP" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/SelectPayrollAP" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/NucorPordSup/NUC_PayrollAPInvoice_SAP_EBiz_ABF/SelectPayrollAP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="SelectPayrollAP_plt">
+        <plt:role name="SelectPayrollAP_role">
+            <plt:portType name="tns:SelectPayrollAP_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/SelectPayrollAP" schemaLocation="xsd/SelectPayrollAP.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="SelectPayrollAPInput_msg">
+        <wsdl:part name="SelectPayrollAPInput_msg" element="db:SelectPayrollAPInput"/>
+    </wsdl:message>
+    <wsdl:message name="SelectPayrollAPOutputCollection_msg">
+        <wsdl:part name="SelectPayrollAPOutputCollection" element="db:SelectPayrollAPOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="SelectPayrollAP_ptt">
+        <wsdl:operation name="SelectPayrollAP">
+            <wsdl:input message="tns:SelectPayrollAPInput_msg"/>
+            <wsdl:output message="tns:SelectPayrollAPOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

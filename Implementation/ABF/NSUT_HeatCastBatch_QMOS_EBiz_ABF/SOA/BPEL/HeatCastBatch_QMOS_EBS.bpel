@@ -1,0 +1,555 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Mar 15 08:35:32 CDT 2017
+  Author:  manishkumar.gujar
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="HeatCastBatch_QMOS_EBS"
+         targetNamespace="http://nucor.eia.com/ABF/NSUT_HeatCastBatch_QMOS_EBiz_ABF/HeatCastBatch_QMOS_EBS"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://nucor.eia.com/ABF/NSUT_HeatCastBatch_QMOS_EBiz_ABF/HeatCastBatch_QMOS_EBS"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_QMOS_TAB"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_UPDATE_QMOS_TAB"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Proc_QMOS_PROD"
+         xmlns:ns4="http://xmlns.eia.com/CommonLogging"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/NSUT_HeatCastBatch_QMOS_EBiz_ABF/dbReference"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Proc_QMOS_PROD"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DB_Proc_QMOS_PROD"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Update_API_PROD_CONFIRM_MATERIAL"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/dbReference"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/API_Update_API_PROD_CONFIRM_MATERIAL"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/top/API_Update_API_PROD_CONFIRM_MATERIAL"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/NextGen1.1/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Update_API_PROD_CONFIRM_HEADER"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_PROD_CONFIRM_HEADER"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_PROD_CONFIRM_MATERIAL"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_TAB"
+         xmlns:ns16="http://xmlns.oracle.com/pcbpel/adapter/db/DV1_Application/NSUT_HeatCastBatch_QMOS_EBiz_ABF/DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId">
+  <import ui:processWSDL="true"
+          namespace="http://nucor.eia.com/ABF/NSUT_HeatCastBatch_QMOS_EBiz_ABF/HeatCastBatch_QMOS_EBS"
+          location="../WSDLs/HeatCastBatch_QMOS_EBS.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="heatcastbatch_qmos_ebs_client" partnerLinkType="client:HeatCastBatch_QMOS_EBS"
+                 myRole="HeatCastBatch_QMOS_EBSProvider"/>
+    <partnerLink name="DB_QMOS_TAB" partnerLinkType="ns1:DB_QMOS_TAB_plt" partnerRole="DB_QMOS_TAB_role"/>
+    <partnerLink name="DB_UPDATE_QMOS_TAB" partnerLinkType="ns2:DB_UPDATE_QMOS_TAB_plt"
+                 partnerRole="DB_UPDATE_QMOS_TAB_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns4:CommonLogging" partnerRole="CommonLoggingProvider"/>
+    <partnerLink name="DB_Proc_QMOS_PROD" partnerLinkType="ns6:DB_Proc_QMOS_PROD_plt"
+                 partnerRole="DB_Proc_QMOS_PROD_role"/>
+    <partnerLink name="DB_Update_API_PROD_CONFIRM_HEADER" partnerLinkType="ns12:DB_Update_API_PROD_CONFIRM_HEADER_plt"
+                 partnerRole="DB_Update_API_PROD_CONFIRM_HEADER_role"/>
+    <partnerLink name="DB_Update_API_PROD_CONFIRM_MATERIAL"
+                 partnerLinkType="ns8:DB_Update_API_PROD_CONFIRM_MATERIAL_plt"
+                 partnerRole="DB_Update_API_PROD_CONFIRM_MATERIAL_role"/>
+    <partnerLink name="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId"
+                 partnerLinkType="ns16:DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_plt"
+                 partnerRole="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_role"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:HeatCastBatch_QMOS_EBSRequestMessage"/>
+    <variable name="g_Invoke_DB_QMOS_TAB_InputVariable" messageType="ns1:DB_QMOS_TABSelect_inputParameters"/>
+    <variable name="g_Invoke_DB_QMOS_TAB_OutputVariable" messageType="ns1:ApiProdConfirmHeaderCollection_msg"/>
+    <variable name="g_Invoke_CommonLogging_process_InputVariable" messageType="ns4:CommonLoggingRequestMessage"/>
+    <variable name="g_Invoke_DB_Proc_QMOS_PROD_InputVariable" messageType="ns6:args_in_msg"/>
+    <variable name="g_Invoke_DB_Proc_QMOS_PROD_OutputVariable" messageType="ns6:args_out_msg"/>
+    <variable name="setTitleVar" type="xsd:string"/>
+    <variable name="g_Invoke_DB_UPDATE_QMOS_InputVariable" messageType="ns2:ApiProdConfirmHeaderCollection_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence_CatchAll">
+        <assign name="Transformation_Update_Error">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Error.xsl", $g_Invoke_DB_QMOS_TAB_OutputVariable.ApiProdConfirmHeaderCollection)</from>
+            <to variable="g_Invoke_DB_UPDATE_QMOS_InputVariable" part="ApiProdConfirmHeaderCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_UPDATE_QMOS_TAB" partnerLink="DB_UPDATE_QMOS_TAB" portType="ns2:DB_UPDATE_QMOS_TAB_ptt"
+                operation="update" inputVariable="g_Invoke_DB_UPDATE_QMOS_InputVariable"
+                xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" bpelx:invokeAsDetail="no"/>
+        <assign name="Assign_CommonLogging">
+          <copy>
+            <from>4</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+          </copy>
+          <copy>
+            <from>''</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+          </copy>
+          <copy>
+            <from>concat( ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+          </copy>
+        </assign>
+        <scope name="Scope_CatchAllLogging">
+          <faultHandlers>
+            <catchAll>
+              <empty name="DoNothing"/>
+            </catchAll>
+          </faultHandlers>
+          <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                  portType="ns4:CommonLogging" operation="process"
+                  inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+          </invoke>
+        </scope>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in HeatCastBatch_QMOS_EBS.wsdl) -->
+    <receive name="receiveInput" partnerLink="heatcastbatch_qmos_ebs_client" portType="client:HeatCastBatch_QMOS_EBS"
+             operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>ora:getComponentInstanceId()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionId</to>
+      </copy>
+      <copy>
+        <from>'NextGen'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:ProjectName</to>
+      </copy>
+      <copy>
+        <from>'I145'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:ComponentId</to>
+      </copy>
+      <copy>
+        <from>'NSUTOPMBatchTrx'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionName</to>
+      </copy>
+      <copy>
+        <from>ora:getCompositeName()</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:ProcessName</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LoggingSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:SourceSystem</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TargetSystem</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+      </copy>
+      <copy>
+        <from>'BMG-003'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+      </copy>
+      <copy>
+        <from>oraext:setFlowInstanceTitle(string($g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionId))</from>
+        <to>$setTitleVar</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("rowNumValue")</from>
+        <to>$g_Invoke_DB_QMOS_TAB_InputVariable.DB_QMOS_TABSelect_inputParameters/ns15:rowNumValue</to>
+      </copy>
+    </assign>
+    <scope name="Scope_StartLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+              portType="ns4:CommonLogging" operation="process"
+              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+        <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+        <bpelx:toProperties>
+          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+        </bpelx:toProperties>
+      </invoke>
+    </scope>
+    <invoke name="Invoke_DB_QMOS_TAB" bpelx:invokeAsDetail="no" partnerLink="DB_QMOS_TAB" portType="ns1:DB_QMOS_TAB_ptt"
+            operation="DB_QMOS_TABSelect" inputVariable="g_Invoke_DB_QMOS_TAB_InputVariable"
+            outputVariable="g_Invoke_DB_QMOS_TAB_OutputVariable"/>
+    <if name="IfDataPresent">
+      <documentation>
+        <![CDATA[Yes]]>
+      </documentation>
+      <condition>count($g_Invoke_DB_QMOS_TAB_OutputVariable.ApiProdConfirmHeaderCollection/ns15:ApiProdConfirmHeader) &gt; 0</condition>
+      <sequence>
+        <assign name="Transformation_Update_Status">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_Update_Inprocess.xsl", $g_Invoke_DB_QMOS_TAB_OutputVariable.ApiProdConfirmHeaderCollection)</from>
+            <to variable="g_Invoke_DB_UPDATE_QMOS_InputVariable" part="ApiProdConfirmHeaderCollection"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_UPDATE_QMOS_TAB" partnerLink="DB_UPDATE_QMOS_TAB" portType="ns2:DB_UPDATE_QMOS_TAB_ptt"
+                operation="update" inputVariable="g_Invoke_DB_UPDATE_QMOS_InputVariable" bpelx:invokeAsDetail="no"/>
+        <assign name="Transformation_QMOS_EBS">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/Transformation_QMOS_EBS.xsl", $g_Invoke_CommonLogging_process_InputVariable.CommonLogging, "g_Invoke_DB_QMOS_TAB_OutputVariable.ApiProdConfirmHeaderCollection", $g_Invoke_DB_QMOS_TAB_OutputVariable.ApiProdConfirmHeaderCollection)</from>
+            <to variable="g_Invoke_DB_Proc_QMOS_PROD_InputVariable" part="InputParameters"/>
+          </copy>
+        </assign>
+        <invoke name="Invoke_DB_Proc_QMOS_PROD" partnerLink="DB_Proc_QMOS_PROD" portType="ns6:DB_Proc_QMOS_PROD_ptt"
+                operation="DB_Proc_QMOS_PROD" inputVariable="g_Invoke_DB_Proc_QMOS_PROD_InputVariable"
+                outputVariable="g_Invoke_DB_Proc_QMOS_PROD_OutputVariable" bpelx:invokeAsDetail="no"/>
+        <scope name="Scope_Updated">
+          <variables>
+            <variable name="CountHeader" type="xsd:int"/>
+            <variable name="CountLine" type="xsd:int"/>
+            <variable name="Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable"
+                      messageType="ns12:ApiProdConfirmHeaderCollection_msg"/>
+            <variable name="Invoke_API_PROD_CONFIRM_MATERIAL_update_InputVariable"
+                      messageType="ns8:ApiProdConfirmMaterialCollection_msg"/>
+            <variable name="Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In"
+                      messageType="ns16:DB_Update_API_PROD_CONFIRM_MATERIALByHeaderIdInput_msg"/>
+          </variables>
+          <sequence>
+            <assign name="Assign_Header_Count">
+              <copy>
+                <from>count($g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM)</from>
+                <to>$CountHeader</to>
+              </copy>
+            </assign>
+            <while name="While_Header">
+              <condition>$CountHeader &gt; 0</condition>
+              <sequence name="Sequence_Header">
+                <scope name="Scope_HeaderLoop">
+                  <variables>
+                    <variable name="tmp_ErrorMsg" type="xsd:string"/>
+                  </variables>
+                  <sequence>
+                    <assign name="Assign_Line_Count">
+                      <copy>
+                        <from>count($g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:DTLS_RESULTS/ns7:DTLS_RESULTS_ITEM)</from>
+                        <to>$CountLine</to>
+                      </copy>
+                    </assign>
+                    <while name="While_Line">
+                      <condition>$CountLine &gt; 0</condition>
+                      <sequence name="Sequence_Line">
+                        <assign name="Assign_LineDetails">
+                          
+                          <copy>
+                            <from>concat($tmp_ErrorMsg,'::',$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:DTLS_RESULTS/ns7:DTLS_RESULTS_ITEM[$CountLine]/ns7:RESULT_MESSAGE)</from>
+                            <to>$tmp_ErrorMsg</to>
+                          </copy>
+                        </assign>
+                        <invoke name="Invoke_API_PROD_CONFIRM_MATERIAL"
+                                partnerLink="DB_Update_API_PROD_CONFIRM_MATERIAL"
+                                portType="ns8:DB_Update_API_PROD_CONFIRM_MATERIAL_ptt" operation="update"
+                                inputVariable="Invoke_API_PROD_CONFIRM_MATERIAL_update_InputVariable"
+                                bpelx:invokeAsDetail="no">
+                          <bpelx:skipCondition>1=1</bpelx:skipCondition>
+                        </invoke>
+                        <if name="If_Check_Status">
+                          <documentation>
+                            <![CDATA[Success]]>
+                          </documentation>
+                          <condition>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:DTLS_RESULTS/ns7:DTLS_RESULTS_ITEM[$CountLine]/ns7:RESULT_CODE = 'S'</condition>
+                          <assign name="Assign_LogType">
+                            <copy>
+                              <from>1</from>
+                              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+                            </copy>
+                          </assign>
+                          <else>
+                            <documentation>
+                              <![CDATA[Other]]>
+                            </documentation>
+                            <assign name="Assign_LogType">
+                              <copy>
+                                <from>4</from>
+                                <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+                              </copy>
+                            </assign>
+                          </else>
+                        </if>
+                        <assign name="Assign_CommonLogging">
+                          <copy>
+                            <from>''</from>
+                            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+                          </copy>
+                          <copy>
+                            <from>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:DTLS_RESULTS/ns7:DTLS_RESULTS_ITEM[$CountLine]/ns7:RESULT_MESSAGE</from>
+                            <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+                          </copy>
+                        </assign>
+                        <scope name="Scope_StatusLoggingLine">
+                          <faultHandlers>
+                            <catchAll>
+                              <empty name="DoNothing"/>
+                            </catchAll>
+                          </faultHandlers>
+                          <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                                  portType="ns4:CommonLogging" operation="process"
+                                  inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                            <bpelx:toProperties>
+                              <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                            </bpelx:toProperties>
+                          </invoke>
+                        </scope>
+                        <assign name="Assign_LineDegrement">
+                          <copy>
+                            <from>$CountLine - 1</from>
+                            <to>$CountLine</to>
+                          </copy>
+                        </assign>
+                      </sequence>
+                    </while>
+                    <assign name="Assign_Header">
+                      <copy>
+                        <from>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:TRX_ID</from>
+                        <to>$Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable.ApiProdConfirmHeaderCollection/ns13:ApiProdConfirmHeader/ns13:id</to>
+                      </copy>
+                      
+                      <copy>
+                        <from>xp20:current-dateTime()</from>
+                        <to>$Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable.ApiProdConfirmHeaderCollection/ns13:ApiProdConfirmHeader/ns13:processDate</to>
+                      </copy>
+                      <copy>
+                        <from>concat($g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:RESULT_MESSAGE,'::',$tmp_ErrorMsg)</from>
+                        <to>$Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable.ApiProdConfirmHeaderCollection/ns13:ApiProdConfirmHeader/ns13:errorMessage</to>
+                      </copy>
+                    </assign>
+                  </sequence>
+                </scope>
+                <if name="IfStatus_S">
+                  <documentation>
+                    <![CDATA[S]]>
+                  </documentation>
+                  <condition>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:RESULT_CODE = 'S'</condition>
+                  <sequence name="Sequence1">
+                    <assign name="Assign_Status_C">
+                      <copy>
+                        <from>'C'</from>
+                        <to>$Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable.ApiProdConfirmHeaderCollection/ns13:ApiProdConfirmHeader/ns13:processed</to>
+                      </copy>
+                      <copy>
+                        <from>1</from>
+                        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+                      </copy>
+                      <copy>
+                        <from>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:TRX_ID</from>
+                        <to>$Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In.DB_Update_API_PROD_CONFIRM_MATERIALByHeaderIdInput_msg/ns17:idHeader</to>
+                      </copy>
+                      <copy>
+                        <from>'C'</from>
+                        <to>$Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In.DB_Update_API_PROD_CONFIRM_MATERIALByHeaderIdInput_msg/ns17:status</to>
+                      </copy>
+                    </assign>
+                    <invoke name="Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId" bpelx:invokeAsDetail="no"
+                            partnerLink="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId"
+                            portType="ns16:DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_ptt"
+                            operation="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId"
+                            inputVariable="Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In"/>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[E]]>
+                    </documentation>
+                    <sequence name="Sequence2">
+                      <assign name="Assign_Status_E">
+                        <copy>
+                          <from>'E'</from>
+                          <to>$Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable.ApiProdConfirmHeaderCollection/ns13:ApiProdConfirmHeader/ns13:processed</to>
+                        </copy>
+                        <copy>
+                          <from>4</from>
+                          <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+                        </copy>
+                        <copy>
+                          <from>'E'</from>
+                          <to>$Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In.DB_Update_API_PROD_CONFIRM_MATERIALByHeaderIdInput_msg/ns17:status</to>
+                        </copy>
+                        <copy>
+                          <from>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:TRX_ID</from>
+                          <to>$Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In.DB_Update_API_PROD_CONFIRM_MATERIALByHeaderIdInput_msg/ns17:idHeader</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId" bpelx:invokeAsDetail="no"
+                              partnerLink="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId"
+                              portType="ns16:DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_ptt"
+                              operation="DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId"
+                              inputVariable="Invoke_DB_Update_API_PROD_CONFIRM_MATERIALByHeaderId_In"/>
+                    </sequence>
+                  </else>
+                </if>
+                <invoke name="Invoke_API_PROD_CONFIRM_HEADER" partnerLink="DB_Update_API_PROD_CONFIRM_HEADER"
+                        portType="ns12:DB_Update_API_PROD_CONFIRM_HEADER_ptt" operation="update"
+                        inputVariable="Invoke_API_PROD_CONFIRM_HEADER_update_InputVariable" bpelx:invokeAsDetail="no"/>
+                
+                <assign name="Assign_CommonLogging">
+                  <copy>
+                    <from>''</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+                  </copy>
+                  <copy>
+                    <from>$g_Invoke_DB_Proc_QMOS_PROD_OutputVariable.OutputParameters/ns7:P_RESULT_TAB/ns7:P_RESULT_TAB_ITEM[$CountHeader]/ns7:RESULT_MESSAGE</from>
+                    <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+                  </copy>
+                </assign>
+                <scope name="Scope_StatusLoggingHeader">
+                  <faultHandlers>
+                    <catchAll>
+                      <empty name="DoNothing"/>
+                    </catchAll>
+                  </faultHandlers>
+                  <sequence>
+                    <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                            portType="ns4:CommonLogging" operation="process"
+                            inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+                      <bpelx:toProperties>
+                        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+                      </bpelx:toProperties>
+                    </invoke>
+                  </sequence>
+                </scope>
+                <assign name="Assign_Header_Degrement">
+                  <copy>
+                    <from>$CountHeader - 1</from>
+                    <to>$CountHeader</to>
+                  </copy>
+                </assign>
+              </sequence>
+            </while>
+          </sequence>
+        </scope>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[No]]>
+        </documentation>
+        <sequence name="Sequence4">
+          <assign name="Assign_CommonLogging">
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:LogType</to>
+            </copy>
+            <copy>
+              <from>'BMG-177'</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+            </copy>
+            <copy>
+              <from>$setTitleVar</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+            </copy>
+            <copy>
+              <from>1</from>
+              <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+            </copy>
+          </assign>
+          <scope name="Scope1">
+            <faultHandlers>
+              <catchAll>
+                <empty name="DoNothing"/>
+              </catchAll>
+            </faultHandlers>
+            <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+                    portType="ns4:CommonLogging" operation="process"
+                    inputVariable="g_Invoke_CommonLogging_process_InputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+              <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+              </bpelx:toProperties>
+            </invoke>
+          </scope>
+        </sequence>
+      </else>
+    </if>
+    
+    <assign name="Assign_CommonLogging">
+      <copy>
+        <from>'BMG-002'</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageCode</to>
+      </copy>
+      <copy>
+        <from>''</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:MessageDescription</to>
+      </copy>
+      <copy>
+        <from>2</from>
+        <to>$g_Invoke_CommonLogging_process_InputVariable.CommonLogging/ns4:TransactionStatus</to>
+      </copy>
+    </assign>
+    <scope name="Scope_EndLogging">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+              portType="ns4:CommonLogging" operation="process"
+              inputVariable="g_Invoke_CommonLogging_process_InputVariable">
+        <bpelx:skipCondition>eia:getEIAServiceProperty("CommonLogging","LOGGING.ENABLED") = "false"</bpelx:skipCondition>
+        <bpelx:toProperties>
+          <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+        </bpelx:toProperties>
+      </invoke>
+    </scope>
+  </sequence>
+</process>

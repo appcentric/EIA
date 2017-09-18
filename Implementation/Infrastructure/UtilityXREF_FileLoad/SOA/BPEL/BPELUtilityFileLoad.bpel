@@ -1,0 +1,196 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Jun 03 08:43:16 CDT 2016
+  Author:  Drew.Orgill
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELUtilityFileLoad"
+         targetNamespace="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/ftp/Tensile/UtilityXREF_FileLoad/ftpUtilityFileLoad"
+         xmlns:ns2="http://xmlns.eia.com/Infrastructure/UtilityXREF/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/ftp/SMG_SOA/UtilityXREF_FileLoad/ftpFileDelete">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/Tensile/UtilityXREF_FileLoad/BPELUtilityFileLoad" location="../WSDLs/BPELUtilityFileLoad.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="ftpUtilityFileLoad" partnerLinkType="ns1:ChunkedRead_plt" partnerRole="ChunkedRead_role"/>
+        <partnerLink name="ftpFileDelete" partnerLinkType="ns3:DeleteFileService_plt"
+                     partnerRole="DeleteFileService_role"/>
+        <partnerLink name="bpelutilityfileload_client_ep" partnerLinkType="client:BPELUtilityFileLoad"
+                     myRole="BPELUtilityFileLoadProvider"/>
+        <partnerLink name="WS_UtilityXREF" partnerLinkType="ns2:UtilityXREF" partnerRole="UtilityXREFProvider"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:BPELUtilityFileLoadRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:BPELUtilityFileLoadResponseMessage"/>
+        <variable name="Invoke_FileLoad_SynchRead_Reqmsg" messageType="ns1:Empty_msg"/>
+        <variable name="Invoke_FileLoad_SynchRead_RespMsg" messageType="ns1:ChunkedRead_msg"/>
+        <variable name="file" type="xsd:string"/>
+        <variable name="isEOF" type="xsd:string"/>
+        <variable name="noDataFound" type="xsd:string"/>
+        <variable name="lineNumber" type="xsd:int"/>
+        <variable name="columnNumber" type="xsd:int"/>
+        <variable name="Utility_XREF_ReqMsg" messageType="ns2:UtilityXREFRequestMessage"/>
+        <variable name="DeleteFile_ReqMsg" messageType="ns3:Empty_msg"/>
+        <variable name="DeleteFile_RespMsg" messageType="ns3:DeleteFileService_msg"/>
+        <variable name="LineCounter" type="xsd:integer"/>
+        <variable name="messageRejected" type="xsd:string"/>
+        <variable name="rejectedReason" type="xsd:string"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in BPELUtilityFileLoad.wsdl) -->
+        <receive name="receiveInput" partnerLink="bpelutilityfileload_client_ep" portType="client:BPELUtilityFileLoad" variable="inputVariable" createInstance="yes"
+                 operation="process"/>
+        <assign name="Init">
+            <copy>
+                <from>'false'</from>
+                <to>$isEOF</to>
+            </copy>
+            <copy>
+                <from>'false'</from>
+                <to>$noDataFound</to>
+            </copy>
+            <copy>
+                <from>1</from>
+                <to>$lineNumber</to>
+            </copy>
+            <copy>
+                <from>1</from>
+                <to>$columnNumber</to>
+            </copy>
+            <copy>
+                <from>'XREF_Data_Load.csv'</from>
+                <to>$file</to>
+            </copy>
+            <copy>
+                <from>1</from>
+                <to>$LineCounter</to>
+            </copy>
+        </assign>
+        <while name="WhileNotEOF">
+            <condition>$isEOF='false'</condition>
+            <sequence name="Sequence1">
+                <invoke name="Invoke_FileLoad" partnerLink="ftpUtilityFileLoad" portType="ns1:ChunkedRead_ptt"
+                        operation="ChunkedRead" inputVariable="Invoke_FileLoad_SynchRead_Reqmsg"
+                        outputVariable="Invoke_FileLoad_SynchRead_RespMsg" bpelx:invokeAsDetail="no">
+                    <bpelx:toProperties>
+                        <bpelx:toProperty name="jca.ftp.FileName" variable="file"/>
+                        <bpelx:toProperty name="jca.ftp.LineNumber" variable="lineNumber"/>
+                        <bpelx:toProperty name="jca.ftp.ColumnNumber" variable="columnNumber"/>
+                    </bpelx:toProperties>
+                    <bpelx:fromProperties>
+                        <bpelx:fromProperty name="jca.ftp.LineNumber" variable="lineNumber"/>
+                        <bpelx:fromProperty name="jca.ftp.ColumnNumber" variable="columnNumber"/>
+                        <bpelx:fromProperty name="jca.ftp.IsEOF" variable="isEOF"/>
+                        <bpelx:fromProperty name="jca.ftp.NoDataFound" variable="noDataFound"/>
+                        <bpelx:fromProperty name="jca.ftp.IsMessageRejected" variable="messageRejected"/>
+                        <bpelx:fromProperty name="jca.ftp.RejectionReason" variable="rejectedReason"/>
+                    </bpelx:fromProperties>
+                </invoke>
+                <if name="IfNoData">
+                    <documentation>
+                        <![CDATA[DataExists]]>
+                    </documentation>
+                    <condition>$noDataFound='false'</condition>
+                    <sequence name="Sequence2">
+                        <assign name="Xform_LoadData_UtilityXrefReqMsg">
+                            <bpelx:annotation>
+                                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                            </bpelx:annotation>
+                            <copy>
+                                <from>ora:doXSLTransformForDoc("../Transformations/Xform_LoadData_UtilityXrefReqMsg.xsl", $Invoke_FileLoad_SynchRead_RespMsg.body)</from>
+                                <to variable="Utility_XREF_ReqMsg" part="payload"/>
+                            </copy>
+                        </assign>
+                        <invoke name="Invoke_Utility_XREF" partnerLink="WS_UtilityXREF"
+                                portType="ns2:UtilityXREF" operation="process" inputVariable="Utility_XREF_ReqMsg"
+                                bpelx:invokeAsDetail="no"/>
+                        <if name="If1">
+                            <documentation>
+                                <![CDATA[Line Count 100]]>
+                            </documentation>
+                            <condition>$LineCounter &gt;= 100</condition><sequence name="Sequence3"><assign name="ResetCounter"
+                                                                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+   <copy>
+                                        <from>1</from>
+                                        <to>$LineCounter</to>
+                                    </copy></assign><extensionActivity><bpelx:dehydrate name="Dehydrate1"/></extensionActivity></sequence><else>
+                                <documentation>
+                                    <![CDATA[Less 100]]>
+                                </documentation>
+                                <assign name="AddCounter">
+                                    <copy>
+                                        <from>$LineCounter + 1</from>
+                                        <to>$LineCounter</to>
+                                    </copy>
+                                </assign>
+                            </else>
+                        </if>
+                    </sequence>
+                    <else>
+                        <documentation>
+                            <![CDATA[NoData]]>
+                        </documentation>
+                        <empty name="NoData"/>
+                    </else>
+                </if>
+            </sequence>
+        </while>
+        <invoke name="InvokeDeleteFile" bpelx:invokeAsDetail="no" partnerLink="ftpFileDelete"
+                portType="ns3:DeleteFileService_ptt" operation="DeleteFileService" inputVariable="DeleteFile_ReqMsg"
+                outputVariable="DeleteFile_RespMsg"/>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+    </sequence>
+</process>

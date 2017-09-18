@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_Select_Batch_Stg"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_PublishEBSJobDetails_ABS/DB_Select_Batch_Stg"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NUC_PublishEBSJobDetails_ABS/DB_Select_Batch_Stg"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Select_Batch_Stg"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Select_Batch_Stg_plt" >
+    <plt:role name="DB_Select_Batch_Stg_role" >
+      <plt:portType name="tns:DB_Select_Batch_Stg_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Select_Batch_Stg" schemaLocation="../Schemas/DB_Select_Batch_Stg_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_Select_Batch_StgSelect_inputParameters">
+        <wsdl:part name="DB_Select_Batch_StgSelect_inputParameters" element="top:DB_Select_Batch_StgSelect_ProcessBatchIdInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="XxnucGmeBatchHeaderStgCollection_msg">
+        <wsdl:part name="XxnucGmeBatchHeaderStgCollection" element="top:XxnucGmeBatchHeaderStgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Select_Batch_Stg_ptt">
+        <wsdl:operation name="DB_Select_Batch_StgSelect">
+            <wsdl:input message="tns:DB_Select_Batch_StgSelect_inputParameters"/>
+            <wsdl:output message="tns:XxnucGmeBatchHeaderStgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,3247 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsl:stylesheet version="1.0" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+                xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+                xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+                xmlns:tns="http://xmlns.eia.com/ABS/EBiz/PurchaseOrderABS/1.0"
+                xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_PurchaseOrderEBS"
+                xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                xmlns:ns8="http://xmlns.eia.com/AO/EBiz/common/UomAO/1.0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:ns1="http://xmlns.eia.com/AO/EBiz/common/SupplierAO/1.0"
+                xmlns:poam="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"
+                xmlns:ns4="http://xmlns.eia.com/AO/EBiz/common/WhoAO/1.0"
+                xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+                xmlns:ns9="http://xmlns.eia.com/AO/EBiz/common/ItemAO/1.0"
+                xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+                xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                xmlns:utl="http://www.oracle.com/XSL/Transform/java/com.eia.soa.util.Configuration"
+                xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                xmlns:ora="http://schemas.oracle.com/xpath/extension"
+                xmlns:socket="http://www.oracle.com/XSL/Transform/java/oracle.tip.adapter.socket.ProtocolTranslator"
+                xmlns:core="http://xmlns.eia.com/EO/Common/1.0"
+                xmlns:ns0="http://xmlns.eia.com/AO/EBiz/common/OperationResultAO/1.0"
+                xmlns:ns12="http://xmlns.eia.com/AO/EBiz/P2P/OrganizationAO/1.0"
+                xmlns:mhdr="http://www.oracle.com/XSL/Transform/java/oracle.tip.mediator.service.common.functions.MediatorExtnFunction"
+                xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+                xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+                xmlns:ns5="http://xmlns.eia.com/AO/EBiz/common/AmountAO/1.0"
+                xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+                xmlns:ns6="http://xmlns.eia.com/AO/EBiz/common/AppsContextAO/1.0"
+                xmlns:med="http://schemas.oracle.com/mediator/xpath" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+                xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+                xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:ns2="http://xmlns.eia.com/AO/EBiz/common/CommonAO/1.0"
+                xmlns:ns10="http://xmlns.eia.com/AO/EBiz/P2P/SupplierAO/1.0"
+                xmlns:ns11="http://xmlns.eia.com/AO/EBiz/P2P/SupplierSiteAO/1.0"
+                xmlns:ns3="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderAO/1.0"
+                xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/apps/WI_Application/NUC_EbizPurchaseOrder_ABS/OA_PurchaseOrderEBS"
+                xmlns:bpmn="http://schemas.oracle.com/bpm/xpath"
+                xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+                exclude-result-prefixes="xsi xsl tns ns8 poam ns4 ns9 soap12 soap wsdl mime core ns0 ns12 ns5 ns6 xsd ns2 ns10 ns11 ns3 top plt ns7 bpws xp20 eia bpel bpm utl ora socket mhdr oraext dvm hwf med ids xdk xref ldap"
+                xmlns:oracle-xsl-mapper="http://www.oracle.com/xsl/mapper/schemas">
+  <oracle-xsl-mapper:schema>
+    <!--SPECIFICATION OF MAP SOURCES AND TARGETS, DO NOT MODIFY.-->
+    <oracle-xsl-mapper:mapSources>
+      <oracle-xsl-mapper:source type="WSDL">
+        <oracle-xsl-mapper:schema location="oramds:/apps/EIAMetadata/ABS/EBiz/V1.0/P2P/PurchaseOrderABS.wsdl"/>
+        <oracle-xsl-mapper:rootElement name="CreatePurchaseOrderRequestMessage"
+                                       namespace="http://xmlns.eia.com/AO/EBiz/P2P/PurchaseOrderABM/1.0"/>
+      </oracle-xsl-mapper:source>
+    </oracle-xsl-mapper:mapSources>
+    <oracle-xsl-mapper:mapTargets>
+      <oracle-xsl-mapper:target type="WSDL">
+        <oracle-xsl-mapper:schema location="../OA_PurchaseOrderEBS.wsdl"/>
+        <oracle-xsl-mapper:rootElement name="PoHeadersInterfaceCollection"
+                                       namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/OA_PurchaseOrderEBS"/>
+      </oracle-xsl-mapper:target>
+    </oracle-xsl-mapper:mapTargets>
+    <oracle-xsl-mapper:mapShowPrefixes type="true"/>
+    <!--GENERATED BY ORACLE XSL MAPPER 12.1.3.0.0(XSLT Build 140529.0700.0211) AT [WED SEP 09 14:05:50 CDT 2015].-->
+  </oracle-xsl-mapper:schema>
+  <!--User Editing allowed BELOW this line - DO NOT DELETE THIS LINE-->
+  <xsl:template match="/">
+    <top:PoHeadersInterfaceCollection>
+      <xsl:for-each select="/poam:CreatePurchaseOrderRequestMessage/poam:ListOfPurchaseOrders/ns3:PurchaseOrder">
+        <xsl:variable name="varInterfaceHeaderId"
+                      select='oraext:sequence-next-val("PO_HEADERS_INTERFACE_S","jdbc/ebsapps")'/>
+        <top:PoHeadersInterface>
+          <xsl:choose>
+            <xsl:when test='ns3:Interfaceheaderid != ""'>
+              <top:interfaceHeaderId>
+                <xsl:value-of select="ns3:Interfaceheaderid"/>
+              </top:interfaceHeaderId>
+            </xsl:when>
+            <xsl:otherwise>
+              <top:interfaceHeaderId>
+                <xsl:value-of select="$varInterfaceHeaderId"/>
+              </top:interfaceHeaderId>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test='/poam:CreatePurchaseOrderRequestMessage/poam:ListOfPurchaseOrders/ns3:PurchaseOrder/ns3:batchId != ""'>
+              <top:batchId>
+                <xsl:value-of select="/poam:CreatePurchaseOrderRequestMessage/poam:ListOfPurchaseOrders/ns3:PurchaseOrder/ns3:batchId"/>
+              </top:batchId>
+            </xsl:when>
+            <xsl:otherwise>
+              <top:batchId>
+                <xsl:value-of select="$varInterfaceHeaderId"/>
+              </top:batchId>
+            </xsl:otherwise>
+          </xsl:choose>
+          <!--top:batchId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Batchid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Batchid"/>
+          </top:batchId-->
+          <top:interfaceSourceCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Interfacesourcecode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Interfacesourcecode"/>
+          </top:interfaceSourceCode>
+          <top:processCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Processcode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Processcode"/>
+          </top:processCode>
+          <top:action>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Action/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Action"/>
+          </top:action>
+          <top:groupCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Groupcode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Groupcode"/>
+          </top:groupCode>
+          <top:orgId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Orgid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Orgid"/>
+          </top:orgId>
+          <top:documentTypeCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Documenttypecode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Documenttypecode"/>
+          </top:documentTypeCode>
+          <top:documentSubtype>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Documentsubtype/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Documentsubtype"/>
+          </top:documentSubtype>
+          <top:documentNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Documentnum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Documentnum"/>
+          </top:documentNum>
+          <top:poHeaderId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Poheaderid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Poheaderid"/>
+          </top:poHeaderId>
+          <top:releaseNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Releasenum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Releasenum"/>
+          </top:releaseNum>
+          <top:poReleaseId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Poreleaseid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Poreleaseid"/>
+          </top:poReleaseId>
+          <top:releaseDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Releasedate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Releasedate"/>
+          </top:releaseDate>
+          <top:currencyCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Currencycode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Currencycode"/>
+          </top:currencyCode>
+          <top:rateType>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Ratetype/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Ratetype"/>
+          </top:rateType>
+          <top:rateTypeCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Ratetypecode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Ratetypecode"/>
+          </top:rateTypeCode>
+          <top:rateDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Ratedate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Ratedate"/>
+          </top:rateDate>
+          <top:rate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Rate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Rate"/>
+          </top:rate>
+          <top:agentName>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Agentname/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Agentname"/>
+          </top:agentName>
+          <top:agentId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Agentid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Agentid"/>
+          </top:agentId>
+          <top:vendorName>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorname/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorname"/>
+          </top:vendorName>
+          <top:vendorId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorid"/>
+          </top:vendorId>
+          <top:vendorSiteCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorsitecode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorsitecode"/>
+          </top:vendorSiteCode>
+          <top:vendorSiteId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorsiteid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorsiteid"/>
+          </top:vendorSiteId>
+          <top:vendorContact>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorcontact/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorcontact"/>
+          </top:vendorContact>
+          <top:vendorContactId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorcontactid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorcontactid"/>
+          </top:vendorContactId>
+          <top:shipToLocation>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Shiptolocation/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Shiptolocation"/>
+          </top:shipToLocation>
+          <top:shipToLocationId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Shiptolocationid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Shiptolocationid"/>
+          </top:shipToLocationId>
+          <top:billToLocation>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Billtolocation/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Billtolocation"/>
+          </top:billToLocation>
+          <top:billToLocationId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Billtolocationid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Billtolocationid"/>
+          </top:billToLocationId>
+          <top:paymentTerms>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Paymentterms/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Paymentterms"/>
+          </top:paymentTerms>
+          <top:termsId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Termsid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Termsid"/>
+          </top:termsId>
+          <top:freightCarrier>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Freightcarrier/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Freightcarrier"/>
+          </top:freightCarrier>
+          <top:fob>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Fob/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Fob"/>
+          </top:fob>
+          <top:freightTerms>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Freightterms/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Freightterms"/>
+          </top:freightTerms>
+          <top:approvalStatus>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Approvalstatus/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Approvalstatus"/>
+          </top:approvalStatus>
+          <top:approvedDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Approveddate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Approveddate"/>
+          </top:approvedDate>
+          <top:revisedDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Reviseddate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Reviseddate"/>
+          </top:revisedDate>
+          <top:revisionNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Revisionnum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Revisionnum"/>
+          </top:revisionNum>
+          <top:noteToVendor>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Notetovendor/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Notetovendor"/>
+          </top:noteToVendor>
+          <top:noteToReceiver>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Notetoreceiver/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Notetoreceiver"/>
+          </top:noteToReceiver>
+          <top:confirmingOrderFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Confirmingorderflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Confirmingorderflag"/>
+          </top:confirmingOrderFlag>
+          <top:comments>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Comments/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Comments"/>
+          </top:comments>
+          <top:acceptanceRequiredFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Acceptancerequiredflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Acceptancerequiredflag"/>
+          </top:acceptanceRequiredFlag>
+          <top:acceptanceDueDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Acceptanceduedate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Acceptanceduedate"/>
+          </top:acceptanceDueDate>
+          <top:amountAgreed>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Amountagreed/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Amountagreed"/>
+          </top:amountAgreed>
+          <top:amountLimit>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Amountlimit/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Amountlimit"/>
+          </top:amountLimit>
+          <top:minReleaseAmount>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Minreleaseamount/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Minreleaseamount"/>
+          </top:minReleaseAmount>
+          <top:effectiveDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Effectivedate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Effectivedate"/>
+          </top:effectiveDate>
+          <top:expirationDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Expirationdate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Expirationdate"/>
+          </top:expirationDate>
+          <top:printCount>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Printcount/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Printcount"/>
+          </top:printCount>
+          <top:printedDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Printeddate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Printeddate"/>
+          </top:printedDate>
+          <top:firmFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Firmflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Firmflag"/>
+          </top:firmFlag>
+          <top:frozenFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Frozenflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Frozenflag"/>
+          </top:frozenFlag>
+          <top:closedCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Closedcode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Closedcode"/>
+          </top:closedCode>
+          <top:closedDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Closeddate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Closeddate"/>
+          </top:closedDate>
+          <top:replyDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Replydate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Replydate"/>
+          </top:replyDate>
+          <top:replyMethod>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Replymethod/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Replymethod"/>
+          </top:replyMethod>
+          <top:rfqCloseDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Rfqclosedate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Rfqclosedate"/>
+          </top:rfqCloseDate>
+          <top:quoteWarningDelay>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Quotewarningdelay/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Quotewarningdelay"/>
+          </top:quoteWarningDelay>
+          <top:vendorDocNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendordocnum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendordocnum"/>
+          </top:vendorDocNum>
+          <top:approvalRequiredFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Approvalrequiredflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Approvalrequiredflag"/>
+          </top:approvalRequiredFlag>
+          <top:vendorList>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorlist/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorlist"/>
+          </top:vendorList>
+          <top:vendorListHeaderId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendorlistheaderid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendorlistheaderid"/>
+          </top:vendorListHeaderId>
+          <top:fromHeaderId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Fromheaderid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Fromheaderid"/>
+          </top:fromHeaderId>
+          <top:fromTypeLookupCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Fromtypelookupcode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Fromtypelookupcode"/>
+          </top:fromTypeLookupCode>
+          <top:ussglTransactionCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Ussgltransactioncode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Ussgltransactioncode"/>
+          </top:ussglTransactionCode>
+          <top:attributeCategory>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattributecategory/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattributecategory"/>
+          </top:attributeCategory>
+          <top:attribute1>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute1/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute1"/>
+          </top:attribute1>
+          <top:attribute2>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute2/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute2"/>
+          </top:attribute2>
+          <top:attribute3>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute3/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute3"/>
+          </top:attribute3>
+          <top:attribute4>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute4/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute4"/>
+          </top:attribute4>
+          <top:attribute5>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute5/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute5"/>
+          </top:attribute5>
+          <top:attribute6>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute6/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute6"/>
+          </top:attribute6>
+          <top:attribute7>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute7/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute7"/>
+          </top:attribute7>
+          <top:attribute8>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute8/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute8"/>
+          </top:attribute8>
+          <top:attribute9>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute9/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute9"/>
+          </top:attribute9>
+          <top:attribute10>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute10/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute10"/>
+          </top:attribute10>
+          <top:attribute11>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute11/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute11"/>
+          </top:attribute11>
+          <top:attribute12>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute12/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute12"/>
+          </top:attribute12>
+          <top:attribute13>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute13/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute13"/>
+          </top:attribute13>
+          <top:attribute14>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute14/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute14"/>
+          </top:attribute14>
+          <top:attribute15>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalattribute15/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalattribute15"/>
+          </top:attribute15>
+          <xsl:choose>
+            <xsl:when test='ns3:Creationdate != ""'>
+              <top:creationDate>
+                <xsl:attribute name="xsi:nil">
+                  <xsl:value-of select="ns3:Creationdate/@xsi:nil"/>
+                </xsl:attribute>
+                <xsl:value-of select="ns3:Creationdate"/>
+              </top:creationDate>
+            </xsl:when>
+            <xsl:otherwise>
+              <top:creationDate>
+                <xsl:value-of select="xp20:current-dateTime()"/>
+              </top:creationDate>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test='ns3:Createdby != ""'>
+              <top:createdBy>
+                <xsl:attribute name="xsi:nil">
+                  <xsl:value-of select="ns3:Createdby/@xsi:nil"/>
+                </xsl:attribute>
+                <xsl:value-of select="ns3:Createdby"/>
+              </top:createdBy>
+            </xsl:when>
+            <xsl:otherwise>
+              <top:createdBy>
+                <xsl:value-of select='dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","Yamato","EBS_USER_ID","")'/>
+              </top:createdBy>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test='ns3:Lastupdatedate != ""'>
+              <top:lastUpdateDate>
+                <xsl:attribute name="xsi:nil">
+                  <xsl:value-of select="ns3:Lastupdatedate/@xsi:nil"/>
+                </xsl:attribute>
+                <xsl:value-of select="ns3:Lastupdatedate"/>
+              </top:lastUpdateDate>
+            </xsl:when>
+            <xsl:otherwise>
+              <top:lastUpdateDate>
+                <xsl:value-of select="xp20:current-dateTime()"/>
+              </top:lastUpdateDate>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test='ns3:Lastupdatedby != ""'>
+              <top:lastUpdatedBy>
+                <xsl:attribute name="xsi:nil">
+                  <xsl:value-of select="ns3:Lastupdatedby/@xsi:nil"/>
+                </xsl:attribute>
+                <xsl:value-of select="ns3:Lastupdatedby"/>
+              </top:lastUpdatedBy>
+            </xsl:when>
+            <xsl:otherwise>
+              <top:lastUpdatedBy>
+                <xsl:value-of select='dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","Yamato","EBS_USER_ID","")'/>
+              </top:lastUpdatedBy>
+            </xsl:otherwise>
+          </xsl:choose>
+          <top:lastUpdateLogin>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Lastupdatelogin/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Lastupdatelogin"/>
+          </top:lastUpdateLogin>
+          <top:requestId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Requestid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Requestid"/>
+          </top:requestId>
+          <top:programApplicationId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Programapplicationid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Programapplicationid"/>
+          </top:programApplicationId>
+          <top:programId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Programid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Programid"/>
+          </top:programId>
+          <top:programUpdateDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Programupdatedate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Programupdatedate"/>
+          </top:programUpdateDate>
+          <top:referenceNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Referencenum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Referencenum"/>
+          </top:referenceNum>
+          <top:loadSourcingRulesFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Loadsourcingrulesflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Loadsourcingrulesflag"/>
+          </top:loadSourcingRulesFlag>
+          <top:vendorNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Vendornum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Vendornum"/>
+          </top:vendorNum>
+          <top:fromRfqNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Fromrfqnum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Fromrfqnum"/>
+          </top:fromRfqNum>
+          <top:wfGroupId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Wfgroupid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Wfgroupid"/>
+          </top:wfGroupId>
+          <top:pcardId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Pcardid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Pcardid"/>
+          </top:pcardId>
+          <top:payOnCode>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Payoncode/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Payoncode"/>
+          </top:payOnCode>
+          <top:globalAgreementFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Globalagreementflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Globalagreementflag"/>
+          </top:globalAgreementFlag>
+          <top:consumeReqDemandFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Consumereqdemandflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Consumereqdemandflag"/>
+          </top:consumeReqDemandFlag>
+          <top:shippingControl>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Shippingcontrol/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Shippingcontrol"/>
+          </top:shippingControl>
+          <top:encumbranceRequiredFlag>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Encumbrancerequiredflag/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Encumbrancerequiredflag"/>
+          </top:encumbranceRequiredFlag>
+          <top:amountToEncumber>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Amounttoencumber/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Amounttoencumber"/>
+          </top:amountToEncumber>
+          <top:changeSummary>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Changesummary/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Changesummary"/>
+          </top:changeSummary>
+          <top:budgetAccountSegment1>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment1/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment1"/>
+          </top:budgetAccountSegment1>
+          <top:budgetAccountSegment2>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment2/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment2"/>
+          </top:budgetAccountSegment2>
+          <top:budgetAccountSegment3>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment3/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment3"/>
+          </top:budgetAccountSegment3>
+          <top:budgetAccountSegment4>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment4/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment4"/>
+          </top:budgetAccountSegment4>
+          <top:budgetAccountSegment5>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment5/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment5"/>
+          </top:budgetAccountSegment5>
+          <top:budgetAccountSegment6>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment6/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment6"/>
+          </top:budgetAccountSegment6>
+          <top:budgetAccountSegment7>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment7/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment7"/>
+          </top:budgetAccountSegment7>
+          <top:budgetAccountSegment8>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment8/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment8"/>
+          </top:budgetAccountSegment8>
+          <top:budgetAccountSegment9>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment9/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment9"/>
+          </top:budgetAccountSegment9>
+          <top:budgetAccountSegment10>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment10/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment10"/>
+          </top:budgetAccountSegment10>
+          <top:budgetAccountSegment11>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment11/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment11"/>
+          </top:budgetAccountSegment11>
+          <top:budgetAccountSegment12>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment12/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment12"/>
+          </top:budgetAccountSegment12>
+          <top:budgetAccountSegment13>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment13/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment13"/>
+          </top:budgetAccountSegment13>
+          <top:budgetAccountSegment14>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment14/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment14"/>
+          </top:budgetAccountSegment14>
+          <top:budgetAccountSegment15>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment15/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment15"/>
+          </top:budgetAccountSegment15>
+          <top:budgetAccountSegment16>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment16/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment16"/>
+          </top:budgetAccountSegment16>
+          <top:budgetAccountSegment17>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment17/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment17"/>
+          </top:budgetAccountSegment17>
+          <top:budgetAccountSegment18>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment18/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment18"/>
+          </top:budgetAccountSegment18>
+          <top:budgetAccountSegment19>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment19/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment19"/>
+          </top:budgetAccountSegment19>
+          <top:budgetAccountSegment20>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment20/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment20"/>
+          </top:budgetAccountSegment20>
+          <top:budgetAccountSegment21>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment21/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment21"/>
+          </top:budgetAccountSegment21>
+          <top:budgetAccountSegment22>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment22/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment22"/>
+          </top:budgetAccountSegment22>
+          <top:budgetAccountSegment23>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment23/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment23"/>
+          </top:budgetAccountSegment23>
+          <top:budgetAccountSegment24>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment24/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment24"/>
+          </top:budgetAccountSegment24>
+          <top:budgetAccountSegment25>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment25/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment25"/>
+          </top:budgetAccountSegment25>
+          <top:budgetAccountSegment26>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment26/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment26"/>
+          </top:budgetAccountSegment26>
+          <top:budgetAccountSegment27>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment27/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment27"/>
+          </top:budgetAccountSegment27>
+          <top:budgetAccountSegment29>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment29/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment29"/>
+          </top:budgetAccountSegment29>
+          <top:budgetAccountSegment30>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountsegment30/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountsegment30"/>
+          </top:budgetAccountSegment30>
+          <top:budgetAccount>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccount/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccount"/>
+          </top:budgetAccount>
+          <top:budgetAccountId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Budgetaccountid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Budgetaccountid"/>
+          </top:budgetAccountId>
+          <top:glEncumberedDate>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Glencumbereddate/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Glencumbereddate"/>
+          </top:glEncumberedDate>
+          <top:glEncumberedPeriodName>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Glencumberedperiodname/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Glencumberedperiodname"/>
+          </top:glEncumberedPeriodName>
+          <top:createdLanguage>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Createdlanguage/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Createdlanguage"/>
+          </top:createdLanguage>
+          <top:cpaReference>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Cpareference/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Cpareference"/>
+          </top:cpaReference>
+          <top:draftId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Draftid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Draftid"/>
+          </top:draftId>
+          <top:processingId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Processingid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Processingid"/>
+          </top:processingId>
+          <top:processingRoundNum>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Processingroundnum/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Processingroundnum"/>
+          </top:processingRoundNum>
+          <top:originalPoHeaderId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Originalpoheaderid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Originalpoheaderid"/>
+          </top:originalPoHeaderId>
+          <top:styleId>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Styleid/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Styleid"/>
+          </top:styleId>
+          <top:styleDisplayName>
+            <xsl:attribute name="xsi:nil">
+              <xsl:value-of select="ns3:Styledisplayname/@xsi:nil"/>
+            </xsl:attribute>
+            <xsl:value-of select="ns3:Styledisplayname"/>
+          </top:styleDisplayName>
+          <top:poLinesInterfaceCollection>
+            <xsl:for-each select="ns3:ListOfPurchaseOrderLines/ns3:PurchaseOrderLine">
+              <top:PoLinesInterface>
+                <xsl:choose>
+                  <xsl:when test='ns3:Interfacelineid != ""'>
+                    <top:interfaceLineId>
+                      <xsl:value-of select="ns3:Interfacelineid"/>
+                    </top:interfaceLineId>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <top:interfaceLineId>
+                      <xsl:value-of select='oraext:sequence-next-val("PO_LINES_INTERFACE_S","jdbc/ebsapps")'/>
+                    </top:interfaceLineId>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <!--top:interfaceLineId>
+                  <xsl:value-of select="ns3:Interfacelineid"/>
+                </top:interfaceLineId-->
+                <top:action>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Action/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Action"/>
+                </top:action>
+                <top:groupCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Groupcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Groupcode"/>
+                </top:groupCode>
+                <top:lineNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Linenum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Linenum"/>
+                </top:lineNum>
+                <top:poLineId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Polineid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Polineid"/>
+                </top:poLineId>
+                <top:shipmentNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentnum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentnum"/>
+                </top:shipmentNum>
+                <top:lineLocationId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Linelocationid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Linelocationid"/>
+                </top:lineLocationId>
+                <top:shipmentType>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmenttype/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmenttype"/>
+                </top:shipmentType>
+                <top:requisitionLineId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Requisitionlineid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Requisitionlineid"/>
+                </top:requisitionLineId>
+                <top:documentNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Documentnum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Documentnum"/>
+                </top:documentNum>
+                <top:releaseNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Releasenum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Releasenum"/>
+                </top:releaseNum>
+                <top:poHeaderId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Poheaderid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Poheaderid"/>
+                </top:poHeaderId>
+                <top:poReleaseId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Poreleaseid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Poreleaseid"/>
+                </top:poReleaseId>
+                <top:sourceShipmentId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Sourceshipmentid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Sourceshipmentid"/>
+                </top:sourceShipmentId>
+                <top:contractNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Contractnum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Contractnum"/>
+                </top:contractNum>
+                <top:lineType>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Linetype/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Linetype"/>
+                </top:lineType>
+                <top:lineTypeId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Linetypeid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Linetypeid"/>
+                </top:lineTypeId>
+                <top:item>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Item/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Item"/>
+                </top:item>
+                <top:itemId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemid"/>
+                </top:itemId>
+                <top:itemRevision>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemrevision/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemrevision"/>
+                </top:itemRevision>
+                <top:category>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Category/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Category"/>
+                </top:category>
+                <top:categoryId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Categoryid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Categoryid"/>
+                </top:categoryId>
+                <top:itemDescription>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemdescription/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemdescription"/>
+                </top:itemDescription>
+                <top:vendorProductNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Vendorproductnum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Vendorproductnum"/>
+                </top:vendorProductNum>
+                <top:uomCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Uomcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Uomcode"/>
+                </top:uomCode>
+                <top:unitOfMeasure>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Unitofmeasure/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Unitofmeasure"/>
+                </top:unitOfMeasure>
+                <top:quantity>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Quantity/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Quantity"/>
+                </top:quantity>
+                <top:committedAmount>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Committedamount/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Committedamount"/>
+                </top:committedAmount>
+                <top:minOrderQuantity>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Minorderquantity/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Minorderquantity"/>
+                </top:minOrderQuantity>
+                <top:maxOrderQuantity>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Maxorderquantity/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Maxorderquantity"/>
+                </top:maxOrderQuantity>
+                <top:unitPrice>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Unitprice/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Unitprice"/>
+                </top:unitPrice>
+                <top:listPricePerUnit>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Listpriceperunit/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Listpriceperunit"/>
+                </top:listPricePerUnit>
+                <top:marketPrice>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Marketprice/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Marketprice"/>
+                </top:marketPrice>
+                <top:allowPriceOverrideFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Allowpriceoverrideflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Allowpriceoverrideflag"/>
+                </top:allowPriceOverrideFlag>
+                <top:notToExceedPrice>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Nottoexceedprice/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Nottoexceedprice"/>
+                </top:notToExceedPrice>
+                <top:negotiatedByPreparerFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Negotiatedbypreparerflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Negotiatedbypreparerflag"/>
+                </top:negotiatedByPreparerFlag>
+                <top:unNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Unnumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Unnumber"/>
+                </top:unNumber>
+                <top:unNumberId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Unnumberid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Unnumberid"/>
+                </top:unNumberId>
+                <top:hazardClass>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Hazardclass/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Hazardclass"/>
+                </top:hazardClass>
+                <top:hazardClassId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Hazardclassid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Hazardclassid"/>
+                </top:hazardClassId>
+                <top:noteToVendor>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Notetovendor/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Notetovendor"/>
+                </top:noteToVendor>
+                <top:transactionReasonCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Transactionreasoncode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Transactionreasoncode"/>
+                </top:transactionReasonCode>
+                <top:taxableFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Taxableflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Taxableflag"/>
+                </top:taxableFlag>
+                <top:taxName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Taxname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Taxname"/>
+                </top:taxName>
+                <top:type1099>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Type1099/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Type1099"/>
+                </top:type1099>
+                <top:capitalExpenseFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Capitalexpenseflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Capitalexpenseflag"/>
+                </top:capitalExpenseFlag>
+                <top:inspectionRequiredFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Inspectionrequiredflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Inspectionrequiredflag"/>
+                </top:inspectionRequiredFlag>
+                <top:receiptRequiredFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Receiptrequiredflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Receiptrequiredflag"/>
+                </top:receiptRequiredFlag>
+                <top:paymentTerms>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Paymentterms/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Paymentterms"/>
+                </top:paymentTerms>
+                <top:termsId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Termsid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Termsid"/>
+                </top:termsId>
+                <top:priceType>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Pricetype/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Pricetype"/>
+                </top:priceType>
+                <top:minReleaseAmount>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Minreleaseamount/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Minreleaseamount"/>
+                </top:minReleaseAmount>
+                <top:priceBreakLookupCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Pricebreaklookupcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Pricebreaklookupcode"/>
+                </top:priceBreakLookupCode>
+                <top:ussglTransactionCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Ussgltransactioncode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Ussgltransactioncode"/>
+                </top:ussglTransactionCode>
+                <top:closedCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Closedcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Closedcode"/>
+                </top:closedCode>
+                <top:closedReason>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Closedreason/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Closedreason"/>
+                </top:closedReason>
+                <top:closedDate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Closeddate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Closeddate"/>
+                </top:closedDate>
+                <top:closedBy>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Closedby/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Closedby"/>
+                </top:closedBy>
+                <top:invoiceCloseTolerance>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Invoiceclosetolerance/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Invoiceclosetolerance"/>
+                </top:invoiceCloseTolerance>
+                <top:receiveCloseTolerance>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Receiveclosetolerance/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Receiveclosetolerance"/>
+                </top:receiveCloseTolerance>
+                <top:firmFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Firmflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Firmflag"/>
+                </top:firmFlag>
+                <top:daysEarlyReceiptAllowed>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Daysearlyreceiptallowed/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Daysearlyreceiptallowed"/>
+                </top:daysEarlyReceiptAllowed>
+                <top:daysLateReceiptAllowed>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Dayslatereceiptallowed/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Dayslatereceiptallowed"/>
+                </top:daysLateReceiptAllowed>
+                <top:enforceShipToLocationCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Enforceshiptolocationcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Enforceshiptolocationcode"/>
+                </top:enforceShipToLocationCode>
+                <top:allowSubstituteReceiptsFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Allowsubstitutereceiptsflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Allowsubstitutereceiptsflag"/>
+                </top:allowSubstituteReceiptsFlag>
+                <top:receivingRouting>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Receivingrouting/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Receivingrouting"/>
+                </top:receivingRouting>
+                <top:receivingRoutingId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Receivingroutingid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Receivingroutingid"/>
+                </top:receivingRoutingId>
+                <top:qtyRcvTolerance>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Qtyrcvtolerance/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Qtyrcvtolerance"/>
+                </top:qtyRcvTolerance>
+                <top:overToleranceErrorFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Overtoleranceerrorflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Overtoleranceerrorflag"/>
+                </top:overToleranceErrorFlag>
+                <top:qtyRcvExceptionCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Qtyrcvexceptioncode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Qtyrcvexceptioncode"/>
+                </top:qtyRcvExceptionCode>
+                <top:receiptDaysExceptionCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Receiptdaysexceptioncode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Receiptdaysexceptioncode"/>
+                </top:receiptDaysExceptionCode>
+                <top:shipToOrganizationCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shiptoorganizationcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shiptoorganizationcode"/>
+                </top:shipToOrganizationCode>
+                <top:shipToOrganizationId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shiptoorganizationid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shiptoorganizationid"/>
+                </top:shipToOrganizationId>
+                <top:shipToLocation>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shiptolocation/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shiptolocation"/>
+                </top:shipToLocation>
+                <top:shipToLocationId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shiptolocationid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shiptolocationid"/>
+                </top:shipToLocationId>
+                <top:needByDate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Needbydate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Needbydate"/>
+                </top:needByDate>
+                <top:promisedDate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Promiseddate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Promiseddate"/>
+                </top:promisedDate>
+                <top:accrueOnReceiptFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Accrueonreceiptflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Accrueonreceiptflag"/>
+                </top:accrueOnReceiptFlag>
+                <top:leadTime>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Leadtime/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Leadtime"/>
+                </top:leadTime>
+                <top:leadTimeUnit>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Leadtimeunit/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Leadtimeunit"/>
+                </top:leadTimeUnit>
+                <top:priceDiscount>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Pricediscount/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Pricediscount"/>
+                </top:priceDiscount>
+                <top:freightCarrier>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Freightcarrier/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Freightcarrier"/>
+                </top:freightCarrier>
+                <top:fob>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Fob/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Fob"/>
+                </top:fob>
+                <top:freightTerms>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Freightterms/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Freightterms"/>
+                </top:freightTerms>
+                <top:effectiveDate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Effectivedate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Effectivedate"/>
+                </top:effectiveDate>
+                <top:expirationDate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Expirationdate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Expirationdate"/>
+                </top:expirationDate>
+                <top:fromHeaderId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Fromheaderid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Fromheaderid"/>
+                </top:fromHeaderId>
+                <top:fromLineId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Fromlineid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Fromlineid"/>
+                </top:fromLineId>
+                <top:fromLineLocationId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Fromlinelocationid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Fromlinelocationid"/>
+                </top:fromLineLocationId>
+                <top:lineAttributeCategoryLines>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattributecategorylines/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattributecategorylines"/>
+                </top:lineAttributeCategoryLines>
+                <top:lineAttribute1>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute1/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute1"/>
+                </top:lineAttribute1>
+                <top:lineAttribute2>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute2/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute2"/>
+                </top:lineAttribute2>
+                <top:lineAttribute3>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute3/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute3"/>
+                </top:lineAttribute3>
+                <top:lineAttribute4>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute4/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute4"/>
+                </top:lineAttribute4>
+                <top:lineAttribute5>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute5/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute5"/>
+                </top:lineAttribute5>
+                <top:lineAttribute6>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute6/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute6"/>
+                </top:lineAttribute6>
+                <top:lineAttribute7>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute7/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute7"/>
+                </top:lineAttribute7>
+                <top:lineAttribute8>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute8/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute8"/>
+                </top:lineAttribute8>
+                <top:lineAttribute9>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute9/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute9"/>
+                </top:lineAttribute9>
+                <top:lineAttribute10>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute10/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute10"/>
+                </top:lineAttribute10>
+                <top:lineAttribute11>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute11/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute11"/>
+                </top:lineAttribute11>
+                <top:lineAttribute12>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute12/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute12"/>
+                </top:lineAttribute12>
+                <top:lineAttribute13>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute13/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute13"/>
+                </top:lineAttribute13>
+                <top:lineAttribute14>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute14/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute14"/>
+                </top:lineAttribute14>
+                <top:lineAttribute15>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lineattribute15/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lineattribute15"/>
+                </top:lineAttribute15>
+                <top:shipmentAttributeCategory>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattributecategory/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattributecategory"/>
+                </top:shipmentAttributeCategory>
+                <top:shipmentAttribute1>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute1/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute1"/>
+                </top:shipmentAttribute1>
+                <top:shipmentAttribute2>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute2/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute2"/>
+                </top:shipmentAttribute2>
+                <top:shipmentAttribute3>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute3/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute3"/>
+                </top:shipmentAttribute3>
+                <top:shipmentAttribute4>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute4/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute4"/>
+                </top:shipmentAttribute4>
+                <top:shipmentAttribute5>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute5/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute5"/>
+                </top:shipmentAttribute5>
+                <top:shipmentAttribute6>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute6/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute6"/>
+                </top:shipmentAttribute6>
+                <top:shipmentAttribute7>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute7/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute7"/>
+                </top:shipmentAttribute7>
+                <top:shipmentAttribute8>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute8/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute8"/>
+                </top:shipmentAttribute8>
+                <top:shipmentAttribute9>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute9/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute9"/>
+                </top:shipmentAttribute9>
+                <top:shipmentAttribute10>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute10/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute10"/>
+                </top:shipmentAttribute10>
+                <top:shipmentAttribute11>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute11/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute11"/>
+                </top:shipmentAttribute11>
+                <top:shipmentAttribute12>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute12/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute12"/>
+                </top:shipmentAttribute12>
+                <top:shipmentAttribute13>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute13/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute13"/>
+                </top:shipmentAttribute13>
+                <top:shipmentAttribute14>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute14/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute14"/>
+                </top:shipmentAttribute14>
+                <top:shipmentAttribute15>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Shipmentattribute15/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Shipmentattribute15"/>
+                </top:shipmentAttribute15>
+                <xsl:choose>
+                  <xsl:when test='ns3:Lastupdatedate != ""'>
+                    <top:lastUpdateDate>
+                      <xsl:attribute name="xsi:nil">
+                        <xsl:value-of select="ns3:Lastupdatedate/@xsi:nil"/>
+                      </xsl:attribute>
+                      <xsl:value-of select="ns3:Lastupdatedate"/>
+                    </top:lastUpdateDate>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <top:lastUpdateDate>
+                      <xsl:value-of select="xp20:current-dateTime()"/>
+                    </top:lastUpdateDate>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                  <xsl:when test='ns3:Lastupdatedby != ""'>
+                    <top:lastUpdatedBy>
+                      <xsl:attribute name="xsi:nil">
+                        <xsl:value-of select="ns3:Lastupdatedby/@xsi:nil"/>
+                      </xsl:attribute>
+                      <xsl:value-of select="ns3:Lastupdatedby"/>
+                    </top:lastUpdatedBy>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <top:lastUpdatedBy>
+                      <xsl:value-of select='dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","Yamato","EBS_USER_ID","")'/>
+                    </top:lastUpdatedBy>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <top:lastUpdateLogin>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Lastupdatelogin/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Lastupdatelogin"/>
+                </top:lastUpdateLogin>
+                <xsl:choose>
+                  <xsl:when test='ns3:Creationdate != ""'>
+                    <top:creationDate>
+                      <xsl:attribute name="xsi:nil">
+                        <xsl:value-of select="ns3:Creationdate/@xsi:nil"/>
+                      </xsl:attribute>
+                      <xsl:value-of select="ns3:Creationdate"/>
+                    </top:creationDate>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <top:creationDate>
+                      <xsl:value-of select="xp20:current-dateTime()"/>
+                    </top:creationDate>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose>
+                  <xsl:when test='ns3:Createdby != ""'>
+                    <top:createdBy>
+                      <xsl:attribute name="xsi:nil">
+                        <xsl:value-of select="ns3:Createdby/@xsi:nil"/>
+                      </xsl:attribute>
+                      <xsl:value-of select="ns3:Createdby"/>
+                    </top:createdBy>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <top:createdBy>
+                      <xsl:value-of select='dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","Yamato","EBS_USER_ID","")'/>
+                    </top:createdBy>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <top:requestId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Requestid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Requestid"/>
+                </top:requestId>
+                <top:programApplicationId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Programapplicationid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Programapplicationid"/>
+                </top:programApplicationId>
+                <top:programId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Programid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Programid"/>
+                </top:programId>
+                <top:programUpdateDate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Programupdatedate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Programupdatedate"/>
+                </top:programUpdateDate>
+                <top:organizationId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Organizationid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Organizationid"/>
+                </top:organizationId>
+                <top:itemAttributeCategory>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattributecategory/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattributecategory"/>
+                </top:itemAttributeCategory>
+                <top:itemAttribute1>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute1/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute1"/>
+                </top:itemAttribute1>
+                <top:itemAttribute2>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute2/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute2"/>
+                </top:itemAttribute2>
+                <top:itemAttribute3>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute3/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute3"/>
+                </top:itemAttribute3>
+                <top:itemAttribute4>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute4/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute4"/>
+                </top:itemAttribute4>
+                <top:itemAttribute5>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute5/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute5"/>
+                </top:itemAttribute5>
+                <top:itemAttribute6>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute6/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute6"/>
+                </top:itemAttribute6>
+                <top:itemAttribute7>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute7/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute7"/>
+                </top:itemAttribute7>
+                <top:itemAttribute8>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute8/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute8"/>
+                </top:itemAttribute8>
+                <top:itemAttribute9>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute9/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute9"/>
+                </top:itemAttribute9>
+                <top:itemAttribute10>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute10/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute10"/>
+                </top:itemAttribute10>
+                <top:itemAttribute11>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute11/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute11"/>
+                </top:itemAttribute11>
+                <top:itemAttribute12>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute12/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute12"/>
+                </top:itemAttribute12>
+                <top:itemAttribute13>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute13/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute13"/>
+                </top:itemAttribute13>
+                <top:itemAttribute14>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute14/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute14"/>
+                </top:itemAttribute14>
+                <top:itemAttribute15>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Itemattribute15/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Itemattribute15"/>
+                </top:itemAttribute15>
+                <top:unitWeight>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Unitweight/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Unitweight"/>
+                </top:unitWeight>
+                <top:weightUomCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Weightuomcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Weightuomcode"/>
+                </top:weightUomCode>
+                <top:volumeUomCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Volumeuomcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Volumeuomcode"/>
+                </top:volumeUomCode>
+                <top:unitVolume>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Unitvolume/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Unitvolume"/>
+                </top:unitVolume>
+                <top:templateId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Templateid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Templateid"/>
+                </top:templateId>
+                <top:templateName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Templatename/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Templatename"/>
+                </top:templateName>
+                <top:lineReferenceNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Linereferencenum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Linereferencenum"/>
+                </top:lineReferenceNum>
+                <top:sourcingRuleName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Sourcingrulename/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Sourcingrulename"/>
+                </top:sourcingRuleName>
+                <top:taxStatusIndicator>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Taxstatusindicator/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Taxstatusindicator"/>
+                </top:taxStatusIndicator>
+                <top:processCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Processcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Processcode"/>
+                </top:processCode>
+                <top:priceChgAcceptFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Pricechgacceptflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Pricechgacceptflag"/>
+                </top:priceChgAcceptFlag>
+                <top:priceBreakFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Pricebreakflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Pricebreakflag"/>
+                </top:priceBreakFlag>
+                <top:priceUpdateTolerance>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Priceupdatetolerance/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Priceupdatetolerance"/>
+                </top:priceUpdateTolerance>
+                <top:taxUserOverrideFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Taxuseroverrideflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Taxuseroverrideflag"/>
+                </top:taxUserOverrideFlag>
+                <top:taxCodeId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Taxcodeid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Taxcodeid"/>
+                </top:taxCodeId>
+                <top:noteToReceiver>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Notetoreceiver/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Notetoreceiver"/>
+                </top:noteToReceiver>
+                <top:okeContractHeaderId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Okecontractheaderid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Okecontractheaderid"/>
+                </top:okeContractHeaderId>
+                <top:okeContractHeaderNum>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Okecontractheadernum/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Okecontractheadernum"/>
+                </top:okeContractHeaderNum>
+                <top:okeContractVersionId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Okecontractversionid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Okecontractversionid"/>
+                </top:okeContractVersionId>
+                <top:secondaryUnitOfMeasure>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Secondaryunitofmeasure/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Secondaryunitofmeasure"/>
+                </top:secondaryUnitOfMeasure>
+                <top:secondaryUomCode>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Secondaryuomcode/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Secondaryuomcode"/>
+                </top:secondaryUomCode>
+                <top:secondaryQuantity>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Secondaryquantity/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Secondaryquantity"/>
+                </top:secondaryQuantity>
+                <top:preferredGrade>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Preferredgrade/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Preferredgrade"/>
+                </top:preferredGrade>
+                <top:vmiFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Vmiflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Vmiflag"/>
+                </top:vmiFlag>
+                <top:auctionHeaderId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Auctionheaderid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Auctionheaderid"/>
+                </top:auctionHeaderId>
+                <top:auctionLineNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Auctionlinenumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Auctionlinenumber"/>
+                </top:auctionLineNumber>
+                <top:auctionDisplayNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Auctiondisplaynumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Auctiondisplaynumber"/>
+                </top:auctionDisplayNumber>
+                <top:bidNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Bidnumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Bidnumber"/>
+                </top:bidNumber>
+                <top:bidLineNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Bidlinenumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Bidlinenumber"/>
+                </top:bidLineNumber>
+                <top:origFromReqFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Origfromreqflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Origfromreqflag"/>
+                </top:origFromReqFlag>
+                <top:consignedFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Consignedflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Consignedflag"/>
+                </top:consignedFlag>
+                <top:supplierRefNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Supplierrefnumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Supplierrefnumber"/>
+                </top:supplierRefNumber>
+                <top:contractId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Contractid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Contractid"/>
+                </top:contractId>
+                <top:jobId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Jobid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Jobid"/>
+                </top:jobId>
+                <top:amount>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Amount/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Amount"/>
+                </top:amount>
+                <top:jobName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Jobname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Jobname"/>
+                </top:jobName>
+                <top:contractorFirstName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Contractorfirstname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Contractorfirstname"/>
+                </top:contractorFirstName>
+                <top:contractorLastName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Contractorlastname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Contractorlastname"/>
+                </top:contractorLastName>
+                <top:dropShipFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Dropshipflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Dropshipflag"/>
+                </top:dropShipFlag>
+                <top:baseUnitPrice>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Baseunitprice/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Baseunitprice"/>
+                </top:baseUnitPrice>
+                <top:transactionFlowHeaderId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Transactionflowheaderid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Transactionflowheaderid"/>
+                </top:transactionFlowHeaderId>
+                <top:jobBusinessGroupId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Jobbusinessgroupid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Jobbusinessgroupid"/>
+                </top:jobBusinessGroupId>
+                <top:jobBusinessGroupName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Jobbusinessgroupname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Jobbusinessgroupname"/>
+                </top:jobBusinessGroupName>
+                <top:catalogName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Catalogname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Catalogname"/>
+                </top:catalogName>
+                <top:supplierPartAuxid>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Supplierpartauxid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Supplierpartauxid"/>
+                </top:supplierPartAuxid>
+                <top:ipCategoryId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Ipcategoryid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Ipcategoryid"/>
+                </top:ipCategoryId>
+                <top:trackingQuantityInd>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Trackingquantityind/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Trackingquantityind"/>
+                </top:trackingQuantityInd>
+                <top:secondaryDefaultInd>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Secondarydefaultind/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Secondarydefaultind"/>
+                </top:secondaryDefaultInd>
+                <top:dualUomDeviationHigh>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Dualuomdeviationhigh/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Dualuomdeviationhigh"/>
+                </top:dualUomDeviationHigh>
+                <top:dualUomDeviationLow>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Dualuomdeviationlow/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Dualuomdeviationlow"/>
+                </top:dualUomDeviationLow>
+                <top:processingId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Processingid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Processingid"/>
+                </top:processingId>
+                <top:lineLocPopulatedFlag>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Linelocpopulatedflag/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Linelocpopulatedflag"/>
+                </top:lineLocPopulatedFlag>
+                <top:ipCategoryName>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Ipcategoryname/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Ipcategoryname"/>
+                </top:ipCategoryName>
+                <top:retainageRate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Retainagerate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Retainagerate"/>
+                </top:retainageRate>
+                <top:maxRetainageAmount>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Maxretainageamount/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Maxretainageamount"/>
+                </top:maxRetainageAmount>
+                <top:progressPaymentRate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Progresspaymentrate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Progresspaymentrate"/>
+                </top:progressPaymentRate>
+                <top:recoupmentRate>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Recoupmentrate/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Recoupmentrate"/>
+                </top:recoupmentRate>
+                <top:advanceAmount>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Advanceamount/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Advanceamount"/>
+                </top:advanceAmount>
+                <top:fileLineNumber>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Filelinenumber/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Filelinenumber"/>
+                </top:fileLineNumber>
+                <top:parentInterfaceLineId>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Parentinterfacelineid/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Parentinterfacelineid"/>
+                </top:parentInterfaceLineId>
+                <top:fileLineLanguage>
+                  <xsl:attribute name="xsi:nil">
+                    <xsl:value-of select="ns3:Filelinelanguage/@xsi:nil"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="ns3:Filelinelanguage"/>
+                </top:fileLineLanguage>
+                <top:poDistributionsInterfaceCollection>
+                  <xsl:for-each select="ns3:ListOfPurchaseOrderDistLines/ns3:PurchaseOrderDistLines">
+                    <xsl:if test=".">
+                      <top:PoDistributionsInterface>
+                        <!--top:interfaceHeaderId>
+                          <xsl:value-of select="ns3:Interfaceheaderid"/>
+                        </top:interfaceHeaderId-->
+                        <top:interfaceHeaderId>
+                          <xsl:value-of select="$varInterfaceHeaderId"/>
+                        </top:interfaceHeaderId>
+                        <xsl:choose>
+                          <xsl:when test='ns3:Interfacedistributionid != ""'>
+                            <top:interfaceDistributionId>
+                              <xsl:value-of select="ns3:Interfacedistributionid"/>
+                            </top:interfaceDistributionId>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <top:interfaceDistributionId>
+                              <xsl:value-of select='oraext:sequence-next-val("PO_DISTRIBUTIONS_INTERFACE_S","jdbc/ebsapps")'/>
+                            </top:interfaceDistributionId>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                        <!--top:interfaceDistributionId>
+                          <xsl:value-of select="ns3:Interfacedistributionid"/>
+                        </top:interfaceDistributionId-->
+                        <top:poHeaderId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Poheaderid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Poheaderid"/>
+                        </top:poHeaderId>
+                        <top:poReleaseId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Poreleaseid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Poreleaseid"/>
+                        </top:poReleaseId>
+                        <top:poLineId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Polineid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Polineid"/>
+                        </top:poLineId>
+                        <top:lineLocationId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Linelocationid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Linelocationid"/>
+                        </top:lineLocationId>
+                        <top:poDistributionId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Podistributionid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Podistributionid"/>
+                        </top:poDistributionId>
+                        <top:distributionNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Distributionnum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Distributionnum"/>
+                        </top:distributionNum>
+                        <top:sourceDistributionId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Sourcedistributionid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Sourcedistributionid"/>
+                        </top:sourceDistributionId>
+                        <top:orgId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Orgid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Orgid"/>
+                        </top:orgId>
+                        <top:quantityOrdered>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Quantityordered/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Quantityordered"/>
+                        </top:quantityOrdered>
+                        <top:quantityDelivered>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Quantitydelivered/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Quantitydelivered"/>
+                        </top:quantityDelivered>
+                        <top:quantityBilled>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Quantitybilled/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Quantitybilled"/>
+                        </top:quantityBilled>
+                        <top:quantityCancelled>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Quantitycancelled/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Quantitycancelled"/>
+                        </top:quantityCancelled>
+                        <top:rateDate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Ratedate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Ratedate"/>
+                        </top:rateDate>
+                        <top:rate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Rate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Rate"/>
+                        </top:rate>
+                        <top:deliverToLocation>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Delivertolocation/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Delivertolocation"/>
+                        </top:deliverToLocation>
+                        <top:deliverToLocationId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Delivertolocationid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Delivertolocationid"/>
+                        </top:deliverToLocationId>
+                        <top:deliverToPersonFullName>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Delivertopersonfullname/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Delivertopersonfullname"/>
+                        </top:deliverToPersonFullName>
+                        <top:deliverToPersonId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Delivertopersonid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Delivertopersonid"/>
+                        </top:deliverToPersonId>
+                        <top:destinationType>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destinationtype/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destinationtype"/>
+                        </top:destinationType>
+                        <top:destinationTypeCode>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destinationtypecode/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destinationtypecode"/>
+                        </top:destinationTypeCode>
+                        <top:destinationOrganization>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destinationorganization/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destinationorganization"/>
+                        </top:destinationOrganization>
+                        <top:destinationOrganizationId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destinationorganizationid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destinationorganizationid"/>
+                        </top:destinationOrganizationId>
+                        <top:destinationSubinventory>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destinationsubinventory/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destinationsubinventory"/>
+                        </top:destinationSubinventory>
+                        <top:destinationContext>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destinationcontext/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destinationcontext"/>
+                        </top:destinationContext>
+                        <top:setOfBooks>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Setofbooks/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Setofbooks"/>
+                        </top:setOfBooks>
+                        <top:setOfBooksId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Setofbooksid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Setofbooksid"/>
+                        </top:setOfBooksId>
+                        <top:chargeAccount>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccount/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccount"/>
+                        </top:chargeAccount>
+                        <top:chargeAccountId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountid"/>
+                        </top:chargeAccountId>
+                        <top:budgetAccount>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Budgetaccount/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Budgetaccount"/>
+                        </top:budgetAccount>
+                        <top:budgetAccountId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Budgetaccountid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Budgetaccountid"/>
+                        </top:budgetAccountId>
+                        <top:accuralAccount>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Accuralaccount/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Accuralaccount"/>
+                        </top:accuralAccount>
+                        <top:accrualAccountId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Accrualaccountid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Accrualaccountid"/>
+                        </top:accrualAccountId>
+                        <top:varianceAccount>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Varianceaccount/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Varianceaccount"/>
+                        </top:varianceAccount>
+                        <top:varianceAccountId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Varianceaccountid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Varianceaccountid"/>
+                        </top:varianceAccountId>
+                        <top:amountBilled>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Amountbilled/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Amountbilled"/>
+                        </top:amountBilled>
+                        <top:accrueOnReceiptFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Accrueonreceiptflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Accrueonreceiptflag"/>
+                        </top:accrueOnReceiptFlag>
+                        <top:accruedFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Accruedflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Accruedflag"/>
+                        </top:accruedFlag>
+                        <top:preventEncumbranceFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Preventencumbranceflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Preventencumbranceflag"/>
+                        </top:preventEncumbranceFlag>
+                        <top:encumberedFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Encumberedflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Encumberedflag"/>
+                        </top:encumberedFlag>
+                        <top:encumberedAmount>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Encumberedamount/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Encumberedamount"/>
+                        </top:encumberedAmount>
+                        <top:unencumberedQuantity>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Unencumberedquantity/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Unencumberedquantity"/>
+                        </top:unencumberedQuantity>
+                        <top:unencumberedAmount>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Unencumberedamount/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Unencumberedamount"/>
+                        </top:unencumberedAmount>
+                        <top:failedFunds>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Failedfunds/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Failedfunds"/>
+                        </top:failedFunds>
+                        <top:failedFundsLookupCode>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Failedfundslookupcode/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Failedfundslookupcode"/>
+                        </top:failedFundsLookupCode>
+                        <top:glEncumberedDate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Glencumbereddate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Glencumbereddate"/>
+                        </top:glEncumberedDate>
+                        <top:glEncumberedPeriodName>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Glencumberedperiodname/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Glencumberedperiodname"/>
+                        </top:glEncumberedPeriodName>
+                        <top:glCancelledDate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Glcancelleddate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Glcancelleddate"/>
+                        </top:glCancelledDate>
+                        <top:glClosedDate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Glcloseddate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Glcloseddate"/>
+                        </top:glClosedDate>
+                        <top:reqHeaderReferenceNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Reqheaderreferencenum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Reqheaderreferencenum"/>
+                        </top:reqHeaderReferenceNum>
+                        <top:reqLineReferenceNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Reqlinereferencenum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Reqlinereferencenum"/>
+                        </top:reqLineReferenceNum>
+                        <top:reqDistributionId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Reqdistributionid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Reqdistributionid"/>
+                        </top:reqDistributionId>
+                        <top:wipEntity>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wipentity/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wipentity"/>
+                        </top:wipEntity>
+                        <top:wipEntityId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wipentityid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wipentityid"/>
+                        </top:wipEntityId>
+                        <top:wipOperationSeqNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wipoperationseqnum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wipoperationseqnum"/>
+                        </top:wipOperationSeqNum>
+                        <top:wipResourceSeqNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wipresourceseqnum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wipresourceseqnum"/>
+                        </top:wipResourceSeqNum>
+                        <top:wipRepetitiveSchedule>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wiprepetitiveschedule/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wiprepetitiveschedule"/>
+                        </top:wipRepetitiveSchedule>
+                        <top:wipRepetitiveScheduleId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wiprepetitivescheduleid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wiprepetitivescheduleid"/>
+                        </top:wipRepetitiveScheduleId>
+                        <top:wipLineCode>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wiplinecode/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wiplinecode"/>
+                        </top:wipLineCode>
+                        <top:wipLineId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Wiplineid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Wiplineid"/>
+                        </top:wipLineId>
+                        <top:bomResourceCode>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Bomresourcecode/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Bomresourcecode"/>
+                        </top:bomResourceCode>
+                        <top:bomResourceId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Bomresourceid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Bomresourceid"/>
+                        </top:bomResourceId>
+                        <top:ussglTransactionCode>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Ussgltransactioncode/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Ussgltransactioncode"/>
+                        </top:ussglTransactionCode>
+                        <top:governmentContext>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Governmentcontext/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Governmentcontext"/>
+                        </top:governmentContext>
+                        <top:project>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Project/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Project"/>
+                        </top:project>
+                        <top:projectId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Projectid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Projectid"/>
+                        </top:projectId>
+                        <top:task>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Task/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Task"/>
+                        </top:task>
+                        <top:taskId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Taskid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Taskid"/>
+                        </top:taskId>
+                        <top:endItemUnitNumber>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Enditemunitnumber/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Enditemunitnumber"/>
+                        </top:endItemUnitNumber>
+                        <top:expenditure>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Expenditure/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Expenditure"/>
+                        </top:expenditure>
+                        <top:expenditureType>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Expendituretype/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Expendituretype"/>
+                        </top:expenditureType>
+                        <top:projectAccountingContext>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Projectaccountingcontext/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Projectaccountingcontext"/>
+                        </top:projectAccountingContext>
+                        <top:expenditureOrganization>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Expenditureorganization/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Expenditureorganization"/>
+                        </top:expenditureOrganization>
+                        <top:expenditureOrganizationId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Expenditureorganizationid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Expenditureorganizationid"/>
+                        </top:expenditureOrganizationId>
+                        <top:projectReleatedFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Projectreleatedflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Projectreleatedflag"/>
+                        </top:projectReleatedFlag>
+                        <top:expenditureItemDate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Expenditureitemdate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Expenditureitemdate"/>
+                        </top:expenditureItemDate>
+                        <top:attributeCategory>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:AttributeCategory/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attributeCategory>
+                        <top:attribute1>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute1/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute1>
+                        <top:attribute2>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute2/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute2>
+                        <top:attribute3>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute3/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute3>
+                        <top:attribute4>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute4/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute4>
+                        <top:attribute5>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute5/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute5>
+                        <top:attribute6>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute6/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute6>
+                        <top:attribute7>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute7/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute7>
+                        <top:attribute8>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute8/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute8>
+                        <top:attribute9>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute9/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute9>
+                        <top:attribute10>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute10/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute10>
+                        <top:attribute11>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute11/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute11>
+                        <top:attribute12>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute12/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute12>
+                        <top:attribute13>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute13/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute13>
+                        <top:attribute14>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute14/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute14>
+                        <top:attribute15>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:DistDFF/ns2:Attribute15/@xsi:nil"/>
+                          </xsl:attribute>
+                        </top:attribute15>
+                        <xsl:choose>
+                          <xsl:when test='ns3:Lastupdatedate != ""'>
+                            <top:lastUpdateDate>
+                              <xsl:attribute name="xsi:nil">
+                                <xsl:value-of select="ns3:Lastupdatedate/@xsi:nil"/>
+                              </xsl:attribute>
+                              <xsl:value-of select="ns3:Lastupdatedate"/>
+                            </top:lastUpdateDate>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <top:lastUpdateDate>
+                              <xsl:value-of select="xp20:current-dateTime()"/>
+                            </top:lastUpdateDate>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                          <xsl:when test='ns3:Lastupdatedby != ""'>
+                            <top:lastUpdatedBy>
+                              <xsl:attribute name="xsi:nil">
+                                <xsl:value-of select="ns3:Lastupdatedby/@xsi:nil"/>
+                              </xsl:attribute>
+                              <xsl:value-of select="ns3:Lastupdatedby"/>
+                            </top:lastUpdatedBy>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <top:lastUpdatedBy>
+                              <xsl:value-of select='dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","Yamato","EBS_USER_ID","")'/>
+                            </top:lastUpdatedBy>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                        <top:lastUpdateLogin>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Lastupdatelogin/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Lastupdatelogin"/>
+                        </top:lastUpdateLogin>
+                        <xsl:choose>
+                          <xsl:when test='ns3:Creationdate != ""'>
+                            <top:creationDate>
+                              <xsl:attribute name="xsi:nil">
+                                <xsl:value-of select="ns3:Creationdate/@xsi:nil"/>
+                              </xsl:attribute>
+                              <xsl:value-of select="ns3:Creationdate"/>
+                            </top:creationDate>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <top:creationDate>
+                              <xsl:value-of select="xp20:current-dateTime()"/>
+                            </top:creationDate>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:choose>
+                          <xsl:when test='ns3:Createdby != ""'>
+                            <top:createdBy>
+                              <xsl:attribute name="xsi:nil">
+                                <xsl:value-of select="ns3:Createdby/@xsi:nil"/>
+                              </xsl:attribute>
+                              <xsl:value-of select="ns3:Createdby"/>
+                            </top:createdBy>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <top:createdBy>
+                              <xsl:value-of select='dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_USER_NAME_DIVISION_MAP.dvm","DIVISION","Yamato","EBS_USER_ID","")'/>
+                            </top:createdBy>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                        <top:requestId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Requestid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Requestid"/>
+                        </top:requestId>
+                        <top:programApplicationId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Programapplicationid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Programapplicationid"/>
+                        </top:programApplicationId>
+                        <top:programId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Programid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Programid"/>
+                        </top:programId>
+                        <top:programUpdateDate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Programupdatedate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Programupdatedate"/>
+                        </top:programUpdateDate>
+                        <top:recoverableTax>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Recoverabletax/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Recoverabletax"/>
+                        </top:recoverableTax>
+                        <top:nonrecoverableTax>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Nonrecoverabletax/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Nonrecoverabletax"/>
+                        </top:nonrecoverableTax>
+                        <top:recoveryRate>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Recoveryrate/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Recoveryrate"/>
+                        </top:recoveryRate>
+                        <top:taxRecoveryOverrideFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Taxrecoveryoverrideflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Taxrecoveryoverrideflag"/>
+                        </top:taxRecoveryOverrideFlag>
+                        <top:awardId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Awardid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Awardid"/>
+                        </top:awardId>
+                        <top:chargeAccountSegment1>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment1/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment1"/>
+                        </top:chargeAccountSegment1>
+                        <top:chargeAccountSegment2>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment2/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment2"/>
+                        </top:chargeAccountSegment2>
+                        <top:chargeAccountSegment3>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment3/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment3"/>
+                        </top:chargeAccountSegment3>
+                        <top:chargeAccountSegment4>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment4/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment4"/>
+                        </top:chargeAccountSegment4>
+                        <top:chargeAccountSegment5>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment5/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment5"/>
+                        </top:chargeAccountSegment5>
+                        <top:chargeAccountSegment6>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment6/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment6"/>
+                        </top:chargeAccountSegment6>
+                        <top:chargeAccountSegment7>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment7/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment7"/>
+                        </top:chargeAccountSegment7>
+                        <top:chargeAccountSegment8>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment8/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment8"/>
+                        </top:chargeAccountSegment8>
+                        <top:chargeAccountSegment9>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment9/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment9"/>
+                        </top:chargeAccountSegment9>
+                        <top:chargeAccountSegment10>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment10/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment10"/>
+                        </top:chargeAccountSegment10>
+                        <top:chargeAccountSegment11>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment11/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment11"/>
+                        </top:chargeAccountSegment11>
+                        <top:chargeAccountSegment12>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment12/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment12"/>
+                        </top:chargeAccountSegment12>
+                        <top:chargeAccountSegment13>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment13/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment13"/>
+                        </top:chargeAccountSegment13>
+                        <top:chargeAccountSegment14>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment14/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment14"/>
+                        </top:chargeAccountSegment14>
+                        <top:chargeAccountSegment15>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment15/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment15"/>
+                        </top:chargeAccountSegment15>
+                        <top:chargeAccountSegment16>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment16/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment16"/>
+                        </top:chargeAccountSegment16>
+                        <top:chargeAccountSegment17>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment17/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment17"/>
+                        </top:chargeAccountSegment17>
+                        <top:chargeAccountSegment18>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment18/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment18"/>
+                        </top:chargeAccountSegment18>
+                        <top:chargeAccountSegment19>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment19/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment19"/>
+                        </top:chargeAccountSegment19>
+                        <top:chargeAccountSegment20>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment20/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment20"/>
+                        </top:chargeAccountSegment20>
+                        <top:chargeAccountSegment21>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment21/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment21"/>
+                        </top:chargeAccountSegment21>
+                        <top:chargeAccountSegment22>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment22/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment22"/>
+                        </top:chargeAccountSegment22>
+                        <top:chargeAccountSegment23>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment23/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment23"/>
+                        </top:chargeAccountSegment23>
+                        <top:chargeAccountSegment24>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment24/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment24"/>
+                        </top:chargeAccountSegment24>
+                        <top:chargeAccountSegment25>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment25/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment25"/>
+                        </top:chargeAccountSegment25>
+                        <top:chargeAccountSegment26>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment26/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment26"/>
+                        </top:chargeAccountSegment26>
+                        <top:chargeAccountSegment27>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment27/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment27"/>
+                        </top:chargeAccountSegment27>
+                        <top:chargeAccountSegment28>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment28/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment28"/>
+                        </top:chargeAccountSegment28>
+                        <top:chargeAccountSegment29>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment29/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment29"/>
+                        </top:chargeAccountSegment29>
+                        <top:chargeAccountSegment30>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Chargeaccountsegment30/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Chargeaccountsegment30"/>
+                        </top:chargeAccountSegment30>
+                        <top:okeContractLineId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Okecontractlineid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Okecontractlineid"/>
+                        </top:okeContractLineId>
+                        <top:okeContractLineNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Okecontractlinenum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Okecontractlinenum"/>
+                        </top:okeContractLineNum>
+                        <top:okeContractDeliverableId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Okecontractdeliverableid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Okecontractdeliverableid"/>
+                        </top:okeContractDeliverableId>
+                        <top:okeContractDeliverableNum>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Okecontractdeliverablenum/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Okecontractdeliverablenum"/>
+                        </top:okeContractDeliverableNum>
+                        <top:awardNumber>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Awardnumber/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Awardnumber"/>
+                        </top:awardNumber>
+                        <top:amountOrdered>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Amountordered/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Amountordered"/>
+                        </top:amountOrdered>
+                        <top:invoiceAdjustmentFlag>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Invoiceadjustmentflag/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Invoiceadjustmentflag"/>
+                        </top:invoiceAdjustmentFlag>
+                        <top:destChargeAccountId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destchargeaccountid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destchargeaccountid"/>
+                        </top:destChargeAccountId>
+                        <top:destVarianceAccountId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Destvarianceaccountid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Destvarianceaccountid"/>
+                        </top:destVarianceAccountId>
+                        <top:interfaceLineLocationId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Interfacelinelocationid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Interfacelinelocationid"/>
+                        </top:interfaceLineLocationId>
+                        <top:processingId>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Processingid/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Processingid"/>
+                        </top:processingId>
+                        <top:processCode>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Processcode/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Processcode"/>
+                        </top:processCode>
+                        <top:interfaceDistributionRef>
+                          <xsl:attribute name="xsi:nil">
+                            <xsl:value-of select="ns3:Interfacedistributionref/@xsi:nil"/>
+                          </xsl:attribute>
+                          <xsl:value-of select="ns3:Interfacedistributionref"/>
+                        </top:interfaceDistributionRef>
+                      </top:PoDistributionsInterface>
+                    </xsl:if>
+                  </xsl:for-each>
+                </top:poDistributionsInterfaceCollection>
+              </top:PoLinesInterface>
+            </xsl:for-each>
+          </top:poLinesInterfaceCollection>
+        </top:PoHeadersInterface>
+      </xsl:for-each>
+    </top:PoHeadersInterfaceCollection>
+  </xsl:template>
+</xsl:stylesheet>

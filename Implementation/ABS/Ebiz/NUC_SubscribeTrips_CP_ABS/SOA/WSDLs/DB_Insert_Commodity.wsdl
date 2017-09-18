@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Insert_Commodity"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Commodity"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/I028NewDesign/NUC_SubscribeTrips_CP_ABS/DB_Insert_Commodity"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Commodity"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Insert_Commodity_plt" >
+    <plt:role name="DB_Insert_Commodity_role" >
+      <plt:portType name="tns:DB_Insert_Commodity_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Insert_Commodity" schemaLocation="../Schemas/DB_Insert_Commodity_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="CommodityCollection_msg">
+        <wsdl:part name="CommodityCollection" element="top:CommodityCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Insert_Commodity_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:CommodityCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

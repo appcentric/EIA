@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="MillScale_EBizSFT">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="99" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="92" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="MillScale_EBizSFT" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/Implementation/ABF/NUC_MillScales_EBizSFT_ABF/MillScale_EBizSFT#wsdl.interface(execute)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>QueryScale</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="CommonLogging_Pl">
+        <dgm:body borderWidth="2" arcRad="20" X="730" Y="26" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="720" Y="19" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLogging_Pl" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="DBSELECT_MILLSCALE_UOM">
+        <dgm:body borderWidth="2" arcRad="20" X="730" Y="144" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="720" Y="137" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="DBSELECT_MILLSCALE_UOM" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSELECT_MILLSCALE_UOM#wsdl.interface(DBSELECT_MILLSCALE_UOM_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/db_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>DBSELECT_MILLSCALE_UOMSelect</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="MillScales_EBizSFT">
+        <dgm:body borderWidth="2" arcRad="20" X="379" Y="84" width="130" height="86">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="369" Y="77" width="150" height="102">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="MillScale_EBizSFT" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/Implementation/ABF/NUC_MillScales_EBizSFT_ABF/MillScale_EBizSFT#wsdl.interface(execute)"/>
+        <dgm:outputPort name="CommonLogging_Pl" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:outputPort name="DBSELECT_MILLSCALE_UOM" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/dummy/NUC_MillScales_EBizSFT_ABF/DBSELECT_MILLSCALE_UOM#wsdl.interface(DBSELECT_MILLSCALE_UOM_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="MillScales_EBizSFT/CommonLogging_Pl" target="CommonLogging_Pl" width="2">
+        <dgm:gSegment X1="519" Y1="109" X2="543" Y2="109"/>
+        <dgm:gSegment X1="543" Y1="109" X2="543" Y2="36"/>
+        <dgm:gSegment X1="543" Y1="36" X2="720" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="MillScale_EBizSFT" target="MillScales_EBizSFT/MillScale_EBizSFT" width="2">
+        <dgm:gSegment X1="168" Y1="109" X2="369" Y2="109"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="MillScales_EBizSFT/DBSELECT_MILLSCALE_UOM" target="DBSELECT_MILLSCALE_UOM" width="2">
+        <dgm:gSegment X1="519" Y1="134" X2="543" Y2="134"/>
+        <dgm:gSegment X1="543" Y1="134" X2="543" Y2="154"/>
+        <dgm:gSegment X1="543" Y1="154" X2="720" Y2="154"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

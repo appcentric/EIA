@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="DB_QueryCustomerAging" adapter="db" wsdlLocation="DB_QueryCustomerAging.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="EBSDEVP" adapterRef=""/>
+  <endpoint-interaction portType="DB_QueryCustomerAging_ptt" operation="DB_QueryCustomerAging">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="selecT * from table(xxnuc_arpt_sql_func_util_pkg.org_cust_aging(#CustomerId,#OrgId,#CreditOption,#BucketName))"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

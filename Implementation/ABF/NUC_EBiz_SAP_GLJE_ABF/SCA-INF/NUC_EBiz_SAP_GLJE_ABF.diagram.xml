@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="ProcessPayroll">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="227" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="220" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="ProcessPayroll" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0#wsdl.interface(SyncPort)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>ProcessPayroll_Sync</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="JournalABS">
+        <dgm:body borderWidth="2" arcRad="20" X="556" Y="228" width="136" height="108">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="546" Y="221" width="156" height="122">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="JournalABS" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>CreateJournal_Sync</dgm:item>
+            <dgm:item>CreateListOfJournals_Sync</dgm:item>
+            <dgm:item>LaunchGLImport</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="SAP_FI_Posting_Service">
+        <dgm:body borderWidth="2" arcRad="20" X="556" Y="26" width="136" height="168">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="546" Y="19" width="156" height="182">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="SAP_FI_Posting_Service" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="www.Nucor.com#wsdl.interface(SapDataSoap)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>AAATest_RunID</dgm:item>
+            <dgm:item>Get_SAP_FIPosting</dgm:item>
+            <dgm:item>Get_SAP_FIPosting_Via_RunID_List</dgm:item>
+            <dgm:item>Get_Pos_Pay</dgm:item>
+            <dgm:item>AuthPropsReadUserName</dgm:item>
+            <dgm:item>UpdateAuthProps</dgm:item>
+            <dgm:item>IsUserAuthorized</dgm:item>
+            <dgm:item>GetPending_SAP_Text_Files</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CommonLogging_PL">
+        <dgm:body borderWidth="2" arcRad="20" X="556" Y="370" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="546" Y="363" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CommonLogging_PL" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="EBiz_SAP_GLJE">
+        <dgm:body borderWidth="2" arcRad="20" X="292" Y="212" width="130" height="111">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="282" Y="205" width="150" height="127">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="ProcessPayroll" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ABF/NUC_EBiz_SAP_GLJE_ABF/1.0#wsdl.interface(SyncPort)"/>
+        <dgm:outputPort name="SAP_FI_Posting_Service" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="www.Nucor.com#wsdl.interface(SapDataSoap)"/>
+        <dgm:outputPort name="JournalABS" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/ABS/EBiz/A2R/JournalABS/1.0#wsdl.interface(SyncPortType)"/>
+        <dgm:outputPort name="CommonLogging_PL" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.eia.com/CommonLogging#wsdl.interface(CommonLogging)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="ProcessPayroll" target="EBiz_SAP_GLJE/ProcessPayroll" width="2">
+        <dgm:gSegment X1="168" Y1="237" X2="282" Y2="237"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="EBiz_SAP_GLJE/SAP_FI_Posting_Service" target="SAP_FI_Posting_Service" width="2">
+        <dgm:gSegment X1="432" Y1="237" X2="456" Y2="237"/>
+        <dgm:gSegment X1="456" Y1="237" X2="456" Y2="36"/>
+        <dgm:gSegment X1="456" Y1="36" X2="546" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="EBiz_SAP_GLJE/JournalABS" target="JournalABS" width="2">
+        <dgm:gSegment X1="432" Y1="262" X2="471" Y2="262"/>
+        <dgm:gSegment X1="471" Y1="262" X2="471" Y2="238"/>
+        <dgm:gSegment X1="471" Y1="238" X2="546" Y2="238"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="EBiz_SAP_GLJE/CommonLogging_PL" target="CommonLogging_PL" width="2">
+        <dgm:gSegment X1="432" Y1="287" X2="456" Y2="287"/>
+        <dgm:gSegment X1="456" Y1="287" X2="456" Y2="380"/>
+        <dgm:gSegment X1="456" Y1="380" X2="546" Y2="380"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

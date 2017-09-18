@@ -1,0 +1,94 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Feb 03 07:56:16 CST 2015
+  Author:  brian.lowe
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="RequestOutputFile"
+         targetNamespace="http://xmlns.oracle.com/NucorPordSup/NUC_EBiz_RequestOutput_ABF/RequestOutputFile"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/NucorPordSup/NUC_EBiz_RequestOutput_ABF/RequestOutputFile"
+         xmlns:eia="http://xmlns.eia.com/extensions/1.0"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.eia.com/ABS/EBiz/common/DeliveryABS/1.0">
+
+    <import namespace="http://xmlns.oracle.com/NucorPordSup/NUC_EBiz_RequestOutput_ABF/RequestOutputFile" location="RequestOutputFile.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="requestoutputfile_client" partnerLinkType="client:RequestOutputFile" myRole="RequestOutputFileProvider" partnerRole="RequestOutputFileRequester"/>
+        <partnerLink name="WS_RequestDelivery"
+                     partnerLinkType="ns1:WS_RequestDelivery"
+                     partnerRole="SyncPortType"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:RequestOutputFileRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:RequestOutputFileResponseMessage"/>
+        <variable name="DeliveryRequest_Delivery_ReqMsg"
+                  messageType="ns1:ListOfDeliveryRequestMessageType"/>
+        <variable name="DeliveryRequest_Delivery_RespMsg"
+                  messageType="ns1:ListOfDeliveryResponseMessageType"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in RequestOutputFile.wsdl) -->
+        <receive name="receiveInput" partnerLink="requestoutputfile_client" portType="client:RequestOutputFile" operation="process" variable="inputVariable" createInstance="yes"/>
+        <assign name="Xform_UserInput_DeliveryRequestReqMsg">
+            <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+                <from>ora:doXSLTransformForDoc("xsl/Xform_UserInput_DeliveryRequestReqMsg.xsl", $inputVariable.payload)</from>
+                <to variable="DeliveryRequest_Delivery_ReqMsg"
+                    part="ListOfDeliveryRequestMessage"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_DeliveryRequest"
+                partnerLink="WS_RequestDelivery" portType="ns1:SyncPortType"
+                operation="Delivery_Sync"
+                inputVariable="DeliveryRequest_Delivery_ReqMsg"
+                outputVariable="DeliveryRequest_Delivery_RespMsg"
+                bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+                <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("NUC_EBizRequestDelivery_ABS","endpointURI")</bpelx:toProperty>
+            </bpelx:toProperties>
+        </invoke>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="requestoutputfile_client" portType="client:RequestOutputFileCallback" operation="processResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>

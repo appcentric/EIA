@@ -1,0 +1,172 @@
+<wsdl:definitions 
+		name="GarnishmentService" 
+		targetNamespace="http://tempuri.org/"
+		xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+    xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://tempuri.org/"
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+	>
+	<wsp:Policy wsu:Id="BasicHttpBinding_IGarnishmentService_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<http:BasicAuthentication/>
+				<sp:TransportBinding>
+					<wsp:Policy>
+						<sp:TransportToken>
+							<wsp:Policy>
+								<sp:HttpsToken RequireClientCertificate="false"/>
+							</wsp:Policy>
+						</sp:TransportToken>
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic256/>
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+						<sp:Layout>
+							<wsp:Policy>
+								<sp:Strict/>
+							</wsp:Policy>
+						</sp:Layout>
+					</wsp:Policy>
+				</sp:TransportBinding>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://tempuri.org/Imports">
+			<xsd:import schemaLocation="../../../AO/SAP/Garn/GarnishmentService0.xsd" namespace="http://tempuri.org/"/>
+			<xsd:import schemaLocation="../../../AO/SAP/Garn/GarnishmentService1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+			<xsd:import schemaLocation="../../../AO/SAP/Garn/GarnishmentService2.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySingleDivNum_StringDates_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySingleDivNum_StringDates"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySingleDivNum_StringDates_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySingleDivNum_StringDatesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySingleDivNum_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySingleDivNum"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySingleDivNum_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySingleDivNumResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_StringDates_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySinglePersonnelArea_StringDates"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_StringDates_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySinglePersonnelArea_StringDatesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySinglePersonnelArea"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingBySinglePersonnelAreaResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_StringDates_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingByMultiPersonnelArea_StringDates"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_StringDates_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingByMultiPersonnelArea_StringDatesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingByMultiPersonnelArea"/>
+	</wsdl:message>
+	<wsdl:message name="IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetGarnishmentListingByMultiPersonnelAreaResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="IGarnishmentService">
+		<wsdl:operation name="GetGarnishmentListingBySingleDivNum_StringDates">
+			<wsdl:input wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySingleDivNum_StringDates" message="tns:IGarnishmentService_GetGarnishmentListingBySingleDivNum_StringDates_InputMessage"/>
+			<wsdl:output wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySingleDivNum_StringDatesResponse" message="tns:IGarnishmentService_GetGarnishmentListingBySingleDivNum_StringDates_OutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingBySingleDivNum">
+			<wsdl:input wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySingleDivNum" message="tns:IGarnishmentService_GetGarnishmentListingBySingleDivNum_InputMessage"/>
+			<wsdl:output wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySingleDivNumResponse" message="tns:IGarnishmentService_GetGarnishmentListingBySingleDivNum_OutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingBySinglePersonnelArea_StringDates">
+			<wsdl:input wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySinglePersonnelArea_StringDates" message="tns:IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_StringDates_InputMessage"/>
+			<wsdl:output wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySinglePersonnelArea_StringDatesResponse" message="tns:IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_StringDates_OutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingBySinglePersonnelArea">
+			<wsdl:input wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySinglePersonnelArea" message="tns:IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_InputMessage"/>
+			<wsdl:output wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySinglePersonnelAreaResponse" message="tns:IGarnishmentService_GetGarnishmentListingBySinglePersonnelArea_OutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingByMultiPersonnelArea_StringDates">
+			<wsdl:input wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingByMultiPersonnelArea_StringDates" message="tns:IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_StringDates_InputMessage"/>
+			<wsdl:output wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingByMultiPersonnelArea_StringDatesResponse" message="tns:IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_StringDates_OutputMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingByMultiPersonnelArea">
+			<wsdl:input wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingByMultiPersonnelArea" message="tns:IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_InputMessage"/>
+			<wsdl:output wsaw:Action="http://tempuri.org/IGarnishmentService/GetGarnishmentListingByMultiPersonnelAreaResponse" message="tns:IGarnishmentService_GetGarnishmentListingByMultiPersonnelArea_OutputMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BasicHttpBinding_IGarnishmentService" type="tns:IGarnishmentService">
+		<wsp:PolicyReference URI="#BasicHttpBinding_IGarnishmentService_policy"/>
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetGarnishmentListingBySingleDivNum_StringDates">
+			<soap:operation soapAction="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySingleDivNum_StringDates" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingBySingleDivNum">
+			<soap:operation soapAction="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySingleDivNum" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingBySinglePersonnelArea_StringDates">
+			<soap:operation soapAction="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySinglePersonnelArea_StringDates" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingBySinglePersonnelArea">
+			<soap:operation soapAction="http://tempuri.org/IGarnishmentService/GetGarnishmentListingBySinglePersonnelArea" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingByMultiPersonnelArea_StringDates">
+			<soap:operation soapAction="http://tempuri.org/IGarnishmentService/GetGarnishmentListingByMultiPersonnelArea_StringDates" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetGarnishmentListingByMultiPersonnelArea">
+			<soap:operation soapAction="http://tempuri.org/IGarnishmentService/GetGarnishmentListingByMultiPersonnelArea" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="GarnishmentService">
+		<wsdl:port name="BasicHttpBinding_IGarnishmentService" binding="tns:BasicHttpBinding_IGarnishmentService">
+			<soap:address location="https://ws5.nucornet.com/GarnishmentListing/GarnishmentService.svc"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

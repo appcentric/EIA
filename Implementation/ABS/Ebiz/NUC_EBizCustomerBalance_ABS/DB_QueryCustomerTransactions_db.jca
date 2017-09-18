@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="DB_QueryCustomerTransactions" adapter="db" wsdlLocation="DB_QueryCustomerTransactions.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/ebsapps" UIConnectionName="EBSDEVP" adapterRef=""/>
+  <endpoint-interaction portType="DB_QueryCustomerTransactions_ptt" operation="DB_QueryCustomerTransactions">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="selecT * from table(xxnuc_arpt_sql_func_util_pkg.cust_org_trx(#CustomerId,#OrgId))"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

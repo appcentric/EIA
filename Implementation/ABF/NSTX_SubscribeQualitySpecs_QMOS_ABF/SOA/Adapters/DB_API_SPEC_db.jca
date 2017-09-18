@@ -1,0 +1,14 @@
+<adapter-config name="DB_API_SPEC" adapter="db" wsdlLocation="../WSDLs/DB_API_SPEC.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="nsutqmos" location="eis/DB/nstxqmos"/>
+  <endpoint-interaction portType="DB_API_SPEC_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="DB_API_SPEC.ApiSpec"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="DB_API_SPEC-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

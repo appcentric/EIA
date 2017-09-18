@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adapter-config name="OA_Receive_Customer_Update" adapter="apps" wsdlLocation="OA_Receive_Customer_Update.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/Apps/ebs" UIConnectionName="NewEBS" UIOracleAppType="WFBES" UIWfEventName="oracle.apps.ar.hz.OrgCustBO.update" adapterRef=""/>
+  <endpoint-activation portType="DEQUEUE_ptt" operation="DEQUEUE">
+    <activation-spec className="oracle.tip.adapter.apps.AppsWFBesQueueDequeueActivationSpec">
+      <property name="QueueName" value="WF_BPEL_Q"/>
+      <property name="DatabaseSchema" value="APPS"/>
+      <property name="Consumer" value="ORA_8kpk8gq46cr4ah1m6p1j0dhh6l"/>
+      <property name="MessageSelectorRule" value="tab.user_data.event_name = 'oracle.apps.ar.hz.OrgCustBO.update' AND tab.user_data.getvalueforparameter('GROUP') IS NULL"/>
+      <property name="AppsEventSchema" value="NO_SCHEMA"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

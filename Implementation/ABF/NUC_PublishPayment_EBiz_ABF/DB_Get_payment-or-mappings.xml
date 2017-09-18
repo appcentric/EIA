@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_Get_payment-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_Get_payment.ApChecksAll</class>
+         <alias>AP_CHECKS_ALL</alias>
+         <primary-key>
+            <field table="AP_CHECKS_ALL" name="CHECK_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_Get_paymentSelect" xsi:type="read-all-query">
+                  <reference-class>DB_Get_payment.ApChecksAll</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>amount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankAccountId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BANK_ACCOUNT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankAccountName</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BANK_ACCOUNT_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECK_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECK_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkNumber</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECK_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>currencyCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CURRENCY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdatedBy</attribute-name>
+               <field table="AP_CHECKS_ALL" name="LAST_UPDATED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="LAST_UPDATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentMethodLookupCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_METHOD_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentTypeFlag</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_TYPE_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>addressLine1</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ADDRESS_LINE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>addressLine2</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ADDRESS_LINE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>addressLine3</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ADDRESS_LINE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkrunName</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECKRUN_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkFormatId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECK_FORMAT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkStockId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECK_STOCK_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>city</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>country</attribute-name>
+               <field table="AP_CHECKS_ALL" name="COUNTRY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createdBy</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CREATED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>creationDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CREATION_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lastUpdateLogin</attribute-name>
+               <field table="AP_CHECKS_ALL" name="LAST_UPDATE_LOGIN" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>statusLookupCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STATUS_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorName</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VENDOR_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorSiteCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VENDOR_SITE_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>zip</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ZIP" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankAccountNum</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BANK_ACCOUNT_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankAccountType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BANK_ACCOUNT_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankNum</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BANK_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkVoucherNum</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECK_VOUCHER_NUM" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>docCategoryCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="DOC_CATEGORY_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>docSequenceId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="DOC_SEQUENCE_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>docSequenceValue</attribute-name>
+               <field table="AP_CHECKS_ALL" name="DOC_SEQUENCE_VALUE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>province</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PROVINCE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>releasedAt</attribute-name>
+               <field table="AP_CHECKS_ALL" name="RELEASED_AT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>releasedBy</attribute-name>
+               <field table="AP_CHECKS_ALL" name="RELEASED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>state</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stoppedAt</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STOPPED_AT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stoppedBy</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STOPPED_BY" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>voidDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VOID_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute1</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute10</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE10" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute11</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE11" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute12</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE12" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute13</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE13" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute14</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE14" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute15</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE15" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute2</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute3</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute4</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute5</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute6</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE6" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute7</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE7" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute8</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE8" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attribute9</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE9" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>attributeCategory</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ATTRIBUTE_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>futurePayDueDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="FUTURE_PAY_DUE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>treasuryPayDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="TREASURY_PAY_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>treasuryPayNumber</attribute-name>
+               <field table="AP_CHECKS_ALL" name="TREASURY_PAY_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ussglTransactionCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="USSGL_TRANSACTION_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ussglTrxCodeContext</attribute-name>
+               <field table="AP_CHECKS_ALL" name="USSGL_TRX_CODE_CONTEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>withholdingStatusLookupCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="WITHHOLDING_STATUS_LOOKUP_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>reconciliationBatchId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="RECONCILIATION_BATCH_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedBaseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedExchangeRate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedExchangeDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_EXCHANGE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedExchangeRateType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_EXCHANGE_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>addressLine4</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ADDRESS_LINE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>county</attribute-name>
+               <field table="AP_CHECKS_ALL" name="COUNTY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>addressStyle</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ADDRESS_STYLE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>orgId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ORG_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VENDOR_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>vendorSiteId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VENDOR_SITE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exchangeRate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exchangeDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="EXCHANGE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>exchangeRateType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="EXCHANGE_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>baseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>checkrunId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CHECKRUN_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>requestId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="REQUEST_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedErrorAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_ERROR_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedChargesAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_CHARGES_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedErrorBaseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_ERROR_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>clearedChargesBaseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CLEARED_CHARGES_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>positivePayStatusCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="POSITIVE_PAY_STATUS_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttributeCategory</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE_CATEGORY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute1</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute2</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute3</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute4</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute5</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute6</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE6" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute7</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE7" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute8</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE8" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute9</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE9" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute10</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE10" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute11</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE11" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute12</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE12" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute13</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE13" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute14</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE14" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute15</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE15" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute16</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE16" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute17</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE17" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute18</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE18" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute19</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE19" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>globalAttribute20</attribute-name>
+               <field table="AP_CHECKS_ALL" name="GLOBAL_ATTRIBUTE20" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>transferPriority</attribute-name>
+               <field table="AP_CHECKS_ALL" name="TRANSFER_PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>externalBankAccountId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="EXTERNAL_BANK_ACCOUNT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stampDutyAmt</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STAMP_DUTY_AMT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stampDutyBaseAmt</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STAMP_DUTY_BASE_AMT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcClearedBaseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_CLEARED_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcClearedExchangeRate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_CLEARED_EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcClearedExchangeDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_CLEARED_EXCHANGE_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcClearedExchangeRateType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_CLEARED_EXCHANGE_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcExchangeRate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcExchangeDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_EXCHANGE_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcExchangeRateType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_EXCHANGE_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcBaseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcClearedErrorBaseAmount</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_CLEARED_ERROR_BASE_AMOUNT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcClearedChargesBaseAmt</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_CLEARED_CHARGES_BASE_AMT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcStampDutyBaseAmt</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_STAMP_DUTY_BASE_AMT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>maturityExchangeDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MATURITY_EXCHANGE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>maturityExchangeRateType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MATURITY_EXCHANGE_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>maturityExchangeRate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MATURITY_EXCHANGE_RATE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>description</attribute-name>
+               <field table="AP_CHECKS_ALL" name="DESCRIPTION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>actualValueDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ACTUAL_VALUE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>anticipatedValueDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ANTICIPATED_VALUE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>releasedDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="RELEASED_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stoppedDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="STOPPED_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcMaturityExgDate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_MATURITY_EXG_DATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcMaturityExgRate</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_MATURITY_EXG_RATE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>mrcMaturityExgRateType</attribute-name>
+               <field table="AP_CHECKS_ALL" name="MRC_MATURITY_EXG_RATE_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ibanNumber</attribute-name>
+               <field table="AP_CHECKS_ALL" name="IBAN_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>ceBankAcctUseId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="CE_BANK_ACCT_USE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentMethodCode</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_METHOD_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partyId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PARTY_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partySiteId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PARTY_SITE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentProfileId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_PROFILE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>settlementPriority</attribute-name>
+               <field table="AP_CHECKS_ALL" name="SETTLEMENT_PRIORITY" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bankChargeBearer</attribute-name>
+               <field table="AP_CHECKS_ALL" name="BANK_CHARGE_BEARER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>legalEntityId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="LEGAL_ENTITY_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentDocumentId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_DOCUMENT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>completedPmtsGroupId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="COMPLETED_PMTS_GROUP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paymentInstructionId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYMENT_INSTRUCTION_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>voidCheckNumber</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VOID_CHECK_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>voidCheckId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="VOID_CHECK_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierName</attribute-name>
+               <field table="AP_CHECKS_ALL" name="REMIT_TO_SUPPLIER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="REMIT_TO_SUPPLIER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierSite</attribute-name>
+               <field table="AP_CHECKS_ALL" name="REMIT_TO_SUPPLIER_SITE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>remitToSupplierSiteId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="REMIT_TO_SUPPLIER_SITE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>relationshipId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="RELATIONSHIP_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paycardAuthorizationNumber</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYCARD_AUTHORIZATION_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>paycardReferenceId</attribute-name>
+               <field table="AP_CHECKS_ALL" name="PAYCARD_REFERENCE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>acknowledgedFlag</attribute-name>
+               <field table="AP_CHECKS_ALL" name="ACKNOWLEDGED_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="AP_CHECKS_ALL"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

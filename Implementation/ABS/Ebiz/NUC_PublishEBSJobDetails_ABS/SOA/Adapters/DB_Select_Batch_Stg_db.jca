@@ -1,0 +1,14 @@
+<adapter-config name="DB_Select_Batch_Stg" adapter="db" wsdlLocation="../WSDLs/DB_Select_Batch_Stg.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="DEV_Apps_xxnuc" location="eis/DB/nxg/ebs"/>
+  <endpoint-interaction portType="DB_Select_Batch_Stg_ptt" operation="DB_Select_Batch_StgSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="DB_Select_Batch_Stg.XxnucGmeBatchHeaderStg"/>
+      <property name="QueryName" value="DB_Select_Batch_StgSelect"/>
+      <property name="MappingsMetaDataURL" value="DB_Select_Batch_Stg-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

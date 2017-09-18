@@ -1,0 +1,783 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Apr 25 18:05:25 CDT 2017
+  Author:  vivek
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+ /////////////////////////////// 
+  Modified:Diksha Sawheny 
+  Date:06/06/17
+  Change:Addded DFF for the MAnufacturing Order File
+  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="OA_JDAEventImpl"
+               targetNamespace="http://xmlns.oracle.com/SMG_common/NUC_EBiz_JDA_Batch_ABF/OA_JDAEventImpl"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SMG_common/NUC_EBiz_JDA_Batch_ABF/OA_JDAEventImpl"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBiz_JDA_Batch_ABF/OA_ConsumeJDAEvent"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_Extract_EBIZ_Batch_Details"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ns3="http://xmlns.oracle.com/xdb/APPS_NE/OA_ConsumeJDAEvent"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Extract_EBIZ_Batch_Details"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/Write_JDA_Manufacturing_Order_Record"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/ftp/"
+         xmlns:ns7="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/Batch/1.0"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/Write_JDA_FILE"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/Write_Part_Number_Data_File"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/fileReference"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteBOMRecord"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteRoutingRecord"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteResourceRecord"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteSORecord"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteMOPRecord"
+         xmlns:ns16="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteOnHandInventoryRecord"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/fileReference_2"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteWIPRecord"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/file/1.1/NUC_EBiz_JDA_Batch_ABF/WriteStartTimeRecord"
+         xmlns:ns20="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/StartTimeRecord/1.0"
+         xmlns:ns21="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/OnHandInventory/1.0"
+         xmlns:ns22="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/dbReference"
+         xmlns:ns23="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/dbReference_2"
+         xmlns:ns24="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteManufacturingOrder"
+         xmlns:ns25="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WritePartNumberData"
+         xmlns:ns26="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteBOMRecord"
+         xmlns:ns27="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteRoutingRecord"
+         xmlns:ns28="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteResourceRecord"
+         xmlns:ns29="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteSalesOrderRecord"
+         xmlns:ns30="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteMfgOrderPeggingRecord"
+         xmlns:ns31="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteUnassignedInventory"
+         xmlns:ns32="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteUnassignedInvRecord"
+         xmlns:ns33="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteWIPRecord"
+         xmlns:ns34="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteTriggerFile"
+         xmlns:ns35="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_CheckStartTriggerFile"
+         xmlns:ns36="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteStartTriggerFile"
+         xmlns:ns37="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteJDAPlanTransitionFile"
+         xmlns:ns38="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WriteJDAPRodScheduleTransitionFile"
+         xmlns:ns39="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WritePlanResourcesTransitionFile"
+         xmlns:ns40="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/FTP_WritePlanInvAssignmentsTransitionFile"
+         xmlns:ns41="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Plan"
+         xmlns:ns42="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Resource"
+         xmlns:ns43="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_INV"
+         xmlns:ns44="http://xmlns.oracle.com/pcbpel/adapter/db/1.1/NUC_EBiz_JDA_Batch_ABF/DB_ExtractJDA_TRN_Schedule"
+         xmlns:ns45="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Plan"
+         xmlns:ns46="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Resource"
+         xmlns:ns47="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_INV"
+         xmlns:ns48="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_ExtractJDA_TRN_Schedule"
+         xmlns:ns49="http://xmlns.eia.com/CommonLogging" xmlns:eia="http://xmlns.eia.com/extensions/1.0">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://schemas.oracle.com/bpel/extension" location="../WSDLs/RuntimeFault.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBiz_JDA_Batch_ABF/OA_ConsumeJDAEvent"
+          location="../WSDLs/OA_ConsumeJDAEvent.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="OA_ConsumeJDAEvent" partnerLinkType="ns1:DEQUEUE_plt" myRole="DEQUEUE_role"/>
+   <partnerLink name="DB_Extract_EBIZ_Batch_Details" partnerLinkType="ns2:DB_Extract_EBIZ_Batch_Details_plt"
+                 partnerRole="DB_Extract_EBIZ_Batch_Details_role"/>
+    <partnerLink name="FTP_WriteManufacturingOrder" partnerLinkType="ns24:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WritePartNumberData" partnerLinkType="ns25:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteBOMRecord" partnerLinkType="ns26:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteRoutingRecord" partnerLinkType="ns27:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteResourceRecord" partnerLinkType="ns28:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteSalesOrderRecord" partnerLinkType="ns29:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteMfgOrderPeggingRecord" partnerLinkType="ns30:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteUnassignedInvRecord" partnerLinkType="ns32:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteWIPRecord" partnerLinkType="ns33:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteTriggerFile" partnerLinkType="ns34:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_CheckStartTriggerFile" partnerLinkType="ns35:FileListing_plt"
+                 partnerRole="FileListing_role"/>
+    <partnerLink name="FTP_WriteStartTriggerFile" partnerLinkType="ns36:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteJDAPlanTransitionFile" partnerLinkType="ns37:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WriteJDAPRodScheduleTransitionFile" partnerLinkType="ns38:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WritePlanResourcesTransitionFile" partnerLinkType="ns39:Put_plt" partnerRole="Put_role"/>
+    <partnerLink name="FTP_WritePlanInvAssignmentsTransitionFile" partnerLinkType="ns40:Put_plt"
+                 partnerRole="Put_role"/>
+    <partnerLink name="DB_ExtractJDA_TRN_Plan" partnerLinkType="ns41:DB_ExtractJDA_TRN_Plan_plt"
+                 partnerRole="DB_ExtractJDA_TRN_Plan_role"/>
+    <partnerLink name="DB_ExtractJDA_TRN_Resource" partnerLinkType="ns42:DB_ExtractJDA_TRN_Resource_plt"
+                 partnerRole="DB_ExtractJDA_TRN_Resource_role"/>
+    <partnerLink name="DB_ExtractJDA_TRN_INV" partnerLinkType="ns43:DB_ExtractJDA_TRN_INV_plt"
+                 partnerRole="DB_ExtractJDA_TRN_INV_role"/>
+    <partnerLink name="DB_ExtractJDA_TRN_Schedule" partnerLinkType="ns44:DB_ExtractJDA_TRN_Schedule_plt"
+                 partnerRole="DB_ExtractJDA_TRN_Schedule_role"/>
+    <partnerLink name="CommonLogging" partnerLinkType="ns49:CommonLogging" partnerRole="CommonLoggingProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="OA_ConsumeJDAEventMsg" messageType="ns1:WF_EVENT_T_msg"/>
+    <variable name="InvokeWriteJDAManufacturingOrder_Put_InputVariable" messageType="ns5:Put_msg"/>
+    <variable name="InvokeWriteJDAManufacturingOrder_Put_OutputVariable" messageType="ns5:Output_msg"/>
+    <variable name="Directory" type="xsd:string"/>
+    <variable name="OrgID" type="xsd:decimal"/>
+
+  
+
+    <variable name="Receive1_DEQUEUE_InputVariable" messageType="ns1:WF_EVENT_T_msg"/>
+
+ 
+    <variable name="moFileName" type="xsd:string"/>
+    <variable name="partFileName" type="xsd:string"/>
+    <variable name="bomFileName" type="xsd:string"/>
+    <variable name="routingFileName" type="xsd:string"/>
+    <variable name="resourceFileName" type="xsd:string"/>
+    <variable name="soFileName" type="xsd:string"/>
+    <variable name="mopFileName" type="xsd:string"/>
+    <variable name="onHandInvFileName" type="xsd:string"/>
+    <variable name="wipFileName" type="xsd:string"/>
+    <variable name="planInvAssignmentsTransitionFileName" type="xsd:string"/>
+    <variable name="planResourcesTransitionFileName" type="xsd:string"/>
+    <variable name="planTransitionFileName" type="xsd:string"/>
+    <variable name="productionScheduleTransitionFileName" type="xsd:string"/>
+
+    <variable name="DB_ExtractBatchReqMsg" messageType="ns2:DB_Extract_EBIZ_Batch_DetailsSelect_inputParameters"/>
+    <variable name="DB_ExtractBatchRespMsg" messageType="ns2:XxnucGmeJdaBatchExtVCollection_msg"/>
+    <variable name="ebizManufacturingOrderReqMsg" messageType="ns24:Put_msg"/>
+    <variable name="ebizPartNumberDataReqMsg" messageType="ns25:Put_msg"/>
+    <variable name="ebizBOMReqMsg" messageType="ns26:Put_msg"/>
+    <variable name="ebizRoutingReqMsg" messageType="ns27:Put_msg"/>
+    <variable name="ebizResourceReqMsg" messageType="ns28:Put_msg"/>
+    <variable name="ebizSalesOrderReqMsg" messageType="ns29:Put_msg"/>
+    <variable name="ebizMfgOrderPeggingReqMsg" messageType="ns30:Put_msg"/>
+    <variable name="ebizOnHandInventoryReqMsg" messageType="ns32:Put_msg"/>
+    <variable name="ebizWIPRequestMsg" messageType="ns33:Put_msg"/>
+    <variable name="triggerFileName" type="xsd:string"/>
+    <variable name="TriggerFileReqMessage" messageType="ns34:Put_msg"/>
+    <variable name="startTriggerFileName" type="xsd:string"/>
+    <variable name="JDAListStartFileTriggerReqMsg" messageType="ns35:Empty_msg"/>
+    <variable name="JDAListStartTriggerRespMsg" messageType="ns35:FileListing_msg"/>
+    <variable name="JDAStartTriggerFileReqMsg" messageType="ns36:Put_msg"/>
+    <variable name="JDAPlanTransitionReqMsg" messageType="ns37:Put_msg"/>
+    <variable name="JDAProdScheduleTransitionFileReqMsg" messageType="ns38:Put_msg"/>
+    <variable name="EBS_JDA_TRN_Plan_ReqMsg" messageType="ns41:DB_ExtractJDA_TRN_PlanSelect_inputParameters"/>
+    <variable name="EBS_JDA_TRN_Plan_RespMsg" messageType="ns41:XxnucGmeJdaTrnPlanStgCollection_msg"/>
+    <variable name="EBS_JDA_TRN_Resource_ReqMsg" messageType="ns42:DB_ExtractJDA_TRN_ResourceSelect_inputParameters"/>
+    <variable name="EBS_JDA_TRN_Resource_RespMsg" messageType="ns42:XxnucGmeJdaTrnResourceStgCollection_msg"/>
+    <variable name="EBS_JDA_TRN_INV_ReqMsg" messageType="ns43:DB_ExtractJDA_TRN_INVSelect_inputParameters"/>
+    <variable name="EBS_JDA_TRN_INV_RespMsg" messageType="ns43:XxnucGmeJdaTrnInvStgCollection_msg"/>
+    <variable name="EBS_JDA_TRN_Schedule_ReqMsg" messageType="ns44:DB_ExtractJDA_TRN_ScheduleSelect_inputParameters"/>
+    <variable name="EBS_JDA_TRN_Schedule_RespMsg" messageType="ns44:XxnucGmeJdaTrnScheduleStgCollection_msg"/>
+    <variable name="JDAPlanInvAssignmentsReqMsg" messageType="ns40:Put_msg"/>
+    <variable name="JDAPlanResourcesTransitionReqMsg" messageType="ns39:Put_msg"/>
+    <variable name="CommonLoggingRequestMsg" messageType="ns49:CommonLoggingRequestMessage"/>
+    <variable name="FileExists" type="xsd:boolean"/>
+    <variable name="setFlowInstanceTitle" type="xsd:string"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="Assign_CommonLogingRequest">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionId</to>
+          </copy>
+          <copy>
+            <from>concat(  ora:getFlowId(),':',ora:getFaultAsString())</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:MessageDescription</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I150"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"FPOutbound"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>84</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>4</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:LogType</to>
+          </copy>
+          <copy>
+            <from>""</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionStatus</to>
+          </copy>
+        </assign>
+        
+        
+    <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging"
+            portType="ns49:CommonLogging" operation="process" inputVariable="CommonLoggingRequestMsg"
+            bpelx:invokeAsDetail="no">
+                  <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+      </bpelx:toProperties>
+            
+            </invoke>
+            
+            
+            
+            </sequence>
+    </catchAll>
+  </faultHandlers>
+  <sequence name="main">
+  <receive name="Receive_OA_ConsumeJDAEventMsg" createInstance="yes" partnerLink="OA_ConsumeJDAEvent"
+             portType="ns1:DEQUEUE_ptt" operation="DEQUEUE" variable="OA_ConsumeJDAEventMsg"/>
+    <scope name="Scope_CommonLogging_Start">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence name="Sequence_Common_Logging">
+        <assign name="Assign_SetFlowInstanceTitle">
+          <copy>
+            <from>oraext:setFlowInstanceTitle(string(concat($OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE,"_",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE)))</from>
+            <to>$setFlowInstanceTitle</to>
+          </copy>
+        </assign>
+        <assign name="Assign_CommonLogingRequest">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionId</to>
+          </copy>
+
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I150"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"FPOutbound"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>84</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-401"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:MessageCode</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" partnerLink="CommonLogging" portType="ns49:CommonLogging"
+                operation="process" inputVariable="CommonLoggingRequestMsg" bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+
+    <assign name="Assign_DB_BatchExtractReq">
+      <copy>
+        <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE</from>
+        <to>$DB_ExtractBatchReqMsg.DB_Extract_EBIZ_Batch_DetailsSelect_inputParameters/ns4:vOrgId</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("moFileName")</from>
+        <to>$moFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("partFileName")</from>
+        <to>$partFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("bomFileName")</from>
+        <to>$bomFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("routingFileName")</from>
+        <to>$routingFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("resourceFileName")</from>
+        <to>$resourceFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("soFileName")</from>
+        <to>$soFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("mopFileName")</from>
+        <to>$mopFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("onHandInvFileName")</from>
+        <to>$onHandInvFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("wipFileName")</from>
+        <to>$wipFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("planInvAssignmentsTransitionFileName")</from>
+        <to>$planInvAssignmentsTransitionFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("planResourcesTransitionFileName")</from>
+        <to>$planResourcesTransitionFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("planTransitionFileName")</from>
+        <to>$planTransitionFileName</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("productionScheduleTransitionFileName")</from>
+        <to>$productionScheduleTransitionFileName</to>
+      </copy>
+      <copy>
+        <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE</from>
+        <to>$DB_ExtractBatchReqMsg.DB_Extract_EBIZ_Batch_DetailsSelect_inputParameters/ns4:vResource</to>
+      </copy>
+      <copy>
+        <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE</from>
+        <to>$OrgID</to>
+      </copy>
+      <copy>
+        <from>concat("/FP_Inbound",dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_JDA_ORG_RESOURCE_INSTANCE_MAP.dvm","OrgID",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE,"Folder","0","Resource",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE))</from>
+        <to>$Directory</to>
+      </copy>
+      <copy>
+        <from>concat("EBS_FP_",dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_JDA_ORG_RESOURCE_INSTANCE_MAP.dvm","OrgID",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE,"Instance","NotFound","Resource",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE),"_STARTED")</from>
+        <to>$startTriggerFileName</to>
+      </copy>
+      <copy>
+        <from>concat("EBS_FP_",dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_JDA_ORG_RESOURCE_INSTANCE_MAP.dvm","OrgID",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE,"Instance","NotFound","Resource",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE))</from>
+        <to>$triggerFileName</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_FTP_CheckStartTriggerFile" partnerLink="FTP_CheckStartTriggerFile"
+            portType="ns35:FileListing_ptt" operation="FileListing"
+            inputVariable="JDAListStartFileTriggerReqMsg" outputVariable="JDAListStartTriggerRespMsg"
+            bpelx:invokeAsDetail="no"/>
+    <if name="IfAnotherInstanceRunning">
+      <documentation>
+        <![CDATA[StartTriggerExists]]>
+      </documentation>
+      <condition>ora:countNodes('JDAListStartTriggerRespMsg','filelist','ns35:file[ns35:filename= $startTriggerFileName]/ns35:filename') &gt;=1</condition>
+      <empty name="Exit"/>
+      <else>
+        <documentation>
+          <![CDATA[StartTriggerDoesNotExist]]>
+        </documentation>
+        <sequence name="Sequence_WriteFIles">
+          <invoke name="Invoke_FTP_WriteStartTriggerFile"
+                  partnerLink="FTP_WriteStartTriggerFile" portType="ns36:Put_ptt" operation="Put" inputVariable="JDAStartTriggerFileReqMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="startTriggerFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <invoke name="Invoke_DB_Extract_EBIZ_Batch_Details" partnerLink="DB_Extract_EBIZ_Batch_Details"
+                  portType="ns2:DB_Extract_EBIZ_Batch_Details_ptt" operation="DB_Extract_EBIZ_Batch_DetailsSelect"
+                  inputVariable="DB_ExtractBatchReqMsg" outputVariable="DB_ExtractBatchRespMsg"
+                  bpelx:invokeAsDetail="no"/>
+
+          <assign name="Xform_EBizBatch_To_JDAMAnufacturingOrder">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEBizBatch_To_JDAManufacturingOrder.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizManufacturingOrderReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteManufacturingOrder" partnerLink="FTP_WriteManufacturingOrder"
+                  portType="ns24:Put_ptt" operation="Put" inputVariable="ebizManufacturingOrderReqMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="moFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizItem_JDAPart">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizItem_To_JDAPart.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizPartNumberDataReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_WritePartNumbeData" partnerLink="FTP_WritePartNumberData" portType="ns25:Put_ptt"
+                  operation="Put" inputVariable="ebizPartNumberDataReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="partFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizBOM_To_JDABOM">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizBOM_To_JDABOM.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizBOMReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteBOMRecord" partnerLink="FTP_WriteBOMRecord" portType="ns26:Put_ptt"
+                  operation="Put" inputVariable="ebizBOMReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="bomFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizRouting_To_JDARouting"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizRouting_To_JDARouting.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizRoutingReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteRoutingRecord" partnerLink="FTP_WriteRoutingRecord" portType="ns27:Put_ptt"
+                  operation="Put" inputVariable="ebizRoutingReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="routingFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizResourceTo_JDAResource"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizResourceTo_JDAResource.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizResourceReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteResourceRecord" partnerLink="FTP_WriteResourceRecord" portType="ns28:Put_ptt"
+                  operation="Put" inputVariable="ebizResourceReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="resourceFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizSO_JDADemandOrder" 
+          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizSO_JDADemandOrder.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizSalesOrderReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteSalesOrderRecord" partnerLink="FTP_WriteSalesOrderRecord" portType="ns29:Put_ptt"
+                  operation="Put" inputVariable="ebizSalesOrderReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="soFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizMOP_To_JDAMOP" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizMOP_To_JDAMOP.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizMfgOrderPeggingReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteMfgOrderPeggingRecord" partnerLink="FTP_WriteMfgOrderPeggingRecord"
+                  portType="ns30:Put_ptt" operation="Put" inputVariable="ebizMfgOrderPeggingReqMsg"
+                  bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="mopFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizOnHandInv_To_JDAUnassignedInv"
+                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizOnHandInv_To_JDAUnassignedInv.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizOnHandInventoryReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_WriteOnHandInvRecord" partnerLink="FTP_WriteUnassignedInvRecord" portType="ns32:Put_ptt"
+                  operation="Put" inputVariable="ebizOnHandInventoryReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="onHandInvFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Xform_EbizWIP_To_JDAWIP" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <bpelx:annotation xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizWIP_To_JDAWIP.xsl", $DB_ExtractBatchRespMsg.XxnucGmeJdaBatchExtVCollection)</from>
+              <to variable="ebizWIPRequestMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteWIPRecord" partnerLink="FTP_WriteWIPRecord" portType="ns33:Put_ptt"
+                  operation="Put" inputVariable="ebizWIPRequestMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="wipFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Assign_ExtractEbizTransitionDataInput">
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_Plan_ReqMsg.DB_ExtractJDA_TRN_PlanSelect_inputParameters/ns45:vOrgId</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_Plan_ReqMsg.DB_ExtractJDA_TRN_PlanSelect_inputParameters/ns45:vResource</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_Resource_ReqMsg.DB_ExtractJDA_TRN_ResourceSelect_inputParameters/ns46:vOrgID</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_Resource_ReqMsg.DB_ExtractJDA_TRN_ResourceSelect_inputParameters/ns46:vResource</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_INV_ReqMsg.DB_ExtractJDA_TRN_INVSelect_inputParameters/ns47:vOrgId</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_INV_ReqMsg.DB_ExtractJDA_TRN_INVSelect_inputParameters/ns47:vResource</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_Schedule_ReqMsg.DB_ExtractJDA_TRN_ScheduleSelect_inputParameters/ns48:vOrgId</to>
+            </copy>
+            <copy>
+              <from>$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE</from>
+              <to>$EBS_JDA_TRN_Schedule_ReqMsg.DB_ExtractJDA_TRN_ScheduleSelect_inputParameters/ns48:vResource</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_DB_ExtractJDA_TRN_Plan" partnerLink="DB_ExtractJDA_TRN_Plan"
+                  portType="ns41:DB_ExtractJDA_TRN_Plan_ptt" operation="DB_ExtractJDA_TRN_PlanSelect"
+                  inputVariable="EBS_JDA_TRN_Plan_ReqMsg" outputVariable="EBS_JDA_TRN_Plan_RespMsg"
+                  bpelx:invokeAsDetail="no">
+
+          </invoke>
+          <assign name="Xform_EbizTrnPlan_To_JDAPlanTransition">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizTrnPlan_To_JDAPlanTransition.xsl", $EBS_JDA_TRN_Plan_RespMsg.XxnucGmeJdaTrnPlanStgCollection)</from>
+              <to variable="JDAPlanTransitionReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_FTP_WriteJDAPlanTransitionFile" partnerLink="FTP_WriteJDAPlanTransitionFile"
+                  portType="ns37:Put_ptt" operation="Put"
+                  inputVariable="JDAPlanTransitionReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="planTransitionFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <invoke name="Invoke_DB_ExtractJDA_TRN_Schedule"
+                  partnerLink="DB_ExtractJDA_TRN_Schedule" portType="ns44:DB_ExtractJDA_TRN_Schedule_ptt"
+                  operation="DB_ExtractJDA_TRN_ScheduleSelect" inputVariable="EBS_JDA_TRN_Schedule_ReqMsg"
+                  outputVariable="EBS_JDA_TRN_Schedule_RespMsg" bpelx:invokeAsDetail="no"/>
+           <assign name="Xform_EbizTrnSchedule_To_JDAProdSchedules">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizTrnSchedule_To_JDAProdSchedules.xsl", $EBS_JDA_TRN_Schedule_RespMsg.XxnucGmeJdaTrnScheduleStgCollection)</from>
+              <to variable="JDAProdScheduleTransitionFileReqMsg" part="body"/>
+            </copy>
+          </assign>
+          <invoke name="Invoke_WriteJDAProdScheduleTransitionFile"
+                  partnerLink="FTP_WriteJDAPRodScheduleTransitionFile" portType="ns38:Put_ptt" operation="Put"
+                  inputVariable="JDAProdScheduleTransitionFileReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="productionScheduleTransitionFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+                  
+          <invoke name="Invoke_DB_ExtractJDA_TRN_Resource"
+                  partnerLink="DB_ExtractJDA_TRN_Resource" portType="ns42:DB_ExtractJDA_TRN_Resource_ptt"
+                  operation="DB_ExtractJDA_TRN_ResourceSelect" inputVariable="EBS_JDA_TRN_Resource_ReqMsg"
+                  outputVariable="EBS_JDA_TRN_Resource_RespMsg" bpelx:invokeAsDetail="no"/>
+           <assign name="Xform_EbsTRNResource_To_JDAPlanResoucesTrn">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbsTRNResource_To_JDAPlanResoucesTrn.xsl", $EBS_JDA_TRN_Resource_RespMsg.XxnucGmeJdaTrnResourceStgCollection)</from>
+              <to variable="JDAPlanResourcesTransitionReqMsg" part="body"/>
+            </copy>
+          </assign>            
+          <invoke name="Invoke_FTP_WritePlanResourcesTransitionFile"
+                  partnerLink="FTP_WritePlanResourcesTransitionFile" portType="ns39:Put_ptt" operation="Put"
+                  inputVariable="JDAPlanResourcesTransitionReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="planResourcesTransitionFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <invoke name="Invoke_DB_ExtractJDA_TRN_INV" partnerLink="DB_ExtractJDA_TRN_INV"
+                  portType="ns43:DB_ExtractJDA_TRN_INV_ptt" operation="DB_ExtractJDA_TRN_INVSelect"
+                  inputVariable="EBS_JDA_TRN_INV_ReqMsg"
+                  outputVariable="EBS_JDA_TRN_INV_RespMsg" bpelx:invokeAsDetail="no"/>
+                  
+                     <assign name="Xform_EbizTrnInv_To_JDA_InvAssignmentsTrn">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("../Transformations/XformEbizTrnInv_To_JDA_InvAssignmentsTrn.xsl", $EBS_JDA_TRN_INV_RespMsg.XxnucGmeJdaTrnInvStgCollection)</from>
+              <to variable="JDAPlanInvAssignmentsReqMsg" part="body"/>
+            </copy>
+          </assign>       
+          <invoke name="Invoke_FTP_WritePlanInvAssignmentsTransitionFile"
+                  partnerLink="FTP_WritePlanInvAssignmentsTransitionFile" portType="ns40:Put_ptt" operation="Put"
+                  inputVariable="JDAPlanInvAssignmentsReqMsg" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.Directory" variable="Directory"/>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="planInvAssignmentsTransitionFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+          <assign name="Assign_TriggerFileName">
+            <copy>
+              <from>concat("EBS_FP_",dvm:lookupValue("oramds:/apps/EIAMetadata/CommonArtifacts/dvm/EBS_JDA_ORG_RESOURCE_INSTANCE_MAP.dvm","OrgID",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'ORG_ID']/VALUE,"Instance","NotFound","Resource",$OA_ConsumeJDAEventMsg.WF_EVENT_T/PARAMETER_LIST/PARAMETER_LIST_ITEM[NAME = 'RESOURCE_ID']/VALUE))</from>
+              <to>$triggerFileName</to>
+            </copy>
+          </assign>
+          <invoke name="Invoke_WriteControlFile" partnerLink="FTP_WriteTriggerFile" portType="ns34:Put_ptt"
+                  operation="Put" inputVariable="TriggerFileReqMessage" bpelx:invokeAsDetail="no">
+            <bpelx:toProperties>
+              <bpelx:toProperty name="jca.ftp.FileName" variable="triggerFileName"/>
+            </bpelx:toProperties>
+          </invoke>
+        </sequence>
+      </else>
+    </if>
+    <scope name="Scope_CommonLogging_End">
+      <faultHandlers>
+        <catchAll>
+          <empty name="DoNothing"/>
+        </catchAll>
+      </faultHandlers>
+      <sequence>
+        <assign name="AssignCommonLogingRequest">
+          <copy>
+            <from>ora:getComponentInstanceId()</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionId</to>
+          </copy>
+          <copy>
+            <from>"NextGen"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ProjectName</to>
+          </copy>
+          <copy>
+            <from>"I150"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ComponentId</to>
+          </copy>
+          <copy>
+            <from>"FPOutbound"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionName</to>
+          </copy>
+          <copy>
+            <from>ora:getCompositeName()</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:ProcessName</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:LoggingSystem</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:SourceSystem</to>
+          </copy>
+          <copy>
+            <from>84</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TargetSystem</to>
+          </copy>
+          <copy>
+            <from>1</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:LogType</to>
+          </copy>
+          <copy>
+            <from>"BMG-002"</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:MessageCode</to>
+          </copy>
+          <copy>
+            <from>2</from>
+            <to>$CommonLoggingRequestMsg.CommonLogging/ns49:TransactionStatus</to>
+          </copy>
+        </assign>
+        <invoke name="Invoke_CommonLogging" bpelx:invokeAsDetail="no" partnerLink="CommonLogging"
+                portType="ns49:CommonLogging" operation="process" inputVariable="CommonLoggingRequestMsg">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="endpointURI">eia:getEIAServiceProperty("CommonLogging","endpointURI")</bpelx:toProperty>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
+    </scope>
+  </sequence>
+</process>

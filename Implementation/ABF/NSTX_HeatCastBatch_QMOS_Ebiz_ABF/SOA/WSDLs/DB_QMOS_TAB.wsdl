@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DB_QMOS_TAB"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_HeatCastBatch_QMOS_EBiz_ABF/DB_QMOS_TAB"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSTX_HeatCastBatch_QMOS_EBiz_ABF/DB_QMOS_TAB"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_TAB"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_QMOS_TAB_plt" >
+    <plt:role name="DB_QMOS_TAB_role" >
+      <plt:portType name="tns:DB_QMOS_TAB_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QMOS_TAB" schemaLocation="../Schemas/DB_QMOS_TAB_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_QMOS_TABSelect_inputParameters">
+        <wsdl:part name="DB_QMOS_TABSelect_inputParameters" element="top:DB_QMOS_TABSelect_rowNumValueInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="ApiProdConfirmHeaderCollection_msg">
+        <wsdl:part name="ApiProdConfirmHeaderCollection" element="top:ApiProdConfirmHeaderCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QMOS_TAB_ptt">
+        <wsdl:operation name="DB_QMOS_TABSelect">
+            <wsdl:input message="tns:DB_QMOS_TABSelect_inputParameters"/>
+            <wsdl:output message="tns:ApiProdConfirmHeaderCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

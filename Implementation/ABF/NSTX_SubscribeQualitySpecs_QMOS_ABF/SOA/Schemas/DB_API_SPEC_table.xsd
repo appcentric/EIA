@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_API_SPEC" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_API_SPEC" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ApiSpecCollection" type="ApiSpecCollection"/>
+   <xs:complexType name="ApiSpecCollection">
+      <xs:sequence>
+         <xs:element name="ApiSpec" type="ApiSpec" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiSpec">
+      <xs:sequence>
+         <xs:element name="seqNo" type="xs:long"/>
+         <xs:element name="testElement" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="min" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="max" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="aim" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="intMin" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="intMax" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="testBoolean" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="effectiveDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="specCode" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="workCenter" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="critical" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="numberOfTest" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="processedDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="processed" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="meltPractice" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="prodCode" type="string15" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

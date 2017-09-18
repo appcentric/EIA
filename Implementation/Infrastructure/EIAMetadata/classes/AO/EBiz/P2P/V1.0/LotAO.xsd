@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema targetNamespace="http://xmlns.eia.com/AO/EBiz/P2P/LotAO/1.0" xmlns="http://xmlns.eia.com/AO/EBiz/P2P/LotAO/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.00" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="http://xmlns.eia.com/EO/common/Common/1.0" xmlns:lotao="http://xmlns.eia.com/AO/EBiz/P2P/LotAO/1.0">
+<xsd:import namespace="http://xmlns.eia.com/EO/common/Common/1.0" schemaLocation="../../../../EO/common/V1.0/Common.xsd"/>
+<xsd:element name="CreateLotReq">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="TransactionID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="LotDetails" type="lotao:LotTableType" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="CreateLotResp">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="LotStatus" type="lotao:LotStatusTableType" minOccurs="0" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:complexType name="LotStatusTableType">
+<xsd:sequence>
+<xsd:element name="LotStatusItem" type="lotao:LotStatusItemObjType" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LotStatusItemObjType">
+<xsd:sequence>
+<xsd:element name="HEAT_NUMBER" type="common:C100" minOccurs="0"/>
+<xsd:element name="LOT_NUMBER" type="common:C100" minOccurs="0"/>
+<xsd:element name="STATUS" type="common:C10" minOccurs="0"/>
+<xsd:element name="MESSAGE" type="common:C4000" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LotTableType">
+<xsd:sequence>
+<xsd:element name="P_I_LOT_ITEM" type="lotao:LotObjType" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="LotObjType">
+<xsd:sequence>
+<xsd:element name="INVENTORY_ITEM_ID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="ITEM_NUMBER" type="common:C50" minOccurs="0"/>
+<xsd:element name="ITEM_DESC" type="common:C320" minOccurs="0"/>
+<xsd:element name="ORGANIZATION_ID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="ORGANIZATION_CODE" type="common:C3" minOccurs="0"/>
+<xsd:element name="HEAT_NUMBER" type="common:C80" minOccurs="0"/>
+<xsd:element name="WAYBILL_NUM" type="common:C80" minOccurs="0"/>
+<xsd:element name="WAYBILL_LINE_NUM" type="common:C80" minOccurs="0"/>
+<xsd:element name="LOT_NUMBER" type="common:C80" minOccurs="0"/>
+<xsd:element name="EXPIRATION_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="DISABLE_FLAG" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE_CATEGORY" type="common:C30" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE1" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE2" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE3" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE4" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE5" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE6" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE7" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE8" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE9" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE10" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE11" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE12" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE13" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE14" type="common:C150" minOccurs="0"/>
+<xsd:element name="ATTRIBUTE15" type="common:C150" minOccurs="0"/>
+<xsd:element name="GEN_OBJECT_ID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="DESCRIPTION" type="common:C320" minOccurs="0"/>
+<xsd:element name="VENDOR_NAME" type="common:C320" minOccurs="0"/>
+<xsd:element name="SUPPLIER_LOT_NUMBER" type="common:C150" minOccurs="0"/>
+<xsd:element name="COUNTRY_OF_ORIGIN" type="common:C30" minOccurs="0"/>
+<xsd:element name="GRADE_CODE" type="common:C150" minOccurs="0"/>
+<xsd:element name="ORIGINATION_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="DATE_CODE" type="common:C150" minOccurs="0"/>
+<xsd:element name="STATUS_ID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="CHANGE_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="AGE" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="RETEST_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="MATURITY_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="LOT_ATTRIBUTE_CATEGORY" type="common:C30" minOccurs="0"/>
+<xsd:element name="ITEM_SIZE" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="COLOR" type="common:C150" minOccurs="0"/>
+<xsd:element name="VOLUME" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="VOLUME_UOM" type="common:C3" minOccurs="0"/>
+<xsd:element name="PLACE_OF_ORIGIN" type="common:C150" minOccurs="0"/>
+<xsd:element name="KILL_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="BEST_BY_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="LENGTH" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="LENGTH_UOM" type="common:C3" minOccurs="0"/>
+<xsd:element name="RECYCLED_CONTENT" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="THICKNESS" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="THICKNESS_UOM" type="common:C3" minOccurs="0"/>
+<xsd:element name="WIDTH" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="WIDTH_UOM" type="common:C3" minOccurs="0"/>
+<xsd:element name="CURL_WRINKLE_FOLD" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE1" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE2" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE3" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE4" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE5" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE6" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE7" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE8" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE9" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE10" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE11" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE12" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE13" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE14" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE15" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE16" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE17" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE18" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE19" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE20" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE21" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE22" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE23" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE24" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE25" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE26" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE27" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE28" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE29" type="common:C150" minOccurs="0"/>
+<xsd:element name="C_ATTRIBUTE30" type="common:C150" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE1" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE2" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE3" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE4" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE5" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE6" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE7" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE8" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE9" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE10" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE11" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE12" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE13" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE14" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE15" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE16" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE17" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE18" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE19" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="D_ATTRIBUTE20" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE1" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE2" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE3" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE4" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE5" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE6" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE7" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE8" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE9" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE10" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE11" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE12" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE13" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE14" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE15" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE16" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE17" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE18" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE19" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE20" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE21" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE22" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE23" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE24" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE25" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE26" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE27" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE28" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE29" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="N_ATTRIBUTE30" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="VENDOR_ID" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="TERRITORY_CODE" type="common:C30" minOccurs="0"/>
+<xsd:element name="PARENT_LOT_NUMBER" type="common:C80" minOccurs="0"/>
+<xsd:element name="ORIGINATION_TYPE" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="AVAILABILITY_TYPE" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="EXPIRATION_ACTION_CODE" type="common:C40" minOccurs="0"/>
+<xsd:element name="EXPIRATION_ACTION_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="HOLD_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="LAST_UPDATE_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="LAST_UPDATED_BY" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="CREATION_DATE" type="xsd:dateTime" minOccurs="0"/>
+<xsd:element name="CREATED_BY" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="LAST_UPDATE_LOGIN" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="INVENTORY_ATP_CODE" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="RESERVABLE_TYPE" type="xsd:decimal" minOccurs="0"/>
+<xsd:element name="SAMPLING_EVENT_ID" type="xsd:decimal" minOccurs="0"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

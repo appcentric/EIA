@@ -1,0 +1,13 @@
+<adapter-config name="AQ_Consume_ShipmentStatus" adapter="aq" wsdlLocation="../WSDLs/AQ_Consume_ShipmentStatus.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/AQ/ebs" UIConnectionName="ebsapps"/>
+  <endpoint-activation portType="Dequeue_ptt" operation="Dequeue">
+    <activation-spec className="oracle.tip.adapter.aq.inbound.AQDequeueActivationSpec">
+      <property name="DequeueCondition" value="tab.user_data.TXN_NAME = 'OTMDeliveryConfirm'"/>
+      <property name="SchemaValidation" value="false"/>
+      <property name="QueueName" value="XXNUC_COMM_OUTINTF_Q"/>
+      <property name="DatabaseSchema" value="APPS"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

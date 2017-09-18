@@ -1,0 +1,25 @@
+<?binding.jca DB_QueryPurchaseOrderEBS_db.jca?>
+<wsdl:definitions name="DB_QueryPurchaseOrderEBS" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EbizPurchaseOrder_ABS/DB_QueryPurchaseOrderEBS" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/WI_Application/NUC_EbizPurchaseOrder_ABS/DB_QueryPurchaseOrderEBS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryPurchaseOrderEBS">
+    <plt:partnerLinkType name="DB_QueryPurchaseOrderEBS_plt">
+        <plt:role name="DB_QueryPurchaseOrderEBS_role">
+            <plt:portType name="tns:DB_QueryPurchaseOrderEBS_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_QueryPurchaseOrderEBS" schemaLocation="xsd/DB_QueryPurchaseOrderEBS_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="PoHeadersAll_msg">
+        <wsdl:part name="PoHeadersAll" element="top:PoHeadersAll"/>
+    </wsdl:message>
+    <wsdl:message name="PoHeadersAllCollection_msg">
+        <wsdl:part name="PoHeadersAllCollection" element="top:PoHeadersAllCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_QueryPurchaseOrderEBS_ptt">
+        <wsdl:operation name="queryByExample">
+            <wsdl:input message="tns:PoHeadersAll_msg"/>
+            <wsdl:output message="tns:PoHeadersAllCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

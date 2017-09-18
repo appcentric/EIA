@@ -1,0 +1,157 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_SelectStatusFromOMSI" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_SelectStatusFromOMSI" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="OperationCollection" type="OperationCollection"/>
+   <xs:complexType name="OperationCollection">
+      <xs:sequence>
+         <xs:element name="Operation" type="Operation" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Operation">
+      <xs:sequence>
+         <xs:element name="operationId" type="xs:decimal"/>
+         <xs:element name="operation" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="isReady" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="isRead" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="resultCode" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="resultMessage" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="creationTimestamp" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="shipmentCollection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="Shipment" type="Shipment" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Shipment">
+      <xs:sequence>
+         <xs:element name="clientKey1" type="string50" minOccurs="0"/>
+         <xs:element name="clientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="clientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="equipmentType" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="equipmentLength" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="equipmentWidth" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="specialEquipmentInstructions" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="freightTerms" type="string50" minOccurs="0"/>
+         <xs:element name="freightPaymentTerms" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="shipperRefNumber" type="string255" minOccurs="0" nillable="true"/>
+         <xs:element name="lowTemp" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="highTemp" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="insureFor" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="historyCost" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="currencyType" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="marketStartDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+         <xs:element name="priority" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="billingLocationId" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="billingAddrBookName" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="billingCompanyName" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="billingLine1" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="billingLine2" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="billingLine3" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="billingCity" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="billingStateProvince" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="billingPostalCode" type="string15" minOccurs="0" nillable="true"/>
+         <xs:element name="billingCountryCode" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="billingContactFirstName" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="billingContactLastName" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="billingContactPhone" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="billingContactEmail" type="string256" minOccurs="0" nillable="true"/>
+         <xs:element name="billingTaxId" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="postingLocationCode" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="awardedContractRate" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="awardedCarrierScacCode" type="string30" minOccurs="0" nillable="true"/>
+         <xs:element name="customerCharge" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="dispatchTemplateRef" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentGroup" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="holdCodeRef" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="mileageStandard" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="mileageRoutingOption" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="mileageVehicleOption" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="mileageHazardOption" type="string10" minOccurs="0" nillable="true"/>
+         <xs:element name="mileageAvoidTolls" type="xs:int" minOccurs="0" nillable="true"/>
+         <xs:element name="orderType" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="contactUserRefCode" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="maxCommodityLength" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="heading" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="shipmentLot" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="weightUom" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="volumeUom" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="distanceUom" type="string20" minOccurs="0" nillable="true"/>
+         <xs:element name="brokeredToCarrier" type="string75" minOccurs="0" nillable="true"/>
+         <xs:element name="loadingRequirements" type="string4000" minOccurs="0" nillable="true"/>
+         <xs:element name="transportationMode" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierTruckNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierDriverNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierContractNumber" type="string25" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierEquipmentNumber" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey1" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="carrierClientKey4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="distanceCalcType" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="equipmentTypeCode" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="billingWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="tareWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="grossWeight" type="xs:decimal" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="DB_SelectStatusFromOMSISelect_clientKey1_clientKey2InputParameters" type="DB_SelectStatusFromOMSISelect_clientKey1_clientKey2"/>
+   <xs:complexType name="DB_SelectStatusFromOMSISelect_clientKey1_clientKey2">
+      <xs:sequence>
+         <xs:element name="clientKey1" type="xs:string" minOccurs="1" maxOccurs="1"/>
+         <xs:element name="clientKey2" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string4000">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="4000"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string255">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="255"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string75">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="75"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string25">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="25"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string15">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="15"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string30">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="30"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string256">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="256"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string10">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="10"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

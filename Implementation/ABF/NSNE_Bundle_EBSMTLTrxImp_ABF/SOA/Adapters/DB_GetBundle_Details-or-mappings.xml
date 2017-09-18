@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd">
+   <name>DB_GetBundle_Details-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_GetBundle_Details.ApiBundleTransDtls</class>
+         <alias>API_BUNDLE_TRANS_DTLS</alias>
+         <primary-key>
+            <field table="API_BUNDLE_TRANS_DTLS" name="API_BUNDLE_TRANS_ID" xsi:type="column"/>
+            <field table="API_BUNDLE_TRANS_DTLS" name="ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying/>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>id</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>apiBundleTransId</attribute-name>
+               <read-only>true</read-only>
+               <properties>
+                  <property name="fkPlaceholder">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <field table="API_BUNDLE_TRANS_DTLS" name="API_BUNDLE_TRANS_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>parentTagNo</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="PARENT_TAG_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>childTagNo</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="CHILD_TAG_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partCode</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="PART_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>weightLbs</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="WEIGHT_LBS" xsi:type="column"/>
+               <attribute-classification>java.lang.Double</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>disposition</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="DISPOSITION" xsi:type="column"/>
+               <attribute-classification>java.lang.Double</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>millHeat</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="MILL_HEAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stack</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="STACK" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shape</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="SHAPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bundleSize</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="BUNDLE_SIZE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>grade</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="GRADE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lengthInches</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="LENGTH_INCHES" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pieceCount</attribute-name>
+               <field table="API_BUNDLE_TRANS_DTLS" name="PIECE_COUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="API_BUNDLE_TRANS_DTLS"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>DB_GetBundle_Details.ApiBundleTrans</class>
+         <alias>API_BUNDLE_TRANS</alias>
+         <primary-key>
+            <field table="API_BUNDLE_TRANS" name="ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="DB_GetBundle_DetailsSelect" xsi:type="read-all-query">
+                  <arguments>
+                     <argument name="rowNumValue">
+                        <type>java.lang.String</type>
+                     </argument>
+                  </arguments>
+                  <call xsi:type="sql-call">
+                     <sql>SELECT ID, TRANSACTION_TYPE, TAG_NO, MILL_HEAT, MELT_HEAT, PART_CODE_FROM, PART_CODE, SHAPE, BUNDLE_SIZE, GRADE, MELT_PRACTICE, LENGTH_INCHES, STACK_FROM, STACK, DISPOSITION_FROM, DISPOSITION, PIECE_COUNT, WEIGHT_LBS, CREW, SHIFT, PRODUCTION_DATE, USER_ID, USER_FIRST_NAME, USER_LAST_NAME, HOLD_CODE_1_FROM, HOLD_CODE_2_FROM, HOLD_CODE_3_FROM, HOLD_CODE_4_FROM, HOLD_CODE_5_FROM, HOLD_CODE_1, HOLD_CODE_2, HOLD_CODE_3, HOLD_CODE_4, HOLD_CODE_5, PROCESSED, PROCESS_DATE, CREATE_DATE, JOB_NUMBER, TRANSACTION_DATE, ERROR_MESSAGE, BILLET_BATCH FROM API_BUNDLE_TRANS WHERE ((PROCESSED = 'N') AND (ROWNUM &lt;= #rowNumValue))</sql>
+                  </call>
+                  <reference-class>DB_GetBundle_Details.ApiBundleTrans</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>id</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>transactionType</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="TRANSACTION_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>tagNo</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="TAG_NO" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>millHeat</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="MILL_HEAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>meltHeat</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="MELT_HEAT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partCodeFrom</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="PART_CODE_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>partCode</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="PART_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shape</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="SHAPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>bundleSize</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="BUNDLE_SIZE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>grade</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="GRADE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>meltPractice</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="MELT_PRACTICE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>lengthInches</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="LENGTH_INCHES" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stackFrom</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="STACK_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stack</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="STACK" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>dispositionFrom</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="DISPOSITION_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>disposition</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="DISPOSITION" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>pieceCount</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="PIECE_COUNT" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>weightLbs</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="WEIGHT_LBS" xsi:type="column"/>
+               <attribute-classification>java.lang.Long</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>crew</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="CREW" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>shift</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="SHIFT" xsi:type="column"/>
+               <attribute-classification>java.lang.Integer</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>productionDate</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="PRODUCTION_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>userId</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="USER_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>userFirstName</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="USER_FIRST_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>userLastName</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="USER_LAST_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode1_From</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_1_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode2_From</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_2_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode3_From</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_3_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode4_From</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_4_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode5_From</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_5_FROM" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode1</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_1" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode2</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_2" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode3</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_3" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode4</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_4" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>holdCode5</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="HOLD_CODE_5" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processed</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="PROCESSED" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>processDate</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="PROCESS_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>createDate</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="CREATE_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jobNumber</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="JOB_NUMBER" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>transactionDate</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="TRANSACTION_DATE" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>errorMessage</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="ERROR_MESSAGE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>billetBatch</attribute-name>
+               <field table="API_BUNDLE_TRANS" name="BILLET_BATCH" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="one-to-many-mapping">
+               <attribute-name>apiBundleTransDtlsCollection</attribute-name>
+               <properties>
+                  <property name="enabled">
+                     <value>true</value>
+                  </property>
+               </properties>
+               <reference-class>DB_GetBundle_Details.ApiBundleTransDtls</reference-class>
+               <private-owned>true</private-owned>
+               <target-foreign-key>
+                  <field-reference>
+                     <source-field table="API_BUNDLE_TRANS_DTLS" name="API_BUNDLE_TRANS_ID" xsi:type="column"/>
+                     <target-field table="API_BUNDLE_TRANS" name="ID" xsi:type="column"/>
+                  </field-reference>
+               </target-foreign-key>
+               <batch-reading>true</batch-reading>
+               <container xsi:type="list-container-policy">
+                  <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+               </container>
+               <indirection xsi:type="value-holder-indirection-policy"/>
+               <selection-query xsi:type="read-all-query">
+                  <reference-class>DB_GetBundle_Details.ApiBundleTransDtls</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>org.eclipse.persistence.indirection.IndirectList</collection-type>
+                  </container>
+               </selection-query>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="API_BUNDLE_TRANS"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

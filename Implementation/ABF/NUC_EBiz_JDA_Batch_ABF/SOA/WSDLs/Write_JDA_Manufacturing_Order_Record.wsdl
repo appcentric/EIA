@@ -1,0 +1,46 @@
+<wsdl:definitions
+     name="Write_JDA_Manufacturing_Order_Record"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/Write_JDA_Manufacturing_Order_Record"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/Write_JDA_Manufacturing_Order_Record"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/Batch/1.0"
+     xmlns:FTPAPP="http://xmlns.oracle.com/pcbpel/adapter/ftp/"
+    >
+  <plt:partnerLinkType name="Put_plt" >
+    <plt:role name="Put_role" >
+      <plt:portType name="tns:Put_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/1.1/NUC_EBiz_JDA_Batch_ABF/Write_JDA_Manufacturing_Order_Record"
+              xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/NUC_Ebiz_JDA_Batch_ABF/Batch/1.0" schemaLocation="../Schemas/manufacturingOrderRecord.xsd" />
+      </schema>
+    <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/ftp/" xmlns="http://www.w3.org/2001/XMLSchema"
+            attributeFormDefault="qualified"
+            elementFormDefault="qualified" >
+       <element name="OutboundFTPHeaderType" >
+         <complexType>
+           <sequence>
+             <element name="fileName" type="string" />
+             <element name="directory" type="string" />
+            </sequence>
+           </complexType>
+       </element>
+    </schema>
+    </wsdl:types>
+    <wsdl:message name="Put_msg">
+        <wsdl:part name="body" element="imp1:ListOfBatches"/>
+    </wsdl:message>
+    <wsdl:message name="Output_msg">
+        <wsdl:part name="body" element="FTPAPP:OutboundFTPHeaderType"/>
+    </wsdl:message>
+    <wsdl:portType name="Put_ptt">
+        <wsdl:operation name="Put">
+            <wsdl:input message="tns:Put_msg"/>
+            <wsdl:output message="tns:Output_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

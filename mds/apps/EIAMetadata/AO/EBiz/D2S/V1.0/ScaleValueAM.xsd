@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsd:schema targetNamespace="http://nucor.eia.com/AO/Ebiz/D2S/ScaleValueAM/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:obj="http://nucor.eia.com/AO/Ebiz/D2S/ScaleValueAO/1.0" xmlns:msg="http://nucor.eia.com/AO/Ebiz/D2S/ScaleValueAM/1.0" elementFormDefault="qualified">
+<xsd:annotation>
+<xsd:documentation xml:lang="en">
+<Version>1.0</Version>
+<Definition>Common SOA Composite Process Manufacturing for Results</Definition>
+<Description>This schema defines the objects to create or extract Results in Oracle AP.</Description>
+<Author>Sindhuja Itikala</Author>
+<VersionDate>12-02-2016</VersionDate>
+<VersionDescription>Review and standardization</VersionDescription>
+<ModificationHistory> 12-02-2016   Version 1.0   - Initial Development Version	</ModificationHistory>
+</xsd:documentation>
+</xsd:annotation>
+<xsd:import namespace="http://nucor.eia.com/AO/Ebiz/D2S/ScaleValueAO/1.0" schemaLocation="../../../../AO/EBiz/D2S/V1.0/ScaleValueAO.xsd"/>
+<xsd:element name="ScaleValueDetailRq" type="msg:ScaleValueDetailRq"/>
+<xsd:element name="ScaleValueDetailRs" type="msg:ScaleValueDetailRs"/>
+<xsd:complexType name="ScaleValueDetailRq">
+<xsd:sequence>
+<xsd:element minOccurs="1" ref="obj:ScaleValueDetailReq"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ScaleValueDetailRs">
+<xsd:sequence>
+<xsd:element minOccurs="0" ref="obj:ScaleValueResponse"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

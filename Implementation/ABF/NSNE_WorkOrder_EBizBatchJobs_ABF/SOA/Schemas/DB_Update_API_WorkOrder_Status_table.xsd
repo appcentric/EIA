@@ -1,0 +1,28 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_WorkOrder_Status" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DB_Update_API_WorkOrder_Status" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ApiWorkOrderStatusCollection" type="ApiWorkOrderStatusCollection"/>
+   <xs:complexType name="ApiWorkOrderStatusCollection">
+      <xs:sequence>
+         <xs:element name="ApiWorkOrderStatus" type="ApiWorkOrderStatus" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ApiWorkOrderStatus">
+      <xs:sequence>
+         <xs:element name="id" type="xs:decimal"/>
+         <xs:element name="orderNumber" type="xs:long" minOccurs="0"/>
+         <xs:element name="processed" type="string1" minOccurs="0" nillable="true"/>
+         <xs:element name="lastError" type="string500" minOccurs="0" nillable="true"/>
+         <xs:element name="processDate" type="xs:dateTime" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string1">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string500">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="500"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

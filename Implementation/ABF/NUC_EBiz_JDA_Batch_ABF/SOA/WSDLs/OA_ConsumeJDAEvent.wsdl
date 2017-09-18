@@ -1,0 +1,30 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="OA_ConsumeJDAEvent"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBiz_JDA_Batch_ABF/OA_ConsumeJDAEvent"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/apps/Nucor/NUC_EBiz_JDA_Batch_ABF/OA_ConsumeJDAEvent"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:imp1="http://xmlns.oracle.com/xdb/APPS_NE/OA_ConsumeJDAEvent"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:ns1="http://schemas.oracle.com/bpel/extension"
+    >
+    <plt:partnerLinkType name="DEQUEUE_plt">
+        <plt:role name="DEQUEUE_role">
+            <plt:portType name="tns:DEQUEUE_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/xdb/APPS_NE/OA_ConsumeJDAEvent" schemaLocation="../Schemas/APPS_NE_WF_EVENT_T_OA_ConsumeJDAEvent.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="WF_EVENT_T_msg">
+        <wsdl:part name="WF_EVENT_T" element="imp1:WF_EVENT_T"/>
+    </wsdl:message>
+    <wsdl:portType name="DEQUEUE_ptt">
+        <wsdl:operation name="DEQUEUE">
+            <wsdl:input message="tns:WF_EVENT_T_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

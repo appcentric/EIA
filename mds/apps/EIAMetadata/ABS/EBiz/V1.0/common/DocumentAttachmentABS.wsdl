@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions targetNamespace="http://xmlns.eia.com/ABS/EBiz/common/DocumentAttachmentABS/1.0"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:docattachAMObj="http://xmlns.eia.com/AO/EBiz/common/DocumentAttachmentAM/1.0"
+             xmlns:tns="http://xmlns.eia.com/ABS/EBiz/common/DocumentAttachmentABS/1.0"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:core="http://xmlns.eia.com/EO/Common/1.0"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:types>
+    <xsd:schema> 
+    <xsd:import namespace="http://xmlns.eia.com/AO/EBiz/common/DocumentAttachmentAM/1.0" 
+                       schemaLocation="../../../../AO/EBiz/common/V1.0/DocumentAttachmentAM.xsd"/>
+    <xsd:import namespace="http://xmlns.eia.com/EO/Common/1.0" schemaLocation="../../../../EO/common/Common.xsd"/>                       
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="AddAttachmentRequestMessage">
+    <wsdl:part name="payload"
+               element="docattachAMObj:AddAttachmentRequestMessage"/>
+  </wsdl:message>
+  <wsdl:message name="AddAttachmentResponseMessage">
+    <wsdl:part name="payload"
+               element="docattachAMObj:AddAttachmentResponseMessage"/>
+  </wsdl:message>
+  <wsdl:portType name="DocumentAttachment">
+    <wsdl:operation name="DocumentAttachment">
+      <wsdl:input message="tns:AddAttachmentRequestMessage"/>
+      <wsdl:output message="tns:AddAttachmentResponseMessage"/>
+      <wsdl:fault message="tns:EIAFault" name="fault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:message name="EIAFault">
+    <wsdl:part name="fault" element="core:Fault"/>
+  </wsdl:message>
+  <wsdl:binding name="DocumentAttachmentSOAP11Binding"
+                type="tns:DocumentAttachment">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="DocumentAttachment">
+      <soap:operation style="document"
+                      soapAction="http://xmlns.eia.com/ABS/EBiz/common/DocumentAttachmentABS/1.0/DocumentAttachment"/>
+      <wsdl:input>
+        <soap:body use="literal" parts="payload"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" parts="payload"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DocumentAttachmentService">
+    <wsdl:port name="DocumentAttachmetnServicePort"
+               binding="tns:DocumentAttachmentSOAP11Binding">
+      <soap:address location="http://www.example.com"/>      
+    </wsdl:port>           
+  </wsdl:service>
+</wsdl:definitions>

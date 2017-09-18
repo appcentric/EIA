@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="DB_Update_API_Work_Order_Control"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeEBizJobDetails_EBiz_QMOS_ABF/DB_Update_API_Work_Order_Control"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Manish/NSNE_SubscribeEBizJobDetails_EBiz_QMOS_ABF/DB_Update_API_Work_Order_Control"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_Work_Order_Control"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DB_Update_API_Work_Order_Control_plt" >
+    <plt:role name="DB_Update_API_Work_Order_Control_role" >
+      <plt:portType name="tns:DB_Update_API_Work_Order_Control_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/DB_Update_API_Work_Order_Control" schemaLocation="../Schemas/DB_Update_API_Work_Order_Control.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DB_Update_API_Work_Order_ControlInput_msg">
+        <wsdl:part name="DB_Update_API_Work_Order_ControlInput_msg" element="db:DB_Update_API_Work_Order_ControlInput"/>
+    </wsdl:message>
+    <wsdl:portType name="DB_Update_API_Work_Order_Control_ptt">
+        <wsdl:operation name="DB_Update_API_Work_Order_Control">
+            <wsdl:input message="tns:DB_Update_API_Work_Order_ControlInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
